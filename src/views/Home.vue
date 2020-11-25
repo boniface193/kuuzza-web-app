@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-   Welcome to Nova 
+   <h1>Welcome to Nova</h1>
   </div>
 </template>
 
