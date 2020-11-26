@@ -20,10 +20,7 @@ export default {
     margin: auto;
   }
   #app{
-    max-width: 1700px;
+    max-width: 1500px;
     margin: auto;
-  }
-  .v-btn{
-    
   }
 </style>
