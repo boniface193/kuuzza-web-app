@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <v-app>
     <router-view />
-  </div>
+  </v-app>
 </template>
 
 <script>
@@ -22,5 +22,8 @@ export default {
   #app{
     max-width: 1700px;
     margin: auto;
+  }
+  .v-btn{
+    
   }
 </style>
