@@ -1,7 +1,7 @@
 <template>
     <v-main>
-        <v-row class="onboarding-conatiner">
-           <v-col class="pl-7 pr-7 pt-15 pl-sm-15 pr-sm-0 pb-5 col-12 col-md-6">
+        <v-row class="onboarding-container">
+           <v-col class="pl-7 pr-7 pt-15 pl-sm-15 pr-sm-0 pb-5 col-12 col-md-5">
                
                <!-- app logo -->
                <router-link to="/" class="d-flex dark--text app-logo">
@@ -74,7 +74,7 @@
                     
                     <!-- button container -->
                     <div class="pa-0 mt-5" style="width:100%">
-                        <v-btn class="primary px-8 py-5 mb-3" @click="validate_form1">Next</v-btn>
+                        <v-btn class="primary px-8 py-5 mb-5" @click="validate_form1">Next</v-btn>
                         <p>
                             Already have an account?
                             <router-link to="/signin" style="text-decoration:none">Sign In</router-link>
@@ -100,7 +100,7 @@
                     
                     <!-- button conatainer -->
                     <div class="pa-0 mt-5" style="width:100%">
-                        <v-btn class="primary px-8 py-5 mb-3" @click="validate_form2">Next</v-btn>
+                        <v-btn class="primary px-8 py-5 mb-5" @click="validate_form2">Next</v-btn>
                     </div>
                 </v-form>
 
@@ -134,16 +134,16 @@
                     
                     <!-- button container -->
                     <div class="pa-0 mt-5" style="width:100%">
-                        <v-btn class="primary px-8 py-5 mb-3" @click="validate_form3">Complete Sign Up</v-btn>
+                        <v-btn class="primary px-8 py-5 mb-5" @click="validate_form3">Complete Sign Up</v-btn>
                     </div>
                 </v-form>
 
            </v-col>
 
             <!-- banner -->
-            <v-col cols="6 banner d-none d-md-block">
+            <v-col class="col-7 banner d-none d-md-block">
                 <v-img src="@/assets/Image2.svg" width="100%;" height="100%"></v-img>
-                <div class="mask d-flex align-center pl-10">
+                <div class="mask d-flex align-center ">
                     <p 
                     v-if="present_form == 'form1' || present_form == 'form2'"
                     class="white--text">
@@ -152,7 +152,7 @@
 
                     <p 
                     v-if="present_form == 'form3'"
-                    class="white--text" style="width:62%">
+                    class="white--text" style="width:58%">
                         <span class="float-left" style="width:100%">Amplify Performance</span><br>
                         <span class="float-right">Grow Sales</span>
                     </p>
@@ -239,11 +239,11 @@ export default {
 </script>
 
 <style lang="scss">
-    .onboarding-conatiner {
+    .onboarding-container {
         flex-wrap: nowrap;
         overflow: hidden;
         .onboarding-input {
-            width: 65% !important;
+            width: 60% !important;
             flex: none !important;
         }
         .name-input {
@@ -263,8 +263,6 @@ export default {
             border-top-left-radius: 70px !important;
             border-bottom-left-radius: 70px !important;
             transform: rotate(45deg);
-            //background-image: url('~@/assets/Image2.svg');
-            //background-size: cover;
             margin-left: 14%;
             height: 750px;
             .v-image {
@@ -288,13 +286,20 @@ export default {
                 margin-top: 50%;
             }
         }
+        .v-btn {
+            text-transform: capitalize;
+        }
+    }
+    @media (max-width:1100px) {
+        .onboarding-container {
+            .name-input,.onboarding-input {
+                width: 80% !important;
+            }
+        }
     }
     @media (max-width:550px) {
-        .onboarding-conatiner {
-            .onboarding-input {
-                width: 100% !important;
-            }
-            .name-input {
+        .onboarding-container {
+            .onboarding-input, .name-input{
                 width: 100% !important;
             }
         }
