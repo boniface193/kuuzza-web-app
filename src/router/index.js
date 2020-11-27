@@ -1,8 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
 import Signup from "../views/onboarding/Signup.vue";
 import Signin from "../views/onboarding/Signin.vue";
+import Dashboard from "../views/dashboard/Dashboard.vue"
+import Inventory from "../views/dashboard/Inventory.vue"
 // import Onboarding from "./onboarding"; 
 // import Dashboard from "./dashboard";
 
@@ -10,9 +11,14 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
-    name: "Home",
-    component: Home
+    path: "/dashboard",
+    name: "dashboard",
+    component: Dashboard
+  },
+  {
+    path: "/inventory",
+    name: "inventory",
+    component: Inventory
   },
   {
     path: "/signup",
