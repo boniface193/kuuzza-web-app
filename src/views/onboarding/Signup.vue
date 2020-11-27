@@ -1,7 +1,7 @@
 <template>
     <v-main>
         <v-row class="onboarding-container">
-           <v-col class="pl-7 pr-7 pt-15 pl-sm-15 pr-sm-0 pb-5 col-12 col-md-5">
+           <v-col class="pl-7 pr-7 pt-15 pl-sm-15 pr-sm-0 pb-5 col-12 col-md-6">
                
                <!-- app logo -->
                <router-link to="/" class="d-flex dark--text app-logo">
@@ -141,9 +141,9 @@
            </v-col>
 
             <!-- banner -->
-            <v-col class="col-7 banner d-none d-md-block">
+            <v-col class="col-6 banner d-none d-md-block">
                 <v-img src="@/assets/Image2.svg" width="100%;" height="100%"></v-img>
-                <div class="mask d-flex align-center ">
+                <div class="mask d-flex align-center pl-10">
                     <p 
                     v-if="present_form == 'form1' || present_form == 'form2'"
                     class="white--text">
@@ -260,10 +260,9 @@ export default {
         .banner {
             position: relative;
             overflow: hidden;
-            border-top-left-radius: 70px !important;
             border-bottom-left-radius: 70px !important;
             transform: rotate(45deg);
-            margin-left: 14%;
+            margin-left: 13%;
             height: 750px;
             .v-image {
                 transform: rotate(-45deg);
