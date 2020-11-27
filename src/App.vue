@@ -1,18 +1,13 @@
 <template>
   <v-app>
-    <Layout />
-    <v-main>
-      <router-view />
-    </v-main>
+    <router-view />
   </v-app>
 </template>
 
 <script>
-import Layout from "@/components/dashboard/Layout.vue";
 
 export default {
   name: "App",
-  components: { Layout },
 };
 </script>
 
@@ -25,9 +20,7 @@ body {
   margin: auto;
 }
 #app {
-  max-width: 1700px;
+  max-width: 1500px;
   margin: auto;
-  background: #f9fafe 0% 0% no-repeat padding-box;
-  opacity: 1;
 }
 </style>
