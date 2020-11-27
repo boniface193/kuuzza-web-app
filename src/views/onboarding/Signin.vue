@@ -1,20 +1,20 @@
 <template>
     <v-main>
         <v-row class="onboarding-container">
-           <v-col class="pl-7 pr-7 pt-15 pl-sm-15 pr-sm-0 pb-5 col-12 col-md-5">
+           <v-col class="pl-7 pr-7 pt-15 pl-sm-15 pr-sm-0 pb-5 col-12 col-md-6">
                
-               <!-- app logo -->
-               <router-link to="/" class="d-flex dark--text app-logo">
+                <!-- app logo -->
+                <router-link to="/" class="d-flex dark--text app-logo">
                    N<v-img src="@/assets/fire.svg"
                    max-width="35"
                    ></v-img>VA
-               </router-link>
+                </router-link>
 
                 <h1 class="primary--text mt-5 mb-0">Welcome back!</h1>
 
                 <p class="mt-5 mb-0">Do you want to amplify your performance and grow sales?</p>
 
-                <!-- first form section-->
+                <!-- form section-->
                 <v-form 
                 class="d-flex flex-wrap"
                 ref="form" 
@@ -53,9 +53,9 @@
            </v-col>
 
             <!-- banner -->
-            <v-col class="col-7 banner d-none d-md-block">
+            <v-col class="col-6 banner d-none d-md-block">
                 <v-img src="@/assets/Image2.svg" width="100%;" height="100%"></v-img>
-                <div class="mask d-flex align-center">
+                <div class="mask d-flex align-center pl-10">
                     <p class="white--text">
                         Learn, Compete… Grow
                     </p>
@@ -75,12 +75,12 @@ export default {
         emailRules: [ // verifies email address satisfies the requirement
         v => !!v || 'E-mail is required', 
         ],
-        passwordRules: [
+        passwordRules: [ // verifies password satisfies the requirement
             v => !!v || 'Password is required',
         ]
     }),
     methods: {
-        validate_form () { //validates the third form
+        validate_form () { //validates form
             this.$refs.form.validate()
              if (this.$refs.form.validate()) {
                this.signin()
