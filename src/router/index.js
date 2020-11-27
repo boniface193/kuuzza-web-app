@@ -4,6 +4,7 @@ import Signup from "../views/onboarding/Signup.vue";
 import Signin from "../views/onboarding/Signin.vue";
 import Dashboard from "../views/dashboard/Dashboard.vue"
 import Inventory from "../views/dashboard/Inventory.vue"
+import Signin from "../views/onboarding/Signin.vue";
 // import Onboarding from "./onboarding"; 
 // import Dashboard from "./dashboard";
 

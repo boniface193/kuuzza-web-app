@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
     <v-main>
         <v-row class="onboarding-container">
            <v-col class="pl-7 pr-7 pt-15 pl-sm-15 pr-sm-0 pb-5 col-12 col-md-6">
@@ -64,6 +65,11 @@
 
         </v-row>
     </v-main>
+=======
+    <div>
+        Sign In
+    </div>
+>>>>>>> 8ff4f7d... bg-fix-layout
 </template>
 
 <script>

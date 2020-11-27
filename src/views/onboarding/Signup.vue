@@ -1,6 +1,10 @@
 <template>
     <v-main>
+<<<<<<< HEAD
         <v-row class="onboarding-container">
+=======
+        <v-row class="onboarding-conatiner">
+>>>>>>> 8ff4f7d... bg-fix-layout
            <v-col class="pl-7 pr-7 pt-15 pl-sm-15 pr-sm-0 pb-5 col-12 col-md-6">
                
                <!-- app logo -->
@@ -74,7 +78,11 @@
                     
                     <!-- button container -->
                     <div class="pa-0 mt-5" style="width:100%">
+<<<<<<< HEAD
                         <v-btn class="primary px-8 py-5 mb-5" @click="validate_form1">Next</v-btn>
+=======
+                        <v-btn class="primary px-8 py-5 mb-3" @click="validate_form1">Next</v-btn>
+>>>>>>> 8ff4f7d... bg-fix-layout
                         <p>
                             Already have an account?
                             <router-link to="/signin" style="text-decoration:none">Sign In</router-link>
@@ -100,7 +108,11 @@
                     
                     <!-- button conatainer -->
                     <div class="pa-0 mt-5" style="width:100%">
+<<<<<<< HEAD
                         <v-btn class="primary px-8 py-5 mb-5" @click="validate_form2">Next</v-btn>
+=======
+                        <v-btn class="primary px-8 py-5 mb-3" @click="validate_form2">Next</v-btn>
+>>>>>>> 8ff4f7d... bg-fix-layout
                     </div>
                 </v-form>
 
@@ -134,14 +146,22 @@
                     
                     <!-- button container -->
                     <div class="pa-0 mt-5" style="width:100%">
+<<<<<<< HEAD
                         <v-btn class="primary px-8 py-5 mb-5" @click="validate_form3">Complete Sign Up</v-btn>
+=======
+                        <v-btn class="primary px-8 py-5 mb-3" @click="validate_form3">Complete Sign Up</v-btn>
+>>>>>>> 8ff4f7d... bg-fix-layout
                     </div>
                 </v-form>
 
            </v-col>
 
             <!-- banner -->
+<<<<<<< HEAD
             <v-col class="col-6 banner d-none d-md-block">
+=======
+            <v-col cols="6 banner d-none d-md-block">
+>>>>>>> 8ff4f7d... bg-fix-layout
                 <v-img src="@/assets/Image2.svg" width="100%;" height="100%"></v-img>
                 <div class="mask d-flex align-center pl-10">
                     <p 
@@ -152,7 +172,11 @@
 
                     <p 
                     v-if="present_form == 'form3'"
+<<<<<<< HEAD
                     class="white--text" style="width:58%">
+=======
+                    class="white--text" style="width:62%">
+>>>>>>> 8ff4f7d... bg-fix-layout
                         <span class="float-left" style="width:100%">Amplify Performance</span><br>
                         <span class="float-right">Grow Sales</span>
                     </p>
@@ -239,11 +263,19 @@ export default {
 </script>
 
 <style lang="scss">
+<<<<<<< HEAD
     .onboarding-container {
         flex-wrap: nowrap;
         overflow: hidden;
         .onboarding-input {
             width: 60% !important;
+=======
+    .onboarding-conatiner {
+        flex-wrap: nowrap;
+        overflow: hidden;
+        .onboarding-input {
+            width: 65% !important;
+>>>>>>> 8ff4f7d... bg-fix-layout
             flex: none !important;
         }
         .name-input {
@@ -260,9 +292,18 @@ export default {
         .banner {
             position: relative;
             overflow: hidden;
+<<<<<<< HEAD
             border-bottom-left-radius: 70px !important;
             transform: rotate(45deg);
             margin-left: 13%;
+=======
+            border-top-left-radius: 70px !important;
+            border-bottom-left-radius: 70px !important;
+            transform: rotate(45deg);
+            //background-image: url('~@/assets/Image2.svg');
+            //background-size: cover;
+            margin-left: 14%;
+>>>>>>> 8ff4f7d... bg-fix-layout
             height: 750px;
             .v-image {
                 transform: rotate(-45deg);
@@ -285,6 +326,7 @@ export default {
                 margin-top: 50%;
             }
         }
+<<<<<<< HEAD
         .v-btn {
             text-transform: capitalize;
         }
@@ -299,6 +341,15 @@ export default {
     @media (max-width:550px) {
         .onboarding-container {
             .onboarding-input, .name-input{
+=======
+    }
+    @media (max-width:550px) {
+        .onboarding-conatiner {
+            .onboarding-input {
+                width: 100% !important;
+            }
+            .name-input {
+>>>>>>> 8ff4f7d... bg-fix-layout
                 width: 100% !important;
             }
         }
