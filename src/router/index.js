@@ -1,12 +1,14 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Signup from "../views/onboarding/Signup.vue";
+<<<<<<< HEAD
 import Signin from "../views/onboarding/Signin.vue";
 import Dashboard from "../views/dashboard/Dashboard.vue"
+=======
+>>>>>>> b49cfa4... bg-fix-layout
 import Inventory from "../views/dashboard/Inventory.vue"
 import Signin from "../views/onboarding/Signin.vue";
 import Dashboard from "../views/dashboard/Dashboard.vue"
-import Inventory from "../views/dashboard/Inventory.vue"
 // import Onboarding from "./onboarding"; 
 // import Dashboard from "./dashboard";
 
