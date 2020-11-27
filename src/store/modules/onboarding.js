@@ -1,7 +1,6 @@
 //holds the state properties
 const state = {
-    user_info: {},
-    sigin_info: {}
+    user_info: {}
 };
 
 //returns the state properties
@@ -13,10 +12,6 @@ const actions = {
         alert(state.user_info)
         console.log(state.user_info)
     },
-    signin: () => {
-        alert(state.sigin_info)
-        console.log(state.sigin_info)
-    }
 };
 
 //updates the different state properties
@@ -28,10 +23,6 @@ const mutations = {
         state.user_info.first_name = first_name;
         state.user_info.last_name = last_name;
         state.user_info.password = password
-    },
-    sigin_info : (state, [email, password]) => {
-        state.sigin_info.email = email;
-        state.sigin_info.password = password;
     }
 };
 
