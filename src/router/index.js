@@ -1,10 +1,11 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import Signup from "../views/onboarding/Signup.vue";
-import Signin from "../views/onboarding/Signin.vue";
-// import Onboarding from "./onboarding"; 
-// import Dashboard from "./dashboard";
+import Signup from "@/components/onboarding/Signup.vue";
+import Signin from "@/components/onboarding/Signin.vue";
+import Recoverpassword from "@/components/onboarding/Recoverpassword.vue";
+import Forgotpassword from "@/components/onboarding/Forgotpassword.vue";
+import onboarding from "@/views/onboarding/Onboarding.vue";
 
 Vue.use(VueRouter);
 
@@ -14,15 +15,30 @@ const routes = [
     name: "Home",
     component: Home
   },
-  {
-    path: "/signup",
-    name: "Signup",
-    component: Signup
-  },
-  {
-    path: "/signin",
-    name: "Signin",
-    component: Signin
+  {  // onboarding routes
+    path: '/signup', component: onboarding,
+    children: [
+      {
+        path:"",
+        name: "Signup",
+        component: Signup
+      },
+      {
+        path: "/signin",
+        name: "Signin",
+        component: Signin
+      },
+      {
+        path: "/recoverpassword",
+        name: "Recoverpassword",
+        component: Recoverpassword
+      },
+      {
+        path: "/forgotpassword",
+        name: "Forgotpassword",
+        component: Forgotpassword
+      },
+    ]
   }
 ];
 
@@ -30,8 +46,6 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
-  // Onboarding,
-  // Dashboard
 });
 
 export default router;
