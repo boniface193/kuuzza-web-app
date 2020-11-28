@@ -117,8 +117,8 @@ export default {
 
 <style lang="scss">
 .onboarding-container {
-  flex-wrap: nowrap;
-  overflow: hidden;
+  flex-wrap: nowrap !important;
+  overflow: hidden i !important;
   .onboarding-input {
     width: 60% !important;
     flex: none !important;

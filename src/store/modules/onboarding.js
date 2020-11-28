@@ -14,10 +14,6 @@ const actions = {
         alert(state.user_info)
         console.log(state.user_info)
     },
-    signin: () => {
-        alert(state.sigin_info)
-        console.log(state.sigin_info)
-    }
 };
 
 //updates the different state properties
