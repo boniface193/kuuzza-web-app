@@ -52,7 +52,7 @@ export default {
 .card-digit {
   margin-top: 40px;
   text-align: center;
-  font: normal normal bold 50px/61px Product Sans;
+  font: normal normal bold 50px/61px "Product Sans";
   letter-spacing: 0px;
   color: #2b2b2b;
   opacity: 1;
@@ -60,7 +60,7 @@ export default {
 
 .card-title {
   text-align: center;
-  font: normal normal normal 18px/22px Poppins Light;
+  font: normal normal normal 18px/22px "Poppins" Light;
   letter-spacing: 0px;
   color: #646464;
   opacity: 0.7;
@@ -69,7 +69,7 @@ export default {
 .card_sub {
   text-align: center;
   margin-top: 10px;
-  font: normal normal bold 14px/17px Product Sans;
+  font: normal normal bold 14px/17px "Product Sans";
   letter-spacing: 0px;
   color: #f70909;
   opacity: 1;
