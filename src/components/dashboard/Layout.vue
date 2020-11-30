@@ -70,7 +70,7 @@
       </v-list>
       <div class="ml-3 mt-8">
         <v-btn outlined tile class="text-size-md"
-          ><v-icon class="mr-5 text-size-md">mdi-logout</v-icon> Log Out</v-btn
+          ><v-icon class="mr-5 text-size">mdi-logout</v-icon> Log Out</v-btn
         >
       </div>
     </v-navigation-drawer>
@@ -153,15 +153,17 @@ export default {
   opacity: 1;
 }
 a.v-item--active.v-list-item--active.v-list-item.v-list-item--link.theme--dark {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  background: #323e7e;
+  background-color: #323e7e;
   border-left: 4px solid #52f1ec;
-  font-weight: bolder;
+  font: normal normal bolder 16px/19px "Product Sans";
+  letter-spacing: 0px;
+  color: #ffffff;
 }
 
-.v-list-item--link:before {
-  background-color: #323e7e;
+.v-list-item--link::before {
+  color: white;
+  background-color: transparent;
+  z-index: 1;
 }
 
 .activeColor {
@@ -170,8 +172,8 @@ a.v-item--active.v-list-item--active.v-list-item.v-list-item--link.theme--dark {
 
 .text-size-md {
   font-size: 14px;
-  font-weight: lighter;
   letter-spacing: 0.5px;
+  font-weight: lighter;
 }
 
 button.v-btn.v-btn--depressed.v-btn--flat.v-btn--outlined.v-btn--tile.theme--dark.v-size--default {
@@ -181,5 +183,9 @@ button.v-btn.v-btn--depressed.v-btn--flat.v-btn--outlined.v-btn--tile.theme--dar
 
 .position-absolute {
   position: absolute;
+}
+
+.v-btn:before {
+  background-color: transparent;
 }
 </style>

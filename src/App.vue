@@ -18,7 +18,7 @@ export default {
 }
 * {
   box-sizing: border-box;
-  font-family: "Product Sans";
+  font-family: "Product Sans" Light;
 }
 body {
   padding: 0;
