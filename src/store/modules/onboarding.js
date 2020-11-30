@@ -5,23 +5,24 @@ const state = {
 };
 
 //returns the state properties
-const getters = {};
+const getters = {
+    //checks if user is logged in
+    loggedin: () => {
+        return state.token != null;
+    }
+};
 
 //fetch data 
 const actions = {
     //creates user account
     register: (context, credentials) => {
-       console.log(credentials.first_name)
-       context.commit('set_token','aaa')
+        console.log(credentials.first_name)
+        context.commit('set_token', 'aaa')
     },
     //allows users to login
     login: (context, credentials) => {
-       console.log(credentials.email)
-       context.commit('set_token','aaa')
-    },
-    //checks if user is logged in
-    loggedin: () => {
-        return state.token != null;
+        console.log(credentials.email)
+        context.commit('set_token', 'aaa')
     }
 };
 
