@@ -27,7 +27,7 @@
             <card
               width="327px"
               card_digit="67000"
-              card_title="Total Commission paid (NGN))"
+              card_title="Total Commission paid (NGN)"
               card_img="arrow.svg"
               img_color="round-img-bg-secondary"
             />
