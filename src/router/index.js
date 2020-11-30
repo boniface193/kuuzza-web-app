@@ -5,22 +5,15 @@ import Signin from "@/components/onboarding/Signin.vue";
 import Recoverpassword from "@/components/onboarding/Recoverpassword.vue";
 import Forgotpassword from "@/components/onboarding/Forgotpassword.vue";
 import Onboarding from "@/views/onboarding/Onboarding.vue";
-import Inventory from "../views/dashboard/Inventory.vue"
 import Dashboard from "../views/dashboard/Dashboard.vue"
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/dashboard",
-    name: "dashboard",
-    component: Dashboard
+    path:"/dashboard", component: Dashboard
   },
-  {
-    path: "/inventory",
-    name: "inventory",
-    component: Inventory
-  },
+
   {  // onboarding routes
     path: '/signup', component: Onboarding,
     children: [
