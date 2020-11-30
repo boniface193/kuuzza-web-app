@@ -22,7 +22,7 @@
       </v-avatar>
     </v-app-bar>
 
-    <v-navigation-drawer app color="primary" width="250" dark v-model="drawer">
+    <v-navigation-drawer app color="primary" width="283" dark v-model="drawer">
       <v-container class="mx-5">
         <div class="d-flex nova-logo">
           N<span
@@ -39,57 +39,13 @@
             <v-list-item-title class="layout-title mb-3">
               Ayotunde Lanwo
             </v-list-item-title>
-            <v-list-item-subtitle class="layout-title-subtitle active-list">
+            <v-list-item-subtitle class="layout-title-subtitle">
               Store Manager
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
 
-        <!-- <v-list color="white--text">
-          <v-list-group
-            :value="true"
-            active-class="white--text"
-            prepend-icon="mdi-account-circle"
-          >
-            <template v-slot:activator>
-              <v-list-item-title>Users </v-list-item-title>
-            </template>
-
-            <v-list-group :value="true" no-action sub-group>
-              <template v-slot:activator>
-                <v-list-item-content>
-                  <v-list-item-title>Admin</v-list-item-title>
-                </v-list-item-content>
-              </template>
-
-              <v-list-item v-for="([title, icon], i) in admins" :key="i" link>
-                <v-list-item-title v-text="title"></v-list-item-title>
-
-                <v-list-item-icon>
-                  <v-icon v-text="icon"></v-icon>
-                </v-list-item-icon>
-              </v-list-item>
-            </v-list-group>
-
-            <v-list-group no-action sub-group>
-              <template v-slot:activator>
-                <v-list-item-content>
-                  <v-list-item-title>Actions</v-list-item-title>
-                </v-list-item-content>
-              </template>
-
-              <v-list-item v-for="([title, icon], i) in cruds" :key="i" link>
-                <v-list-item-title v-text="title"></v-list-item-title>
-
-                <v-list-item-icon>
-                  <v-icon v-text="icon"></v-icon>
-                </v-list-item-icon>
-              </v-list-item>
-            </v-list-group>
-          </v-list-group>
-        </v-list> -->
-
-        <v-list-item-group v-model="model" mandatory>
+        <v-list-item-group mandatory>
           <v-list-item
             class="rounded-0"
             v-for="item in items"
@@ -134,7 +90,7 @@ export default {
       {
         title: "Inventory",
         icon: "mdi-clipboard-text-outline",
-        routes: "/inventory",
+        routes: "inventory",
       },
       {
         title: "Leaderboard",
@@ -174,13 +130,9 @@ export default {
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css2?family=Kumbh&family=Montserrat&family=Poppins&family=Roboto&family=Product+Sans&display=swap");
 
-.text-size {
-  font-size: 10px;
-}
-
 .nova-logo {
   text-align: left;
-  font: normal normal 600 19px/27px Poppins;
+  font: normal normal 600 19px/27px "Poppins";
   letter-spacing: 0.84px;
   color: #ffffff;
   opacity: 1;
@@ -189,7 +141,7 @@ export default {
 .layout-title {
   text-align: left;
   font: normal normal 18px/22px "Product Sans";
-  letter-spacing: 0px;
+  letter-spacing: 0.5px;
   color: #ffffff;
   opacity: 1;
 }
@@ -201,9 +153,15 @@ export default {
   opacity: 1;
 }
 a.v-item--active.v-list-item--active.v-list-item.v-list-item--link.theme--dark {
-  background: #16257b;
-  font-weight: bolder;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background: #323e7e;
   border-left: 4px solid #52f1ec;
+  font-weight: bolder;
+}
+
+.v-list-item--link:before {
+  background-color: #323e7e;
 }
 
 .activeColor {
@@ -211,7 +169,7 @@ a.v-item--active.v-list-item--active.v-list-item.v-list-item--link.theme--dark {
 }
 
 .text-size-md {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: lighter;
   letter-spacing: 0.5px;
 }
