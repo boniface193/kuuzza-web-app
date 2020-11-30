@@ -259,18 +259,17 @@ export default {
     },
     //submit form and create an account
     submit() {
-      this.$store.commit("onboarding/user_info", [
-        this.first_name,
-        this.last_name,
-        this.email,
-        this.phone_number,
-        this.company_name,
-        this.country,
-        this.state,
-        this.company_address,
-        this.create_password,
-      ]);
-      this.$store.dispatch("onboarding/create_account");
+      this.$store.dispatch("onboarding/register", {
+        first_name: this.first_name,
+        last_name: this.last_name,
+        email: this.email,
+        phone_number: this.phone_number,
+        company_name: this.company_name,
+        country: this.country,
+        state: this.state,
+        company_address: this.company_address,
+        password: this.create_password,
+      });
     },
   },
 };

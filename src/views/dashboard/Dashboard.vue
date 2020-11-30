@@ -36,6 +36,8 @@
         <bar />
       </div>
     </v-container>
+
+    <router-view />
   </div>
 </template>
 

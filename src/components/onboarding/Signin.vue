@@ -80,8 +80,10 @@ export default {
     },
     //Sign in
     signin() {
-      this.$store.commit("onboarding/sigin_info", [this.email, this.password]);
-      this.$store.dispatch("onboarding/signin");
+      this.$store.dispatch("onboarding/signin", {
+        email: this.email,
+        password: this.password
+      });
     },
   },
 };
