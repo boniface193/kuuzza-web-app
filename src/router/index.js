@@ -5,7 +5,8 @@ import Signin from "@/components/onboarding/Signin.vue";
 import Recoverpassword from "@/components/onboarding/Recoverpassword.vue";
 import Forgotpassword from "@/components/onboarding/Forgotpassword.vue";
 import Onboarding from "@/views/onboarding/Onboarding.vue";
-import Dashboard from "../views/dashboard/Dashboard.vue"
+import Dashboard from "@/views/dashboard/Dashboard.vue";
+import Inventory from "@/views/dashboard/Inventory.vue"
 import Home from "../views/dashboard/home.vue"
 
 Vue.use(VueRouter);
