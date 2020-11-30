@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bg-color">
     <Layout />
     <v-main>
       <router-view />
@@ -18,4 +18,8 @@ export default {
 </script>
 
 <style>
+.bg-color {
+  background: #f9fafe 0% 0% no-repeat padding-box;
+  opacity: 1;
+}
 </style>
