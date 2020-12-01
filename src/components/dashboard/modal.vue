@@ -1,0 +1,18 @@
+<template>
+  <v-layout row justify-center>
+    <v-dialog v-model="dialog" persistent :width="width"> 
+        <slot></slot>
+    </v-dialog>
+  </v-layout>
+</template>
+<script>
+export default {
+  name: "modal",
+  props: ["width","dialog"],
+};
+</script>
+<style lang="scss" scoped>
+.v-dialog{
+    border-radius: 15px !important;
+}
+</style>
