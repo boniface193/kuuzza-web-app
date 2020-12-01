@@ -27,5 +27,8 @@ body {
 #app {
   max-width: 1500px;
   margin: auto;
+  .v-btn {
+    text-transform: capitalize;
+  }
 }
 </style>

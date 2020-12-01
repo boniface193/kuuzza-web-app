@@ -6,8 +6,9 @@ import Recoverpassword from "@/components/onboarding/Recoverpassword.vue";
 import Forgotpassword from "@/components/onboarding/Forgotpassword.vue";
 import Onboarding from "@/views/onboarding/Onboarding.vue";
 import Dashboard from "@/views/dashboard/Dashboard.vue";
-import Inventory from "@/views/dashboard/Inventory.vue"
-import Home from "../views/dashboard/home.vue"
+import Inventory from "@/views/dashboard/Inventory.vue";
+import Home from "../views/dashboard/home.vue";
+import Settings from "../views/dashboard/Settings.vue"
 
 Vue.use(VueRouter);
 
@@ -24,6 +25,11 @@ const routes = [
         path: "/inventory",
         name: "inventory",
         component: Inventory
+      },
+      {
+        path: "/settings",
+        name: "settings",
+        component: Settings
       },
     ]
   },
