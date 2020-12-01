@@ -71,6 +71,10 @@
           >
         </div>
 
+        <div class="mb-7 mt-5 mx-auto status-img">
+          <v-img src="@/assets/img/success-img.svg"></v-img>
+        </div>
+
         <h4>{{ dialogMessage }}</h4>
       </div>
     </modal>
@@ -80,7 +84,7 @@
 import modal from "@/components/dashboard/modal.vue";
 export default {
   name: "privacyDetails",
-  components: {modal},
+  components: { modal },
   data: function () {
     return {
       oldPassword: "",
@@ -109,11 +113,19 @@ export default {
     update_password() {
       this.$refs.form.validate();
 
-      if(this.$refs.form.validate()){
-        this.dialogMessage = "Password changed successfully!"
-        this.dialog = true
+      if (this.$refs.form.validate()) {
+        this.dialogMessage = "Password changed successfully!";
+        this.dialog = true;
       }
     },
   },
 };
 </script>
+<style lang="scss" scoped>
+.status-img {
+  width: 140px;
+  .v-image {
+    width: 100%;
+  }
+}
+</style>
