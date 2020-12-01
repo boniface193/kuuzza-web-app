@@ -88,25 +88,33 @@
       >
     </div>
 
-     <!-- modal for dialog messages -->
-      <modal :dialog="dialog" width="400" >
-        <div class="white pa-3 pb-10 text-center dialog">
-          <div class="d-flex justify-end"><v-icon class="error--text close-btn" @click="dialog = false">mdi-close</v-icon></div>
-
-          <h4> {{dialogMessage}}</h4>
+    <!-- modal for dialog messages -->
+    <modal :dialog="dialog" width="400">
+      <div class="white pa-3 pb-10 text-center dialog">
+        <div class="d-flex justify-end">
+          <v-icon class="error--text close-btn" @click="dialog = false"
+            >mdi-close</v-icon
+          >
         </div>
-      </modal>
+
+        <div class="mb-7 mt-5 mx-auto status-img">
+          <v-img src="@/assets/img/success-img.svg"></v-img>
+        </div>
+
+        <h4>{{ dialogMessage }}</h4>
+      </div>
+    </modal>
   </div>
 </template>
 <script>
-import modal from '@/components/dashboard/modal.vue';
+import modal from "@/components/dashboard/modal.vue";
 export default {
   name: "storeDetails",
-  components: {modal},
+  components: { modal },
   data: function () {
     return {
       dialog: false,
-      dialogMessage: '',
+      dialogMessage: "",
       edit_storenum: false,
       edit_storename: false,
       edit_storelocation: false,
@@ -117,10 +125,10 @@ export default {
     computed_info() {
       // gets the values of user information
       //let user_info = this.$store.getters["admin/user_info"];
-      let storename = 'Mariam super store'
-      let storelocation = 'Ikeja Lagos Nigeria';
-      let storenum = '0901234986';
-  
+      let storename = "Mariam super store";
+      let storelocation = "Ikeja Lagos Nigeria";
+      let storenum = "0901234986";
+
       return {
         storename: storename,
         storelocation: storelocation,
@@ -130,27 +138,38 @@ export default {
   },
   methods: {
     submit_edited_info(input_field) {
-
-      if (input_field === "storename") {
-        this.edit_storename = false
-        this.dialogMessage = "Store name changed successfully!"
-      }
-      if (input_field === "storelocation") {
-        this.edit_storelocation = false
-        this.dialogMessage = "Store location changed successfully!"
-      }
-      if (input_field === "storenum") {
-        this.edit_storenum = false
-        this.dialogMessage = "Store phone number changed successfully!"
+      if (input_field === "storename" && this.computed_info.storename != "") {
+        this.edit_storename = false;
+        this.dialogMessage = "Store name changed successfully!";
+        this.dialog = true;
       }
 
-      this.dialog = true
+      if (
+        input_field === "storelocation" &&
+        this.computed_info.storelocation != ""
+      ) {
+        this.edit_storelocation = false;
+        this.dialogMessage = "Store location changed successfully!";
+        this.dialog = true;
+      }
+
+      if (input_field === "storenum" && this.computed_info.storenum != "") {
+        this.edit_storenum = false;
+        this.dialogMessage = "phone number changed successfully!";
+        this.dialog = true;
+      }
     },
   },
 };
 </script>
 <style lang="scss" scoped>
-.close-btn{
+.close-btn {
   cursor: pointer;
+}
+.status-img {
+  width: 140px;
+  .v-image {
+    width: 100%;
+  }
 }
 </style>
