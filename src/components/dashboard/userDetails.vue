@@ -23,24 +23,24 @@
         <p class="mb-1 secondary--text">Full Name</p>
         <v-text-field
           class="input mt-0"
-          v-model="computed_info.full_name"
+          v-model="computedInfo.currentFullName"
           :rules="inputRules"
           type="name"
           color="primary"
-          :disabled="edit_admin_name == false"
+          :disabled="editAdminName == false"
           required
         >
         </v-text-field>
         <span
           class="edit-btn"
-          v-show="edit_admin_name == false"
-          @click="edit_admin_name = true"
+          v-show="editAdminName == false"
+          @click="editAdminName = true"
           >Edit</span
         >
         <span
           class="edit-btn"
-          v-show="edit_admin_name == true"
-          @click="submit_edited_info('admin_name')"
+          v-show="editAdminName == true"
+          @click="submitEditedInfo('admin_name')"
           >Done</span
         >
       </div>
@@ -51,23 +51,23 @@
         <v-text-field
           class="input mt-0"
           :rules="inputRules"
-          v-model="computed_info.phone_num"
+          v-model="computedInfo.currentPhoneNum"
           type="tel"
           color="primary"
-          :disabled="edit_phonenum == false"
+          :disabled="editPhoneNum == false"
           required
         >
         </v-text-field>
         <span
           class="edit-btn"
-          v-show="edit_phonenum == false"
-          @click="edit_phonenum = true"
+          v-show="editPhoneNum == false"
+          @click="editPhoneNum = true"
           >Edit</span
         >
         <span
           class="edit-btn"
-          v-show="edit_phonenum == true"
-          @click="submit_edited_info('phonenum')"
+          v-show="editPhoneNum == true"
+          @click="submitEditedInfo('phonenum')"
           >Done</span
         >
       </div>
@@ -80,7 +80,7 @@
           :rules="inputRules"
           type="name"
           color="primary"
-          v-model="computed_info.email"
+          v-model="computedInfo.currentEmail"
           disabled
           required
         >
@@ -96,9 +96,9 @@
           >
         </div>
 
-        <div class="mb-7 mt-5 mx-auto status-img ">
-        <v-img src="@/assets/img/success-img.svg"></v-img>
-      </div>
+        <div class="mb-7 mt-5 mx-auto status-img">
+          <v-img src="@/assets/img/success-img.svg"></v-img>
+        </div>
 
         <h4>{{ dialogMessage }}</h4>
       </div>
@@ -114,37 +114,58 @@ export default {
     return {
       dialog: false,
       dialogMessage: "",
-      edit_admin_name: false,
-      edit_phonenum: false,
+      editAdminName: false,
+      editPhoneNum: false,
       inputRules: [(v) => !!v || "This field is required"],
     };
   },
   computed: {
-    computed_info() {
+    computedInfo() {
       // gets the values of user information
       //let user_info = this.$store.getters["admin/user_info"];
-      let full_name = "Ayotunde lanwo";
-      let phone_num = "09087651234";
-      let email = "abdulazeez@brandmobile.net";
+      let fullName = "Ayotunde lanwo";
+      let phoneNum = "09087651234";
+      let currentFullName = "Ayotunde lanwo";
+      let currentPhoneNum = "09087651234";
+      let currentEmail = "abdulazeez@brandmobile.net";
 
       return {
-        full_name: full_name,
-        phone_num: phone_num,
-        email: email,
+        fullName: fullName,
+        phoneNum: phoneNum,
+        currentFullName: currentFullName,
+        currentPhoneNum: currentPhoneNum,
+        currentEmail: currentEmail,
       };
     },
   },
   methods: {
-    submit_edited_info(input_field) {
-      if (input_field === "admin_name" && this.computed_info.full_name != "") {
-        this.edit_admin_name = false;
-        this.dialogMessage = "Name changed successfully!";
-        this.dialog = true;
+    // submits the edited information
+    submitEditedInfo(input_field) {
+      if (
+        input_field === "admin_name" &&
+        this.computedInfo.currentFullName !== ""
+      ) {
+        this.editAdminName = false;
+
+        if (
+          this.computedInfo.currentFullName !== this.computedInfo.fullName
+        ) {
+          this.dialogMessage = "Name changed successfully!";
+          this.dialog = true;
+        }
       }
-      if (input_field === "phonenum" && this.computed_info.phone_num != "") {
-        this.edit_phonenum = false;
-        this.dialogMessage = "Phone number changed successfully!";
-        this.dialog = true;
+
+      if (
+        input_field === "phonenum" &&
+        this.computedInfo.currentPhoneNum !== ""
+      ) {
+        this.editPhoneNum = false;
+        if (
+          this.computedInfo.currentPhoneNum !== this.computedInfo.phoneNum
+        ) {
+          this.dialogMessage = "Phone number changed successfully!";
+          this.dialog = true;
+        }
       }
     },
   },
