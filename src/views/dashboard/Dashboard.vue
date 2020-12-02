@@ -1,7 +1,7 @@
 <template>
   <div class="background-color">
     <!-- to center dashboard content -->
-    <v-container>
+    <v-container fluid>
       <div class="mx-12">
         <div class="">
           <!-- welcome greetings -->
