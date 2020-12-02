@@ -8,8 +8,8 @@
         :rules="inputRules"
         type="name"
         color="primary"
-        v-model="computed_info.storename"
-        :disabled="edit_storename == false"
+        v-model="computedInfo.currentStoreName"
+        :disabled="editStoreName == false"
         required
       >
       </v-text-field>
@@ -17,15 +17,15 @@
       <!-- edit btn -->
       <span
         class="edit-btn"
-        v-show="edit_storename == false"
-        @click="edit_storename = true"
+        v-show="editStoreName == false"
+        @click="editStoreName = true"
         >Edit</span
       >
       <!-- done btn -->
       <span
         class="edit-btn"
-        v-show="edit_storename == true"
-        @click="submit_edited_info('storename')"
+        v-show="editStoreName == true"
+        @click="submitEditInfo('storeName')"
         >Done</span
       >
     </div>
@@ -37,8 +37,8 @@
         :rules="inputRules"
         type="text"
         color="primary"
-        v-model="computed_info.storelocation"
-        :disabled="edit_storelocation == false"
+        v-model="computedInfo.currentStoreLocation"
+        :disabled="editStoreLocation == false"
         required
       >
       </v-text-field>
@@ -46,15 +46,15 @@
       <!-- edit btn -->
       <span
         class="edit-btn"
-        v-show="edit_storelocation == false"
-        @click="edit_storelocation = true"
+        v-show="editStoreLocation == false"
+        @click="editStoreLocation = true"
         >Edit</span
       >
       <!-- done btn -->
       <span
         class="edit-btn"
-        v-show="edit_storelocation == true"
-        @click="submit_edited_info('storelocation')"
+        v-show="editStoreLocation == true"
+        @click="submitEditInfo('storeLocation')"
         >Done</span
       >
     </div>
@@ -66,8 +66,8 @@
         :rules="inputRules"
         type="tel"
         color="primary"
-        v-model="computed_info.storenum"
-        :disabled="edit_storenum == false"
+        v-model="computedInfo.currentStoreNum"
+        :disabled="editStoreNum == false"
         required
       >
       </v-text-field>
@@ -75,15 +75,15 @@
       <!-- edit btn -->
       <span
         class="edit-btn"
-        v-show="edit_storenum == false"
-        @click="edit_storenum = true"
+        v-show="editStoreNum == false"
+        @click="editStoreNum = true"
         >Edit</span
       >
       <!-- done btn -->
       <span
         class="edit-btn"
-        v-show="edit_storenum == true"
-        @click="submit_edited_info('storenum')"
+        v-show="editStoreNum == true"
+        @click="submitEditInfo('storeNum')"
         >Done</span
       >
     </div>
@@ -115,48 +115,73 @@ export default {
     return {
       dialog: false,
       dialogMessage: "",
-      edit_storenum: false,
-      edit_storename: false,
-      edit_storelocation: false,
+      editStoreNum: false,
+      editStoreName: false,
+      editStoreLocation: false,
       inputRules: [(v) => !!v || "This field is required"],
     };
   },
   computed: {
-    computed_info() {
+    computedInfo() {
       // gets the values of user information
       //let user_info = this.$store.getters["admin/user_info"];
-      let storename = "Mariam super store";
-      let storelocation = "Ikeja Lagos Nigeria";
-      let storenum = "0901234986";
+      let storeName = "Mariam super store";
+      let storeLocation = "Ikeja Lagos Nigeria";
+      let storeNum = "0901234986";
+      let currentStoreName = "Mariam super store";
+      let currentStoreLocation = "Ikeja Lagos Nigeria";
+      let currentStoreNum = "0901234986";
 
       return {
-        storename: storename,
-        storelocation: storelocation,
-        storenum: storenum,
+        storeName: storeName,
+        storeLocation: storeLocation,
+        storeNum: storeNum,
+        currentStoreName: currentStoreName,
+        currentStoreLocation: currentStoreLocation,
+        currentStoreNum: currentStoreNum,
       };
     },
   },
   methods: {
-    submit_edited_info(input_field) {
-      if (input_field === "storename" && this.computed_info.storename != "") {
-        this.edit_storename = false;
-        this.dialogMessage = "Store name changed successfully!";
-        this.dialog = true;
+    // submits the edited information
+    submitEditInfo(input_field) {
+
+      if (
+        input_field === "storeName" &&
+        this.computedInfo.currentStoreName != ""
+      ) {
+        this.editStoreName = false;
+        if (
+          this.computedInfo.currentStoreName !== this.computedInfo.storeName
+        ) {
+          this.dialogMessage = "Store name changed successfully!";
+          this.dialog = true;
+        }
       }
 
       if (
-        input_field === "storelocation" &&
-        this.computed_info.storelocation != ""
+        input_field === "storeLocation" &&
+        this.computedInfo.currentStoreLocation != ""
       ) {
-        this.edit_storelocation = false;
-        this.dialogMessage = "Store location changed successfully!";
-        this.dialog = true;
+        this.editStoreLocation = false;
+        if (
+          this.computedInfo.currentStoreLocation !==
+          this.computedInfo.storeLocation
+        ) {
+          this.dialogMessage = "Store location changed successfully!";
+          this.dialog = true;
+        }
       }
 
-      if (input_field === "storenum" && this.computed_info.storenum != "") {
-        this.edit_storenum = false;
-        this.dialogMessage = "phone number changed successfully!";
-        this.dialog = true;
+      if (
+        input_field === "storeNum" &&
+        this.computedInfo.currentStoreNum != ""
+      ) {
+        this.editStoreNum = false;
+        if (this.computedInfo.currentStoreNum !== this.computedInfo.storeNum) {
+          this.dialogMessage = "phone number changed successfully!";
+          this.dialog = true;
+        }
       }
     },
   },
