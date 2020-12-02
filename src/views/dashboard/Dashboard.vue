@@ -1,12 +1,15 @@
 <template>
   <div class="background-color">
+    <!-- to center dashboard content -->
     <v-container>
       <div class="mx-12">
         <div class="">
+          <!-- welcome greetings -->
           <calendar class="float-right" elevation="10" />
           <h1 class="welcome-user my-5">Welcome Ayotunde</h1>
         </div>
         <v-row>
+          <!-- to show total revenue, item in stock, total commission -->
           <v-col sm="4">
             <card
               width="327px"
@@ -38,6 +41,7 @@
         </v-row>
 
         <v-row class="mt-5">
+          <!-- show area-chart -->
           <v-col md="8" class="d-none d-md-block mt-3">
             <bar
               class=""
@@ -48,6 +52,7 @@
           </v-col>
 
           <v-col md="4">
+            <!-- show leaders board summary -->
             <v-row>
               <v-col md="12">
                 <leader
@@ -70,6 +75,7 @@
         </v-row>
 
         <v-row class="mt-5">
+          <!-- donut chart -->
           <v-col md="8" class="d-none d-md-block">
             <donut
               class="py-5"
@@ -81,6 +87,7 @@
           <v-col md="4">
             <v-row>
               <v-col md="12">
+                <!-- show numbers of customers -->
                 <custom
                   green_text="+23"
                   img_color_text="round-img-bg-warning-text"
@@ -92,6 +99,7 @@
               </v-col>
 
               <v-col md="12">
+                <!-- show number of sellers -->
                 <custom
                   green_text="+7"
                   img_color_text="round-img-bg-info-text"
@@ -112,6 +120,7 @@
 </template>
 
 <script>
+// components for dashboard layout
 import card from "@/components/dashboard/card.vue";
 import bar from "@/components/dashboard/barChart.vue";
 import leader from "@/components/dashboard/leader.vue";
@@ -130,12 +139,13 @@ export default {
   },
   data() {
     return {
+      // first leader board summary
       listItem: [
         { text: "Emike Lucy", count: 369 },
         { text: "Ayotunde Lanwo", count: 369 },
         { text: "Ayotunde Lanwo", count: 369 },
       ],
-
+      // second leaders board summary
       listItems: [
         { text: "Samsung Galaxy A10 28" },
         { text: "Infinix Hot 1" },

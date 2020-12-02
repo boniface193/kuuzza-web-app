@@ -1,4 +1,5 @@
 <template>
+  <!-- donut chart -->
   <v-card elevation="0" class="mt-3">
     <h1 :class="bar_class">{{ bar_title }}</h1>
     <v-row>

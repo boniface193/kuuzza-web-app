@@ -1,7 +1,7 @@
 <template>
   <v-card elevation="0" class="px-4">
-    <!-- <v-container> -->
     <v-row>
+      <!-- components to display customer and sellers summary -->
       <v-col md="6">
         <div class="d-flex justify-center mt-5">
           <div :class="img_color" class="rounded-pill pa-7"></div>
@@ -30,7 +30,6 @@
         </v-row>
       </v-col>
     </v-row>
-    <!-- </v-container> -->
   </v-card>
 </template>
 

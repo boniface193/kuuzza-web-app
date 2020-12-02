@@ -1,4 +1,5 @@
 <template>
+  <!-- card shows individual revenue, items in stocks, total commission -->
   <v-card :width="width" height="230px" elevation="0" class="pt-5" rounded="">
     <div class="d-flex justify-center">
       <div :class="img_color" class="rounded-pill pa-7"></div>
@@ -9,7 +10,9 @@
       />
     </div>
     <v-container>
-      <h3 class="card-digit">{{ card_digit }}</h3>
+      <h3 class="card-digit text-sm-subtitle-1 text-md-h4 text-lg-h3">
+        {{ card_digit }}
+      </h3>
       <h6 class="card-title">{{ card_title }}</h6>
       <p class="card_sub">{{ card_sub }}</p>
     </v-container>
