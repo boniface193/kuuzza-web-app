@@ -13,7 +13,7 @@ import Settings from "../views/dashboard/Settings.vue"
 Vue.use(VueRouter);
 
 const routes = [
-  {
+  {//layout dashboard and children
     path: "/dashboard", component: Home,
     children: [
       {

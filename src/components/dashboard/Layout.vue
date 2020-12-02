@@ -1,5 +1,7 @@
 <template>
   <nav>
+    <!-- User dashboard layout -->
+    <!-- navbar -->
     <v-app-bar dense elevation="0" app color="#F9FAFE" class="elevation-1">
       <v-app-bar-nav-icon v-if="!drawer" @click.stop="drawer = !drawer">
       </v-app-bar-nav-icon>
@@ -21,7 +23,7 @@
         <v-img src="../../assets/layout/fire.svg"></v-img>
       </v-avatar>
     </v-app-bar>
-
+    <!-- drawer -->
     <v-navigation-drawer app color="primary" width="220" dark v-model="drawer">
       <v-container class="mx-5">
         <div class="d-flex nova-logo">

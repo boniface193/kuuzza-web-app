@@ -1,4 +1,5 @@
 <template>
+  <!-- main page for layout and dashboard -->
   <div class="bg-color">
     <Layout />
     <v-main>

@@ -1,6 +1,7 @@
 <template>
   <v-card elevation="0" height="435px">
     <h1 :class="bar_class">{{ bar_title }}</h1>
+    <!-- displays the area-chart -->
     <area-chart
       class="pb-10 pr-5 pl-5"
       :data="label"
@@ -15,6 +16,7 @@ export default {
   props: ["bar_class", "bar_title", "chart"],
   data() {
     return {
+      // parameters for area-chart
       label: {
         Sun: 0,
         Mon: 500,
@@ -30,6 +32,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+// area-chart heading design
 .chart-heading {
   text-align: left;
   margin-left: 15px;

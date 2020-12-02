@@ -1,6 +1,7 @@
 <template>
   <v-card elevation="0">
     <v-container>
+      <!-- sumary of the leaders board -->
       <div class="d-flex justify-space-between my-3">
         <h3 class="leader text-sm-body-2">
           {{ leader }}

@@ -1,5 +1,6 @@
 <template>
   <div class="text-center">
+    <!-- displays calendar filter -->
     <v-md-date-range-picker
       class="mdrp__activator activator-wrapper text-field"
       start-date="2019-01-01"
@@ -11,18 +12,11 @@
 <script>
 export default {
   data: () => ({
+    // change the direction of the calendar
     opens: "right",
   }),
 };
 </script>
 
 <style lang="scss" scoped>
-.mdrp__activator .activator-wrapper .text-field {
-  display: block;
-  font-size: 18px;
-  padding: 4px 10px 10px 5px;
-  width: 300px;
-  border: none;
-  border-bottom: none;
-}
 </style>
