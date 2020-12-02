@@ -2,7 +2,10 @@
   <div class="background-color">
     <v-container>
       <div class="mx-12">
-        <h1 class="welcome-user my-5">Welcome Ayotunde</h1>
+        <div class="">
+          <calendar class="float-right" elevation="10" />
+          <h1 class="welcome-user my-5">Welcome Ayotunde</h1>
+        </div>
         <v-row>
           <v-col sm="4">
             <card
@@ -114,6 +117,7 @@ import bar from "@/components/dashboard/barChart.vue";
 import leader from "@/components/dashboard/leader.vue";
 import custom from "@/components/dashboard/custom.vue";
 import donut from "@/components/dashboard/donut.vue";
+import calendar from "@/components/dashboard/calender.vue";
 
 export default {
   components: {
@@ -122,6 +126,7 @@ export default {
     leader,
     custom,
     donut,
+    calendar,
   },
   data() {
     return {
