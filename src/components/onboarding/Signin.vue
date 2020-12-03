@@ -76,6 +76,7 @@ export default {
       this.$refs.form.validate();
       if (this.$refs.form.validate()) {
         this.signin();
+        this.$router.push({ name: 'dashboard' })
       }
     },
     //Sign in

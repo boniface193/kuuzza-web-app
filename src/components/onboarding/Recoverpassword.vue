@@ -59,6 +59,7 @@ export default {
       this.$refs.form.validate();
       if (this.$refs.form.validate()) {
         this.submit_password();
+        this.$router.push({ name: 'Signin' })
       }
     },
     //submit password

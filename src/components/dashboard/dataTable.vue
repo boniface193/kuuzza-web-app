@@ -104,8 +104,8 @@
         <p class="error--text">Are you sure? There is no undo.</p>
 
         <!-- btns -->
-        <div class="d-flex justify-space-between">
-          <v-btn  class="error py-5">Yes, delete this member</v-btn>
+        <div class="d-flex justify-space-between flex-wrap">
+          <v-btn  class="error py-5 mb-3 mb-sm-0">Yes, delete this member</v-btn>
           <v-btn color="#F6F7FD" class="primary--text py-5">No, keep this member</v-btn>
         </div>
         <div></div>
@@ -173,7 +173,7 @@ export default {
         align-items: center;
         max-height: 45px;
         th {
-          min-width: 250px;
+          min-width: 270px;
           color: #ffffff;
           font-size: 15px;
           text-align: left;
@@ -211,7 +211,7 @@ export default {
         td {
           color: #979797;
           font-weight: normal;
-          min-width: 250px;
+          min-width: 270px;
           text-align: left;
           padding: 0px 5px 0px 10px;
           height: 45px;

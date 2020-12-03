@@ -14,6 +14,8 @@ import teamDetails from "@/components/dashboard/teamDetails.vue";
 import storeDetails from "@/components/dashboard/storeDetails.vue";
 import privacyDetails from "@/components/dashboard/privacyDetails.vue";
 import logout from "@/components/dashboard/logout.vue";
+import emailVerification from "@/components/onboarding/emailVerification.vue";
+import forgotPasswordVerification from "@/components/onboarding/forgotPasswordVerification.vue";
 
 Vue.use(VueRouter);
 
@@ -88,6 +90,16 @@ const routes = [
         name: "Forgotpassword",
         component: Forgotpassword
       },
+      {
+        path: "/emailverification",
+        name: "emailVerification",
+        component: emailVerification
+      },
+      {
+        path: "/verifypassword",
+        name: "forgotPasswordVerification",
+        component: forgotPasswordVerification
+      }
     ],
   },
 ];

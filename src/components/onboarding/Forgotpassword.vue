@@ -41,6 +41,7 @@ export default {
       this.$refs.form.validate();
       if (this.$refs.form.validate()) {
         this.submit_email();
+        this.$router.push({ name: 'forgotPasswordVerification' })
       }
     },
     submit_email() {
