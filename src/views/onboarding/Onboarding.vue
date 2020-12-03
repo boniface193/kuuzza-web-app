@@ -10,7 +10,7 @@
         <!-- display this introductory message if the condition is meet -->
         <h1
           class="primary--text mt-5 mb-0"
-          v-if="
+          v-show="
             (present_form == 'form1' || present_form == 'form2') &&
             this.$route.name == 'Signup'
           "
@@ -21,7 +21,7 @@
         <!-- display this introductory message if the condition is meet -->
         <h1
           class="primary--text mt-5 mb-0"
-          v-else-if="present_form == 'form3' && this.$route.name == 'Signup'"
+          v-show="present_form == 'form3' && this.$route.name == 'Signup'"
         >
           Create your password!
         </h1>
@@ -29,7 +29,7 @@
         <!-- display this introductory message if the condition is meet -->
         <h1
           class="primary--text mt-5 mb-0"
-          v-else-if="this.$route.name == 'Signin'"
+          v-show="this.$route.name == 'Signin'"
         >
           Welcome back!
         </h1>
@@ -37,7 +37,7 @@
         <!-- display this introductory message if the condition is meet -->
         <h1
           class="primary--text mt-5 mb-0"
-          v-else-if="this.$route.name == 'Recoverpassword'"
+          v-show="this.$route.name == 'Recoverpassword'"
         >
           Recover password!
         </h1>
@@ -45,15 +45,25 @@
         <!-- display this introductory message if the condition is meet -->
         <h1
           class="primary--text mt-5 mb-0"
-          v-else-if="this.$route.name == 'Forgotpassword'"
+          v-show="this.$route.name == 'Forgotpassword' || this.$route.name == 'forgotPasswordVerification'"
         >
           Forgot password!
         </h1>
 
+        <!-- display this introductory message if the condition is meet -->
+        <h1
+          class="primary--text mt-5 mb-0"
+          v-show="this.$route.name == 'emailVerification'"
+        >
+          Verify your email address
+        </h1>
+
+
+
         <!-- display this message if the condition is meet -->
         <p
           class="mt-5 mb-0"
-          v-if="
+          v-show="
             (present_form == 'form1' || present_form == 'form2') &&
             (this.$route.name == 'Signin' || this.$route.name == 'Signup')
           "
@@ -75,10 +85,12 @@
         <div class="mask d-flex align-center pl-10">
           <!-- display message if condition is true -->
           <p
-            v-if="
-              present_form == 'form1' ||
-              present_form == 'form2' ||
-              this.$route.name == 'Signin'
+            v-show="
+              ((present_form == 'form1' || present_form == 'form2') &&
+                this.$route.name == 'Signup') ||
+              this.$route.name == 'Signin' ||
+              this.$route.name == 'Forgotpassword' ||
+              this.$route.name == 'Recoverpassword'
             "
             class="white--text"
           >
@@ -87,7 +99,10 @@
 
           <!-- display message if condition is true -->
           <p
-            v-else-if="present_form == 'form3' && this.$route.name == 'Signup'"
+            v-show="
+              (present_form == 'form3' && this.$route.name == 'Signup') ||
+              this.$route.name == 'emailVerification' || this.$route.name == 'forgotPasswordVerification'
+            "
             class="white--text"
             style="width: 70%"
           >

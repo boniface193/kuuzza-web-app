@@ -249,6 +249,7 @@ export default {
       if (this.$refs[`form${form_num}`].validate()) {
         if (form_num == 3) {
           this.submit();
+          this.$router.push({ name: 'emailVerification' })
         } else {
           this.$store.commit(
             "onboarding/present_signup_form",
