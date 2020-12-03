@@ -7,80 +7,49 @@
       <!-- nav section -->
       <div class="settings-nav px-4 py-0 d-flex">
         <!-- nav link -->
-        <a
+        <router-link
           class="nav-item"
-          :class="{ 'nav-item--active': currentPage == 'store' }"
-          @click="currentPage = 'store'"
-          >Store</a
+          :class="{ 'nav-item--active': this.$route.name == 'store' }"
+          :to="{ name: 'store' }"
+          >Store</router-link
         >
         <!-- nav link -->
-        <a
+        <router-link
           class="nav-item"
-          :class="{ 'nav-item--active': currentPage == 'user' }"
-          @click="currentPage = 'user'"
-          >User</a
+          :class="{ 'nav-item--active': this.$route.name == 'user' }"
+          :to="{ name: 'user' }"
+          >User</router-link
         >
         <!-- nav link -->
-        <a
+        <router-link
           class="nav-item"
-          :class="{ 'nav-item--active': currentPage == 'team' }"
-          @click="currentPage = 'team'"
-          >Team</a
+          :class="{ 'nav-item--active': this.$route.name == 'team' }"
+          :to="{ name: 'team' }"
+          >Team</router-link
         >
         <!-- nav link -->
-        <a
+        <router-link
           class="nav-item"
-          :class="{ 'nav-item--active': currentPage == 'privacy' }"
-          @click="currentPage = 'privacy'"
-          >Privacy & Security</a
+          :class="{ 'nav-item--active': this.$route.name == 'privacy' }"
+          :to="{ name: 'privacy' }"
+          >Privacy & Security</router-link
         >
         <!-- nav link -->
-        <a
+        <router-link
           class="nav-item logout"
-          :class="{ 'nav-item--active': currentPage == 'logout' }"
-          @click="currentPage = 'logout'"
-          >Log Out</a
+          :class="{ 'nav-item--active': this.$route.name == 'logout' }"
+          :to="{ name: 'logout' }"
+          >Log Out</router-link
         >
       </div>
 
-      <!-- store -->
-      <storeDetails v-show="currentPage == 'store'" />
-
-      <!-- user -->
-      <userDetails v-show="currentPage == 'user'" />
-
-      <!-- team -->
-      <teamDetails v-show="currentPage == 'team'" />
-
-      <!-- privacy and security -->
-      <privacyDetails v-show="currentPage == 'privacy'" />
-
-      <!-- logout -->
-      <logout v-show="currentPage == 'logout'" />
-
+      <router-view />
     </div>
   </div>
 </template>
 <script>
-import storeDetails from "@/components/dashboard/storeDetails";
-import userDetails from "@/components/dashboard/userDetails";
-import teamDetails from "@/components/dashboard/teamDetails";
-import privacyDetails from "@/components/dashboard/privacyDetails";
-import logout from "@/components/dashboard/logout";
 export default {
   name: "Settings",
-  data: function () {
-    return {
-      currentPage: "store",
-    };
-  },
-  components: {
-    storeDetails,
-    userDetails,
-    teamDetails,
-    privacyDetails,
-    logout
-  },
 };
 </script>
 
@@ -98,6 +67,7 @@ export default {
       margin: 0px 40px 0px 0px;
       color: #979797;
       margin-bottom: -2px;
+      text-decoration: none;
       &--active {
         color: #5064cc;
         border-color: #5064cc;

@@ -8,7 +8,12 @@ import Onboarding from "@/views/onboarding/Onboarding.vue";
 import Dashboard from "@/views/dashboard/Dashboard.vue";
 import Inventory from "@/views/dashboard/Inventory.vue";
 import Home from "../views/dashboard/home.vue";
-import Settings from "../views/dashboard/Settings.vue"
+import Settings from "../views/dashboard/Settings.vue";
+import userDetails from "@/components/dashboard/userDetails.vue";
+import teamDetails from "@/components/dashboard/teamDetails.vue";
+import storeDetails from "@/components/dashboard/storeDetails.vue";
+import privacyDetails from "@/components/dashboard/privacyDetails.vue";
+import logout from "@/components/dashboard/logout.vue";
 
 Vue.use(VueRouter);
 
@@ -28,8 +33,34 @@ const routes = [
       },
       {
         path: "/settings",
-        name: "settings",
-        component: Settings
+        component: Settings,
+        children: [
+          {
+            path: "",
+            name: "store",
+            component: storeDetails
+          },
+          {
+            path: "user",
+            name: "user",
+            component: userDetails
+          },
+          {
+            path: "team",
+            name: "team",
+            component: teamDetails
+          },
+          {
+            path: "privacy",
+            name: "privacy",
+            component: privacyDetails
+          },
+          {
+            path: "logout",
+            name: "logout",
+            component: logout
+          }
+        ]
       },
     ]
   },
