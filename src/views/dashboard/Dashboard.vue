@@ -1,18 +1,17 @@
 <template>
   <div class="background-color">
     <!-- to center dashboard content -->
-    <v-container fluid>
-      <div class="mx-12">
-        <div class="">
+    <v-container>
+      <div class="mx-lg-12 mx-md-5 mx-sm-5">
+        <div>
           <!-- welcome greetings -->
-          <calendar class="float-right" elevation="10" />
-          <h1 class="welcome-user my-5">Welcome Ayotunde</h1>
+          <calendar class="float-right" />
+          <div class="welcome-user mb-5">Welcome Ayotunde</div>
         </div>
         <v-row>
           <!-- to show total revenue, item in stock, total commission -->
           <v-col sm="4">
             <card
-              width="327px"
               card_digit="899.9k"
               card_title="Total Revenue(₦)"
               card_img="money.svg"
@@ -21,7 +20,6 @@
           </v-col>
           <v-col sm="4">
             <card
-              width="327px"
               card_digit="1001"
               card_title="Items in Stock"
               card_img="delivery-box.svg"
@@ -31,7 +29,6 @@
           </v-col>
           <v-col sm="4">
             <card
-              width="327px"
               card_digit="67000"
               card_title="Total Commission paid (NGN)"
               card_img="arrow.svg"
@@ -40,14 +37,12 @@
           </v-col>
         </v-row>
 
-        <v-row class="mt-5">
+        <v-row>
           <!-- show area-chart -->
           <v-col md="8" class="d-none d-md-block mt-3">
             <bar
-              class=""
               bar_class="chart-heading mx-8 py-8 text-capitalize"
               bar_title="revenue(₦)"
-              chart=""
             />
           </v-col>
 
@@ -56,7 +51,6 @@
             <v-row>
               <v-col md="12">
                 <leader
-                  class=""
                   leader="Leaderboard"
                   sell_text="See all"
                   :listItem="listItem"
@@ -74,7 +68,7 @@
           </v-col>
         </v-row>
 
-        <v-row class="mt-5">
+        <v-row class="mt-3">
           <!-- donut chart -->
           <v-col md="8" class="d-none d-md-block">
             <donut
@@ -84,7 +78,7 @@
             />
           </v-col>
 
-          <v-col md="4">
+          <v-col md="4" class="mt-0 pt-0">
             <v-row>
               <v-col md="12">
                 <!-- show numbers of customers -->

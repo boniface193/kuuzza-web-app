@@ -3,11 +3,13 @@
     <v-row>
       <!-- components to display customer and sellers summary -->
       <v-col md="6">
-        <div class="d-flex justify-center mt-5">
-          <div :class="img_color" class="rounded-pill pa-7"></div>
-          <v-icon size="35" :class="img_color_text" class="mt-2">{{
-            card_img
-          }}</v-icon>
+        <div class="d-flex justify-center mt-3">
+          <div :class="img_color" class="rounded-pill pa-7 text-center"></div>
+          <div class="mx-2">
+            <v-icon size="35" :class="img_color_text" class="mt-2">{{
+              card_img
+            }}</v-icon>
+          </div>
         </div>
       </v-col>
       <v-col md="6">
