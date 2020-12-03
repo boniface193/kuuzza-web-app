@@ -1,5 +1,7 @@
 <template>
   <nav>
+    <!-- User dashboard layout -->
+    <!-- navbar -->
     <v-app-bar dense elevation="0" app color="#F9FAFE" class="elevation-1">
       <v-app-bar-nav-icon v-if="!drawer" @click.stop="drawer = !drawer">
       </v-app-bar-nav-icon>
@@ -21,8 +23,8 @@
         <v-img src="../../assets/layout/fire.svg"></v-img>
       </v-avatar>
     </v-app-bar>
-
-    <v-navigation-drawer app color="primary" width="283" dark v-model="drawer">
+    <!-- drawer -->
+    <v-navigation-drawer app color="primary" width="220" dark v-model="drawer">
       <v-container class="mx-5">
         <div class="d-flex nova-logo">
           N<span
@@ -59,7 +61,7 @@
                 class="text-size-md"
                 :class="{ activeColor: item.routes }"
               >
-                <v-icon class="float-left">{{ item.icon }}</v-icon>
+                <v-icon class="float-left" size="20">{{ item.icon }}</v-icon>
                 <div class="ml-12 pt-1 white--text">
                   {{ item.title }}
                 </div>
@@ -70,7 +72,7 @@
       </v-list>
       <div class="ml-3 mt-8">
         <v-btn outlined tile class="text-size-md"
-          ><v-icon class="mr-5 text-size">mdi-logout</v-icon> Log Out</v-btn
+          ><v-icon class="mr-5" size="20">mdi-logout</v-icon> Log Out</v-btn
         >
       </div>
     </v-navigation-drawer>
@@ -132,7 +134,7 @@ export default {
 
 .nova-logo {
   text-align: left;
-  font: normal normal 600 19px/27px "Poppins";
+  font: normal normal 500 17px/25px "Poppins";
   letter-spacing: 0.84px;
   color: #ffffff;
   opacity: 1;
@@ -140,14 +142,14 @@ export default {
 
 .layout-title {
   text-align: left;
-  font: normal normal 18px/22px "Product Sans";
+  font: normal normal 16px/20px "Product Sans";
   letter-spacing: 0.5px;
   color: #ffffff;
   opacity: 1;
 }
 
 .layout-title-subtitle {
-  font: normal normal lighter 16px/19px "Product Sans";
+  font: normal normal lighter 14px/17px "Product Sans";
   letter-spacing: 0px;
   color: #ffffff;
   opacity: 1;
@@ -171,7 +173,7 @@ a.v-item--active.v-list-item--active.v-list-item.v-list-item--link.theme--dark {
 }
 
 .text-size-md {
-  font-size: 14px;
+  font-size: 12px;
   letter-spacing: 0.5px;
   font-weight: lighter;
 }
@@ -187,5 +189,10 @@ button.v-btn.v-btn--depressed.v-btn--flat.v-btn--outlined.v-btn--tile.theme--dar
 
 .v-btn:before {
   background-color: transparent;
+}
+
+.v-list--nav .v-list-item:not(:last-child):not(:only-child),
+.v-list--rounded .v-list-item:not(:last-child):not(:only-child) {
+  margin-bottom: 0px;
 }
 </style>

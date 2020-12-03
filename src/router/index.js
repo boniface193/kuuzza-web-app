@@ -18,7 +18,7 @@ import logout from "@/components/dashboard/logout.vue";
 Vue.use(VueRouter);
 
 const routes = [
-  {
+  {//layout dashboard and children
     path: "/dashboard", component: Home,
     children: [
       {

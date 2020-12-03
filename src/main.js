@@ -6,6 +6,10 @@ import vuetify from "./plugins/vuetify";
 import Chartkick from 'vue-chartkick'
 import Chart from 'chart.js'
 
+import VMdDateRangePicker from "@ikechukwu_boniface/vmddaterangepicker";
+
+Vue.use(VMdDateRangePicker);
+
 Vue.use(Chartkick.use(Chart))
 
 Vue.config.productionTip = false;
