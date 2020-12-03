@@ -24,7 +24,7 @@
       </v-avatar>
     </v-app-bar>
     <!-- drawer -->
-    <v-navigation-drawer app color="primary" width="220" dark v-model="drawer">
+    <v-navigation-drawer app color="primary" width="250" dark v-model="drawer">
       <v-container class="mx-5">
         <div class="d-flex nova-logo">
           N<span

@@ -3,22 +3,27 @@
     <v-container>
       <!-- sumary of the leaders board -->
       <div class="d-flex justify-space-between my-3">
-        <h3 class="leader text-sm-body-2">
+        <h3 class="leader text-sm-body-2 text-truncate mr-2">
           {{ leader }}
         </h3>
-        <p class="sell-text text-sm-body-2">
-          {{ sell_text }}
-        </p>
+        <router-link
+          to="inventory"
+          class="sell-text text-sm-body-2 text-truncate"
+        >
+          <p>
+            {{ sell_text }}
+          </p>
+        </router-link>
       </div>
       <div v-for="(item, i) in listItem" :key="i">
         <v-row class="text">
           <v-col cols="2">
             {{ i + 1 }}
           </v-col>
-          <v-col cols="7" class="text-truncate">
+          <v-col cols="6" class="text-truncate">
             {{ item.text }}
           </v-col>
-          <v-col cols="3">
+          <v-col cols="4">
             {{ item.count }}
           </v-col>
         </v-row>
@@ -66,11 +71,11 @@ export default {
   color: #5064cc;
   opacity: 1;
   line-height: 1.2;
+  text-decoration: none;
 }
 
 .leader {
   text-align: left;
-  margin-left: 15px;
   font-family: Poppins sans-serif "Product Sans";
   font: normal normal bold 17px/7px Sans-Serif;
   letter-spacing: 0px;

@@ -1,6 +1,6 @@
 <template>
   <!-- donut chart -->
-  <v-card elevation="0" class="mt-3">
+  <v-card elevation="0" class="">
     <h1 :class="bar_class">{{ bar_title }}</h1>
     <v-row>
       <v-col md="10" class="pr-0">
