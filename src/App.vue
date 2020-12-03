@@ -29,6 +29,9 @@ body {
   margin: auto;
   .v-btn {
     text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 

@@ -78,7 +78,7 @@
         <v-text-field
           class="input mt-0"
           :rules="inputRules"
-          type="name"
+          type="email"
           color="primary"
           v-model="computedInfo.currentEmail"
           disabled
