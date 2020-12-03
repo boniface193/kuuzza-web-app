@@ -31,7 +31,7 @@
           Didn't receive the code?
           <a style="text-decoration: none">Resend Code</a>
         </p>
-        <v-btn class="primary px-8 py-5 mb-5" @click="validate_form(1)"
+        <v-btn class="primary px-8 py-5 mb-5" @click="validate_form()"
           >Verify</v-btn
         >
       </div>
@@ -75,6 +75,9 @@ export default {
     handlePaste(e) {
       e.preventDefault();
     },
+    validate_form() {
+        this.$router.push({ name: 'dashboard' })
+    }
   },
   data() {
     return {
