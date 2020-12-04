@@ -45,7 +45,10 @@
         <!-- display this introductory message if the condition is meet -->
         <h1
           class="primary--text mt-5 mb-0"
-          v-show="this.$route.name == 'Forgotpassword' || this.$route.name == 'forgotPasswordVerification'"
+          v-show="
+            this.$route.name == 'Forgotpassword' ||
+            this.$route.name == 'forgotPasswordVerification'
+          "
         >
           Forgot password!
         </h1>
@@ -57,8 +60,6 @@
         >
           Verify your email address
         </h1>
-
-
 
         <!-- display this message if the condition is meet -->
         <p
@@ -101,7 +102,8 @@
           <p
             v-show="
               (present_form == 'form3' && this.$route.name == 'Signup') ||
-              this.$route.name == 'emailVerification' || this.$route.name == 'forgotPasswordVerification'
+              this.$route.name == 'emailVerification' ||
+              this.$route.name == 'forgotPasswordVerification'
             "
             class="white--text"
             style="width: 70%"
