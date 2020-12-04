@@ -76,28 +76,7 @@ export default {
 
 .round-img-bg-warning {
   position: absolute;
-  // margin-top: 70px;
-  // margin-right: 170px;
 }
-
-// @media only screen and (max-width: 366px) {
-//   .round-img-bg-warning {
-//     position: absolute;
-//     // margin-top: 115px;
-//   }
-// }
-
-// @media only screen and (max-width: 364px) {
-//   .round-img-bg-warning {
-//     position: absolute;
-//     // margin-top: 80px;
-//   }
-
-//   div.round-img-bg-warning span.text {
-//     font-size: 20px;
-//     font-weight: normal;
-//   }
-// }
 
 .donut-text {
   // text-align: left;
@@ -108,20 +87,10 @@ export default {
 }
 
 .donut-sm-text {
-  // text-align: center;
-  // margin-left: 10px;
   font: normal normal normal 16px/0px "Product Sans" Light;
   letter-spacing: 0px;
   color: #646464;
   opacity: 0.7;
-}
-
-.pa-125 {
-  // padding: 50px;
-}
-
-.pt-24 {
-  // padding-top: 105px;
 }
 
 div#chart-5 {
