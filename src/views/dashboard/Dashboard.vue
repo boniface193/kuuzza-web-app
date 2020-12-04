@@ -72,8 +72,8 @@
           <!-- donut chart -->
           <v-col md="8" class="d-none d-md-block">
             <donut
-              class="py-5"
-              bar_class="chart-heading mx-8 pt-8 text-capitalize"
+              class="py-5 px-5"
+              bar_class="chart-heading text-capitalize"
               bar_title="Order Status"
             />
           </v-col>
