@@ -5,33 +5,30 @@
       <span style="font-weight: bold">ayotundelanwo@gmail.com</span>
     </p>
     <v-form>
-      <div class="my-10">
-        <input
-            class="verify-input"
-          @paste="handlePaste"
-          type="text"
-          title="code"
-          maxLength="1"
-          v-focus="item - 1 === currentIndex"
-          size="1"
-          min="0"
-          max="9"
-          pattern="[0-9]{1}"
-          @input="handleInput($event, item - 1)"
-          @keyup.delete="onDelete($event, item - 1)"
-          v-model="code[item - 1]"
-          v-for="item in amount"
-          :key="item"
+      <div class="mt-10 mb-2">
+        <v-otp-input
+          ref="otpInput1"
+          separator=""
+          :num-inputs="5"
+          :should-auto-focus="true"
+          input-type="number"
+          @on-complete="handleOnComplete"
+          @on-change="handleOnChange"
         />
       </div>
 
+      <!-- error message -->
+      <p class="error--text" v-show="errorMessage == true">
+        Please Enter the 5 digits code sent to your email adddress
+      </p>
+      
       <!-- button container -->
-      <div class="pa-0 mt-5" style="width: 100%">
+      <div class="pa-0 mt-10" style="width: 100%">
         <p>
           Didn't receive the code?
           <a style="text-decoration: none">Resend Code</a>
         </p>
-        <v-btn class="primary px-8 py-5 mb-5" @click="validate_form()"
+        <v-btn class="primary px-8 py-5 mb-5" @click="SubmitCode()"
           >Verify</v-btn
         >
       </div>
@@ -39,65 +36,41 @@
   </div>
 </template>
 <script>
+import OtpInput from "@/components/dashboard/verifyInput";
 export default {
   name: "emailVerification",
-  props: {
-    amount: {
-      type: Number,
-      default: 5,
-    },
+  components: {
+    "v-otp-input": OtpInput,
   },
-  directives: {
-    focus: {
-      componentUpdated: function (el, obj) {
-        obj.value && el.focus();
-      },
-    },
-  },
-  created() {
-    this.code = new Array(this.amount).fill("");
+  data: function () {
+    return {
+      verify: false,
+      code: null,
+      errorMessage: false,
+    };
   },
   methods: {
-    handleInput(e, index) {
-      this.currentIndex = index;
-      e.target.value = this.validateNumber(e.target.value);
-      e.target.value !== "" && ++this.currentIndex;
-      !this.code.includes("") && this.$emit("onCompleted", this.code.join(""));
-    },
-    onDelete(e, index) {
-      if (e.target.value === "") {
-        this.currentIndex = index - 1;
+    // check if code changes
+    handleOnChange(value) {
+      this.code = value;
+      if (this.code.length != 5) {
+        this.verify = false;
       }
     },
-    validateNumber(val) {
-      return val.replace(/\D/g, "");
+    // checks if code is complete
+    handleOnComplete(value) {
+      this.verify = true;
+      this.code = value;
+      this.errorMessage = false;
     },
-    handlePaste(e) {
-      e.preventDefault();
+    // submit code
+    SubmitCode() {
+      if (this.verify) {
+        this.$router.push({ name: 'Signin' });
+      } else {
+        this.errorMessage = true;
+      }
     },
-    validate_form() {
-        this.$router.push({ name: 'dashboard' })
-    }
-  },
-  data() {
-    return {
-      code: [],
-      currentIndex: 0,
-    };
   },
 };
 </script>
-<style lang="scss" scoped>
-.verify-input {
-  border: 1px solid #5064cc;
-  outline: none;
-  width: 49px;
-  height: 49px;
-  margin-right: 7px;
-  border-radius: 5px;
-  font-size: 30px;
-  color: #2b2b2b;
-  text-align: center;
-  transition: all 0.2s ease-in-out;
-}
-</style>
