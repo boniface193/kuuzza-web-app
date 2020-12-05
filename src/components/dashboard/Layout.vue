@@ -24,7 +24,7 @@
       </v-avatar>
     </v-app-bar>
     <!-- drawer -->
-    <v-navigation-drawer app color="primary" width="220" dark v-model="drawer">
+    <v-navigation-drawer app color="primary" width="250" dark v-model="drawer">
       <v-container class="mx-5">
         <div class="d-flex nova-logo">
           N<span
@@ -173,9 +173,9 @@ a.v-item--active.v-list-item--active.v-list-item.v-list-item--link.theme--dark {
 }
 
 .text-size-md {
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 0.5px;
-  font-weight: lighter;
+  font-weight: 200;
 }
 
 button.v-btn.v-btn--depressed.v-btn--flat.v-btn--outlined.v-btn--tile.theme--dark.v-size--default {
