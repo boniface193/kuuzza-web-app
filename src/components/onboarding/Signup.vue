@@ -165,7 +165,11 @@
 
       <!-- button container -->
       <div class="pa-0 mt-5" style="width: 100%">
-        <v-btn class="primary px-8 py-5 mb-5" @click="validate_form(3)"
+        <v-btn
+          class="primary px-8 py-5 mb-5"
+          @click="validate_form(3)"
+          :loading="loading"
+          :disabled="loading"
           >Complete Sign Up</v-btn
         >
       </div>
@@ -179,6 +183,7 @@ export default {
   name: "Signup",
   data: function () {
     return {
+      loading: false,
       first_name: "",
       last_name: "",
       email: "",
@@ -249,7 +254,6 @@ export default {
       if (this.$refs[`form${form_num}`].validate()) {
         if (form_num == 3) {
           this.submit();
-          this.$router.push({ name: 'emailVerification' })
         } else {
           this.$store.commit(
             "onboarding/present_signup_form",
@@ -260,17 +264,29 @@ export default {
     },
     //submit form and create an account
     submit() {
-      this.$store.dispatch("onboarding/register", {
-        first_name: this.first_name,
-        last_name: this.last_name,
-        email: this.email,
-        phone_number: this.phone_number,
-        company_name: this.company_name,
-        country: this.country,
-        state: this.state,
-        company_address: this.company_address,
-        password: this.create_password,
-      });
+      this.loading = true;
+      this.$store
+        .dispatch("onboarding/register", {
+          firstName: this.first_name,
+          lastName: this.last_name,
+          email: this.email,
+          phoneNumber: this.phone_number,
+          companyName: this.company_name,
+          country: this.country,
+          state: this.state,
+          companyAddress: this.company_address,
+          password: this.create_password,
+        })
+        .then((response) => {
+          this.loading = false;
+          if(response.data.status === "success") {
+            this.$router.push({ name: "emailVerification" });
+          }else if (response.data.status === "accountExist") {
+            console.log("already exist")
+          }
+        }).catch(() => {
+          this.loading = false
+        })
     },
   },
 };

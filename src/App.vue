@@ -32,6 +32,9 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    .v-btn__loader{
+      color: #5064cc;
+    }
   }
 }
 
