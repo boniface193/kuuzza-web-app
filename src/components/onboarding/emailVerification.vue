@@ -21,14 +21,18 @@
       <p class="error--text" v-show="errorMessage == true">
         Please Enter the 5 digits code sent to your email adddress
       </p>
-      
+
       <!-- button container -->
       <div class="pa-0 mt-10" style="width: 100%">
         <p>
           Didn't receive the code?
           <a style="text-decoration: none">Resend Code</a>
         </p>
-        <v-btn class="primary px-8 py-5 mb-5" @click="SubmitCode()"
+        <v-btn
+          class="primary px-8 py-5 mb-5"
+          @click="SubmitCode()"
+          :loading="loading"
+          :disabled="loading"
           >Verify</v-btn
         >
       </div>
@@ -44,6 +48,7 @@ export default {
   },
   data: function () {
     return {
+      loading: false,
       verify: false,
       code: null,
       errorMessage: false,
@@ -66,7 +71,19 @@ export default {
     // submit code
     SubmitCode() {
       if (this.verify) {
-        this.$router.push({ name: 'Signin' });
+        this.loading = true
+        this.$store
+          .dispatch("onboarding/verifyEmail", {
+            code: this.code,
+          })
+          .then((response) => {
+            if(response.data.status === "success") {
+              this.$router.push({ name: "signin" });
+            }
+            else if(response.data.status === "failed") {
+              console.log("Incorrect pin")
+            }
+          });
       } else {
         this.errorMessage = true;
       }

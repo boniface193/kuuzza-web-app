@@ -26,7 +26,11 @@
 
       <!-- button container -->
       <div class="pa-0 mt-5" style="width: 100%">
-        <v-btn class="primary px-8 py-5 mb-5" @click="validate_form"
+        <v-btn
+          class="primary px-8 py-5 mb-5"
+          @click="validate_form"
+          :loading="loading"
+          :disabled="loading"
           >Sign In</v-btn
         >
 
@@ -57,6 +61,7 @@ export default {
   name: "Signup",
   data: function () {
     return {
+      loading: false,
       email: "",
       password: "",
       emailRules: [
@@ -76,15 +81,26 @@ export default {
       this.$refs.form.validate();
       if (this.$refs.form.validate()) {
         this.signin();
-        this.$router.push({ name: 'dashboard' })
       }
     },
     //Sign in
     signin() {
-      this.$store.dispatch("onboarding/signin", {
-        email: this.email,
-        password: this.password
-      });
+      this.loading = true;
+      this.$store
+        .dispatch("onboarding/signIn", {
+          email: this.email,
+          password: this.password,
+        })
+        .then((response) => {
+          this.loading = false;
+          if (response.data.status === "success"){
+            this.$router.push({ name: "dashboard" });
+          } else if(response.data.status === "incorrectDetails" ){
+            console.log("Incorrect email or password")
+          }
+        }).catch(() => {
+          this.loading = false
+        })
     },
   },
 };
