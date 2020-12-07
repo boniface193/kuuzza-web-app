@@ -53,7 +53,14 @@ export const onboardServer = new Server({
             }
         })
 
+<<<<<<< HEAD
         // sign in
+=======
+        // this.get('/signup', (schema) => {
+        //     return console.log(schema.db.accounts)
+        // })
+
+>>>>>>> a2a680f... mockAPIsetup
         this.post("/signin", (schema, request) => {
             const user = JSON.parse(request.requestBody);
             const email = user.email;

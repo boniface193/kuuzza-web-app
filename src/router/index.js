@@ -16,6 +16,7 @@ import privacyDetails from "@/components/dashboard/privacyDetails.vue";
 import logout from "@/components/dashboard/logout.vue";
 import emailVerification from "@/components/onboarding/emailVerification.vue";
 import forgotPasswordVerification from "@/components/onboarding/forgotPasswordVerification.vue";
+import Leaderboard from "../views/dashboard/leaderboard.vue";
 
 Vue.use(VueRouter);
 
@@ -32,6 +33,11 @@ const routes = [
         path: "/inventory",
         name: "inventory",
         component: Inventory
+      },
+      {
+        path: "/leaderboard",
+        name: "leaderboard",
+        component: Leaderboard
       },
       {
         path: "/settings",
