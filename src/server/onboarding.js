@@ -1,5 +1,14 @@
 import { Server } from "miragejs";
 
+const generateToken = () => {
+    let text = "";
+    let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (let i = 0; i < 50; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return text;
+}
+
 export const onboardServer = new Server({
 
     seeds(server) {
@@ -23,6 +32,7 @@ export const onboardServer = new Server({
     routes() {
         this.timing = 3000
 
+        //sign up
         this.post("/signup", (schema, request) => {
 
             const user = JSON.parse(request.requestBody);
@@ -30,22 +40,10 @@ export const onboardServer = new Server({
             const checkUser = schema.db.accounts.findBy({ email: userEmail });
 
             if (checkUser == null) {
-                schema.db.accounts.insert({
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    email: user.email,
-                    phoneNumber: user.phoneNumber,
-                    companyName: user.companyName,
-                    country: user.country,
-                    state: user.state,
-                    companyAddress: user.companyAddress,
-                    password: user.password,
-                    code: 11111
-                })
-                console.log(schema.db.accounts)
+                schema.db.accounts.insert(user)
                 return {
                     status: "success",
-                    email: userEmail
+                    email: userEmail,
                 }
             } else {
                 return {
@@ -53,9 +51,9 @@ export const onboardServer = new Server({
                     email: userEmail
                 }
             }
-
         })
 
+        // sign in
         this.post("/signin", (schema, request) => {
             const user = JSON.parse(request.requestBody);
             const email = user.email;
@@ -70,9 +68,13 @@ export const onboardServer = new Server({
                 }
             } else {
                 if (checkUser.password === password) {
+                    const token = generateToken();
+                    schema.db.accounts.update(checkUser.id, { token: token })
+                    const getToken = schema.db.accounts.findBy({ token: token })
+
                     return {
                         status: "success",
-                        token: "HSIW99022",
+                        token: getToken.token,
                     }
                 } else {
                     return {
@@ -83,6 +85,7 @@ export const onboardServer = new Server({
             }
         })
 
+        //verify email address 
         this.post("/verifyemail", (schema, request) => {
             const user = JSON.parse(request.requestBody);
             const email = user.email;
@@ -90,18 +93,89 @@ export const onboardServer = new Server({
             const checkUser = schema.db.accounts.findBy({ email: email });
 
 
-
-            if (checkUser.code === code) {
+            if (checkUser !== null && code == 11111) {
                 return {
                     status: "success",
-                    email: email,
+                    email: email
                 }
             } else {
                 return {
-                    status: "failed",
-                    email: email,
+                    status: "incorrectCode",
+                    email: email
                 }
             }
         })
+
+        // log out
+        this.post("/logout", (schema, request) => {
+            const user = JSON.parse(request.requestBody);
+            const token = user.token;
+            const checkUser = schema.db.accounts.findBy({ token: token });
+            if (checkUser !== null) {
+                schema.db.accounts.update(checkUser.id, { token: null })
+                return {
+                    token: null
+                }
+            }
+        })
+        // forgot password
+        this.post("/forgotpassword", (schema, request) => {
+            const user = JSON.parse(request.requestBody);
+            const email = user.email;
+            const checkUser = schema.db.accounts.findBy({ email: email });
+            if (checkUser !== null) {
+
+                return {
+                    status: "success",
+                    email: email
+                }
+            }
+            else {
+                return {
+                    status: "noAccount",
+                    email: email
+                }
+            }
+        })
+        // verify forgot password
+        this.post("/verifyforgotpassword", (schema, request) => {
+            const user = JSON.parse(request.requestBody);
+            const email = user.email;
+            const code = user.code;
+            const checkUser = schema.db.accounts.findBy({ email: email });
+
+
+            if (checkUser !== null && code == 11111) {
+                return {
+                    status: "success",
+                    email: email
+                }
+            } else {
+                return {
+                    status: "incorrectCode",
+                    email: email
+                }
+            }
+        })
+        // recover password
+        this.post("/recoverpassword", (schema, request) => {
+            const user = JSON.parse(request.requestBody);
+            const email = user.email;
+            const newPassword = user.newPassword;
+
+            const checkUser = schema.db.accounts.findBy({ email: email });
+            if (checkUser !== null) {
+                schema.db.accounts.update(checkUser.id, { password: newPassword })
+                return {
+                    status: "success"
+                }
+            } else {
+                return {
+                    status: "failed"
+                }
+            }
+
+        })
     }
+
 })

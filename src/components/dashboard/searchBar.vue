@@ -2,13 +2,28 @@
   <!-- search bar -->
   <div class="search-bar">
     <v-icon class="primary--text">mdi-magnify</v-icon>
-    <input type="text" :placeholder="placeholder" />
+    <input
+      type="text"
+      v-model="searchValue"
+      @change="updateSearchValue"
+      :placeholder="placeholder"
+    />
   </div>
 </template>
 <script>
 export default {
   name: "searchBar",
-  props: ["placeholder"]
+  data: function () {
+    return {
+      searchValue: "",
+    };
+  },
+  props: ["placeholder"],
+  methods: {
+    updateSearchValue() {
+      this.$emit("search", this.searchValue);
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -30,10 +45,9 @@ export default {
     background: transparent;
   }
 }
-@media (max-width: 600px){
-  .search-bar{
+@media (max-width: 600px) {
+  .search-bar {
     width: 100%;
   }
-
 }
 </style>

@@ -10,7 +10,7 @@
         <div class="d-flex align-center flex-wrap">
           <v-icon class="primary--text mr-2 mb-5 mb-sm-0">mdi-upload</v-icon>
           <v-icon class="primary--text mr-2 mb-5 mb-sm-0">mdi-sort</v-icon>
-          <searchBar placeholder="Search representative" />
+          <searchBar placeholder="Search representative" @search="getSearchValue"/>
         </div>
       </div>
 
@@ -96,6 +96,7 @@ export default {
   components: { searchBar, modal, dataTable },
   data: function () {
     return {
+      searchValue: "",
       email: "",
       role: "",
       invitePage: false,
@@ -189,6 +190,9 @@ export default {
         this.dialogMessage = `An invite have been sent to ${this.email}`;
       }
     },
+    getSearchValue(params) {
+      this.searchValue = params
+    }
   },
 };
 </script>

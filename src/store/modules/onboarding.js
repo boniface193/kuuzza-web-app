@@ -31,13 +31,10 @@ const actions = {
                 password: credentials.password,
             })
                 .then(response => {
-                    context.commit('set_token', 'aaa')
-                    console.log(response)
                     resolve(response)
-                    
                 })
                 .catch(error => {
-                    console.log(error)
+                    context.commit('setToken', null)
                     reject(error)
                 })
         })
@@ -49,33 +46,95 @@ const actions = {
                 email: credentials.email,
                 password: credentials.password,
             }).then(response => {
-                context.commit('set_token', response.data.token)
+                context.commit("setToken", response.data.token)
                 resolve(response)
             })
-            .catch(error => {
-                reject(error);
-            })
+                .catch(error => {
+                    reject(error);
+                })
         })
     },
     // verify email address 
-    verifyEmail: (credentials) =>{
+    verifyEmail: (context, credentials) => {
         return new Promise((resolve, reject) => {
             axios.post("/verifyemail", {
-                code: credentials.code
+                code: credentials.code,
+                email: credentials.email
             }).then(response => {
                 resolve(response)
             })
-            .catch(error => {
-                reject(error);
+                .catch(error => {
+                    context.commit('setToken', null)
+                    reject(error);
+                })
+        })
+    },
+    // logout
+    logout: (context) => {
+        return new Promise((resolve, reject) => {
+            axios.post("/logout", {
+                token: state.token
+            }).then(response => {
+                context.commit('setToken', response.data.token)
+                resolve(response)
+            }).catch(error => {
+                context.commit('setToken', null)
+                reject(error)
             })
-        })   
+        })
+    },
+    //forgot password
+    forgotPassword: (context, credentials) => {
+        return new Promise((resolve, reject) => {
+            axios.post("/forgotpassword", {
+                email: credentials.email
+            }).then(response => {
+                resolve(response)
+            }).catch(error => {
+                context.commit("", "");
+                reject(error)
+            })
+        })
+    },
+    // verify forgot password 
+    verifyForgotPassword: (context, credentials) => {
+        return new Promise((resolve, reject) => {
+            axios.post("/verifyforgotpassword", {
+                code: credentials.code,
+                email: credentials.email
+            }).then(response => {
+                resolve(response)
+            })
+                .catch(error => {
+                    context.commit("", "")
+                    reject(error);
+                })
+        })
+    },
+    // recover password
+    recoverPassword: (context, credentials) => {
+        return new Promise((resolve, reject) => {
+            axios.post("/recoverpassword", {
+                email: credentials.email,
+                newPassword: credentials.newPassword
+            }).then(response => {
+                resolve(response)
+            })
+                .catch(error => {
+                    context.commit("", "")
+                    reject(error);
+                })
+        })
     }
 };
 
 //updates the different state properties
 const mutations = {
     //set token
-    set_token: (state, token) => (state.token = token),
+    setToken: (state, token) => {
+        localStorage.setItem('accessToken', token);
+        state.token = localStorage.getItem('accessToken') || null;
+    },
     // update the present form on signup 
     present_signup_form: (state, form) => (state.present_signup_form = form)
 };
