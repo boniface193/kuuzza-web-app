@@ -1,5 +1,12 @@
 <template>
   <div>
+    <p v-show="error" class="error--text mt-3 mb-0">
+      <span v-html="errorMessage"></span>
+      <router-link to="/signin" style="text-decoration: none">
+        Sign In?</router-link
+      >
+    </p>
+
     <!-- first form section-->
     <v-form
       class="flex-wrap"
@@ -184,6 +191,8 @@ export default {
   data: function () {
     return {
       loading: false,
+      errorMessage: "",
+      error: false,
       first_name: "",
       last_name: "",
       email: "",
@@ -279,14 +288,26 @@ export default {
         })
         .then((response) => {
           this.loading = false;
-          if(response.data.status === "success") {
-            this.$router.push({ name: "emailVerification" });
-          }else if (response.data.status === "accountExist") {
-            console.log("already exist")
+          if (response.data.status === "success") {
+            this.$store.commit("onboarding/present_signup_form", "form1");
+            this.$router.push({
+              name: "emailVerification",
+              params: {
+                email: response.data.email,
+                password: this.create_password,
+              },
+            });
+          } else if (response.data.status === "accountExist") {
+            this.errorMessage = `The account with email address <span class="primary--text">
+            ${response.data.email}</span> already exist`;
+            this.error = true;
           }
-        }).catch(() => {
-          this.loading = false
         })
+        .catch(() => {
+          this.errorMessage = "Something went wrong, Please try again";
+          this.error = true;
+          this.loading = false;
+        });
     },
   },
 };

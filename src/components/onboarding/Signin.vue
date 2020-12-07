@@ -1,5 +1,8 @@
 <template>
   <div>
+    <p v-show="error" class="error--text mt-3 mb-0" >
+      <span v-html="errorMessage"></span>
+    </p>
     <!-- form section-->
     <v-form class="d-flex flex-wrap" ref="form">
       <!-- Email Adrress-->
@@ -61,6 +64,8 @@ export default {
   name: "Signup",
   data: function () {
     return {
+      errorMessage: "",
+      error: false,
       loading: false,
       email: "",
       password: "",
@@ -96,7 +101,8 @@ export default {
           if (response.data.status === "success"){
             this.$router.push({ name: "dashboard" });
           } else if(response.data.status === "incorrectDetails" ){
-            console.log("Incorrect email or password")
+            this.errorMessage = `Incorrect email address or password`;
+            this.error = true;
           }
         }).catch(() => {
           this.loading = false

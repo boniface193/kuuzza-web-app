@@ -1,5 +1,8 @@
 <template>
   <div>
+    <p class="mt-5 mb-0 error--text" v-show="error">
+      {{ errorMessage }}
+    </p>
     <!-- form section -->
     <v-form class="d-flex flex-wrap" ref="form">
       <!-- Create password -->
@@ -26,7 +29,11 @@
 
       <!-- button container -->
       <div class="pa-0 mt-5" style="width: 100%">
-        <v-btn class="primary px-8 py-5 mb-5" @click="validate_password"
+        <v-btn
+          class="primary px-8 py-5 mb-5"
+          @click="validate_password"
+          :loading="loading"
+          :disabled="loading"
           >Submit</v-btn
         >
       </div>
@@ -38,6 +45,9 @@ export default {
   name: "Recoverpassword",
   data: function () {
     return {
+      error: false,
+      errorMessage: "",
+      loading: false,
       create_password: "",
       confirm_password: "",
       create_passwordRules: [
@@ -58,13 +68,29 @@ export default {
     validate_password() {
       this.$refs.form.validate();
       if (this.$refs.form.validate()) {
-        this.submit_password();
-        this.$router.push({ name: 'Signin' })
+        this.recoverPassword();
       }
     },
     //submit password
-    submit_password() {
-      console.log(this.confirm_password);
+    recoverPassword() {
+      this.loading = true;
+      this.$store
+        .dispatch("onboarding/recoverPassword", {
+          email: this.$route.params.email,
+          newPassword: this.create_password,
+        })
+        .then((response) => {
+           this.loading = false;
+          if (response.data.status === "success") {
+            this.$router.push({
+              name: "Signin",
+            });
+          }
+        }).catch(() => {
+          this.loading = false;
+          this.error = true;
+          this.errorMessage = "something went wrong, pls try again"
+        })
     },
   },
 };

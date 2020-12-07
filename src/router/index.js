@@ -83,7 +83,8 @@ const routes = [
       {
         path: "/recoverpassword",
         name: "Recoverpassword",
-        component: Recoverpassword
+        component: Recoverpassword,
+        props: true
       },
       {
         path: "/forgotpassword",
@@ -93,12 +94,14 @@ const routes = [
       {
         path: "/emailverification",
         name: "emailVerification",
-        component: emailVerification
+        component: emailVerification,
+        props: true
       },
       {
         path: "/verifypassword",
         name: "forgotPasswordVerification",
-        component: forgotPasswordVerification
+        component: forgotPasswordVerification,
+        props: true
       }
     ],
   },

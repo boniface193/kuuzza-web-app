@@ -2,7 +2,7 @@
   <div>
     <p class="mt-5 mb-0">
       Kindly enter the code sent to
-      <span style="font-weight: bold">ayotundelanwo@gmail.com</span>
+      <span style="font-weight: bold">{{ $route.params.email }}</span>
     </p>
     <v-form>
       <div class="mt-10 mb-2">
@@ -19,7 +19,7 @@
 
       <!-- error message -->
       <p class="error--text" v-show="errorMessage == true">
-        Please Enter the 5 digits code sent to your email adddress
+        {{ message }}
       </p>
 
       <!-- button container -->
@@ -28,7 +28,11 @@
           Didn't receive the code?
           <a style="text-decoration: none">Resend Code</a>
         </p>
-        <v-btn class="primary px-8 py-5 mb-5" @click="SubmitCode()"
+        <v-btn
+          class="primary px-8 py-5 mb-5"
+          @click="SubmitCode()"
+          :loading="loading"
+          :disabled="loading"
           >Verify</v-btn
         >
       </div>
@@ -44,16 +48,18 @@ export default {
   },
   data: function () {
     return {
+      loading: false,
       verify: false,
       code: null,
-      errorMessage: false
+      errorMessage: false,
+      message: "",
     };
   },
   methods: {
     // check if code changes
     handleOnChange(value) {
       this.code = value;
-      if(this.code.length != 5){
+      if (this.code.length != 5) {
         this.verify = false;
       }
     },
@@ -65,12 +71,35 @@ export default {
     },
     // submit code
     SubmitCode() {
-      if(this.verify){
-        this.$router.push({ name: 'Recoverpassword' })
+      if (this.verify) {
+        this.loading = true;
+        this.$store
+          .dispatch("onboarding/verifyForgotPassword", {
+            code: this.code,
+            email: this.$route.params.email,
+          })
+          .then((response) => {
+            this.loading = false;
+            if (response.data.status === "success") {
+              this.$router.push({
+                name: "Recoverpassword",
+                params: { email: response.data.email },
+              });
+            } else if (response.data.status === "incorrectCode") {
+              this.errorMessage = true;
+              this.message = "Incorrect verification code";
+            }
+          })
+          .catch(() => {
+            this.errorMessage = true;
+            this.message = "Something went wrong, Please try again";
+          });
       } else {
         this.errorMessage = true;
+        this.message =
+          "Please Enter the 5 digits code sent to your email adddress";
       }
-    }
+    },
   },
 };
 </script>

@@ -2,7 +2,7 @@
   <div>
     <p class="mt-5 mb-0">
       Kindly enter the code sent to
-      <span style="font-weight: bold">ayotundelanwo@gmail.com</span>
+      <span style="font-weight: bold">{{ $route.params.email }}</span>
     </p>
     <v-form>
       <div class="mt-10 mb-2">
@@ -19,7 +19,7 @@
 
       <!-- error message -->
       <p class="error--text" v-show="errorMessage == true">
-        Please Enter the 5 digits code sent to your email adddress
+        {{ message }}
       </p>
 
       <!-- button container -->
@@ -37,21 +37,51 @@
         >
       </div>
     </v-form>
+
+    <!-- modal for dialog messages -->
+    <modal :dialog="dialog" width="450">
+      <div class="white pa-3 pb-10 text-center dialog">
+        <div class="d-flex justify-end">
+          <v-icon class="error--text close-btn" @click="cancelModal"
+            >mdi-close</v-icon
+          >
+        </div>
+
+        <div class="mb-7 mt-5 mx-auto status-img">
+          <v-img src="@/assets/img/success-img.svg"></v-img>
+        </div>
+        <h3>Email Verified!</h3>
+        <p class="my-3">You have successfully verified your email address.</p>
+
+        <v-btn
+          class="primary mx-auto py-5 px-8"
+          :loading="loading2"
+          :disabled="loading2"
+          @click="signIn"
+          >Go to Dashboard</v-btn
+        >
+      </div>
+    </modal>
   </div>
 </template>
 <script>
 import OtpInput from "@/components/dashboard/verifyInput";
+import modal from "@/components/dashboard/modal.vue";
 export default {
   name: "emailVerification",
   components: {
     "v-otp-input": OtpInput,
+    modal,
   },
   data: function () {
     return {
+      dialog: false,
       loading: false,
+      loading2: false,
       verify: false,
       code: null,
       errorMessage: false,
+      message: "",
     };
   },
   methods: {
@@ -71,23 +101,65 @@ export default {
     // submit code
     SubmitCode() {
       if (this.verify) {
-        this.loading = true
+        this.loading = true;
         this.$store
           .dispatch("onboarding/verifyEmail", {
             code: this.code,
+            email: this.$route.params.email,
           })
           .then((response) => {
-            if(response.data.status === "success") {
-              this.$router.push({ name: "signin" });
+            this.loading = false;
+            if (response.data.status === "success") {
+              this.dialog = true;
+            } else if (response.data.status === "incorrectCode") {
+              this.errorMessage = true;
+              this.message = "Incorrect verification code";
             }
-            else if(response.data.status === "failed") {
-              console.log("Incorrect pin")
-            }
+          })
+          .catch(() => {
+            this.errorMessage = true;
+            this.message = "Something went wrong, Please try again";
           });
       } else {
         this.errorMessage = true;
+        this.message =
+          "Please Enter the 5 digits code sent to your email adddress";
       }
+    },
+    cancelModal() {
+      this.dialog = false;
+      this.$router.push({
+        name: "Signin",
+      });
+    },
+    //Sign in
+    signIn() {
+      this.loading2 = true;
+      this.$store
+        .dispatch("onboarding/signIn", {
+          email: this.$route.params.email,
+          password: this.$route.params.password,
+        })
+        .then((response) => {
+          this.loading2 = false;
+          if (response.data.status === "success") {
+            this.$router.push({ name: "dashboard" });
+          } else if (response.data.status === "incorrectDetails") {
+            this.$router.push({ name: "Signin" });
+          }
+        })
+        .catch(() => {
+          this.loading2 = false;
+        });
     },
   },
 };
 </script>
+<style lang="scss" scoped>
+.status-img {
+  width: 140px;
+  .v-image {
+    width: 100%;
+  }
+}
+</style>
