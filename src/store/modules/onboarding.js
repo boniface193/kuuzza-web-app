@@ -39,6 +39,7 @@ const actions = {
                 })
         })
     },
+
     //allows users to login
     signIn: (context, credentials) => {
         return new Promise((resolve, reject) => {
@@ -55,7 +56,7 @@ const actions = {
         })
     },
     // verify email address 
-    verifyEmail: (context, credentials) => {
+    verifyEmail: (credentials) => {
         return new Promise((resolve, reject) => {
             axios.post("/verifyemail", {
                 code: credentials.code,
@@ -121,7 +122,6 @@ const actions = {
                 resolve(response)
             })
                 .catch(error => {
-                    context.commit("", "")
                     reject(error);
                 })
         })

@@ -13,7 +13,6 @@
                   v-show="index == 0 && select === true"
                   v-model="selectAll"
                   @click="selectRow"
-    
                   color="white"
                 ></v-checkbox>
                 <span>{{ header.text }}</span></span
@@ -164,7 +163,7 @@ export default {
       }
       this.emitSelectedRow();
     },
-    emitSelectedRow(){
+    emitSelectedRow() {
       //console.log(this.selected)
       this.$emit("selectedRow", this.selected);
     },

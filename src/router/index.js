@@ -16,9 +16,12 @@ import privacyDetails from "@/components/dashboard/privacyDetails.vue";
 import logout from "@/components/dashboard/logout.vue";
 import emailVerification from "@/components/onboarding/emailVerification.vue";
 import forgotPasswordVerification from "@/components/onboarding/forgotPasswordVerification.vue";
+import Leaderboard from "../views/dashboard/leaderboard.vue";
 import history from "@/components/dashboard/history.vue";
 import inventoryPage from "@/components/dashboard/inventoryPage.vue";
 import addProduct from "@/components/dashboard/addProduct.vue";
+import leaderStore from "@/components/dashboard/leaderStore.vue";
+import leaderGlobal from "@/components/dashboard/leaderGlobal.vue";
 
 Vue.use(VueRouter);
 
@@ -50,6 +53,22 @@ const routes = [
             name: "addProduct",
             component: addProduct
           }
+        ]
+      },
+      {
+        path: "/leaderboard",
+        component: Leaderboard,
+        children: [
+          {
+            path: "",
+            name: "leaderStore",
+            component: leaderStore
+          },
+          {
+            path: "",
+            name: "leaderGlobal",
+            component: leaderGlobal
+          },
         ]
       },
       {
