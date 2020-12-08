@@ -32,10 +32,6 @@ const actions = {
             })
                 .then(response => {
                     resolve(response)
-<<<<<<< HEAD
-=======
-
->>>>>>> a2a680f... mockAPIsetup
                 })
                 .catch(error => {
                     context.commit('setToken', null)
@@ -60,11 +56,7 @@ const actions = {
         })
     },
     // verify email address 
-<<<<<<< HEAD
-    verifyEmail: (context, credentials) => {
-=======
     verifyEmail: (credentials) => {
->>>>>>> a2a680f... mockAPIsetup
         return new Promise((resolve, reject) => {
             axios.post("/verifyemail", {
                 code: credentials.code,
@@ -86,7 +78,6 @@ const actions = {
             }).then(response => {
                 context.commit('setToken', response.data.token)
                 resolve(response)
-<<<<<<< HEAD
             }).catch(error => {
                 context.commit('setToken', null)
                 reject(error)
@@ -131,12 +122,6 @@ const actions = {
                 resolve(response)
             })
                 .catch(error => {
-                    context.commit("", "")
-=======
-                console.log(response)
-            })
-                .catch(error => {
->>>>>>> a2a680f... mockAPIsetup
                     reject(error);
                 })
         })
