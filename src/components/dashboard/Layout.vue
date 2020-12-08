@@ -92,7 +92,7 @@ export default {
       {
         title: "Inventory",
         icon: "mdi-clipboard-text-outline",
-        routes: "inventory",
+        routes: "/inventory",
       },
       {
         title: "Leaderboard",

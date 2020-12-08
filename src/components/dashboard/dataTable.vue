@@ -6,10 +6,14 @@
         <!-- tables header -->
         <thead class="custom-thead">
           <tr>
+            <!-- header for each column -->
             <th v-for="(header, index) in headers" :key="index">
               <span class="with-checkbox">
                 <v-checkbox
                   v-show="index == 0 && select === true"
+                  v-model="selectAll"
+                  @click="selectRow"
+    
                   color="white"
                 ></v-checkbox>
                 <span>{{ header.text }}</span></span
@@ -29,35 +33,66 @@
                 </v-icon>
               </span>
             </th>
-            <th v-show="action === true">Action</th>
+            <!-- action header -->
+            <th v-if="action === true">Action</th>
           </tr>
         </thead>
         <!-- tables body -->
         <tbody class="custom-tbody">
-          <tr v-for="(item, index1) in sortedItems" :key="index1">
+          <!-- table row -->
+          <tr
+            v-for="(item, index1) in sortedItems"
+            :key="index1"
+            :class="{ selectedRow: selected.includes(`${item.id}`) }"
+          >
+            <!-- columns -->
             <td v-for="(header, index2) in headers" :key="index2">
               <span class="with-checkbox">
                 <v-checkbox
-                  v-show="index2 == 0 && select === true"
+                  v-if="index2 == 0 && select === true"
+                  :value="item.id"
+                  v-model="selected"
+                  @click="emitSelectedRow"
                 ></v-checkbox>
-                <span>{{ item[`${header.value}`] }}</span></span
+                <!-- shows if the content is an image -->
+                <img
+                  src="@/assets/img/laptop.png"
+                  v-if="header.image === true"
+                  alt="Product Image"
+                  style="width: 150px; height: 120px"
+                />
+                <!-- shows if the content is a text -->
+                <span
+                  v-if="header.image !== true"
+                  :class="{ productLink: header.href === true }"
+                  >{{ item[`${header.value}`] }}</span
+                ></span
               >
             </td>
-            <td>
-              <span>
+
+            <!-- action column-->
+            <td v-if="action === true">
+              <span v-show="action === true">
+                <!-- edit btn -->
                 <span
-                  ><v-icon class="primary--text action-btn"
+                  ><v-icon
+                    class="primary--text action-btn"
+                    @click="editRow(item.id)"
                     >mdi-pencil</v-icon
                   ></span
                 >
+                <!--  -->
                 <span
                   ><v-icon class="error--text action-btn"
                     >mdi-cancel</v-icon
                   ></span
                 >
+                <!-- delete btn -->
                 <span
-                  ><v-icon class="error--text action-btn"
-                    @click="dialog = true">mdi-trash-can-outline</v-icon
+                  ><v-icon
+                    class="error--text action-btn"
+                    @click="deleteRow(item.id)"
+                    >mdi-trash-can-outline</v-icon
                   ></span
                 ></span
               >
@@ -77,49 +112,15 @@
         ></v-pagination>
       </div>
     </div>
-
-    <!-- modal -->
-    <modal :dialog="dialog" width="470">
-      <div class="white pa-3 pb-10 dialog">
-        <div class="d-flex justify-end">
-          <v-icon class="error--text close-btn" @click="dialog = false"
-            >mdi-close</v-icon
-          >
-        </div>
-
-        <p>Are you sure you want to delete this team member?</p>
-
-        <div class="d-flex align-center">
-          <div>
-          <v-img
-          class=""
-            style="width: 50px; height: 50px; border-radius: 50%; margin-right:10px"
-            src="@/assets/img/user-profile.svg"
-          >
-          </v-img>
-          </div>
-          <p class="grey--text title mb-0">Abdulazeez Abdulazeez</p>
-        </div>
-        <p class="mt-5">All associated data will also be deleted!</p>
-        <p class="error--text">Are you sure? There is no undo.</p>
-
-        <!-- btns -->
-        <div class="d-flex justify-space-between flex-wrap">
-          <v-btn  class="error py-5 mb-3 mb-sm-0">Yes, delete this member</v-btn>
-          <v-btn color="#F6F7FD" class="primary--text py-5">No, keep this member</v-btn>
-        </div>
-        <div></div>
-      </div>
-    </modal>
   </div>
 </template>
 <script>
-import modal from "@/components/dashboard/modal.vue";
 export default {
   name: "dataTable",
-  components: { modal },
   data: function () {
     return {
+      selected: [],
+      selectAll: false,
       dialog: false,
       page: 1,
       currentSort: "",
@@ -127,7 +128,7 @@ export default {
       paginationLength: 4,
     };
   },
-  props: ["items", "headers", "action", "select"],
+  props: ["items", "headers", "action", "select", "actions"],
   computed: {
     // return sorted data
     sortedItems: function () {
@@ -154,6 +155,31 @@ export default {
       this.modifier = -1;
       this.currentSort = col;
     },
+    selectRow() {
+      this.selected = [];
+      if (this.selectAll) {
+        for (let i in this.items) {
+          this.selected.push(this.items[i].id);
+        }
+      }
+      this.emitSelectedRow();
+    },
+    emitSelectedRow(){
+      //console.log(this.selected)
+      this.$emit("selectedRow", this.selected);
+    },
+    // handles the request to delete a row
+    deleteRow(itemId) {
+      //console.log(itemId)
+      this.actions.deleteId = itemId;
+      //console.log(this.actions)
+      this.$emit("requestedAction", this.actions);
+    },
+    // handles the request to edit a row
+    editRow(itemId) {
+      this.actions.editId = itemId;
+      this.$emit("requestedAction", this.actions);
+    },
   },
 };
 </script>
@@ -171,14 +197,15 @@ export default {
         background: #5064cc;
         display: flex;
         align-items: center;
-        max-height: 45px;
+        min-height: 45px;
         th {
-          min-width: 270px;
+          width: 250px;
           color: #ffffff;
           font-size: 15px;
           text-align: left;
           padding: 0px 5px 0px 10px;
-          height: 45px;
+          min-height: 45px;
+          max-height: 45px;
           display: flex;
           align-items: center;
           border-right: 0.5px solid white;
@@ -205,19 +232,20 @@ export default {
     .custom-tbody {
       tr {
         background: #ffffff;
+        border-bottom: 0.5px solid #e2e2e2;
         &:hover {
           background: #f9f9f9;
         }
         td {
           color: #979797;
           font-weight: normal;
-          min-width: 270px;
+          min-width: 250px;
           text-align: left;
           padding: 0px 5px 0px 10px;
-          height: 45px;
+          min-height: 45px;
           display: flex;
+          flex-wrap: wrap;
           align-items: center;
-          border-right: 0.5px solid white;
           justify-content: space-between;
           .action-btn {
             margin-right: 12px;
@@ -228,10 +256,18 @@ export default {
           }
         }
       }
+      .selectedRow {
+        background: #f9f9f9;
+      }
     }
   }
 }
 .pagination {
   max-width: 500px;
+}
+.productLink {
+  color: #5064cc;
+  text-decoration: underline;
+  cursor: pointer;
 }
 </style>

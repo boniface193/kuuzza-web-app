@@ -10,16 +10,21 @@
         <div class="d-flex align-center flex-wrap">
           <v-icon class="primary--text mr-2 mb-5 mb-sm-0">mdi-upload</v-icon>
           <v-icon class="primary--text mr-2 mb-5 mb-sm-0">mdi-sort</v-icon>
-          <searchBar placeholder="Search representative" @search="getSearchValue"/>
+          <searchBar
+            placeholder="Search representative"
+            @search="getSearchValue"
+          />
         </div>
       </div>
 
       <!-- table  -->
       <dataTable
         :action="true"
+        :actions="actions"
         :select="true"
-        :headers="headers"
-        :items="items"
+        :headers="tableHeaders"
+        :items="tableItems"
+        @requestedAction="setRequestedAction"
       />
     </div>
 
@@ -70,10 +75,10 @@
     </div>
 
     <!-- modal for dialog messages -->
-    <modal :dialog="dialog" width="400">
+    <modal :dialog="dialog1" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
         <div class="d-flex justify-end">
-          <v-icon class="error--text close-btn" @click="dialog = false"
+          <v-icon class="error--text close-btn" @click="dialog1 = false"
             >mdi-close</v-icon
           >
         </div>
@@ -83,6 +88,47 @@
         </div>
 
         <h4>{{ dialogMessage }}</h4>
+      </div>
+    </modal>
+
+    <!-- delete modal -->
+    <modal :dialog="dialog2" width="470">
+      <div class="white pa-3 pb-10 dialog">
+        <div class="d-flex justify-end">
+          <v-icon class="error--text close-btn" @click="closeDialog2"
+            >mdi-close</v-icon
+          >
+        </div>
+
+        <p>Are you sure you want to delete this team member?</p>
+
+        <div class="d-flex align-center">
+          <div>
+            <v-img
+              class=""
+              style="
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                margin-right: 10px;
+              "
+              src="@/assets/img/user-profile.svg"
+            >
+            </v-img>
+          </div>
+          <p class="grey--text title mb-0">{{ salesRepresentative }}</p>
+        </div>
+        <p class="mt-5">All associated data will also be deleted!</p>
+        <p class="error--text">Are you sure? There is no undo.</p>
+
+        <!-- btns -->
+        <div class="d-flex justify-space-between flex-wrap">
+          <v-btn class="error py-5 mb-3 mb-sm-0">Yes, delete this member</v-btn>
+          <v-btn color="#F6F7FD" class="primary--text py-5" @click="closeDialog2"
+            >No, keep this member</v-btn
+          >
+        </div>
+        <div></div>
       </div>
     </modal>
   </div>
@@ -96,11 +142,13 @@ export default {
   components: { searchBar, modal, dataTable },
   data: function () {
     return {
+      salesRepresentative:"",
       searchValue: "",
       email: "",
       role: "",
       invitePage: false,
-      dialog: false,
+      dialog1: false,
+      dialog2: false,
       dialogMessage: "",
       roles: ["Super admin", "Admin"],
       emailRules: [
@@ -109,75 +157,91 @@ export default {
         (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
       ],
       roleRules: [(v) => !!v || "Role is required"],
-      headers: [
+      actions: {
+        deleteId: null,
+        editId: null,
+      },
+      tableHeaders: [
         {
           text: "Name",
           sortable: true,
           value: "name",
         },
-        { text: "Role", value: "role" },
+        { text: "Role", value: "role"},
         { text: "Status", value: "status" },
       ],
-      items: [
+      tableItems: [
         {
           name: "Ayotunde Lanwo",
           role: "Sales Representative",
           status: "Active",
+          id: "jnu239"
         },
         {
           name: "Abdulazeez Abdulazeez",
           role: "Sales Representative",
           status: "Not Active",
+          id: "wqubqwd2"
         },
         {
           name: "Ayotunde Lanwo",
           role: "Sales Representative",
           status: "Active",
+          id: "wuwq72"
         },
         {
           name: "Ayotunde Lanwo",
           role: "Sales Representative",
           status: "Active",
+          id: "dwqw2o"
         },
         {
           name: "Abdulazeez Abdulazeez",
           role: "Sales Representative",
           status: "Not Active",
+          id: "w22wuw"
         },
         {
           name: "Ayotunde Lanwo",
           role: "Super",
           status: "Active",
+          id: "72gh2j"
         },
         {
           name: "Ayotunde Lanwo",
           role: "Super",
           status: "Active",
+          id: "87u2bn2"
         },
         {
           name: "Abdulazeez Abdulazeez",
           role: "Sales Representative",
           status: "Active",
+          id: "jnw788"
         },
         {
           name: "Ayotunde Lanwo",
           role: "Super",
           status: "Active",
+          id: "9jenk"
         },
         {
           name: "Ayotunde Lanwo",
           role: "Sales Representative",
           status: "Active",
+          id: "k092w"
         },
         {
           name: "Abdulazeez Abdulazeez",
           role: "Sales Representative",
           status: "Active",
+          id: "jsknksd212"
         },
         {
           name: "Ayotunde Lanwo",
           role: "Sales Representative",
           status: "Not Active",
+          id: "bhjbjhbd803"
         },
       ],
     };
@@ -186,12 +250,29 @@ export default {
     submitRepresentative() {
       this.$refs.form.validate();
       if (this.$refs.form.validate()) {
-        this.dialog = true;
+        this.dialog1 = true;
         this.dialogMessage = `An invite have been sent to ${this.email}`;
       }
     },
     getSearchValue(params) {
-      this.searchValue = params
+      this.searchValue = params;
+    },
+    setRequestedAction(params) {
+        this.actions = params
+        if (this.actions.editId !== null){
+            const item = this.tableItems.find(x => x.id === `${this.actions.editId}`)
+            this.dialog2 = true
+            this.salesRepresentative = item.name
+        } else if(this.actions.deleteId !== null) {
+            const item = this.tableItems.find(x => x.id === `${this.actions.deleteId}`)
+            this.dialog2 = true
+            this.salesRepresentative = item.name
+        }
+    },
+    // close the dialog that shows up when you want to delete a row
+    closeDialog2() {
+        this.dialog2 = false
+        this.actions.deleteId = null;
     }
   },
 };
