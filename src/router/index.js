@@ -16,7 +16,13 @@ import privacyDetails from "@/components/dashboard/privacyDetails.vue";
 import logout from "@/components/dashboard/logout.vue";
 import emailVerification from "@/components/onboarding/emailVerification.vue";
 import forgotPasswordVerification from "@/components/onboarding/forgotPasswordVerification.vue";
+<<<<<<< HEAD
 import Leaderboard from "../views/dashboard/leaderboard.vue";
+=======
+import history from "@/components/dashboard/history.vue";
+import inventoryPage from "@/components/dashboard/inventoryPage.vue";
+import addProduct from "@/components/dashboard/addProduct.vue";
+>>>>>>> f32fdb63bb06f3b746ac0299578a716c4896fa76
 
 Vue.use(VueRouter);
 
@@ -31,8 +37,24 @@ const routes = [
       },
       {
         path: "/inventory",
-        name: "inventory",
-        component: Inventory
+        component: Inventory,
+        children: [
+          {
+            path: "",
+            name: "inventoryPage",
+            component: inventoryPage
+          },
+          {
+            path: "history",
+            name: "history",
+            component: history
+          },
+          {
+            path: "addproduct",
+            name: "addProduct",
+            component: addProduct
+          }
+        ]
       },
       {
         path: "/leaderboard",
