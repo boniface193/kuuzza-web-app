@@ -2,7 +2,12 @@
   <v-container>
     <div class="mx-lg-12 mx-md-5 mx-sm-5 my-8">
       <!-- page title -->
-      <filter-By-Date class="float-right" />
+      <v-img
+        src="../../assets/download.svg"
+        width="16"
+        height="15"
+        class="float-right"
+      ></v-img>
       <h1 class="heading--text">Leaders Board</h1>
 
       <div class="settings-container mt-7 white">
@@ -11,18 +16,27 @@
           <!-- nav link -->
           <router-link
             class="nav-item"
-            :class="{ 'nav-item--active': this.$route.name == 'leaderStore' }"
-            :to="{ name: 'leaderStore' }"
-            >Store</router-link
+            :class="{ 'nav-item--active': this.$route.name == 'all' }"
+            :to="{ name: 'all' }"
+            >All</router-link
           >
           <!-- nav link -->
           <router-link
             class="nav-item"
             :class="{
-              'nav-item--active': this.$route.name == 'leaderGlobal',
+              'nav-item--active': this.$route.name == 'new',
             }"
-            :to="{ name: 'leaderGlobal' }"
-            >Nationwide</router-link
+            :to="{ name: 'new' }"
+            >New</router-link
+          >
+          <!-- nav link -->
+          <router-link
+            class="nav-item"
+            :class="{
+              'nav-item--active': this.$route.name == 'returning',
+            }"
+            :to="{ name: 'returning' }"
+            >Returning</router-link
           >
           <v-spacer></v-spacer>
 
@@ -38,11 +52,9 @@
   </v-container>
 </template>
 <script>
-import filterByDate from "@/components/dashboard/calender.vue";
 import searchBar from "@/components/dashboard/searchBar.vue";
 export default {
   components: {
-    filterByDate,
     searchBar,
   },
 

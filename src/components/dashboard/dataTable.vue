@@ -189,7 +189,7 @@ export default {
   overflow-x: auto;
   overflow-y: hidden;
   .custom-table {
-    max-width: 100%;
+    width: 100%;
     .custom-thead,
     .custom-tbody {
       tr {
