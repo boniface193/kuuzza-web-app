@@ -12,7 +12,7 @@ export default new Vuetify({
             heading: '#2B2B2B',
             error: '#E62222',
             success: '#00B944',
-            accent: '#52F1EC'
+            accent: '#52F1EC',
           },
         },
     },

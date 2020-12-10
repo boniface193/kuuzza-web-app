@@ -56,7 +56,7 @@ const actions = {
         })
     },
     // verify email address 
-    verifyEmail: (credentials) => {
+    verifyEmail: (credentials, context) => {
         return new Promise((resolve, reject) => {
             axios.post("/verifyemail", {
                 code: credentials.code,
@@ -122,7 +122,9 @@ const actions = {
                 resolve(response)
             })
                 .catch(error => {
+                    context.commit("", "");
                     reject(error);
+
                 })
         })
     }

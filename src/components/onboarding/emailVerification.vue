@@ -50,8 +50,8 @@
         <div class="mb-7 mt-5 mx-auto status-img">
           <v-img src="@/assets/img/success-img.svg"></v-img>
         </div>
-        <h3>Email Verified!</h3>
-        <p class="my-3">You have successfully verified your email address.</p>
+        <h3>Account Verified!</h3>
+        <p class="my-3">You have successfully verified your Account.</p>
 
         <v-btn
           class="primary mx-auto py-5 px-8"
