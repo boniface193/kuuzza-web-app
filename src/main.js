@@ -6,7 +6,7 @@ import vuetify from "./plugins/vuetify";
 import Chartkick from 'vue-chartkick'
 import Chart from 'chart.js'
 // mock server 
-import { onboardServer } from '@/server/onboarding'
+import { onboardServer } from './server/onboarding.js'
 
 import VMdDateRangePicker from "@ikechukwu_boniface/vmddaterangepicker";
 
@@ -16,12 +16,9 @@ Vue.use(Chartkick.use(Chart))
 
 Vue.config.productionTip = false;
 
-if (process.env.NODE_ENV === "development") {
-  onboardServer;
-}
-
 new Vue({
   router,
+  onboardServer,
   store,
   vuetify,
   render: h => h(App)

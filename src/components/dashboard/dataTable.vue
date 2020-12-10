@@ -13,7 +13,6 @@
                   v-show="index == 0 && select === true"
                   v-model="selectAll"
                   @click="selectRow"
-    
                   color="white"
                 ></v-checkbox>
                 <span>{{ header.text }}</span></span
@@ -164,7 +163,7 @@ export default {
       }
       this.emitSelectedRow();
     },
-    emitSelectedRow(){
+    emitSelectedRow() {
       //console.log(this.selected)
       this.$emit("selectedRow", this.selected);
     },
@@ -190,7 +189,7 @@ export default {
   overflow-x: auto;
   overflow-y: hidden;
   .custom-table {
-    max-width: 100%;
+    width: 100%;
     .custom-thead,
     .custom-tbody {
       tr {
