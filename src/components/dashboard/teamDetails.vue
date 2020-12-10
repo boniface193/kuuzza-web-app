@@ -31,7 +31,7 @@
     <!-- invite members -->
     <div class="invite-body px-4" v-show="invitePage === true">
       <!-- return button -->
-      <h4 @click="invitePage = false" class="d-flex align-center return-btn">
+      <h4 @click="invitePage = false" class="d-flex align-center return-btn" style="width: 160px">
         <v-icon color="rgba(0, 0, 0, 0.87)">mdi-chevron-left</v-icon>Return to
         Team
       </h4>

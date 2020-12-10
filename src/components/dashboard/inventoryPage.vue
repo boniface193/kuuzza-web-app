@@ -25,7 +25,7 @@
     </div>
     <!-- table  -->
     <dataTable
-      :action="true"
+      :action="false"
       :actions="actions"
       :select="true"
       :headers="tableHeaders"
