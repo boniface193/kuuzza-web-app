@@ -12,7 +12,7 @@
     <div
       class="fileUploader"
       :style="{ width: width, height: height }"
-      :class="{ focus: dialog === true, errorStatus: numberOfImage == 0 }"
+      :class="{ focus: dialog === true, errorStatus: inputError }"
       @click="openImageModal"
     >
       <div
@@ -91,6 +91,7 @@ export default {
       dialog: false,
       imageNames: [],
       numberOfImage: 0,
+      inputError: false
     };
   },
   methods: {
@@ -108,7 +109,11 @@ export default {
       const files = event.target.files;
       this.imageNames = files;
       this.numberOfImage = this.imageNames.length;
-      console.log(this.imageNames)
+      if(this.numberOfImage == 0){
+        this.inputError = true;
+      }else {
+        this.inputError = false;
+      }
       this.$emit("images", this.imageNames);
     },
   },
