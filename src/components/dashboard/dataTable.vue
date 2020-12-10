@@ -269,4 +269,8 @@ export default {
   text-decoration: underline;
   cursor: pointer;
 }
+
+::-webkit-scrollbar {
+  width: 5px;
+}
 </style>
