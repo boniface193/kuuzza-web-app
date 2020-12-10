@@ -4,7 +4,12 @@
       <v-card elevation="0" class="py-3">
         <div>
           <!-- table  -->
-          <dataTable :headers="headers" :items="items" />
+          <dataTable
+            class="mr-0"
+            :headers="headers"
+            :items="items"
+            :select="true"
+          />
         </div>
       </v-card>
     </div>
@@ -21,87 +26,97 @@ export default {
     return {
       headers: [
         {
-          text: "Rank",
+          text: "Sellers Name",
           sortable: true,
-          value: "",
+          value: "name",
+          href: true,
         },
-        { text: "Team Member", value: "name", href: true },
-        { text: "Total Points", value: "totalPoint" },
+        { text: "Total Points", value: "totalOrder" },
         { text: "Total Value of Orders(₦)", value: "totalValue" },
       ],
 
       items: [
         {
           name: "Ayotunde Lanwo",
-          role: "Sales Representative",
-          totalPoint: 4000,
+          totalOrder: 4,
           totalValue: 300000,
+          id: "hr01",
+          route: "/seller/sellersCard",
         },
         {
           name: "Abdulazeez Abdulazeez",
-          role: "Sales Representative",
-          totalPoint: 4999,
+          totalOrder: 4,
           totalValue: 299999,
+          id: "hr02",
         },
         {
           name: "Ayotunde Lanwo",
-          role: "Sales Representative",
-          totalPoint: 3799,
+          totalOrder: 3,
           totalValue: 199999,
+          id: "hr03",
         },
         {
           name: "Ayotunde Lanwo",
-          role: "Sales Representative",
-          totalPoint: 3999,
+
+          totalOrder: 3,
           totalValue: 209000,
+          id: "hr04",
         },
         {
           name: "Abdulazeez Abdulazeez",
-          role: "Sales Representative",
-          totalPoint: 2999,
+
+          totalOrder: 2,
           totalValue: 203000,
+          id: "hr05",
         },
         {
           name: "Ayotunde Lanwo",
-          role: "Super",
-          totalPoint: 1999,
+
+          totalOrder: 6,
           totalValue: 100000,
+          id: "hr06",
         },
         {
           name: "Ayotunde Lanwo",
-          role: "Super",
-          totalPoint: 5000,
+
+          totalOrder: 5,
           totalValue: 190000,
+          id: "hr07",
         },
         {
           name: "Abdulazeez Abdulazeez",
-          role: "Sales Representative",
-          totalPoint: 4999,
+
+          totalOrder: 7,
           totalValue: 190000,
+          id: "hr08",
         },
         {
           name: "Ayotunde Lanwo",
-          role: "Super",
-          totalPoint: 3999,
+
+          totalOrder: 3,
           totalValue: 180000,
+          id: "hr09",
         },
         {
           name: "Ayotunde Lanwo",
-          role: "Sales Representative",
-          totalPoint: 2999,
+
+          totalOrder: 2,
           totalValue: 200000,
+          id: "hr10",
         },
         {
           name: "Abdulazeez Abdulazeez",
-          role: "Sales Representative",
-          totalPoint: 3999,
+
+          totalOrder: 3,
           totalValue: 14300,
+          id: "hr11",
         },
         {
           name: "Ayotunde Lanwo",
-          role: "Sales Representative",
-          totalPoint: 2000,
+
+          totalOrder: 2,
           totalValue: 198000,
+          id: "hr12",
         },
       ],
     };
