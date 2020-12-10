@@ -7,7 +7,7 @@
         <thead class="custom-thead">
           <tr>
             <!-- header for each column -->
-            <th v-for="(header, index) in headers" :key="index">
+            <th v-for="(header, index) in headers" :key="index" :style="{'min-width': header.width}">
               <span class="with-checkbox">
                 <v-checkbox
                   v-show="index == 0 && select === true"
@@ -40,12 +40,12 @@
         <tbody class="custom-tbody">
           <!-- table row -->
           <tr
-            v-for="(item, index1) in sortedItems"
-            :key="index1"
+            v-for="(item) in sortedItems"
+            :key="item.id"
             :class="{ selectedRow: selected.includes(`${item.id}`) }"
           >
             <!-- columns -->
-            <td v-for="(header, index2) in headers" :key="index2">
+            <td v-for="(header, index2) in headers" :key="index2" :style="{'min-width': header.width}">
               <span class="with-checkbox">
                 <v-checkbox
                   v-if="index2 == 0 && select === true"
@@ -198,11 +198,11 @@ export default {
         align-items: center;
         min-height: 45px;
         th {
-          width: 250px;
           color: #ffffff;
           font-size: 15px;
           text-align: left;
           padding: 0px 5px 0px 10px;
+          min-width: 250px;
           min-height: 45px;
           max-height: 45px;
           display: flex;
@@ -238,10 +238,10 @@ export default {
         td {
           color: #979797;
           font-weight: normal;
-          min-width: 250px;
           text-align: left;
           padding: 0px 5px 0px 10px;
           min-height: 45px;
+          min-width: 250px;
           display: flex;
           flex-wrap: wrap;
           align-items: center;
