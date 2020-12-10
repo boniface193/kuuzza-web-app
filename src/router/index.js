@@ -80,22 +80,23 @@ const routes = [
         component: Sellers,
         children: [
           {
-            path: "",
+            path: "/",
             name: "all",
             component: allSeller
           },
           {
-            path: "",
+            path: "new",
             name: "new",
             component: newSeller
           },
           {
-            path: "",
+            path: "returning",
             name: "returning",
             component: returningSeller
           },
         ]
       },
+
       {
         path: "/settings",
         component: Settings,

@@ -9,7 +9,6 @@
             :headers="headers"
             :items="items"
             :select="true"
-            width="100%"
           />
         </div>
       </v-card>
@@ -30,6 +29,7 @@ export default {
           text: "Sellers Name",
           sortable: true,
           value: "name",
+          href: true,
         },
         { text: "Total Points", value: "totalOrder" },
         { text: "Total Value of Orders(₦)", value: "totalValue" },
@@ -38,21 +38,19 @@ export default {
       items: [
         {
           name: "Ayotunde Lanwo",
-
           totalOrder: 4,
           totalValue: 300000,
           id: "hr01",
+          route: "/seller/sellersCard",
         },
         {
           name: "Abdulazeez Abdulazeez",
-
           totalOrder: 4,
           totalValue: 299999,
           id: "hr02",
         },
         {
           name: "Ayotunde Lanwo",
-
           totalOrder: 3,
           totalValue: 199999,
           id: "hr03",

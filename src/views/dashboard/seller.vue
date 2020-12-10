@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div class="mx-lg-12 mx-md-5 mx-sm-5 my-8">
+    <div class="mx-lg-12 mx-md-5 mx-sm-5 my-8" v-if="true">
       <!-- page title -->
       <v-img
         src="../../assets/download.svg"
