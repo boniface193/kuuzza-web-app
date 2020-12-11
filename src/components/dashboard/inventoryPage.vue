@@ -14,8 +14,20 @@
       </div>
 
       <div class="d-flex align-center flex-wrap">
-        <v-icon class="primary--text mr-2 mb-5 mb-sm-0">mdi-upload</v-icon>
-        <v-icon class="primary--text mr-2 mb-5 mb-sm-0">mdi-sort</v-icon>
+        <!-- search btn -->
+        <span class="small-btn primary--text mr-2 mb-5 mb-sm-0"
+          ><img src="@/assets/img/search.svg" alt=""
+        /></span>
+        <!-- export btn -->
+        <span class="small-btn primary--text mr-2 mb-5 mb-sm-0"
+          ><img src="@/assets/img/upload2.svg" alt=""
+        /></span>
+        <!-- import btn -->
+        <router-link :to="{ name: 'productList' }">
+          <span class="small-btn primary--text mr-2 mb-5 mb-sm-0"
+            ><img src="@/assets/img/download.svg" alt=""
+          /></span>
+        </router-link>
         <router-link :to="{ name: 'addProduct' }">
           <v-btn class="primary py-6 px-4"
             ><span>+</span> Add New Product</v-btn
@@ -29,7 +41,7 @@
       :actions="actions"
       :select="true"
       :headers="tableHeaders"
-      :items="tableItems"
+      :items="inventories"
       @requestedAction="setRequestedAction"
       @selectedRow="rowSelected"
     />
@@ -83,6 +95,7 @@
 <script>
 import dataTable from "@/components/dashboard/dataTable.vue";
 import modal from "@/components/dashboard/modal.vue";
+import { mapGetters } from "vuex";
 export default {
   name: "inventoryPage",
   components: { dataTable, modal },
@@ -105,58 +118,22 @@ export default {
           sortable: true,
           value: "productName",
           href: true,
-          width: "300px"
+          routeName: "productDetails",
+          width: "300px",
         },
-        { text: "Image", value: "image", image: true, width: "200px"},
-        { text: "Category", value: "category", width: "200px"},
+        { text: "Image", value: "image", image: true, width: "200px" },
+        { text: "Category", value: "category", width: "200px" },
         { text: "SKU", value: "sku", width: "200px" },
         { text: "Price(N)", value: "price", width: "200px" },
         { text: "Commission(N)", value: "commission", width: "200px" },
         { text: "Quantity", value: "quantity", width: "100px" },
       ],
-      tableItems: [
-        {
-          productName: "Apple MacBook 2013 Pro Core i5",
-          image: "@assets/img/laptop.png",
-          category: "Phones & devices",
-          sku: "0000000000",
-          price: "250000",
-          commission: "1000",
-          quantity: 30,
-          id: "kjkwde98",
-        },
-        {
-          productName: "Apple MacBook 2013 Pro Core i5",
-          image: "@assets/img/laptop.png",
-          category: "Phones & devices",
-          sku: "0000000000",
-          price: "250000",
-          commission: "1000",
-          quantity: 30,
-          id: "njwa872",
-        },
-        {
-          productName: "Apple MacBook 2013 Pro Core i5",
-          image: "@assets/img/laptop.png",
-          category: "Phones & devices",
-          sku: "0000000000",
-          price: "250000",
-          commission: "1000",
-          quantity: 15,
-          id: "wswawa0",
-        },
-        {
-          productName: "Apple MacBook 2013 Pro Core i5",
-          image: "@assets/img/laptop.png",
-          category: "Phones & devices",
-          sku: "0000000000",
-          price: "250000",
-          commission: "1000",
-          quantity: 10,
-          id: "hjbwahyaw7",
-        },
-      ],
     };
+  },
+  computed: {
+    ...mapGetters({
+      inventories: "inventory/inventories",
+    }),
   },
   methods: {
     setRequestedAction(params) {
@@ -225,6 +202,19 @@ export default {
   span {
     font-size: 25px;
     margin-right: 7px;
+  }
+}
+.small-btn {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  text-align: center;
+  &:hover {
+    background-color: rgb(239, 245, 255);
   }
 }
 </style>
