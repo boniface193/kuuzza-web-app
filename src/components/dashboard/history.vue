@@ -15,13 +15,14 @@
       :actions="actions"
       :select="true"
       :headers="tableHeaders"
-      :items="tableItems"
+      :items="inventoriesHistory"
       @selectedRow="rowSelected"
     />
   </div>
 </template>
 <script>
 import dataTable from "@/components/dashboard/dataTable.vue";
+import {mapGetters} from "vuex";
 export default {
   name: "history",
   components: { dataTable },
@@ -47,59 +48,12 @@ export default {
         { text: "Time", value: "time", width: "200px" },
         { text: "Sales Representative", value:"salesRepresentative", width: "250px"}
       ],
-      tableItems: [
-        {
-          productName: "Apple MacBook 2013 Pro Core i5",
-          image: "@assets/img/laptop.png",
-          sku: "0000000000",
-          quantity: 30,
-          status: "Added",
-          time: "031220 8:05am",
-          salesRepresentative: "-", 
-          id: "kjkwde98",
-        },
-        {
-          productName: "Apple MacBook 2013 Pro Core i5",
-          image: "@assets/img/laptop.png",
-          sku: "0000000000",
-          quantity: 2,
-          status: "Sold",
-          time: "031120 8:05am",
-          salesRepresentative: "Abdulazeez", 
-          id: "kjk78hj98",
-        },
-        {
-          productName: "Apple MacBook 2013 Pro Core i5",
-          image: "@assets/img/laptop.png",
-          sku: "0000000230",
-          quantity: 30,
-          status: "Added",
-          time: "031220 8:05am",
-          salesRepresentative: "-", 
-          id: "ggyu278",
-        },
-        {
-          productName: "Apple MacBook 2013 Pro Core i5",
-          image: "@assets/img/laptop.png",
-          sku: "0000000000",
-          quantity: 30,
-          status: "Added",
-          time: "031220 8:05am",
-          salesRepresentative: "-", 
-          id: "87hjsa",
-        },
-        {
-          productName: "Apple MacBook 2013 Pro Core i5",
-          image: "@assets/img/laptop.png",
-          sku: "0000000000",
-          quantity: 1,
-          status: "Sold",
-          time: "031220 9:05am",
-          salesRepresentative: "Ayotunde Lanwo", 
-          id: "yuu223",
-        },
-      ],
     };
+  },
+  computed: {
+    ...mapGetters({
+      inventoriesHistory: "inventory/inventoriesHistory",
+    }),
   },
   methods: {
     rowSelected() {},

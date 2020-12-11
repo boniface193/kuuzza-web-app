@@ -7,7 +7,11 @@
         <thead class="custom-thead">
           <tr>
             <!-- header for each column -->
-            <th v-for="(header, index) in headers" :key="index" :style="{'min-width': header.width}">
+            <th
+              v-for="(header, index) in headers"
+              :key="index"
+              :style="{ 'min-width': header.width }"
+            >
               <span class="with-checkbox">
                 <v-checkbox
                   v-show="index == 0 && select === true"
@@ -40,12 +44,16 @@
         <tbody class="custom-tbody">
           <!-- table row -->
           <tr
-            v-for="(item) in sortedItems"
+            v-for="item in sortedItems"
             :key="item.id"
             :class="{ selectedRow: selected.includes(`${item.id}`) }"
           >
             <!-- columns -->
-            <td v-for="(header, index2) in headers" :key="index2" :style="{'min-width': header.width}">
+            <td
+              v-for="(header, index2) in headers"
+              :key="index2"
+              :style="{ 'min-width': header.width }"
+            >
               <span class="with-checkbox">
                 <v-checkbox
                   v-if="index2 == 0 && select === true"
@@ -60,12 +68,23 @@
                   alt="Product Image"
                   style="width: 150px; height: 120px"
                 />
-                <!-- shows if the content is a text -->
+                <!-- shows if the content is a text and not an image or link -->
                 <span
-                  v-if="header.image !== true"
-                  :class="{ productLink: header.href === true }"
-                  >{{ item[`${header.value}`] }}</span
-                ></span
+                  v-if="header.image !== true && header.href !== true"
+                  >{{ item[`${header.value}`] }}
+                </span>
+
+                <!-- shows if the content is a text and link but not an image -->
+                <span v-if="header.image !== true && header.href === true">
+                  <router-link
+                    :to="{
+                      name: header.routeName,
+                      params: { id: item.id }
+                    }"
+                    class="productLink"
+                    >{{ item[`${header.value}`]}}</router-link
+                  >
+                </span></span
               >
             </td>
 
@@ -268,9 +287,5 @@ export default {
   color: #5064cc;
   text-decoration: underline;
   cursor: pointer;
-}
-
-::-webkit-scrollbar {
-  width: 5px;
 }
 </style>

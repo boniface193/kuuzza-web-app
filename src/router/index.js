@@ -20,6 +20,8 @@ import Leaderboard from "../views/dashboard/leaderboard.vue";
 import history from "@/components/dashboard/history.vue";
 import inventoryPage from "@/components/dashboard/inventoryPage.vue";
 import addProduct from "@/components/dashboard/addProduct.vue";
+import productDetails from "@/components/dashboard/productDetails.vue";
+import productList from "@/components/dashboard/productList.vue";
 import leaderStore from "@/components/dashboard/leaderStore.vue";
 import leaderGlobal from "@/components/dashboard/leaderGlobal.vue";
 import Sellers from "../views/dashboard/seller.vue";
@@ -53,9 +55,20 @@ const routes = [
             component: history
           },
           {
-            path: "addproduct",
+            path: "add-product",
             name: "addProduct",
             component: addProduct
+          },
+          {
+            path: "product-details/:id",
+            name: "productDetails",
+            component: productDetails,
+            props: true
+          },
+          {
+            path: "import-product-list",
+            name: "productList",
+            component: productList
           }
         ]
       },
