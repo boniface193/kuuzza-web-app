@@ -102,7 +102,7 @@ export default {
       {
         title: "Orders",
         icon: "mdi-shopping",
-        routes: "/order",
+        routes: "/orders",
       },
       {
         title: "Customers",

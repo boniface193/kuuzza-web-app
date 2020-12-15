@@ -5,34 +5,50 @@
       <h1>Inventory</h1>
       <router-link :to="{ name: 'history' }">History</router-link>
     </div>
-    <div class="d-flex justify-space-between align-center mt-8 mb-3">
-      <div class="select-item">
+    <div class="d-flex justify-space-between align-center mt-8 mb-1 flex-wrap">
+      <div class="select-item mr-8 mb-2">
         <select v-model="selected">
-          <option value="">Items in stock</option>
-          <option value="">Items out of stock</option>
+          <option value="">Actions</option>
+          <option value="">Delete items</option>
+          <option value="">Take items offline</option>
         </select>
       </div>
 
-      <div class="d-flex align-center flex-wrap">
-        <!-- search btn -->
-        <span class="small-btn primary--text mr-2 mb-5 mb-sm-0"
-          ><img src="@/assets/img/search.svg" alt=""
-        /></span>
-        <!-- export btn -->
-        <span class="small-btn primary--text mr-2 mb-5 mb-sm-0"
-          ><img src="@/assets/img/upload2.svg" alt=""
-        /></span>
-        <!-- import btn -->
-        <router-link :to="{ name: 'productList' }">
-          <span class="small-btn primary--text mr-2 mb-5 mb-sm-0"
-            ><img src="@/assets/img/download.svg" alt=""
+      <div class="d-flex align-center flex-wrap tool-container justify-space-between">
+        <!-- search bar -->
+        <searchBar
+          placeholder="Search inventory"
+          @search="getSearchValue"
+          bgColor="white"
+          borderColor=" #e2e2e2"
+          class="mr-2 mb-2 search-bar"
+        />
+        <div class="d-flex align-center flex-wrap justify-space-between mb-2 ">
+          <!-- filter -->
+          <basicFilter
+            class="mr-2"
+            :price="filterParameters.price"
+            :commission="filterParameters.commission"
+            :quantity="filterParameters.quantity"
+            :category="filterParameters.category"
+            :stock="filterParameters.stock"
+          />
+          <!-- export btn -->
+          <span class="small-btn primary--text mr-2"
+            ><img src="@/assets/img/upload2.svg" alt=""
           /></span>
-        </router-link>
-        <router-link :to="{ name: 'addProduct' }">
-          <v-btn class="primary py-6 px-4"
-            ><span>+</span> Add New Product</v-btn
-          >
-        </router-link>
+          <!-- import btn -->
+          <router-link :to="{ name: 'productList' }">
+            <span class="small-btn primary--text mr-2"
+              ><img src="@/assets/img/download.svg" alt=""
+            /></span>
+          </router-link>
+          <router-link :to="{ name: 'addProduct' }">
+            <v-btn class="primary py-6 px-4"
+              ><span>+</span> Add New Product</v-btn
+            >
+          </router-link>
+        </div>
       </div>
     </div>
     <!-- table  -->
@@ -95,15 +111,18 @@
 <script>
 import dataTable from "@/components/dashboard/dataTable.vue";
 import modal from "@/components/dashboard/modal.vue";
+import searchBar from "@/components/dashboard/searchBar.vue";
+import basicFilter from "@/components/dashboard/basicFilter";
 import { mapGetters } from "vuex";
 export default {
   name: "inventoryPage",
-  components: { dataTable, modal },
+  components: { dataTable, modal, searchBar, basicFilter },
   data: function () {
     return {
       items: ["Items in stock", "Items out of stock"],
       item: "Items in stock",
       dialog1: false,
+      searchValue: "",
       inventoryName: "",
       selected: "",
       selectedRow: [],
@@ -111,6 +130,13 @@ export default {
         deleteId: null,
         editId: null,
         selectedId: [],
+      },
+      filterParameters: {
+        price: true,
+        commission: true,
+        quantity: true,
+        category: true,
+        stock: true,
       },
       tableHeaders: [
         {
@@ -160,6 +186,9 @@ export default {
     rowSelected(params) {
       this.selectedRow = params;
       //console.log(this.selectedRow)
+    },
+    getSearchValue(params) {
+      this.searchValue = params;
     },
   },
 };
@@ -215,6 +244,12 @@ export default {
   text-align: center;
   &:hover {
     background-color: rgb(239, 245, 255);
+  }
+}
+@media (max-width: 953px) {
+  .tool-container{
+    width: 100%;
+    justify-content: space-between;
   }
 }
 </style>

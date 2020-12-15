@@ -127,10 +127,10 @@ export default {
       //let user_info = this.$store.getters["admin/user_info"];
       let storeName = "Mariam super store";
       let storeLocation = "Ikeja Lagos Nigeria";
-      let storeNum = "0901234986";
+      let storeNum = "null";
       let currentStoreName = "Mariam super store";
       let currentStoreLocation = "Ikeja Lagos Nigeria";
-      let currentStoreNum = "0901234986";
+      let currentStoreNum = "null";
 
       return {
         storeName: storeName,

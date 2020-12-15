@@ -91,7 +91,7 @@ export default {
   padding: 0px 12px;
   outline: none;
   position: relative;
-  z-index: 10;
+  z-index: 5;
   &:hover {
     border-color: rgba(0, 0, 0, 0.87);
   }

@@ -3,17 +3,8 @@
     <router-view />
   </div>
 </template>
-
 <script>
 export default {
-  name: "Inventory",
-  created: {
-    getInventoryDatas(){
-      
-    }
-  }
-};
+    name: "Orders"
+}
 </script>
-
-<style>
-</style>

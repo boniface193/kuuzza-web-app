@@ -120,7 +120,7 @@
       </table>
     </div>
     <!-- pagination -->
-    <div class="d-flex justify-space-between px-4 align-center">
+    <div class="d-flex justify-space-between px-4 align-center flex-wrap">
       <p>Page {{ page }} of {{ paginationLength }}</p>
       <div class="pagination">
         <v-pagination
@@ -143,7 +143,7 @@ export default {
       page: 1,
       currentSort: "",
       modifier: 1,
-      paginationLength: 4,
+      paginationLength: 100,
     };
   },
   props: ["items", "headers", "action", "select", "actions"],
@@ -287,5 +287,10 @@ export default {
   color: #5064cc;
   text-decoration: underline;
   cursor: pointer;
+}
+@media (max-width: 650px) {
+  .pagination {
+  max-width: 100%;
+}
 }
 </style>
