@@ -1,0 +1,95 @@
+<template>
+  <v-row class="mb-5">
+    <v-col class="col-12 col-md-6 pr-3">
+      <div style="width: 170px">
+        <!-- back to Inventory -->
+        <router-link :to="{ name: 'Orders' }" class="no-decoration">
+          <h3 class="d-flex align-center return-btn my-3">
+            <v-icon color="#2B2B2B">mdi-chevron-left</v-icon>Orders
+          </h3>
+        </router-link>
+      </div>
+
+      <div class="pl-2 mt-8">
+        <!-- Order number -->
+        <h2>Order {{ orderDetails.orderNumber }}</h2>
+
+        <!-- product name -->
+        <p class="mt-2 mb-3">
+          <span class="item-title">Product Name: </span
+          ><span class="secondary--text">{{ orderDetails.productName }}</span>
+        </p>
+        <!-- product SKU -->
+        <p class="mt-2 mb-3">
+          <span class="item-title">SKU: </span
+          ><span class="secondary--text">{{ orderDetails.sku }}</span>
+        </p>
+        <!-- payment status -->
+        <p class="mt-2 mb-3">
+          <span class="item-title">Payment Status: </span
+          ><span class="secondary--text">{{ orderDetails.payment }}</span>
+        </p>
+        <!-- Delivery status -->
+        <p class="mt-2 mb-3">
+          <span class="item-title">Delivery Status: </span
+          ><span class="secondary--text">{{ orderDetails.delivery }}</span>
+        </p>
+
+        <!-- Seller Details -->
+        <p class="mt-8 mb-3">
+          <span class="item-title">Seller Details: </span>
+        </p>
+        <p class="secondary--text">
+          Emike Mba<br />emikemba@gmail.com<br />08012383928
+        </p>
+
+        <!-- Customer Details -->
+        <p class="mt-8 mb-3">
+          <span class="item-title">Customer Details: </span>
+        </p>
+        <p class="secondary--text">
+          Emike Mba<br />emikemba@gmail.com<br />08012383928<br />
+        </p>
+        <hr class="secondary--text" style="width: 300px" />
+
+        <!-- Delivery address -->
+        <p class="mt-8 mb-3">
+          <span class="item-title">Delivery Address: </span>
+        </p>
+        <p class="secondary--text">
+            129 Ademola Adetokunbo Crescent Wuse 2 FCT Abuja 900288 Nigeria
+        </p>
+      </div>
+    </v-col>
+    <v-col class="col-12 col-md-6 white d-flex align-center text-center">
+      <img src="@/assets/img/infinix.png" style="width: 80%; margin: auto" />
+    </v-col>
+  </v-row>
+</template>
+<script>
+export default {
+  name: "orderDetails",
+  computed: {
+    orderDetails() {
+      return this.$store.getters["orders/getOrderDetails"](
+        this.$route.params.id
+      );
+    },
+  },
+};
+</script>
+<style lang="scss" scoped>
+.no-decoration {
+  text-decoration: none;
+}
+.return-btn {
+  cursor: pointer;
+  color: #2b2b2b;
+  .v-icon {
+    margin-right: 15px;
+  }
+}
+.item-title {
+  font-weight: bold;
+}
+</style>

@@ -28,6 +28,9 @@ import Sellers from "../views/dashboard/seller.vue";
 import allSeller from "@/components/dashboard/allSeller.vue";
 import newSeller from "@/components/dashboard/newSeller.vue";
 import returningSeller from "@/components/dashboard/returningSeller.vue";
+import Orders from "@/views/dashboard/Orders.vue";
+import ordersPage from "@/components/dashboard/ordersPage.vue";
+import orderDetails from "@/components/dashboard/orderDetails"; 
 
 Vue.use(VueRouter);
 
@@ -40,7 +43,7 @@ const routes = [
         name: "dashboard",
         component: Dashboard
       },
-      {
+      {  
         path: "/inventory",
         component: Inventory,
         children: [
@@ -60,7 +63,7 @@ const routes = [
             component: addProduct
           },
           {
-            path: "product-details/:id",
+            path: ":id",
             name: "productDetails",
             component: productDetails,
             props: true
@@ -86,6 +89,22 @@ const routes = [
             name: "leaderGlobal",
             component: leaderGlobal
           },
+        ]
+      },
+      {
+        path: "/orders",
+        component: Orders,
+        children: [
+          {
+            path: "",
+            name: "Orders",
+            component: ordersPage
+          },
+          {
+            path: ":id",
+            name: "OrderDetails",
+            component: orderDetails
+          }
         ]
       },
       {

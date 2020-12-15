@@ -1,6 +1,6 @@
 <template>
   <!-- search bar -->
-  <div class="search-bar">
+  <div class="search-bar" :style="{background: bgColor, 'border-color': borderColor}">
     <v-icon class="primary--text">mdi-magnify</v-icon>
     <input
       type="text"
@@ -18,7 +18,7 @@ export default {
       searchValue: "",
     };
   },
-  props: ["placeholder"],
+  props: ["placeholder", "bgColor", "borderColor"],
   methods: {
     updateSearchValue() {
       this.$emit("search", this.searchValue);
@@ -31,10 +31,11 @@ export default {
   width: 350px;
   height: 42px;
   background: #f9fafe;
-  border-radius: 11px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   padding: 2px 15px;
+  border: 1px solid transparent;
   input {
     margin-left: 7px;
     height: 100%;

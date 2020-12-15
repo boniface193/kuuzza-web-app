@@ -219,7 +219,7 @@ export default {
       priceRules: [
         (v) => !!v || "This field is required",
         (v) =>
-          parseInt(v, 10) < parseInt(this.price, 10) ||
+          parseInt(v, 10) <= parseInt(this.price, 10) ||
           "Commission can not be greater than price",
       ],
       quantityError: false,
