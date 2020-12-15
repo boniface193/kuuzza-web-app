@@ -9,11 +9,7 @@
         class=""
       ></v-img>
     </div>
-<<<<<<< HEAD
-    <h1 class="heading--text">Sellers</h1>
-=======
-    <h1 class="heading--text">Leaders Board</h1>
->>>>>>> e14e1aeb5bb400de35debb4c5a94fa92fa5e92f5
+    <h1 class="heading--text">Customer</h1>
 
     <div class="settings-container mt-7 white">
       <!-- nav section -->
@@ -21,37 +17,33 @@
         <!-- nav link -->
         <router-link
           class="nav-item"
-          :class="{ 'nav-item--active': this.$route.name == 'all' }"
-          :to="{ name: 'all' }"
+          :class="{ 'nav-item--active': this.$route.name == 'allCustomer' }"
+          :to="{ name: 'allCustomer' }"
           >All</router-link
         >
         <!-- nav link -->
         <router-link
           class="nav-item"
           :class="{
-            'nav-item--active': this.$route.name == 'new',
+            'nav-item--active': this.$route.name == 'newCustomer',
           }"
-          :to="{ name: 'new' }"
+          :to="{ name: 'newCustomer' }"
           >New</router-link
         >
         <!-- nav link -->
         <router-link
           class="nav-item"
           :class="{
-            'nav-item--active': this.$route.name == 'returning',
+            'nav-item--active': this.$route.name == 'returningCustomer',
           }"
-          :to="{ name: 'returning' }"
+          :to="{ name: 'returningCustomer' }"
           >Returning</router-link
         >
         <v-spacer></v-spacer>
 
         <searchBar
           class="mt-2"
-<<<<<<< HEAD
-          placeholder="Search Sellers"
-=======
-          placeholder="Search representative"
->>>>>>> e14e1aeb5bb400de35debb4c5a94fa92fa5e92f5
+          placeholder="Search Customers"
           @search="getSearchValue"
         />
       </div>
@@ -154,10 +146,6 @@ export default {
   &:hover {
     background-color: rgb(239, 245, 255);
     padding: 8px;
-<<<<<<< HEAD
-=======
-    
->>>>>>> e14e1aeb5bb400de35debb4c5a94fa92fa5e92f5
   }
 }
 </style>

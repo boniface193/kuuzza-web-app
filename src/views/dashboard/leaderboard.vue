@@ -3,7 +3,7 @@
     <div class="mx-lg-12 mx-md-5 mx-sm-5 my-8">
       <!-- page title -->
       <filter-By-Date class="float-right" />
-      <h1 class="heading--text">Leaders Board</h1>
+      <h1 class="heading--text">Leaderboard</h1>
 
       <div class="settings-container mt-7 white">
         <!-- nav section -->
@@ -28,7 +28,7 @@
 
           <searchBar
             class="mt-2"
-            placeholder="Search representative"
+            placeholder="Search Leaderboard"
             @search="getSearchValue"
           />
         </div>
