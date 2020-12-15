@@ -114,11 +114,7 @@
         </v-col>
 
         <v-col md="4" class="d-flex justify-end">
-<<<<<<< HEAD
           <v-card class="py-2" width="350px" elevation="0">
-=======
-          <v-card class="py-2 position-fixed" width="350px" elevation="0">
->>>>>>> e14e1aeb5bb400de35debb4c5a94fa92fa5e92f5
             <div class="px-5">
               <div class="my-5">
                 <p class="editSeller float-right">Edit</p>
@@ -267,13 +263,6 @@ export default {
   border: solid 1px rgba(181, 181, 181, 0.118);
 }
 
-<<<<<<< HEAD
-=======
-.position-fixed {
-  position: fixed;
-}
-
->>>>>>> e14e1aeb5bb400de35debb4c5a94fa92fa5e92f5
 .w-25 {
   width: 80%;
 }

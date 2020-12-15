@@ -9,11 +9,7 @@
         class=""
       ></v-img>
     </div>
-<<<<<<< HEAD
     <h1 class="heading--text">Sellers</h1>
-=======
-    <h1 class="heading--text">Leaders Board</h1>
->>>>>>> e14e1aeb5bb400de35debb4c5a94fa92fa5e92f5
 
     <div class="settings-container mt-7 white">
       <!-- nav section -->
@@ -47,11 +43,7 @@
 
         <searchBar
           class="mt-2"
-<<<<<<< HEAD
           placeholder="Search Sellers"
-=======
-          placeholder="Search representative"
->>>>>>> e14e1aeb5bb400de35debb4c5a94fa92fa5e92f5
           @search="getSearchValue"
         />
       </div>
@@ -154,10 +146,6 @@ export default {
   &:hover {
     background-color: rgb(239, 245, 255);
     padding: 8px;
-<<<<<<< HEAD
-=======
-    
->>>>>>> e14e1aeb5bb400de35debb4c5a94fa92fa5e92f5
   }
 }
 </style>

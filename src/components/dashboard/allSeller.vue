@@ -33,9 +33,9 @@ export default {
           value: "name",
           href: true,
           routeName: "seller",
-          width: "50%"
+          width: "50%",
         },
-        { text: "Total Points", value: "totalOrder", },
+        { text: "Total Points", value: "totalOrder" },
         { text: "Total Value of Orders(₦)", value: "totalValue" },
       ],
     };

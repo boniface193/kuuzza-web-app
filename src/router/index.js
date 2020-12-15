@@ -30,7 +30,6 @@ import newSeller from "@/components/dashboard/newSeller.vue";
 import returningSeller from "@/components/dashboard/returningSeller.vue";
 import Orders from "@/views/dashboard/Orders.vue";
 import ordersPage from "@/components/dashboard/ordersPage.vue";
-<<<<<<< HEAD
 import orderDetails from "@/components/dashboard/orderDetails";
 import sellersCard from "@/components/dashboard/sellersCard.vue";
 import mainSellers from "@/components/dashboard/mainSellers.vue";
@@ -40,11 +39,6 @@ import allCustomer from "@/components/dashboard/allCustomer.vue";
 import newCustomer from "@/components/dashboard/newCustomer.vue"
 import returningCustomer from "@/components/dashboard/returningCustomer.vue"
 
-=======
-import orderDetails from "@/components/dashboard/orderDetails"; 
-import sellersCard from "@/components/dashboard/sellersCard.vue"
-import mainSellers from "@/components/dashboard/mainSellers.vue"
->>>>>>> e14e1aeb5bb400de35debb4c5a94fa92fa5e92f5
 
 Vue.use(VueRouter);
 
@@ -127,7 +121,6 @@ const routes = [
         children: [
           {
             path: "",
-<<<<<<< HEAD
             component: mainCustomer,
             children: [
               {
@@ -155,8 +148,6 @@ const routes = [
         children: [
           {
             path: "",
-=======
->>>>>>> e14e1aeb5bb400de35debb4c5a94fa92fa5e92f5
             component: mainSellers,
             children: [
               {
