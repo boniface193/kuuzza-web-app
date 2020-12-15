@@ -5,7 +5,7 @@
       <div class="mx-lg-12 mx-md-5 mx-sm-5">
         <div>
           <!-- welcome greetings -->
-          <calendar class="float-right" />
+          <calendar class="float-right" filter="2019-01-01" />
           <div class="welcome-user mb-5">Welcome Ayotunde</div>
         </div>
         <v-row>

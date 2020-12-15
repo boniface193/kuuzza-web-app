@@ -5,12 +5,11 @@ import store from "./store";
 import vuetify from "./plugins/vuetify";
 import Chartkick from 'vue-chartkick'
 import Chart from 'chart.js'
+// import
 // mock server 
 import { onboardServer } from './server/onboarding.js'
 
-import VMdDateRangePicker from "@ikechukwu_boniface/vmddaterangepicker";
-
-Vue.use(VMdDateRangePicker);
+Vue.use(require('vue-moment'));
 
 Vue.use(Chartkick.use(Chart))
 

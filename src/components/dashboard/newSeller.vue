@@ -24,6 +24,7 @@ export default {
           text: "Sellers Name",
           sortable: true,
           value: "name",
+          width: "50%"
         },
         { text: "Total Orders", value: "totalOrder" },
         { text: "Total Value of Orders(₦)", value: "totalValue" },

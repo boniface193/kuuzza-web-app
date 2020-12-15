@@ -31,6 +31,8 @@ import returningSeller from "@/components/dashboard/returningSeller.vue";
 import Orders from "@/views/dashboard/Orders.vue";
 import ordersPage from "@/components/dashboard/ordersPage.vue";
 import orderDetails from "@/components/dashboard/orderDetails"; 
+import sellersCard from "@/components/dashboard/sellersCard.vue"
+import mainSellers from "@/components/dashboard/mainSellers.vue"
 
 Vue.use(VueRouter);
 
@@ -112,19 +114,31 @@ const routes = [
         component: Sellers,
         children: [
           {
-            path: "/",
-            name: "all",
-            component: allSeller
+            path: "",
+            component: mainSellers,
+            children: [
+              {
+                path: "",
+                name: "all",
+                component: allSeller
+              },
+              {
+                path: "new",
+                name: "new",
+                component: newSeller
+              },
+              {
+                path: "returning",
+                name: "returning",
+                component: returningSeller
+              },
+            ]
           },
           {
-            path: "new",
-            name: "new",
-            component: newSeller
-          },
-          {
-            path: "returning",
-            name: "returning",
-            component: returningSeller
+            path: "sellers-details/:id",
+            name: "seller",
+            component: sellersCard,
+            props: true
           },
         ]
       },
