@@ -36,8 +36,9 @@ import mainSellers from "@/components/dashboard/mainSellers.vue";
 import customers from "@/views/dashboard/customers.vue";
 import mainCustomer from "@/components/dashboard/customerMain.vue";
 import allCustomer from "@/components/dashboard/allCustomer.vue";
-import newCustomer from "@/components/dashboard/newCustomer.vue"
-import returningCustomer from "@/components/dashboard/returningCustomer.vue"
+import newCustomer from "@/components/dashboard/newCustomer.vue";
+import returningCustomer from "@/components/dashboard/returningCustomer.vue";
+import customerDetails from "@/components/dashboard/customerDetails.vue"
 
 
 Vue.use(VueRouter);
@@ -140,6 +141,12 @@ const routes = [
               },
             ]
           },
+          {
+            path: ":id",
+            name: "customerDetail",
+            component: customerDetails,
+            props: true
+          }
         ]
       },
       {

@@ -32,7 +32,7 @@ export default {
           sortable: true,
           value: "name",
           href: true,
-          routeName: "customers",
+          routeName: "customerDetail",
           width: "50%",
         },
         { text: "Total Orders", value: "totalOrder" },
