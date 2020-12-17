@@ -69,8 +69,7 @@
                   style="width: 150px; height: 120px"
                 />
                 <!-- shows if the content is a text and not an image or link -->
-                <span
-                  v-if="header.image !== true && header.href !== true"
+                <span v-if="header.image !== true && header.href !== true"
                   >{{ item[`${header.value}`] }}
                 </span>
 
@@ -79,10 +78,10 @@
                   <router-link
                     :to="{
                       name: header.routeName,
-                      params: { id: item.id }
+                      params: { id: item.id },
                     }"
                     class="productLink"
-                    >{{ item[`${header.value}`]}}</router-link
+                    >{{ item[`${header.value}`] }}</router-link
                   >
                 </span></span
               >
@@ -121,8 +120,23 @@
     </div>
     <!-- pagination -->
     <div class="d-flex justify-space-between px-4 align-center flex-wrap">
-      <p>Page {{ page }} of {{ paginationLength }}</p>
-      <div class="pagination">
+      <div class="d-flex justify-space-between align-center flex-wrap">
+        <p class="mb-2 mr-5">Page {{ page }} of {{ paginationLength }}</p>
+        <div class="d-flex justify-space-between align-center mb-2">
+          <span class="mr-2">Number per page</span>
+          <div class="select-item">
+            <select>
+              <option>5</option>
+              <option>10</option>
+              <option>15</option>
+              <option>20</option>
+              <option>30</option>
+              <option>50</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="pagination mb-2">
         <v-pagination
           v-model="page"
           :length="paginationLength"
@@ -281,7 +295,46 @@ export default {
   }
 }
 .pagination {
-  max-width: 500px;
+  max-width: 300px;
+}
+.select-item {
+  width: 75px;
+  position: relative;
+  select {
+    width: 75px;
+    height: 30px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    border: 1px solid #7070704d;
+    border-radius: 5px;
+    padding: 0px 12px;
+    background: #ffffff;
+    &:hover {
+      border-color: rgba(0, 0, 0, 0.87);
+    }
+    &:focus {
+      border: 2px solid #5064cc;
+    }
+    option {
+      color: #5064cc;
+      &:hover {
+        background-color: #5064cc26 !important;
+      }
+    }
+  }
+  &::before {
+    content: "\f107";
+    font-family: FontAwesome;
+    font-size: 22px;
+    display: block;
+    color: #5064cc; /*change in this line color*/
+    position: absolute;
+    right: 12px;
+    top: calc(16% - 6px);
+    pointer-events: none;
+  }
 }
 .productLink {
   color: #5064cc;
@@ -290,7 +343,7 @@ export default {
 }
 @media (max-width: 650px) {
   .pagination {
-  max-width: 100%;
-}
+    max-width: 100%;
+  }
 }
 </style>

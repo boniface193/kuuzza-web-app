@@ -77,6 +77,7 @@
             width="120px"
             height="57px"
             caretColor="#5064CC"
+            :quantity="0"
             @quantity="setQuantity"
             :inputStatus="quantityError"
           />

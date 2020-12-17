@@ -18,7 +18,7 @@
     <div class="basic-filter-content" v-show="filterActive">
       <div class="header white--text px-4">
         <p class="pa-0 ma-0">
-          <v-icon class="mr-3 white--text">mdi-sort</v-icon>Filter Product
+          <v-icon class="mr-3 white--text">mdi-sort</v-icon>{{ headerName }}
         </p>
         <v-icon class="white--text close-filter" @click="filterActive = false"
           >mdi-close</v-icon
@@ -28,11 +28,12 @@
         <v-row>
           <v-col class="col-12 col-md-6">
             <!-- Price filter -->
-            <div class="filter" v-if="price === true">
+            <div class="filter" ref="priceFilter" v-if="price === true">
               <div
                 class="filter-item px-4 py-2 d-flex align-center justify-space-between"
+                @click="toggleFilterItem('priceFilter')"
               >
-                Price
+                Price (&#8358;)
                 <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
               </div>
               <div class="py-2 px-4">
@@ -44,11 +45,16 @@
               </div>
             </div>
             <!-- commission filter -->
-            <div class="filter" v-if="commission === true">
+            <div
+              class="filter"
+              ref="commissionFilter"
+              v-if="commission === true"
+            >
               <div
                 class="filter-item px-4 py-2 d-flex align-center justify-space-between"
+                @click="toggleFilterItem('commissionFilter')"
               >
-                Commission
+                Commission (&#8358;)
                 <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
               </div>
               <div class="py-2 px-4">
@@ -60,9 +66,10 @@
               </div>
             </div>
             <!-- Quantity filter -->
-            <div class="filter" v-if="quantity === true">
+            <div class="filter" ref="quantityFilter" v-if="quantity === true">
               <div
                 class="filter-item px-4 py-2 d-flex align-center justify-space-between"
+                @click="toggleFilterItem('quantityFilter')"
               >
                 Quantity
                 <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
@@ -78,9 +85,10 @@
           </v-col>
           <v-col class="col-12 col-md-6">
             <!-- category filter -->
-            <div class="filter" v-if="category === true">
+            <div class="filter" ref="categoryFilter" v-if="category === true">
               <div
                 class="filter-item px-4 py-2 d-flex align-center justify-space-between"
+                @click="toggleFilterItem('categoryFilter')"
               >
                 Category
                 <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
@@ -98,63 +106,67 @@
                 ></v-checkbox>
               </div>
             </div>
-            <div class="filter" v-if="stock === true">
+            <!-- stock filter -->
+            <div class="filter" ref="stockFilter" v-if="stock === true">
               <div
                 class="filter-item px-4 py-2 d-flex align-center justify-space-between"
+                @click="toggleFilterItem('stockFilter')"
               >
                 Stock
                 <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
               </div>
               <div class="py-2 px-4">
                 <v-checkbox
-                  v-model="checkbox3"
+                  v-model="checkbox6"
                   label="Items in Stock"
                   class="my-0 py-0"
                 ></v-checkbox>
                 <v-checkbox
-                  v-model="checkbox4"
+                  v-model="checkbox7"
                   label="Items out of stock"
                   class="my-0 py-0"
                 ></v-checkbox>
               </div>
             </div>
             <!-- payment filter -->
-            <div class="filter" v-if="payment === true">
+            <div class="filter" ref="paymentFilter" v-if="payment === true">
               <div
                 class="filter-item px-4 py-2 d-flex align-center justify-space-between"
+                @click="toggleFilterItem('paymentFilter')"
               >
                 Payment
                 <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
               </div>
               <div class="py-2 px-4">
                 <v-checkbox
-                  v-model="checkbox5"
+                  v-model="checkbox8"
                   label="Paid"
                   class="my-0 py-0"
                 ></v-checkbox>
                 <v-checkbox
-                  v-model="checkbox6"
+                  v-model="checkbox9"
                   label="Not Paid"
                   class="my-0 py-0"
                 ></v-checkbox>
               </div>
             </div>
             <!-- delivery filter -->
-            <div class="filter" v-if="delivery === true">
+            <div class="filter" ref="deliveryFilter" v-if="delivery === true">
               <div
                 class="filter-item px-4 py-2 d-flex align-center justify-space-between"
+                @click="toggleFilterItem('deliveryFilter')"
               >
                 Delivery
                 <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
               </div>
               <div class="py-2 px-4">
                 <v-checkbox
-                  v-model="checkbox3"
+                  v-model="checkbox10"
                   label="Delivered"
                   class="my-0 py-0"
                 ></v-checkbox>
                 <v-checkbox
-                  v-model="checkbox4"
+                  v-model="checkbox11"
                   label="Not Delivered"
                   class="my-0 py-0"
                 ></v-checkbox>
@@ -176,9 +188,24 @@ export default {
   components: {
     multipleRange,
   },
-  props: ["price", "commission", "quantity", "category", "stock", "payment", "delivery"],
+  props: [
+    "headerName",
+    "price",
+    "commission",
+    "quantity",
+    "category",
+    "stock",
+    "payment",
+    "delivery",
+  ],
   data: function () {
     return {
+      checkbox6: false,
+      checkbox7: false,
+      checkbox8: false,
+      checkbox9: false,
+      checkbox10: false,
+      checkbox11: false,
       filterActive: false,
       minPrice: 0,
       maxPrice: 0,
@@ -200,6 +227,9 @@ export default {
     setQuantityRange(params) {
       this.minQuantity = params.minNum;
       this.minQuantity = params.maxNum;
+    },
+    toggleFilterItem(refName) {
+      this.$refs[`${refName}`].classList.toggle("filter--active");
     },
   },
 };
@@ -255,6 +285,9 @@ export default {
       .filter {
         border-bottom: 1px solid #e2e2e2;
         position: relative;
+        overflow-y: hidden;
+        height: 40px;
+        transition: 0.5s ease;
         &-item {
           cursor: pointer;
           &:hover {
@@ -263,13 +296,24 @@ export default {
           &:last-child {
             border: none !important;
           }
+          span {
+            transition: 0.5s ease;
+          }
+        }
+        &--active {
+          height: auto;
+          .filter-item {
+            span {
+              transform: rotate(90deg);
+            }
+          }
         }
       }
     }
   }
 }
-@media (max-width: 900px){
-  .basic-filter{
+@media (max-width: 900px) {
+  .basic-filter {
     .basic-filter-content {
       width: 300px;
       left: 0;

@@ -1,6 +1,6 @@
 <template>
   <div class="quantity-input" :style="{ width: width, height: height }" :class="{errorStatus: inputStatus === true}">
-    <input type="number" class="" placeholder="" min="1" v-model="quantity" />
+    <input type="number" class="" placeholder="" min="1" v-model="newQuantity" />
     <div class="numberControl">
       <span style="border-top-right-radius: 8px" @click="increaseNum"
         ><v-icon :color="caretColor" class="caret">mdi-chevron-up</v-icon></span
@@ -16,21 +16,21 @@
 <script>
 export default {
   name: "customNumberInput",
-  props: ["width", "height", "caretColor", "inputStatus"],
+  props: ["width", "height", "caretColor", "inputStatus", "quantity"],
   data: function () {
     return {
-      quantity: 0,
+      newQuantity: this.quantity
     };
   },
   methods: {
     increaseNum() {
-      this.quantity = parseInt(this.quantity, 10) + 1;
-      this.$emit("quantity", this.quantity);
+      this.newQuantity = parseInt(this.newQuantity, 10) + 1;
+      this.$emit("quantity", this.newQuantity);
     },
     decreaseNum() {
-      if (this.quantity > 0) {
-        this.quantity = parseInt(this.quantity, 10) - 1;
-        this.$emit("quantity", this.quantity);
+      if (this.newQuantity > 0) {
+        this.newQuantity = parseInt(this.newQuantity, 10) - 1;
+        this.$emit("quantity", this.newQuantity);
       }
     },
   },

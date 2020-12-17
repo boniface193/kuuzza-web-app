@@ -12,6 +12,11 @@ const state = {
                 price: 25000,
                 commission: 100,
                 quantity: 30,
+                description: `Infinix Hot 10, core i5, 128 GB SSD, 8GB, 13", 12 hours battery,
+                              backlit keyboard, Multi-Touch 1.8GHz dual-core intelcore i5
+                              processor with 3MB shared L3 cache (Turbo boost up to 2.9GHz) 8GB of
+                              1,600MHz LPDDR3 RAM 128GB PCle-based flash storage 13 inch, 1440 x
+                              900 pixel display. Intel HD Graphics 600011ac Wi-Fi`,
                 id: "kjkwde98",
             },
             {
@@ -22,6 +27,11 @@ const state = {
                 price: "150000",
                 commission: 1200,
                 quantity: 30,
+                description: `Infinix Hot 10, core i5, 128 GB SSD, 8GB, 13", 12 hours battery,
+                backlit keyboard, Multi-Touch 1.8GHz dual-core intelcore i5
+                processor with 3MB shared L3 cache (Turbo boost up to 2.9GHz) 8GB of
+                1,600MHz LPDDR3 RAM 128GB PCle-based flash storage 13 inch, 1440 x
+                900 pixel display. Intel HD Graphics 600011ac Wi-Fi`,
                 id: "njwa872",
             },
             {
@@ -32,6 +42,11 @@ const state = {
                 price: 25000,
                 commission: "1000",
                 quantity: 15,
+                description: `Infinix Hot 10, core i5, 128 GB SSD, 8GB, 13", 12 hours battery,
+                backlit keyboard, Multi-Touch 1.8GHz dual-core intelcore i5
+                processor with 3MB shared L3 cache (Turbo boost up to 2.9GHz) 8GB of
+                1,600MHz LPDDR3 RAM 128GB PCle-based flash storage 13 inch, 1440 x
+                900 pixel display. Intel HD Graphics 600011ac Wi-Fi`,
                 id: "wswawa0",
             },
             {
@@ -42,6 +57,11 @@ const state = {
                 price: 2500,
                 commission: 200,
                 quantity: 10,
+                description: `Infinix Hot 10, core i5, 128 GB SSD, 8GB, 13", 12 hours battery,
+                backlit keyboard, Multi-Touch 1.8GHz dual-core intelcore i5
+                processor with 3MB shared L3 cache (Turbo boost up to 2.9GHz) 8GB of
+                1,600MHz LPDDR3 RAM 128GB PCle-based flash storage 13 inch, 1440 x
+                900 pixel display. Intel HD Graphics 600011ac Wi-Fi`,
                 id: "hjbwahyaw7",
             },
         ],
