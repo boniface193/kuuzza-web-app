@@ -4,6 +4,8 @@ import onboarding from "./modules/onboarding";
 import dashboard from "./modules/dashboard";
 import inventory from "./modules/inventory";
 import orders from "./modules/orders";
+import sellers from "./modules/sellers";
+import customer from "./modules/customer"
 
 Vue.use(Vuex);
 
@@ -12,6 +14,8 @@ export default new Vuex.Store({
     onboarding: onboarding,
     dashboard: dashboard,
     inventory: inventory,
-    orders: orders
+    orders: orders,
+    sellers: sellers,
+    customer: customer,
   }
 });

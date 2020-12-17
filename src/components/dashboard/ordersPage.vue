@@ -43,18 +43,18 @@
 import searchBar from "@/components/dashboard/searchBar.vue";
 import dataTable from "@/components/dashboard/dataTable.vue";
 import basicFilter from "@/components/dashboard/basicFilter.vue";
-import {mapGetters} from "vuex";
+import { mapGetters } from "vuex";
 export default {
   name: "ordersPage",
   components: { searchBar, dataTable, basicFilter },
   data: function () {
     return {
       searchValue: "",
-       filterParameters: {
+      filterParameters: {
         price: true,
         commission: true,
         payment: true,
-        delivery: true
+        delivery: true,
       },
       selectedRow: [],
       tableHeaders: [
@@ -65,22 +65,28 @@ export default {
           href: false,
           width: "300px",
         },
-        { text: "Order Number", value: "orderNumber", width: "200px", href: true, routeName: "OrderDetails"},
+        {
+          text: "Order Number",
+          value: "orderNumber",
+          width: "200px",
+          href: true,
+          routeName: "OrderDetails",
+        },
         { text: "Price(N)", value: "price", width: "200px" },
         { text: "Commission(N)", value: "commission", width: "200px" },
-        { text: "Seller", value: "seller", width: "200px", href: true},
-        { text: "Customer", value: "customer", width: "200px", href: true},
+        { text: "Seller", value: "seller", width: "200px", href: true },
+        { text: "Customer", value: "customer", width: "200px", href: true },
         { text: "Time", value: "time", width: "200px" },
         { text: "Payment", value: "payment", width: "150px" },
         { text: "Delivery", value: "delivery", width: "170px" },
       ],
     };
   },
-  computed:{
+  computed: {
     ...mapGetters({
       orders: "orders/orders",
-    }),      
-   },
+    }),
+  },
   methods: {
     getSearchValue(params) {
       this.searchValue = params;

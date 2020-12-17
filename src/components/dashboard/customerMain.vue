@@ -1,53 +1,62 @@
 <template>
-  <v-container>
-    <div class="mx-lg-12 mx-md-5 mx-sm-5 my-8">
-      <!-- page title -->
-      <filter-By-Date class="float-right" />
-      <h1 class="heading--text">Leaderboard</h1>
-
-      <div class="settings-container mt-7 white">
-        <!-- nav section -->
-        <div class="settings-nav px-4 py-auto d-flex">
-          <!-- nav link -->
-          <router-link
-            class="nav-item"
-            :class="{ 'nav-item--active': this.$route.name == 'leaderStore' }"
-            :to="{ name: 'leaderStore' }"
-            >Store</router-link
-          >
-          <!-- nav link -->
-          <router-link
-            class="nav-item"
-            :class="{
-              'nav-item--active': this.$route.name == 'leaderGlobal',
-            }"
-            :to="{ name: 'leaderGlobal' }"
-            >Nationwide</router-link
-          >
-          <v-spacer></v-spacer>
-
-          <searchBar
-            class="mt-2"
-            placeholder="Search Leaderboard"
-            @search="getSearchValue"
-          />
-        </div>
-        <router-view />
-      </div>
+  <div class="mx-lg-12 mx-md-5 mx-sm-5 my-8">
+    <!-- page title -->
+    <div class="btn-pointer float-right">
+      <v-img
+        src="../../assets/download.svg"
+        width="16"
+        height="15"
+        class=""
+      ></v-img>
     </div>
-  </v-container>
+    <h1 class="heading--text">Customer</h1>
+
+    <div class="settings-container mt-7 white">
+      <!-- nav section -->
+      <div class="settings-nav px-4 py-auto d-flex">
+        <!-- nav link -->
+        <router-link
+          class="nav-item"
+          :class="{ 'nav-item--active': this.$route.name == 'allCustomer' }"
+          :to="{ name: 'allCustomer' }"
+          >All</router-link
+        >
+        <!-- nav link -->
+        <router-link
+          class="nav-item"
+          :class="{
+            'nav-item--active': this.$route.name == 'newCustomer',
+          }"
+          :to="{ name: 'newCustomer' }"
+          >New</router-link
+        >
+        <!-- nav link -->
+        <router-link
+          class="nav-item"
+          :class="{
+            'nav-item--active': this.$route.name == 'returningCustomer',
+          }"
+          :to="{ name: 'returningCustomer' }"
+          >Returning</router-link
+        >
+        <v-spacer></v-spacer>
+
+        <searchBar
+          class="mt-2"
+          placeholder="Search Customers"
+          @search="getSearchValue"
+        />
+      </div>
+      <router-view />
+    </div>
+  </div>
 </template>
+
 <script>
-import filterByDate from "@/components/dashboard/calender.vue";
 import searchBar from "@/components/dashboard/searchBar.vue";
 export default {
   components: {
-    filterByDate,
     searchBar,
-  },
-
-  data() {
-    return {};
   },
 };
 </script>
@@ -130,6 +139,13 @@ export default {
         display: none;
       }
     }
+  }
+}
+.btn-pointer {
+  cursor: pointer;
+  &:hover {
+    background-color: rgb(239, 245, 255);
+    padding: 8px;
   }
 }
 </style>

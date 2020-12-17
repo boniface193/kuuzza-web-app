@@ -6,7 +6,12 @@
 
 <script>
 export default {
-  name: "Inventory"
+  name: "Inventory",
+  created: {
+    getInventoryDatas(){
+      
+    }
+  }
 };
 </script>
 

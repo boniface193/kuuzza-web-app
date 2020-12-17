@@ -1,23 +1,29 @@
 <template>
   <div class="text-center">
     <!-- displays calendar filter -->
-    <v-md-date-range-picker
-      class="mdrp__activator activator-wrapper text-field"
-      start-date="2019-01-01"
-      end-date="2019-05-05"
-      :opens="opens"
-    ></v-md-date-range-picker>
+    <date-range-picker :dateRange="dateRange" :opens="opens">
+    </date-range-picker>
   </div>
 </template>
 
 <script>
+import DateRangePicker from "vue2-daterange-picker";
+// import moment from "vue-moment";
+//you need to import the CSS manually (in case you want to override it)
+import "vue2-daterange-picker/dist/vue2-daterange-picker.css";
 export default {
-  data: () => ({
-    // change the direction of the calendar
-    opens: "right",
-  }),
+  components: { DateRangePicker },
+  props: {
+    opens: String,
+    minDate: String,
+    maxDate: String,
+    showWeekNumbers: Boolean,
+    linkedCalendars: Boolean,
+    showDropdowns: Boolean,
+    timePicker: Boolean,
+    timePicker24Hour: Boolean,
+    autoApply: Boolean,
+    dateRange: Object,
+  },
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

@@ -4,7 +4,12 @@
       <v-card elevation="0" class="py-3">
         <div>
           <!-- table  -->
-          <dataTable :headers="headers" :items="items" :select="true" />
+          <dataTable
+            class="mr-0"
+            :headers="headers"
+            :items="items"
+            :select="true"
+          />
         </div>
       </v-card>
     </div>
@@ -13,44 +18,33 @@
 
 <script>
 import dataTable from "@/components/dashboard/dataTable.vue";
+import { mapGetters } from "vuex";
 export default {
   components: {
     dataTable,
   },
   data() {
     return {
+      width: "100%",
       headers: [
         {
-          text: "Sellers Name",
+          text: "Customer Name",
           sortable: true,
           value: "name",
-          width: "50%"
+          href: true,
+          routeName: "customerDetail",
+          width: "50%",
         },
         { text: "Total Orders", value: "totalOrder" },
         { text: "Total Value of Orders(₦)", value: "totalValue" },
       ],
-
-      items: [
-        {
-          name: "Ayotunde Lanwo",
-          totalOrder: 4,
-          totalValue: 300000,
-          id: "hr01",
-        },
-        {
-          name: "Abdulazeez Abdulazeez",
-          totalOrder: 9,
-          totalValue: 299999,
-          id: "hr02",
-        },
-        {
-          name: "Ayotunde Lanwo",
-          totalOrder: 3,
-          totalValue: 199999,
-          id: "hr03",
-        },
-      ],
     };
+  },
+
+  computed: {
+    ...mapGetters({
+      items: "customer/items",
+    }),
   },
 };
 </script>

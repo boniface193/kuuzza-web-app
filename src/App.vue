@@ -32,7 +32,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    .v-btn__loader{
+    .v-btn__loader {
       color: #5064cc;
     }
   }
@@ -40,7 +40,12 @@ body {
 
 *::-webkit-scrollbar {
   width: 5px;
-   height: 5px;
+  height: 5px;
+}
+
+*::-webkit-scrollbar-button {
+  width: 5px;
+  height: 5px;
 }
 
 *::-webkit-scrollbar-track {

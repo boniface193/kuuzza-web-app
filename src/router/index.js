@@ -7,7 +7,7 @@ import Forgotpassword from "@/components/onboarding/Forgotpassword.vue";
 import Onboarding from "@/views/onboarding/Onboarding.vue";
 import Dashboard from "@/views/dashboard/Dashboard.vue";
 import Inventory from "@/views/dashboard/Inventory.vue";
-import Home from "../views/dashboard/home.vue";
+import Home from "@/views/dashboard/home.vue";
 import Settings from "../views/dashboard/Settings.vue";
 import userDetails from "@/components/dashboard/userDetails.vue";
 import teamDetails from "@/components/dashboard/teamDetails.vue";
@@ -16,7 +16,7 @@ import privacyDetails from "@/components/dashboard/privacyDetails.vue";
 import logout from "@/components/dashboard/logout.vue";
 import emailVerification from "@/components/onboarding/emailVerification.vue";
 import forgotPasswordVerification from "@/components/onboarding/forgotPasswordVerification.vue";
-import Leaderboard from "../views/dashboard/leaderboard.vue";
+import Leaderboard from "@/views/dashboard/leaderboard.vue";
 import history from "@/components/dashboard/history.vue";
 import inventoryPage from "@/components/dashboard/inventoryPage.vue";
 import addProduct from "@/components/dashboard/addProduct.vue";
@@ -24,13 +24,22 @@ import productDetails from "@/components/dashboard/productDetails.vue";
 import productList from "@/components/dashboard/productList.vue";
 import leaderStore from "@/components/dashboard/leaderStore.vue";
 import leaderGlobal from "@/components/dashboard/leaderGlobal.vue";
-import Sellers from "../views/dashboard/seller.vue";
+import Sellers from "@/views/dashboard/seller.vue";
 import allSeller from "@/components/dashboard/allSeller.vue";
 import newSeller from "@/components/dashboard/newSeller.vue";
 import returningSeller from "@/components/dashboard/returningSeller.vue";
 import Orders from "@/views/dashboard/Orders.vue";
 import ordersPage from "@/components/dashboard/ordersPage.vue";
-import orderDetails from "@/components/dashboard/orderDetails"; 
+import orderDetails from "@/components/dashboard/orderDetails";
+import sellersCard from "@/components/dashboard/sellersCard.vue";
+import mainSellers from "@/components/dashboard/mainSellers.vue";
+import customers from "@/views/dashboard/customers.vue";
+import mainCustomer from "@/components/dashboard/customerMain.vue";
+import allCustomer from "@/components/dashboard/allCustomer.vue";
+import newCustomer from "@/components/dashboard/newCustomer.vue";
+import returningCustomer from "@/components/dashboard/returningCustomer.vue";
+import customerDetails from "@/components/dashboard/customerDetails.vue"
+
 
 Vue.use(VueRouter);
 
@@ -43,7 +52,7 @@ const routes = [
         name: "dashboard",
         component: Dashboard
       },
-      {  
+      {
         path: "/inventory",
         component: Inventory,
         children: [
@@ -108,23 +117,68 @@ const routes = [
         ]
       },
       {
+        path: "/customers",
+        component: customers,
+        children: [
+          {
+            path: "",
+            component: mainCustomer,
+            children: [
+              {
+                path: "",
+                name: "allCustomer",
+                component: allCustomer
+              },
+              {
+                path: "newCustomer",
+                name: "newCustomer",
+                component: newCustomer
+              },
+              {
+                path: "returningCustomer",
+                name: "returningCustomer",
+                component: returningCustomer
+              },
+            ]
+          },
+          {
+            path: ":id",
+            name: "customerDetail",
+            component: customerDetails,
+            props: true
+          }
+        ]
+      },
+      {
         path: "/seller",
         component: Sellers,
         children: [
           {
-            path: "/",
-            name: "all",
-            component: allSeller
+            path: "",
+            component: mainSellers,
+            children: [
+              {
+                path: "",
+                name: "all",
+                component: allSeller
+              },
+              {
+                path: "new",
+                name: "new",
+                component: newSeller
+              },
+              {
+                path: "returning",
+                name: "returning",
+                component: returningSeller
+              },
+            ]
           },
           {
-            path: "new",
-            name: "new",
-            component: newSeller
-          },
-          {
-            path: "returning",
-            name: "returning",
-            component: returningSeller
+            path: "sellers-details/:id",
+            name: "seller",
+            component: sellersCard,
+            props: true
           },
         ]
       },

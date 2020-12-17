@@ -25,7 +25,7 @@ export default {
           sortable: true,
           value: "",
         },
-        { text: "Team Member", value: "name", href: true },
+        { text: "Team Member", value: "name", href: true, routeName: "seller" },
         { text: "Total Points", value: "totalPoint" },
         { text: "Total Value of Orders(₦)", value: "totalValue" },
       ],
@@ -36,12 +36,14 @@ export default {
           role: "Sales Representative",
           totalPoint: 4000,
           totalValue: 300000,
+          id: "seller01",
         },
         {
           name: "Abdulazeez Abdulazeez",
           role: "Sales Representative",
           totalPoint: 4999,
           totalValue: 299999,
+          id: "seller02",
         },
         {
           name: "Ayotunde Lanwo",
