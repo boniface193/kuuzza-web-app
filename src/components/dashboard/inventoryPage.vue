@@ -32,6 +32,7 @@
             :quantity="filterParameters.quantity"
             :category="filterParameters.category"
             :stock="filterParameters.stock"
+            headerName="Filter Products"
           />
           <!-- export btn -->
           <span class="small-btn primary--text mr-2"
@@ -43,6 +44,7 @@
               ><img src="@/assets/img/download.svg" alt=""
             /></span>
           </router-link>
+          <!-- add product btn -->
           <router-link :to="{ name: 'addProduct' }">
             <v-btn class="primary py-6 px-4"
               ><span>+</span> Add New Product</v-btn
@@ -150,8 +152,8 @@ export default {
         { text: "Image", value: "image", image: true, width: "200px" },
         { text: "Category", value: "category", width: "200px" },
         { text: "SKU", value: "sku", width: "200px" },
-        { text: "Price(N)", value: "price", width: "200px" },
-        { text: "Commission(N)", value: "commission", width: "200px" },
+        { text: "Price (N)", value: "price", width: "200px" },
+        { text: "Commission (N)", value: "commission", width: "200px" },
         { text: "Quantity", value: "quantity", width: "100px" },
       ],
     };
@@ -208,6 +210,12 @@ export default {
     border-radius: 5px;
     padding: 0px 12px;
     background: #ffffff;
+    &:hover {
+      border-color: rgba(0, 0, 0, 0.87);
+    }
+    &:focus {
+      border: 2px solid #5064cc;
+    }
     option {
       color: #5064cc;
       &:hover {

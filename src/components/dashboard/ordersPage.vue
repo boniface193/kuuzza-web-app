@@ -20,6 +20,7 @@
           :commission="filterParameters.commission"
           :payment="filterParameters.payment"
           :delivery="filterParameters.delivery"
+          headerName="Filter Orders"
         />
         <!-- export btn -->
         <span class="small-btn primary--text mr-2 mb-5 mb-sm-0"

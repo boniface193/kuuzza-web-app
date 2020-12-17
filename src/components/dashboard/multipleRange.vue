@@ -161,7 +161,7 @@ input[type="range"]::-webkit-slider-thumb {
       color: #979797;
     }
     input {
-      width: 100px;
+      width: 90px;
       outline: none;
       border: 1px solid #e2e2e2;
       border-radius: 3px;

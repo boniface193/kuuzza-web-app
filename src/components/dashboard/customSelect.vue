@@ -4,6 +4,7 @@
     :style="{ width: width, height: height }"
     :class="{ focus: dropdown === true, errorStatus: inputStatus === true}"
   >
+    
     <div
       class="custom-select-content d-flex align-center justify-space-between"
       @click="toggleDropdown"
