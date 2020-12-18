@@ -181,7 +181,6 @@ export default {
     };
   },
   computed: {
-
     computedInfo() {
       // gets the values of user information
       let productDetails = this.$store.getters["inventory/getProductDetails"](

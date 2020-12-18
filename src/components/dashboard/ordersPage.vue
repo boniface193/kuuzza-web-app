@@ -20,7 +20,10 @@
           :commission="filterParameters.commission"
           :payment="filterParameters.payment"
           :delivery="filterParameters.delivery"
+          :category="[]"
           headerName="Filter Orders"
+          @filterOption="filterTable"
+          @resetFilter="resetFilter"
         />
         <!-- export btn -->
         <span class="small-btn primary--text mr-2 mb-5 mb-sm-0"
@@ -95,6 +98,18 @@ export default {
       this.selectedRow = params;
       //console.log(this.selectedRow)
     },
+    filterTable(params) {
+      this.$store.commit("orders/filterOrders", {
+        minPrice: params.minPrice,
+        maxPrice: params.maxPrice,
+        minCommission: params.minCommission,
+        maxCommission: params.maxCommission,
+        selectedOptions: params.selectedOptions
+      });
+    },
+    resetFilter() {
+      this.$store.commit("orders/resetFilter")
+    }
   },
 };
 </script>

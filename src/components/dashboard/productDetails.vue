@@ -57,18 +57,18 @@
       </v-col>
     </v-row>
     <!-- edit inventory modal -->
-    <editInventory
+    <!-- <editInventory
       :dialog="editInventory"
       @closeEditInventory="closeEditInventory"
       :productId="$route.params.id"
-    />
+    /> -->
   </div>
 </template>
 <script>
-import editInventory from "@/components/dashboard/editInventory.vue";
+//import editInventory from "@/components/dashboard/editInventory.vue";
 export default {
   name: "productDetails",
-  components: { editInventory },
+  //components: { editInventory },
   data: function () {
     return {
       editInventory: false,

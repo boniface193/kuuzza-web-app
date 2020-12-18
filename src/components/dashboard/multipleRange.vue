@@ -5,6 +5,7 @@
       type="range"
       :min="minNum"
       :max="maxNum"
+      @change="setNumber"
       step="1"
       v-model="sliderMin"
     />
@@ -13,6 +14,7 @@
       type="range"
       :min="minNum"
       :max="maxNum"
+      @change="setNumber"
       step="1"
       v-model="sliderMax"
     />
@@ -87,8 +89,8 @@ export default {
   methods: {
     setNumber() {
       this.$emit("minMaxNumber", {
-        minNum: this.minAngle,
-        maxNum: this.maxAngle,
+        minNum: this.sliderMin,
+        maxNum: this.sliderMax,
       });
     },
   },

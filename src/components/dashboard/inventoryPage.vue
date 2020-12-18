@@ -7,11 +7,7 @@
     </div>
     <div class="d-flex justify-space-between align-center mt-8 mb-1 flex-wrap">
       <div class="select-item mr-8 mb-2">
-        <select v-model="selected">
-          <option value="">Actions</option>
-          <option value="">Delete items</option>
-          <option value="">Take items offline</option>
-        </select>
+        <triggeredSelect />
       </div>
 
       <div class="d-flex align-center flex-wrap tool-container justify-space-between">
@@ -20,7 +16,7 @@
           placeholder="Search inventory"
           @search="getSearchValue"
           bgColor="white"
-          borderColor=" #e2e2e2"
+          borderColor="#e2e2e2"
           class="mr-2 mb-2 search-bar"
         />
         <div class="d-flex align-center flex-wrap justify-space-between mb-2 ">
@@ -33,6 +29,8 @@
             :category="filterParameters.category"
             :stock="filterParameters.stock"
             headerName="Filter Products"
+            @filterOption="filterTable"
+            @resetFilter="resetFilter"
           />
           <!-- export btn -->
           <span class="small-btn primary--text mr-2"
@@ -114,11 +112,12 @@
 import dataTable from "@/components/dashboard/dataTable.vue";
 import modal from "@/components/dashboard/modal.vue";
 import searchBar from "@/components/dashboard/searchBar.vue";
-import basicFilter from "@/components/dashboard/basicFilter";
+import basicFilter from "@/components/dashboard/basicFilter.vue";
+import triggeredSelect from "@/components/dashboard/triggeredSelect.vue"
 import { mapGetters } from "vuex";
 export default {
   name: "inventoryPage",
-  components: { dataTable, modal, searchBar, basicFilter },
+  components: { dataTable, modal, searchBar, basicFilter, triggeredSelect},
   data: function () {
     return {
       items: ["Items in stock", "Items out of stock"],
@@ -137,7 +136,7 @@ export default {
         price: true,
         commission: true,
         quantity: true,
-        category: true,
+        category: ["Phones & devices", "TV", "Gadgets"],
         stock: true,
       },
       tableHeaders: [
@@ -192,48 +191,66 @@ export default {
     getSearchValue(params) {
       this.searchValue = params;
     },
+    // filterTable 
+    filterTable(params) {
+     // this.filterTableByPrice(params.minPrice, params.maxPrice)
+     console.log(params.selectedOptions)
+      this.$store.commit("inventory/filterInventories", {
+        minPrice: params.minPrice,
+        maxPrice: params.maxPrice,
+        minCommission: params.minCommission,
+        maxCommission: params.maxCommission,
+        minQuantity: params.minQuantity,
+        maxQuantity: params.maxQuantity,
+        selectedOptions: params.selectedOptions
+      });
+    },
+    // reset filter
+    resetFilter() {
+      this.$store.commit("inventory/resetFilter");
+    }
   },
 };
 </script>
 <style lang="scss" scoped>
 .select-item {
-  width: 170px;
+  width: 200px;
   position: relative;
-  select {
-    width: 170px;
-    height: 40px;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    outline: none;
-    border: 1px solid #7070704d;
-    border-radius: 5px;
-    padding: 0px 12px;
-    background: #ffffff;
-    &:hover {
-      border-color: rgba(0, 0, 0, 0.87);
-    }
-    &:focus {
-      border: 2px solid #5064cc;
-    }
-    option {
-      color: #5064cc;
-      &:hover {
-        background-color: #5064cc26 !important;
-      }
-    }
-  }
-  &::before {
-    content: "\f107";
-    font-family: FontAwesome;
-    font-size: 22px;
-    display: block;
-    color: #5064cc; /*change in this line color*/
-    position: absolute;
-    right: 12px;
-    top: calc(16% - 2px);
-    pointer-events: none;
-  }
+  // select {
+  //   width: 170px;
+  //   height: 40px;
+  //   -webkit-appearance: none;
+  //   -moz-appearance: none;
+  //   appearance: none;
+  //   outline: none;
+  //   border: 1px solid #7070704d;
+  //   border-radius: 5px;
+  //   padding: 0px 12px;
+  //   background: #ffffff;
+  //   &:hover {
+  //     border-color: rgba(0, 0, 0, 0.87);
+  //   }
+  //   &:focus {
+  //     border: 2px solid #5064cc;
+  //   }
+  //   option {
+  //     color: #5064cc;
+  //     &:hover {
+  //       background-color: #5064cc26 !important;
+  //     }
+  //   }
+  // }
+  // &::before {
+  //   content: "\f107";
+  //   font-family: FontAwesome;
+  //   font-size: 22px;
+  //   display: block;
+  //   color: #5064cc; /*change in this line color*/
+  //   position: absolute;
+  //   right: 12px;
+  //   top: calc(16% - 2px);
+  //   pointer-events: none;
+  // }
 }
 .v-btn {
   span {
