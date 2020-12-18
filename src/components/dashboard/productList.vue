@@ -13,6 +13,7 @@
 
     <div class="d-flex align-center justify-center browse-container">
       <div class="text-center">
+        <img src="@/assets/img/Group12879.svg" alt="" class="mb-5"/>
         <h2 class="mb-3">Import file</h2>
         <p class="secondary--text">
           Drag and drop a file to import <br />
@@ -59,7 +60,7 @@ export default {
   }
 }
 .browse-container{
-  padding-top: 15%;
+  padding-top: 13%;
 }
 .browse {
   cursor: pointer;

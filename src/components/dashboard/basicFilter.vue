@@ -39,7 +39,7 @@
               <div class="py-2 px-4">
                 <multipleRange
                   minNum="0"
-                  maxNum="10000000"
+                  maxNum="1"
                   @minMaxNumber="setPriceRange"
                 />
               </div>
@@ -60,7 +60,7 @@
               <div class="py-2 px-4">
                 <multipleRange
                   minNum="0"
-                  maxNum="1000000"
+                  maxNum="1"
                   @minMaxNumber="setCommissionRange"
                 />
               </div>
@@ -77,7 +77,7 @@
               <div class="py-2 px-4">
                 <multipleRange
                   minNum="0"
-                  maxNum="1000000"
+                  maxNum="1"
                   @minMaxNumber="setQuantityRange"
                 />
               </div>
@@ -85,7 +85,7 @@
           </v-col>
           <v-col class="col-12 col-md-6">
             <!-- category filter -->
-            <div class="filter" ref="categoryFilter" v-if="category === true">
+            <div class="filter" ref="categoryFilter" v-if="category.length > 0">
               <div
                 class="filter-item px-4 py-2 d-flex align-center justify-space-between"
                 @click="toggleFilterItem('categoryFilter')"
@@ -95,13 +95,11 @@
               </div>
               <div class="py-2 px-4">
                 <v-checkbox
-                  v-model="checkbox1"
-                  label="Phone and deveices"
-                  class="my-0 py-0"
-                ></v-checkbox>
-                <v-checkbox
-                  v-model="checkbox2"
-                  label="Laptops"
+                  v-for="(item, index) in category"
+                  :key="index"
+                  v-model="selected"
+                  :value="item"
+                  :label="item"
                   class="my-0 py-0"
                 ></v-checkbox>
               </div>
@@ -117,12 +115,14 @@
               </div>
               <div class="py-2 px-4">
                 <v-checkbox
-                  v-model="checkbox6"
+                  value="inStock"
+                  v-model="selected"
                   label="Items in Stock"
                   class="my-0 py-0"
                 ></v-checkbox>
                 <v-checkbox
-                  v-model="checkbox7"
+                  value="outOfStock"
+                  v-model="selected"
                   label="Items out of stock"
                   class="my-0 py-0"
                 ></v-checkbox>
@@ -139,12 +139,14 @@
               </div>
               <div class="py-2 px-4">
                 <v-checkbox
-                  v-model="checkbox8"
+                  value="paid"
+                  v-model="selected"
                   label="Paid"
                   class="my-0 py-0"
                 ></v-checkbox>
                 <v-checkbox
-                  v-model="checkbox9"
+                  value="not paid"
+                  v-model="selected"
                   label="Not Paid"
                   class="my-0 py-0"
                 ></v-checkbox>
@@ -161,12 +163,14 @@
               </div>
               <div class="py-2 px-4">
                 <v-checkbox
-                  v-model="checkbox10"
+                  value="delivered"
+                  v-model="selected"
                   label="Delivered"
                   class="my-0 py-0"
                 ></v-checkbox>
                 <v-checkbox
-                  v-model="checkbox11"
+                  value="not delivered"
+                  v-model="selected"
                   label="Not Delivered"
                   class="my-0 py-0"
                 ></v-checkbox>
@@ -175,7 +179,15 @@
           </v-col>
         </v-row>
         <div class="d-flex justify-end px-4 mb-2">
-          <v-btn class="primary px-4 py-2">Apply</v-btn>
+          <!-- reset filter btn -->
+          <v-btn
+            class="px-4 py-2 mr-2 primary--text"
+            @click="resetFilter"
+            style="background: #5064cc26"
+            >Reset</v-btn
+          >
+          <!-- apply filter btn -->
+          <v-btn class="primary px-4 py-2" @click="filterItems">Apply</v-btn>
         </div>
       </div>
     </div>
@@ -200,12 +212,7 @@ export default {
   ],
   data: function () {
     return {
-      checkbox6: false,
-      checkbox7: false,
-      checkbox8: false,
-      checkbox9: false,
-      checkbox10: false,
-      checkbox11: false,
+      selected: [],
       filterActive: false,
       minPrice: 0,
       maxPrice: 0,
@@ -219,6 +226,7 @@ export default {
     setPriceRange(params) {
       this.minPrice = params.minNum;
       this.maxPrice = params.maxNum;
+      console.log(this.minPrice, this.maxPrice);
     },
     setCommissionRange(params) {
       this.minCommission = params.minNum;
@@ -226,10 +234,26 @@ export default {
     },
     setQuantityRange(params) {
       this.minQuantity = params.minNum;
-      this.minQuantity = params.maxNum;
+      this.maxQuantity = params.maxNum;
     },
     toggleFilterItem(refName) {
       this.$refs[`${refName}`].classList.toggle("filter--active");
+    },
+    filterItems() {
+      this.$emit("filterOption", {
+        minPrice: this.minPrice,
+        maxPrice: this.maxPrice,
+        minCommission: this.minCommission,
+        maxCommission: this.maxCommission,
+        minQuantity: this.minQuantity,
+        maxQuantity: this.maxQuantity,
+        selectedOptions: this.selected
+      });
+      this.filterActive = false;
+    },
+    resetFilter() {
+      this.$emit("resetFilter");
+      this.filterActive = false;
     },
   },
 };

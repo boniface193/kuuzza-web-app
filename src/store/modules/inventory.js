@@ -1,4 +1,4 @@
-// import axios from "axios";
+import axios from "axios";
 
 //holds the state properties
 const state = {
@@ -12,6 +12,7 @@ const state = {
                 price: 25000,
                 commission: 100,
                 quantity: 30,
+                stockStatus: "inStock",
                 description: `Infinix Hot 10, core i5, 128 GB SSD, 8GB, 13", 12 hours battery,
                               backlit keyboard, Multi-Touch 1.8GHz dual-core intelcore i5
                               processor with 3MB shared L3 cache (Turbo boost up to 2.9GHz) 8GB of
@@ -22,11 +23,12 @@ const state = {
             {
                 productName: "Apple MacBook 2013 Pro Core i5",
                 image: "@assets/img/laptop.png",
-                category: "Phones & devices",
+                category: "TV",
                 sku: "0000000000",
                 price: "150000",
                 commission: 1200,
                 quantity: 30,
+                stockStatus: "outOfStock",
                 description: `Infinix Hot 10, core i5, 128 GB SSD, 8GB, 13", 12 hours battery,
                 backlit keyboard, Multi-Touch 1.8GHz dual-core intelcore i5
                 processor with 3MB shared L3 cache (Turbo boost up to 2.9GHz) 8GB of
@@ -37,11 +39,12 @@ const state = {
             {
                 productName: "Iphone 12",
                 image: "@assets/img/laptop.png",
-                category: "Phones & devices",
+                category: "Gadgets",
                 sku: "0000000000",
                 price: 25000,
                 commission: "1000",
                 quantity: 15,
+                stockStatus: "inStock",
                 description: `Infinix Hot 10, core i5, 128 GB SSD, 8GB, 13", 12 hours battery,
                 backlit keyboard, Multi-Touch 1.8GHz dual-core intelcore i5
                 processor with 3MB shared L3 cache (Turbo boost up to 2.9GHz) 8GB of
@@ -57,6 +60,7 @@ const state = {
                 price: 2500,
                 commission: 200,
                 quantity: 10,
+                stockStatus: "inStock",
                 description: `Infinix Hot 10, core i5, 128 GB SSD, 8GB, 13", 12 hours battery,
                 backlit keyboard, Multi-Touch 1.8GHz dual-core intelcore i5
                 processor with 3MB shared L3 cache (Turbo boost up to 2.9GHz) 8GB of
@@ -65,6 +69,7 @@ const state = {
                 id: "hjbwahyaw7",
             },
         ],
+    filteredInventories: null,
     inventoriesHistory: [
         {
             productName: "Apple MacBook 2013 Pro Core i5",
@@ -121,7 +126,13 @@ const state = {
 
 //returns the state properties
 const getters = {
-    inventories: state => state.inventories,
+    inventories: state => {
+        if (state.filteredInventories === null) {
+            return state.inventories
+        } else {
+            return state.filteredInventories
+        }
+    },
     inventoriesHistory: state => state.inventoriesHistory,
     getProductDetails: state => {
         return (productId) => state.inventories.find(({ id }) => id === productId);
@@ -130,32 +141,42 @@ const getters = {
 
 //take actions 
 const actions = {
-    // addProduct(context, details) {
-    //     return new Promise((resolve, reject) => {
-    //         axios.post("/inventory/addproduct", {
-    //             productName: details.productName,
-    //             category: details.category,
-    //             skuNumber: details.skuNumber,
-    //             quantity: details.quantity,
-    //             price: details.price,
-    //             commission: details.commission,
-    //             productDescription: details.productDescription,
-    //             images: details.images,
-    //         })
-    //             .then(response => {
-    //                 resolve(response)
-    //             })
-    //             .catch(error => {
-    //                 context.commit('', '')
-    //                 reject(error)
-    //             })
-    //     })
-    // }
+    addProduct(context, details) {
+        return new Promise((resolve, reject) => {
+            axios.post("/inventory/addproduct", {
+                productName: details.productName,
+                category: details.category,
+                skuNumber: details.skuNumber,
+                quantity: details.quantity,
+                price: details.price,
+                commission: details.commission,
+                productDescription: details.productDescription,
+                images: details.images,
+            })
+                .then(response => {
+                    resolve(response)
+                })
+                .catch(error => {
+                    context.commit('', '')
+                    reject(error)
+                })
+        })
+    }
 
 };
 
 //updates the different state properties
-const mutations = {};
+const mutations = {
+    filterInventories: (state, payload) => {
+        state.filteredInventories = state.inventories.filter(item =>
+            (item.price >= payload.minPrice && item.price <= payload.maxPrice) ||
+            (item.commission >= payload.minCommission && item.commission <= payload.maxCommission) ||
+            (item.quantity >= payload.minQuantity && item.quantity <= payload.maxQuantity) ||
+            (payload.selectedOptions.includes(item.category) ) || 
+            (payload.selectedOptions.includes(item.stockStatus) ) )
+    },
+    resetFilter: (state) => (state.filteredInventories = null)
+};
 
 
 export default {
