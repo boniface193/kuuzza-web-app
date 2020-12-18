@@ -254,7 +254,7 @@ export default {
     resetFilter() {
       this.$emit("resetFilter");
       this.filterActive = false;
-    },
+    }
   },
 };
 </script>
