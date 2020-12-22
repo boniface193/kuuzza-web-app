@@ -107,19 +107,23 @@ export default {
       this.$store
         .dispatch("onboarding/recoverPassword", {
           email: this.$route.params.email,
-          newPassword: this.create_password,
-          opt: this.$route.params.otp,
+          password: this.create_password,
+          password_confirmation: this.confirm_password,
+          otp: this.$route.params.otp,
         })
         .then((response) => {
           this.loading = false;
           if (response.data.message === "Password reset successful.") {
             this.dialogMessage = "Your password has been successfully changed";
             this.dialog = true;
-          } else {
-            this.loading = false;
-            this.error = true;
-            this.errorMessage = "something went wrong, pls try again";
-          }
+            this.otp = null
+            this.$store.commit("onboarding/accessPasswordRecoveryPage", false);
+            setTimeout(()=>{
+              this.$router.push({
+              name: "Signin",
+            });
+            }, 3000)
+          } 
         })
         .catch(() => {
           this.loading = false;

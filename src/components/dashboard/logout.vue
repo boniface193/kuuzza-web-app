@@ -3,9 +3,7 @@
     <v-btn class="primary" @click="logout">Log Out </v-btn>
     <!-- modal for dialog messages -->
     <modal :dialog="dialog" width="120">
-      <div class="text-center dialog white">
-        Loging Out...
-      </div>
+      <div class="text-center dialog white">Loging Out...</div>
     </modal>
   </div>
 </template>
@@ -22,16 +20,12 @@ export default {
   methods: {
     logout() {
       this.dialog = true;
-      this.$store
-        .dispatch("onboarding/logout")
-        .then(() => {
-          this.dialog = false;
-          this.$router.push({ name: "Signin" });
-        })
-        .catch(() => {
-          this.dialog = false;
-          this.$router.push({ name: "Signin" });
+      this.$store.commit("onboarding/removeToken");
+      setTimeout(() => {
+        this.$router.push({
+          name: "Signin",
         });
+      }, 1000);
     },
   },
 };

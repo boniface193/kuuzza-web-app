@@ -100,12 +100,15 @@ export default {
           this.loading = false;
           if (response.data.message === "Login successful."){
             this.$router.push({ name: "dashboard" });
-          } else if(response.data.message === "The given data was invalid." ){
-            this.errorMessage = `Incorrect email address or password`;
-            this.error = true;
           }
-        }).catch(() => {
+        }).catch((error) => {
+          this.error = true;
           this.loading = false
+          if(error.response){
+             this.errorMessage = `Incorrect email address or password`;
+          }else {
+            this.errorMessage = "Something went wrong, pls try again"
+          }
         })
     },
   },

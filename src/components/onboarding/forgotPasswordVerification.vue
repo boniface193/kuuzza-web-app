@@ -81,18 +81,22 @@ export default {
           .then((response) => {
             this.loading = false;
             if (response.data.message === "OTP verified successfully.") {
+              this.$store.commit("onboarding/accessForgotPasswordVerificationPage", false);
+              this.$store.commit("onboarding/accessPasswordRecoveryPage", true);
               this.$router.push({
                 name: "Recoverpassword",
-                params: { opt: response.data.opt, email: this.$route.params.email},
+                params: { otp: response.data.otp, email: this.$route.params.email},
               });
-            } else {
-              this.errorMessage = true;
-              this.message = "Incorrect verification code";
             }
           })
-          .catch(() => {
+          .catch((error) => {
+            this.loading = false;
             this.errorMessage = true;
-            this.message = "Something went wrong, Please try again";
+            if (error.response) {
+              this.message = "OTP is invalid or expired";
+            } else {
+              this.message = "Something went wrong, Please try again";
+            }
           });
       } else {
         this.errorMessage = true;
