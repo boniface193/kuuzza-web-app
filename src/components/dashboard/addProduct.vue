@@ -273,7 +273,7 @@ export default {
         this.imageError = false;
       }
     },
-    //set category value
+    // set category value
     setCategory(params) {
       this.category = params;
       this.verifyCategory();

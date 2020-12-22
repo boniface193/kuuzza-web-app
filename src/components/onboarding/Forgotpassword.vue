@@ -55,6 +55,7 @@ export default {
     },
     //submit email
     submit_email() {
+      const emailAddress = this.email;
       this.loading = true;
       this.$store
         .dispatch("onboarding/forgotPassword", {
@@ -62,14 +63,14 @@ export default {
         })
         .then((response) => {
           this.loading = false;
-          if (response.data.status === "success") {
+          if (response.data.message === "An OTP has been sent to your email.") {
             this.$router.push({
               name: "forgotPasswordVerification",
-              params: { email: response.data.email },
+              params: { email: emailAddress },
             });
-          } else if (response.data.status === "noAccount") {
+          } else {
             this.errorMessage = `The account with email address <span class="primary--text">
-            ${response.data.email}</span> does not exist`;
+            ${emailAddress}</span> does not exist`;
             this.error = true;
           }
         })

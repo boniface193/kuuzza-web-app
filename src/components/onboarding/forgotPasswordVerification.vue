@@ -40,7 +40,7 @@
   </div>
 </template>
 <script>
-import OtpInput from "@/components/dashboard/verifyInput";
+import OtpInput from "@/components/onboarding/verifyInput";
 export default {
   name: "forgotPasswordVerification",
   components: {
@@ -80,12 +80,12 @@ export default {
           })
           .then((response) => {
             this.loading = false;
-            if (response.data.status === "success") {
+            if (response.data.message === "OTP verified successfully.") {
               this.$router.push({
                 name: "Recoverpassword",
-                params: { email: response.data.email },
+                params: { opt: response.data.opt, email: this.$route.params.email},
               });
-            } else if (response.data.status === "incorrectCode") {
+            } else {
               this.errorMessage = true;
               this.message = "Incorrect verification code";
             }

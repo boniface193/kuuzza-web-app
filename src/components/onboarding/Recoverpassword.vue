@@ -38,13 +38,43 @@
         >
       </div>
     </v-form>
+
+    <!-- modal for dialog messages -->
+    <modal :dialog="dialog" width="400">
+      <div class="white pa-3 pb-10 text-center dialog">
+        <div class="d-flex justify-end">
+          <v-icon
+            class="error--text close-btn"
+            @click="
+              () => {
+                this.dialog = false;
+                this.$router.push({
+                  name: 'Signin',
+                });
+              }
+            "
+            >mdi-close</v-icon
+          >
+        </div>
+
+        <div class="mb-7 mt-5 mx-auto status-img">
+          <v-img src="@/assets/img/success-img.svg"></v-img>
+        </div>
+
+        <h4>{{ dialogMessage }}</h4>
+      </div>
+    </modal>
   </div>
 </template>
 <script>
+import modal from "@/components/dashboard/modal.vue";
 export default {
   name: "Recoverpassword",
+  components: { modal },
   data: function () {
     return {
+      dialog: false,
+      dialogMessage: "",
       error: false,
       errorMessage: "",
       loading: false,
@@ -78,20 +108,33 @@ export default {
         .dispatch("onboarding/recoverPassword", {
           email: this.$route.params.email,
           newPassword: this.create_password,
+          opt: this.$route.params.otp,
         })
         .then((response) => {
-           this.loading = false;
-          if (response.data.status === "success") {
-            this.$router.push({
-              name: "Signin",
-            });
+          this.loading = false;
+          if (response.data.message === "Password reset successful.") {
+            this.dialogMessage = "Your password has been successfully changed";
+            this.dialog = true;
+          } else {
+            this.loading = false;
+            this.error = true;
+            this.errorMessage = "something went wrong, pls try again";
           }
-        }).catch(() => {
+        })
+        .catch(() => {
           this.loading = false;
           this.error = true;
-          this.errorMessage = "something went wrong, pls try again"
-        })
+          this.errorMessage = "something went wrong, pls try again";
+        });
     },
   },
 };
 </script>
+<style lang="scss" scoped>
+.status-img {
+  width: 140px;
+  .v-image {
+    width: 100%;
+  }
+}
+</style>

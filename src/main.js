@@ -7,7 +7,7 @@ import Chartkick from 'vue-chartkick'
 import Chart from 'chart.js'
 // import
 // mock server 
-import { onboardServer } from './server/onboarding.js'
+//import { onboardServer } from './server/onboarding.js'
 
 Vue.use(require('vue-moment'));
 
@@ -17,7 +17,6 @@ Vue.config.productionTip = false;
 
 new Vue({
   router,
-  onboardServer,
   store,
   vuetify,
   render: h => h(App)
