@@ -9,7 +9,7 @@
             class="rounded-pill pa-125 round-img-bg-warning my-lg-16 my-md-16 mx-lg-5"
           >
             <div
-              class="text-center mx-lg-15 mx-xl-16 mx-md-13 my-lg-16 my-md-16"
+              class="text-center mx-lg-15 mx-xl-25 mx-lg-25 mx-md-13 my-lg-16 my-md-16"
             >
               <span class="donut-text text text-md-subtitle-1 text-lg-h4 text"
                 >250</span
@@ -79,7 +79,6 @@ export default {
 }
 
 .donut-text {
-  // text-align: left;
   font: normal normal bold 40px/0px "Product Sans";
   letter-spacing: 0px;
   color: #2b2b2b;
@@ -95,5 +94,17 @@ export default {
 
 div#chart-5 {
   margin: auto;
+}
+
+@media (min-width: 1440px) {
+  .mx-lg-25 {
+    margin: 64px 80px 64px 80px !important;
+  }
+}
+
+@media (min-width: 1906px) {
+  .mx-xl-25 {
+    margin: 64px 90px 64px 90px !important;
+  }
 }
 </style>

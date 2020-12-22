@@ -1,6 +1,6 @@
 <template>
   <!-- card shows individual revenue, items in stocks, total commission -->
-  <v-card :width="width" height="205" elevation="0" class="pt-5">
+  <v-card :width="width" height="180" elevation="0" class="pt-5">
     <div class="d-flex justify-center">
       <div :class="img_color" class="rounded-pill pa-7 text-center"></div>
       <div class="mx-4">
@@ -56,7 +56,6 @@ export default {
 }
 
 .card-digit {
-  margin-top: 20px;
   text-align: center;
   font: normal normal bold 40px/61px "Product Sans";
   letter-spacing: 0px;
@@ -75,7 +74,7 @@ export default {
 .card_sub {
   text-align: center;
   margin-bottom: 5px;
-  font: normal normal bold 14px/25px "Product Sans";
+  font: normal normal bold 14px/22px "Product Sans";
   letter-spacing: 0px;
   color: #f70909;
   opacity: 1;
