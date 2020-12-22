@@ -30,6 +30,13 @@
         <!-- nav link -->
         <router-link
           class="nav-item"
+          :class="{ 'nav-item--active': this.$route.name == 'bankAccounts' }"
+          :to="{ name: 'bankAccounts' }"
+          >Bank Accounts</router-link
+        >
+        <!-- nav link -->
+        <router-link
+          class="nav-item"
           :class="{ 'nav-item--active': this.$route.name == 'privacy' }"
           :to="{ name: 'privacy' }"
           >Privacy & Security</router-link

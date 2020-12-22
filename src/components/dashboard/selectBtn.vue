@@ -78,7 +78,7 @@ export default {
     position: absolute;
     overflow-x: hidden;
     box-shadow: 0px 3px 6px #00000029;
-    top: 42px;
+    top: 100%;
     left: 0px;
     display: none;
     margin-top: 3px;

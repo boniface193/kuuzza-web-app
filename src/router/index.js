@@ -11,6 +11,7 @@ import Home from "@/views/dashboard/home.vue";
 import Settings from "../views/dashboard/Settings.vue";
 import userDetails from "@/components/dashboard/userDetails.vue";
 import teamDetails from "@/components/dashboard/teamDetails.vue";
+import bankAccounts from "@/components/dashboard/bankAccounts.vue";
 import storeDetails from "@/components/dashboard/storeDetails.vue";
 import privacyDetails from "@/components/dashboard/privacyDetails.vue";
 import logout from "@/components/dashboard/logout.vue";
@@ -201,6 +202,11 @@ const routes = [
             path: "team",
             name: "team",
             component: teamDetails
+          },
+          {
+            path: "bank-details",
+            name: "bankAccounts",
+            component: bankAccounts
           },
           {
             path: "privacy",
