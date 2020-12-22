@@ -75,24 +75,21 @@ export default {
 }
 
 .customer-188 {
-  // text-align: left;
-  font: normal normal bold 50px/61px "Product Sans";
+  font: normal normal bold 50px/30px "Product Sans";
   letter-spacing: 0px;
   color: #2b2b2b;
   opacity: 1;
 }
 
 .customer-title {
-  // text-align: left;
-  font: normal normal normal 18px/22px "Product Sans" Light;
+  font: normal normal normal 18px/8px "Product Sans" Light;
   letter-spacing: 0px;
   color: #646464;
   opacity: 0.7;
 }
 
 .green_text {
-  // text-align: left;
-  font: normal normal bold 14px/17px "Product Sans";
+  font: normal normal bold 14px/5px "Product Sans";
   letter-spacing: 0px;
   color: #00b944;
   opacity: 1;

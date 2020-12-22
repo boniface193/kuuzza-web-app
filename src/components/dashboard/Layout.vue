@@ -71,8 +71,8 @@
         </v-list-item-group>
       </v-list>
       <div class="ml-3 mt-8">
-        <v-btn outlined tile class="text-size-md"
-          ><v-icon class="mr-5" size="20">mdi-logout</v-icon> Log Out</v-btn
+        <span class="white--text text-size-md"
+          ><v-icon class="ml-4 mr-6" size="20">mdi-logout</v-icon>LogOut</span
         >
       </div>
     </v-navigation-drawer>
@@ -106,7 +106,7 @@ export default {
       },
       {
         title: "Customers",
-        icon: "mdi-account-supervisor",
+        icon: "mdi-human-queue",
         routes: "/customers",
       },
       {
@@ -176,6 +176,7 @@ a.v-item--active.v-list-item--active.v-list-item.v-list-item--link.theme--dark {
   font-size: 14px;
   letter-spacing: 0.5px;
   font-weight: 200;
+  cursor: pointer;
 }
 
 button.v-btn.v-btn--depressed.v-btn--flat.v-btn--outlined.v-btn--tile.theme--dark.v-size--default {
