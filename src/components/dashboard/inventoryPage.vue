@@ -7,7 +7,7 @@
     </div>
     <div class="d-flex justify-space-between align-center mt-8 mb-1 flex-wrap">
       <div class="select-item mr-8 mb-2">
-        <triggeredSelect />
+        <selectBtn  :items="['Actions','Take product offline', 'Delete product']" />
       </div>
 
       <div class="d-flex align-center flex-wrap tool-container justify-space-between">
@@ -113,11 +113,11 @@ import dataTable from "@/components/dashboard/dataTable.vue";
 import modal from "@/components/dashboard/modal.vue";
 import searchBar from "@/components/dashboard/searchBar.vue";
 import basicFilter from "@/components/dashboard/basicFilter.vue";
-import triggeredSelect from "@/components/dashboard/triggeredSelect.vue"
+import selectBtn from "@/components/dashboard/selectBtn.vue"
 import { mapGetters } from "vuex";
 export default {
   name: "inventoryPage",
-  components: { dataTable, modal, searchBar, basicFilter, triggeredSelect},
+  components: { dataTable, modal, searchBar, basicFilter, selectBtn},
   data: function () {
     return {
       items: ["Items in stock", "Items out of stock"],
@@ -215,42 +215,8 @@ export default {
 <style lang="scss" scoped>
 .select-item {
   width: 200px;
+  height: 42px;
   position: relative;
-  // select {
-  //   width: 170px;
-  //   height: 40px;
-  //   -webkit-appearance: none;
-  //   -moz-appearance: none;
-  //   appearance: none;
-  //   outline: none;
-  //   border: 1px solid #7070704d;
-  //   border-radius: 5px;
-  //   padding: 0px 12px;
-  //   background: #ffffff;
-  //   &:hover {
-  //     border-color: rgba(0, 0, 0, 0.87);
-  //   }
-  //   &:focus {
-  //     border: 2px solid #5064cc;
-  //   }
-  //   option {
-  //     color: #5064cc;
-  //     &:hover {
-  //       background-color: #5064cc26 !important;
-  //     }
-  //   }
-  // }
-  // &::before {
-  //   content: "\f107";
-  //   font-family: FontAwesome;
-  //   font-size: 22px;
-  //   display: block;
-  //   color: #5064cc; /*change in this line color*/
-  //   position: absolute;
-  //   right: 12px;
-  //   top: calc(16% - 2px);
-  //   pointer-events: none;
-  // }
 }
 .v-btn {
   span {

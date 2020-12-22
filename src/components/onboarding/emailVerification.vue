@@ -1,5 +1,8 @@
 <template>
   <div>
+    <v-alert type="success" v-show="resendOtpSuccess"
+      >OPT has been sent successfully!</v-alert
+    >
     <p class="mt-5 mb-0">
       Kindly enter the code sent to
       <span style="font-weight: bold">{{ $route.params.email }}</span>
@@ -26,7 +29,7 @@
       <div class="pa-0 mt-10" style="width: 100%">
         <p>
           Didn't receive the code?
-          <a style="text-decoration: none">Resend Code</a>
+          <a style="text-decoration: none" @click="resendOTP">Resend Code</a>
         </p>
         <v-btn
           class="primary px-8 py-5 mb-5"
@@ -57,7 +60,7 @@
           class="primary mx-auto py-5 px-8"
           :loading="loading2"
           :disabled="loading2"
-          @click="signIn"
+          @click="grantAccess"
           >Go to Dashboard</v-btn
         >
       </div>
@@ -65,7 +68,7 @@
   </div>
 </template>
 <script>
-import OtpInput from "@/components/dashboard/verifyInput";
+import OtpInput from "@/components/onboarding/verifyInput";
 import modal from "@/components/dashboard/modal.vue";
 export default {
   name: "emailVerification",
@@ -82,6 +85,7 @@ export default {
       code: null,
       errorMessage: false,
       message: "",
+      resendOtpSuccess: false,
     };
   },
   methods: {
@@ -98,7 +102,7 @@ export default {
       this.code = value;
       this.errorMessage = false;
     },
-    // submit code
+    // submit OTP
     SubmitCode() {
       if (this.verify) {
         this.loading = true;
@@ -109,14 +113,18 @@ export default {
           })
           .then((response) => {
             this.loading = false;
-            if (response.data.status === "success") {
+            if (response.data.message === "Email verified successfully.") {
               this.dialog = true;
-            } else if (response.data.status === "incorrectCode") {
+            } else if (
+              response.data.message === "The given data was invalid."
+            ) {
               this.errorMessage = true;
-              this.message = "Incorrect verification code";
+              this.message =
+                "The verification pin you entered is incorrect or expired.";
             }
           })
           .catch(() => {
+            this.loading = false
             this.errorMessage = true;
             this.message = "Something went wrong, Please try again";
           });
@@ -126,31 +134,41 @@ export default {
           "Please Enter the 5 digits code sent to your email adddress";
       }
     },
-    cancelModal() {
-      this.dialog = false;
-      this.$router.push({
-        name: "Signin",
-      });
-    },
-    //Sign in
-    signIn() {
-      this.loading2 = true;
+    // resend OTP
+    resendOTP() {
       this.$store
-        .dispatch("onboarding/signIn", {
+        .dispatch("onboarding/resendEmailOTP", {
           email: this.$route.params.email,
-          password: this.$route.params.password,
         })
         .then((response) => {
-          this.loading2 = false;
-          if (response.data.status === "success") {
-            this.$router.push({ name: "dashboard" });
-          } else if (response.data.status === "incorrectDetails") {
-            this.$router.push({ name: "Signin" });
+          if (response.data.message === "An OTP has been sent to your email.") {
+            this.resendOtpSuccess = true;
+            setTimeout(() => {
+              this.resendOtpSuccess = false;
+            }, 3000);
+          } else if (response.data.message === "The given data was invalid.") {
+            this.errorMessage = true;
+            this.message = "Invalid, Email already verified.";
           }
         })
         .catch(() => {
-          this.loading2 = false;
+          this.errorMessage = true;
+          this.message = "Something went wrong, Please try again";
         });
+    },
+    // close modal
+    cancelModal() {
+      this.dialog = false;
+      this.denialAccess();
+    },
+    //allows user to access the dashboard
+    grantAccess() {
+      this.$router.push({ name: "dashboard" });
+    },
+    // destroy token 
+    denialAccess() {
+      this.$store.commit("onboarding/setToken", null);
+      this.$router.push({ name: "Signin" });
     },
   },
 };

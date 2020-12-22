@@ -2,9 +2,10 @@
   <div
     class="custom-select"
     :style="{ width: width, height: height }"
-    :class="{ focus: dropdown === true, errorStatus: inputStatus === true}"
+    :class="{ errorStatus: inputStatus === true }"
+    tabindex="0"
+    ref="customSelect"
   >
-    
     <div
       class="custom-select-content d-flex align-center justify-space-between"
       @click="toggleDropdown"
@@ -52,7 +53,15 @@
 <script>
 export default {
   name: "customSelect",
-  props: ["width", "height", "caretColor", "placeholder", "items", "inputStatus", "searchBar"],
+  props: [
+    "width",
+    "height",
+    "caretColor",
+    "placeholder",
+    "items",
+    "inputStatus",
+    "searchBar",
+  ],
   data: function () {
     return {
       dropdown: false,
@@ -63,21 +72,26 @@ export default {
   },
   computed: {
     filteredItem() {
-      return this.items.filter(item => {
-        return item.toLowerCase().includes(this.searchValue.toLowerCase())
-      })
-    }
+      return this.items.filter((item) => {
+        return item.toLowerCase().includes(this.searchValue.toLowerCase());
+      });
+    },
   },
   methods: {
     toggleDropdown() {
-      if (this.dropdown === false) {
+
+     if((document.querySelector(".custom-select") == document.activeElement) && this.dropdown == true) {
         this.dropdown = true;
       } else {
-        this.dropdown = false;
+        if(this.dropdown === true) {
+          this.dropdown = false
+        }else {
+          this.dropdown = true
+        }
       }
     },
     itemSelected(item) {
-      this.toggleDropdown();
+      this.dropdown = false
       this.selectedValue = item;
       this.itemHolder = item;
       this.$emit("selectedItem", this.selectedValue);
@@ -114,6 +128,7 @@ export default {
     border-radius: 10px;
     position: absolute;
     background: #ffffff;
+    display: none;
     z-index: 1000;
     left: 0;
     margin-top: 5px;
@@ -165,16 +180,17 @@ export default {
       }
     }
   }
-}
-.focus {
-  border: 2px solid #5064cc;
-  &:hover {
-    border-color: #5064cc;
+  &:focus {
+    .custom-dropdown {
+      display: block;
+    }
+    border: 2px solid #5064cc;
   }
 }
-.errorStatus{
+
+.errorStatus {
   border: 2px solid #e62222 !important;
-  &:hover{
+  &:hover {
     border-color: #e62222 !important;
   }
 }

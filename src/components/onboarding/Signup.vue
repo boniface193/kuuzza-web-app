@@ -235,8 +235,8 @@ export default {
         //verifies password satisfies the requirement
         (v) => !!v || "Password is required",
         (v) =>
-          /^(?=.*[a-z])(?=.*\d)[a-zA-Z\d\w\W]{8,30}$/.test(v) ||
-          "Password must contain a minimum of 8 character and at least one number",
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(v) ||
+          "Password must contain a minimum of 8 character, at least one uppercase, one lowercase, one number and one special character",
       ],
       confirm_passwordRules: [
         (v) => !!v || "Password is required",
@@ -288,13 +288,12 @@ export default {
         })
         .then((response) => {
           this.loading = false;
-          if (response.data.status === "success") {
+          if (response.data.message === "Registeration successful.") {
             this.$store.commit("onboarding/present_signup_form", "form1");
             this.$router.push({
               name: "emailVerification",
               params: {
-                email: response.data.email,
-                password: this.create_password,
+                email: this.email,
               },
             });
           } else if (response.data.status === "accountExist") {
@@ -304,7 +303,7 @@ export default {
           }
         })
         .catch(() => {
-          this.errorMessage = "Something went wrong, Please try again";
+          this.errorMessage = "Something went wrong, Please try again or ";
           this.error = true;
           this.loading = false;
         });

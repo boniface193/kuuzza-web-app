@@ -125,14 +125,7 @@
         <div class="d-flex justify-space-between align-center mb-2">
           <span class="mr-2">Number per page</span>
           <div class="select-item">
-            <select>
-              <option>5</option>
-              <option>10</option>
-              <option>15</option>
-              <option>20</option>
-              <option>30</option>
-              <option>50</option>
-            </select>
+            <selectBtn :items="[5, 10, 20, 30, 50]" />
           </div>
         </div>
       </div>
@@ -147,8 +140,10 @@
   </div>
 </template>
 <script>
+import selectBtn from "@/components/dashboard/selectBtn.vue";
 export default {
   name: "dataTable",
+  components: { selectBtn },
   data: function () {
     return {
       selected: [],
@@ -299,42 +294,8 @@ export default {
 }
 .select-item {
   width: 75px;
+  height: 35px;
   position: relative;
-  select {
-    width: 75px;
-    height: 30px;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    outline: none;
-    border: 1px solid #7070704d;
-    border-radius: 5px;
-    padding: 0px 12px;
-    background: #ffffff;
-    &:hover {
-      border-color: rgba(0, 0, 0, 0.87);
-    }
-    &:focus {
-      border: 2px solid #5064cc;
-    }
-    option {
-      color: #5064cc;
-      &:hover {
-        background-color: #5064cc26 !important;
-      }
-    }
-  }
-  &::before {
-    content: "\f107";
-    font-family: FontAwesome;
-    font-size: 22px;
-    display: block;
-    color: #5064cc; /*change in this line color*/
-    position: absolute;
-    right: 12px;
-    top: calc(16% - 6px);
-    pointer-events: none;
-  }
 }
 .productLink {
   color: #5064cc;
