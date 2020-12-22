@@ -5,7 +5,7 @@
       <div class="mx-lg-12 mx-md-5 mx-sm-5">
         <div>
           <!-- welcome greetings -->
-          <calendar class="float-right" :dateRange="dateRange" opens="left" />
+          <calendar class="float-right d-none d-md-block" />
           <div class="welcome-user mb-5">Welcome Ayotunde</div>
         </div>
         <v-row>
@@ -131,6 +131,7 @@ export default {
     donut,
     calendar,
   },
+
   data() {
     return {
       // first leader board summary
@@ -145,11 +146,6 @@ export default {
         { text: "Infinix Hot 1" },
         { text: "Gionee X9" },
       ],
-
-      dateRange: {
-        startDate: Date.now(),
-        endDate: Date.now(),
-      },
     };
   },
 };
