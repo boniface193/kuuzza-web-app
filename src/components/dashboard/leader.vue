@@ -17,13 +17,29 @@
       </div>
       <div v-for="(item, i) in listItem" :key="i">
         <v-row class="text">
-          <v-col cols="2">
+          <v-col cols="2" class="text-center">
             {{ i + 1 }}
           </v-col>
-          <v-col cols="6" class="text-truncate">
-            {{ item.text }}
+          <v-col v-if="item.text" cols="6" class="text-truncate"
+            >{{ item.text }}
           </v-col>
-          <v-col cols="4">
+          <v-col v-if="item.title" cols="4" class="text-truncate">
+            <span class="large-text"> {{ item.title }}</span>
+            <div class="mt-2 letter-spacing small-text">
+              {{ item.email }}
+            </div>
+          </v-col>
+          <v-col v-if="item.indexOfOrder" cols="3" class="text-truncate">
+            <span class="small-text">{{ item.indexOfOrder }}</span>
+            <div class="mt-2 letter-spacing large-text">{{ item.number }}</div>
+          </v-col>
+          <v-col v-if="item.totalSpent" cols="3">
+            <span class="small-text">{{ item.totalSpent }}</span>
+            <div class="mt-2 letter-spacing large-text">
+              ₦{{ item.totalAmountSpent }}
+            </div>
+          </v-col>
+          <v-col v-if="item.count" cols="4">
             {{ item.count }}
           </v-col>
         </v-row>
@@ -58,7 +74,7 @@ export default {
 
 .text {
   font-family: Poppins sans-serif "Product Sans";
-  font: normal normal normal 14px/18px Sans-Serif;
+  font: normal normal normal 14px/10px Sans-Serif;
   color: #646464;
   opacity: 1;
 }
@@ -114,9 +130,24 @@ export default {
 
 .customer-title {
   text-align: left;
-  font: normal normal normal 18px/20px Product Sans Light;
+  font: normal normal normal 18px/20px "Product Sans" Light;
   letter-spacing: 0px;
   color: #646464;
   opacity: 0.7;
+}
+
+.letter-spacing {
+  letter-spacing: 1.5px;
+  font-family: "Product Sans" Light;
+}
+
+.small-text {
+  font: normal normal lighter 11px/20px "Product Sans" Light;
+  margin: 15px 0px;
+}
+
+.large-text {
+  font: normal normal bold 18px/20px "Product Sans";
+  margin: 15px 0px;
 }
 </style>

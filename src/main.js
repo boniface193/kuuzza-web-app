@@ -5,7 +5,10 @@ import store from "./store";
 import vuetify from "./plugins/vuetify";
 import Chartkick from 'vue-chartkick'
 import Chart from 'chart.js'
-// import
+import VueApexCharts from 'vue-apexcharts'
+Vue.use(VueApexCharts)
+
+Vue.component('apexchart', VueApexCharts)
 // mock server 
 //import { onboardServer } from './server/onboarding.js'
 
