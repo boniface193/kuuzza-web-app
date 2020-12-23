@@ -151,8 +151,8 @@ export default {
         { text: "Image", value: "image", image: true, width: "200px" },
         { text: "Category", value: "category", width: "200px" },
         { text: "SKU", value: "sku", width: "200px" },
-        { text: "Price (N)", value: "price", width: "200px" },
-        { text: "Commission (N)", value: "commission", width: "200px" },
+        { text: "Price (N)", value: "price", width: "160px" },
+        { text: "Commission (N)", value: "commission", width: "160px" },
         { text: "Quantity", value: "quantity", width: "100px" },
       ],
     };
