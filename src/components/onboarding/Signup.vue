@@ -235,7 +235,9 @@ export default {
         //verifies password satisfies the requirement
         (v) => !!v || "Password is required",
         (v) =>
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(v) ||
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+            v
+          ) ||
           "Password must contain a minimum of 8 character, at least one uppercase, one lowercase, one number and one special character",
       ],
       confirm_passwordRules: [
@@ -290,22 +292,23 @@ export default {
           this.loading = false;
           if (response.data.message === "Registeration successful.") {
             this.$store.commit("onboarding/present_signup_form", "form1");
+            this.$store.commit("onboarding/accessEmailVerifcationPage", true);
             this.$router.push({
               name: "emailVerification",
               params: {
                 email: this.email,
               },
             });
-          } else if (response.data.status === "accountExist") {
-            this.errorMessage = `The account with email address <span class="primary--text">
-            ${response.data.email}</span> already exist`;
-            this.error = true;
           }
         })
-        .catch(() => {
-          this.errorMessage = "Something went wrong, Please try again or ";
+        .catch((error) => {
           this.error = true;
           this.loading = false;
+          if (error.response) {
+            this.errorMessage = error.response.data.errors.email[0];
+          } else {
+            this.errorMessage = "Something went wrong, Please try again or ";
+          }
         });
     },
   },

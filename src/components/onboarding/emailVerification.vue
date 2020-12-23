@@ -115,15 +115,13 @@ export default {
             this.loading = false;
             if (response.data.message === "Email verified successfully.") {
               this.dialog = true;
-              this.$store.commit("onboarding/accessEmailVerifcationPage", false);
             } 
           })
           .catch((error) => {
             this.loading = false;
             this.errorMessage = true;
             if (error.response) {
-              this.message =
-                "The verification pin you have entered is incorrect or expired.";
+              this.message = error.response.data.errors.otp[0];
             } else {
               this.message = "Something went wrong, Please try again";
             }
@@ -169,6 +167,7 @@ export default {
     denialAccess() {
       this.$store.commit("onboarding/setToken", null);
       this.$router.push({ name: "Signin" });
+      this.$store.commit("onboarding/accessEmailVerifcationPage", false);
     },
   },
 };

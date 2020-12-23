@@ -20,8 +20,6 @@ const getters = {
 //fetch data 
 const actions = {
     //creates user account
-    //country: credentials.country,
-    //state: credentials.state,
     register(context, credentials) {
         return new Promise((resolve, reject) => {
             axios.post(" https://nova-ids.herokuapp.com/auth/register", {
@@ -30,20 +28,17 @@ const actions = {
                 'email': credentials.email,
                 'phone_number': credentials.phoneNumber,
                 'company_name': credentials.companyName,
+                'company_country': credentials.country,
+                'company_state': credentials.state,
                 'company_address': credentials.companyAddress,
                 'password': credentials.password,
                 'password_confirmation': credentials.password
             })
                 .then(response => {
-                    context.commit('setToken', response.token);
-                    context.commit('accessEmailVerifcationPage', true); // allow user to route to email verification page
+                    context.commit('setToken', response.data.token);
                     resolve(response)
                 })
                 .catch(error => {
-                    console.log(error)
-                    if (error.response) {
-                        console.log(error.response)
-                    }
                     reject(error)
                 })
         })
@@ -66,7 +61,6 @@ const actions = {
     },
     // verify email address 
     verifyEmail: (context, credentials) => {
-        console.log(credentials.code, credentials.email)
         return new Promise((resolve, reject) => {
             axios.post("https://nova-ids.herokuapp.com/emails/verify", {
                 'otp': credentials.code,
@@ -75,8 +69,7 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
-                    context.commit('setToken', null);
-                    localStorage.removeItem('accessToken');
+                    context.commit('', '');
                     reject(error);
                 })
         })
@@ -114,7 +107,7 @@ const actions = {
     },
     // verify forgot password 
     verifyForgotPassword: (context, credentials) => {
-        console.log(credentials.code)
+
         return new Promise((resolve, reject) => {
             axios.post("https://nova-ids.herokuapp.com/passwords/verify-otp", {
                 otp: credentials.code,
@@ -123,7 +116,6 @@ const actions = {
                 resolve(response)
             })
                 .catch(error => {
-                    console.log(error.response)
                     context.commit("", "")
                     reject(error);
                 })
