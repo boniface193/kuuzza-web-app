@@ -1,122 +1,124 @@
 <template>
-  <v-main>
-    <v-row class="onboarding-container">
-      <v-col class="pl-7 pr-7 pt-15 pl-sm-15 pr-sm-0 pb-5 col-12 col-md-6">
-        <!-- app logo -->
-        <router-link to="/" class="d-flex dark--text app-logo">
-          N<v-img src="@/assets/img/fire.svg" max-width="35"></v-img>VA
-        </router-link>
+  <div style="margin:auto; max-width:1500px">
+    <v-main>
+      <v-row class="onboarding-container">
+        <v-col class="pl-7 pr-7 pt-15 pl-sm-15 pr-sm-0 pb-5 col-12 col-md-6">
+          <!-- app logo -->
+          <router-link to="/" class="d-flex dark--text app-logo">
+            N<v-img src="@/assets/img/fire.svg" max-width="35"></v-img>VA
+          </router-link>
 
-        <!-- display this introductory message if the condition is meet -->
-        <h1
-          class="primary--text mt-5 mb-0"
-          v-show="
-            (present_form == 'form1' || present_form == 'form2') &&
-            this.$route.name == 'Signup'
-          "
-        >
-          Welcome!
-        </h1>
-
-        <!-- display this introductory message if the condition is meet -->
-        <h1
-          class="primary--text mt-5 mb-0"
-          v-show="present_form == 'form3' && this.$route.name == 'Signup'"
-        >
-          Create your password!
-        </h1>
-
-        <!-- display this introductory message if the condition is meet -->
-        <h1
-          class="primary--text mt-5 mb-0"
-          v-show="this.$route.name == 'Signin'"
-        >
-          Welcome back!
-        </h1>
-
-        <!-- display this introductory message if the condition is meet -->
-        <h1
-          class="primary--text mt-5 mb-0"
-          v-show="this.$route.name == 'Recoverpassword'"
-        >
-          Recover password!
-        </h1>
-
-        <!-- display this introductory message if the condition is meet -->
-        <h1
-          class="primary--text mt-5 mb-0"
-          v-show="
-            this.$route.name == 'Forgotpassword' ||
-            this.$route.name == 'forgotPasswordVerification'
-          "
-        >
-          Forgot password!
-        </h1>
-
-        <!-- display this introductory message if the condition is meet -->
-        <h1
-          class="primary--text mt-5 mb-0"
-          v-show="this.$route.name == 'emailVerification'"
-        >
-          Verify your email address
-        </h1>
-
-        <!-- display this message if the condition is meet -->
-        <p
-          class="mt-5 mb-0"
-          v-show="
-            (present_form == 'form1' || present_form == 'form2') &&
-            (this.$route.name == 'Signin' || this.$route.name == 'Signup')
-          "
-        >
-          Do you want to amplify your performance and grow sales?
-        </p>
-
-        <!-- route view for pages (signup, signin, recoverpassowrd)-->
-        <router-view />
-      </v-col>
-
-      <!-- banner -->
-      <v-col class="col-6 banner d-none d-md-block">
-        <v-img
-          src="@/assets/img/Image2.svg"
-          width="100%;"
-          height="100%"
-        ></v-img>
-        <div class="mask d-flex align-center pl-10">
-          <!-- display message if condition is true -->
-          <p
+          <!-- display this introductory message if the condition is meet -->
+          <h1
+            class="primary--text mt-5 mb-0"
             v-show="
-              ((present_form == 'form1' || present_form == 'form2') &&
-                this.$route.name == 'Signup') ||
-              this.$route.name == 'Signin' ||
-              this.$route.name == 'Forgotpassword' ||
-              this.$route.name == 'Recoverpassword'
+              (present_form == 'form1' || present_form == 'form2') &&
+              this.$route.name == 'Signup'
             "
-            class="white--text"
           >
-            Learn, Compete… Grow
-          </p>
+            Welcome!
+          </h1>
 
-          <!-- display message if condition is true -->
-          <p
+          <!-- display this introductory message if the condition is meet -->
+          <h1
+            class="primary--text mt-5 mb-0"
+            v-show="present_form == 'form3' && this.$route.name == 'Signup'"
+          >
+            Create your password!
+          </h1>
+
+          <!-- display this introductory message if the condition is meet -->
+          <h1
+            class="primary--text mt-5 mb-0"
+            v-show="this.$route.name == 'Signin'"
+          >
+            Welcome back!
+          </h1>
+
+          <!-- display this introductory message if the condition is meet -->
+          <h1
+            class="primary--text mt-5 mb-0"
+            v-show="this.$route.name == 'Recoverpassword'"
+          >
+            Recover password!
+          </h1>
+
+          <!-- display this introductory message if the condition is meet -->
+          <h1
+            class="primary--text mt-5 mb-0"
             v-show="
-              (present_form == 'form3' && this.$route.name == 'Signup') ||
-              this.$route.name == 'emailVerification' ||
+              this.$route.name == 'Forgotpassword' ||
               this.$route.name == 'forgotPasswordVerification'
             "
-            class="white--text"
-            style="width: 70%"
           >
-            <span class="float-left" style="width: 100%"
-              >Amplify Performance</span
-            ><br />
-            <span class="float-right">Grow Sales</span>
+            Forgot password!
+          </h1>
+
+          <!-- display this introductory message if the condition is meet -->
+          <h1
+            class="primary--text mt-5 mb-0"
+            v-show="this.$route.name == 'emailVerification'"
+          >
+            Verify your email address
+          </h1>
+
+          <!-- display this message if the condition is meet -->
+          <p
+            class="mt-5 mb-0"
+            v-show="
+              (present_form == 'form1' || present_form == 'form2') &&
+              (this.$route.name == 'Signin' || this.$route.name == 'Signup')
+            "
+          >
+            Do you want to amplify your performance and grow sales?
           </p>
-        </div>
-      </v-col>
-    </v-row>
-  </v-main>
+
+          <!-- route view for pages (signup, signin, recoverpassowrd)-->
+          <router-view />
+        </v-col>
+
+        <!-- banner -->
+        <v-col class="col-6 banner d-none d-md-block">
+          <v-img
+            src="@/assets/img/Image2.svg"
+            width="100%;"
+            height="100%"
+          ></v-img>
+          <div class="mask d-flex align-center pl-10">
+            <!-- display message if condition is true -->
+            <p
+              v-show="
+                ((present_form == 'form1' || present_form == 'form2') &&
+                  this.$route.name == 'Signup') ||
+                this.$route.name == 'Signin' ||
+                this.$route.name == 'Forgotpassword' ||
+                this.$route.name == 'Recoverpassword'
+              "
+              class="white--text"
+            >
+              Learn, Compete… Grow
+            </p>
+
+            <!-- display message if condition is true -->
+            <p
+              v-show="
+                (present_form == 'form3' && this.$route.name == 'Signup') ||
+                this.$route.name == 'emailVerification' ||
+                this.$route.name == 'forgotPasswordVerification'
+              "
+              class="white--text"
+              style="width: 70%"
+            >
+              <span class="float-left" style="width: 100%"
+                >Amplify Performance</span
+              ><br />
+              <span class="float-right">Grow Sales</span>
+            </p>
+          </div>
+        </v-col>
+      </v-row>
+    </v-main>
+  </div>
 </template>
 
 <script>

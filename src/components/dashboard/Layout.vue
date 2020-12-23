@@ -1,5 +1,6 @@
 <template>
-  <nav>
+  <div style="margin:auto; max-width:1800px">
+  <v-card>
     <!-- User dashboard layout -->
     <!-- navbar -->
     <v-app-bar dense elevation="0" app color="#F9FAFE" class="elevation-1">
@@ -76,7 +77,8 @@
         >
       </div>
     </v-navigation-drawer>
-  </nav>
+  </v-card>
+  </div>
 </template>
 
 <script>
@@ -132,6 +134,9 @@ export default {
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css2?family=Kumbh&family=Montserrat&family=Poppins&family=Roboto&family=Product+Sans&display=swap");
 
+.v-app-bar.v-app-bar--fixed {
+    max-width: 1550px;
+}
 .nova-logo {
   text-align: left;
   font: normal normal 500 17px/25px "Poppins";
