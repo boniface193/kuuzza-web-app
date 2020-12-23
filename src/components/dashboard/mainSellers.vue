@@ -16,14 +16,14 @@
       <div class="settings-nav px-4 py-auto d-flex">
         <!-- nav link -->
         <router-link
-          class="nav-item"
+          class="nav-item text-sm-subtitle-1 text-caption"
           :class="{ 'nav-item--active': this.$route.name == 'all' }"
           :to="{ name: 'all' }"
           >All</router-link
         >
         <!-- nav link -->
         <router-link
-          class="nav-item"
+          class="nav-item text-sm-subtitle-1 text-caption"
           :class="{
             'nav-item--active': this.$route.name == 'new',
           }"
@@ -32,7 +32,7 @@
         >
         <!-- nav link -->
         <router-link
-          class="nav-item"
+          class="nav-item text-sm-subtitle-1 text-caption"
           :class="{
             'nav-item--active': this.$route.name == 'returning',
           }"
@@ -42,7 +42,7 @@
         <v-spacer></v-spacer>
 
         <searchBar
-          class="mt-2"
+          class="mt-2 text-caption text-sm-subtitle-2 text-md-subtitle-1"
           placeholder="Search Sellers"
           @search="getSearchValue"
         />

@@ -40,7 +40,12 @@ import mainCustomer from "@/components/dashboard/customerMain.vue";
 import allCustomer from "@/components/dashboard/allCustomer.vue";
 import newCustomer from "@/components/dashboard/newCustomer.vue";
 import returningCustomer from "@/components/dashboard/returningCustomer.vue";
-import customerDetails from "@/components/dashboard/customerDetails.vue"
+import customerDetails from "@/components/dashboard/customerDetails.vue";
+import balance from "@/views/dashboard/balance.vue";
+import revenue from "@/components/dashboard/revenue.vue";
+import settlements from "@/components/dashboard/settlements.vue";
+import awaitingSettlements from "@/components/dashboard/awaitingSettlements.vue";
+import paymentHistory from "@/components/dashboard/paymentHistory.vue";
 
 
 Vue.use(VueRouter);
@@ -162,6 +167,32 @@ const routes = [
             name: "OrderDetails",
             component: orderDetails
           }
+        ]
+      },
+      {
+        path: "/balance",
+        component: balance,
+        children: [
+          {
+            path: "",
+            name: "revenue",
+            component: revenue
+          },
+          {
+            path: "settlements",
+            name: "settlements",
+            component: settlements
+          },
+          {
+            path: "awaitingSettlements",
+            name: "awaitingSettlements",
+            component: awaitingSettlements
+          },
+          {
+            path: "paymentHistory",
+            name: "paymentHistory",
+            component: paymentHistory
+          },
         ]
       },
       {

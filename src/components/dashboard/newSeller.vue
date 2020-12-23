@@ -1,14 +1,10 @@
 <template>
-  <v-container>
-    <div class="">
-      <v-card elevation="0" class="py-3">
-        <div>
-          <!-- table  -->
-          <dataTable :headers="headers" :items="items" :select="true" />
-        </div>
-      </v-card>
+  <v-card elevation="0" class="py-3">
+    <div>
+      <!-- table  -->
+      <dataTable :headers="headers" :items="items" :select="true" />
     </div>
-  </v-container>
+  </v-card>
 </template>
 
 <script>
@@ -24,7 +20,7 @@ export default {
           text: "Sellers Name",
           sortable: true,
           value: "name",
-          width: "50%"
+          width: "50%",
         },
         { text: "Total Orders", value: "totalOrder" },
         { text: "Total Value of Orders(₦)", value: "totalValue" },

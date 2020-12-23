@@ -1,19 +1,15 @@
 <template>
-  <v-container>
-    <div class="">
-      <v-card elevation="0" class="py-3">
-        <div>
-          <!-- table  -->
-          <dataTable
-            class="mr-0"
-            :headers="headers"
-            :items="items"
-            :select="true"
-          />
-        </div>
-      </v-card>
+  <v-card elevation="0" class="py-3">
+    <div>
+      <!-- table  -->
+      <dataTable
+        class="mr-0"
+        :headers="headers"
+        :items="items"
+        :select="true"
+      />
     </div>
-  </v-container>
+  </v-card>
 </template>
 
 <script>

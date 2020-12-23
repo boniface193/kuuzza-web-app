@@ -1,8 +1,10 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <div class="mx-lg-12 mx-md-5 mx-sm-5 my-8">
       <!-- page title -->
-      <filter-By-Date class="float-right" />
+      <filter-By-Date
+        class="float-right text-caption text-sm-subtitle-2 text-md-subtitle-1"
+      />
       <h1 class="heading--text">Leaderboard</h1>
 
       <div class="settings-container mt-7 white">
@@ -10,14 +12,14 @@
         <div class="settings-nav px-4 py-auto d-flex">
           <!-- nav link -->
           <router-link
-            class="nav-item"
+            class="nav-item text-sm-subtitle-1 text-caption"
             :class="{ 'nav-item--active': this.$route.name == 'leaderStore' }"
             :to="{ name: 'leaderStore' }"
             >Store</router-link
           >
           <!-- nav link -->
           <router-link
-            class="nav-item"
+            class="nav-item text-sm-subtitle-1 text-caption"
             :class="{
               'nav-item--active': this.$route.name == 'leaderGlobal',
             }"
@@ -25,12 +27,13 @@
             >Nationwide</router-link
           >
           <v-spacer></v-spacer>
-
-          <searchBar
-            class="mt-2"
-            placeholder="Search Leaderboard"
-            @search="getSearchValue"
-          />
+          <div>
+            <searchBar
+              class="mt-2 text-caption text-sm-subtitle-2 text-md-subtitle-1"
+              placeholder="Search Leaderboard"
+              @search="getSearchValue"
+            />
+          </div>
         </div>
         <router-view />
       </div>
@@ -66,6 +69,7 @@ export default {
     width: 100%;
     max-height: 60px;
     .nav-item {
+      text-align: center;
       padding: 15px 5px;
       border-bottom: 3px solid transparent;
       display: inline-block;
