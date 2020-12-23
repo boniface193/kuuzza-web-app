@@ -28,7 +28,7 @@
         <v-btn class="primary py-6 px-4">Save</v-btn>
       </v-form>
     </div>
-    <div>
+    <div v-show="accountPresent">
       <v-row>
         <v-col class="col-3">
           <p class="headers">Bank Name</p>
@@ -63,7 +63,7 @@ export default {
     return {
       bankName: "",
       accNumber: "",
-      accountPresent: true,
+      accountPresent: false,
     };
   },
 };

@@ -162,6 +162,9 @@ export default {
 .v-app-bar.v-app-bar--fixed {
   max-width: 1550px;
 }
+.v-navigation-drawer--fixed {
+    height: 100% !important;
+}
 .nova-logo {
   text-align: left;
   font: normal normal 500 17px/25px "Poppins";
