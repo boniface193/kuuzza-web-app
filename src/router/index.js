@@ -76,8 +76,18 @@ const ifAuthenticated = (to, from, next) => {
   if (onboarding.state.token !== null && localStorage.getItem('accessToken')) {
     next()
     return
+  } else{
+    next('/signin')
   }
-  next('/signin')
+}
+
+const AlreadyLogin = (to, from, next) => {
+  if (onboarding.state.token !== null && localStorage.getItem('accessToken')) {
+    next('/dashboard')
+    return
+  } else{
+    next()
+  }
 }
 
 const routes = [
@@ -262,6 +272,7 @@ const routes = [
 
   {  // onboarding routes
     path: '/signup', component: Onboarding,
+    beforeEnter: AlreadyLogin,
     children: [
       {
         path: "",
