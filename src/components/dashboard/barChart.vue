@@ -1,15 +1,16 @@
 <template>
-  <v-card elevation="0" class="py-8 px-5">
+  <v-card elevation="0" class="pt-10 px-5">
     <h1 :class="bar_class">{{ bar_title }}</h1>
     <!-- displays the bar-chart -->
-    <apexchart
-      class="d-flex justify-center mx-6"
-      width="100%"
-      type="bar"
-      height="337"
-      :options="chartOptions"
-      :series="series"
-    ></apexchart>
+    <v-container fluid>
+      <apexchart
+        width="100%"
+        type="bar"
+        height="337"
+        :options="chartOptions"
+        :series="series"
+      ></apexchart>
+    </v-container>
   </v-card>
 </template>
 
