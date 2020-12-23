@@ -164,7 +164,11 @@ export default {
 }
 .v-navigation-drawer--fixed {
     height: 100% !important;
+    * {
+     zoom: 102%; 
+    }
 }
+
 .nova-logo {
   text-align: left;
   font: normal normal 500 17px/25px "Poppins";
