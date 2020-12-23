@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import onboarding from "@/store/modules/onboarding.js"
 import Signup from "@/components/onboarding/Signup.vue";
 import Signin from "@/components/onboarding/Signin.vue";
 import Recoverpassword from "@/components/onboarding/Recoverpassword.vue";
@@ -44,9 +45,45 @@ import customerDetails from "@/components/dashboard/customerDetails.vue"
 
 Vue.use(VueRouter);
 
+// verify if access has been given to a user to view email verification page
+const ifAccessEmailVerifcationPage = (to, from, next) => {
+  if (onboarding.state.accessEmailVerifcationPage === true) {
+    next()
+    return
+  }
+  next('/signup')
+}
+// verify if access has been given to a user to view password verification page
+const ifAccessForgotPasswordVerificationPage = (to, from, next) => {
+  if (onboarding.state.accessForgotPasswordVerificationPage === true) {
+    next()
+    return
+  }
+  next('/forgotpassword')
+}
+
+// verify if access has been given to a user to view password recovery page
+const ifAccessPasswordRecoveryPage = (to, from, next) => {
+  if (onboarding.state.accessPasswordRecoveryPage === true) {
+    next()
+    return
+  }
+  next('/forgotpassword')
+}
+
+// verify if access has been given to a user to view password recovery page
+const ifAuthenticated = (to, from, next) => {
+  if (onboarding.state.token !== null && localStorage.getItem('accessToken')) {
+    next()
+    return
+  }
+  next('/signin')
+}
+
 const routes = [
   {//layout dashboard and children
     path: "/dashboard", component: Home,
+    beforeEnter: ifAuthenticated,
     children: [
       {
         path: "",
@@ -229,7 +266,7 @@ const routes = [
       {
         path: "",
         name: "Signup",
-        component: Signup
+        component: Signup,
       },
       {
         path: "/signin",
@@ -240,6 +277,7 @@ const routes = [
         path: "/recoverpassword",
         name: "Recoverpassword",
         component: Recoverpassword,
+        beforeEnter: ifAccessPasswordRecoveryPage,
         props: true
       },
       {
@@ -251,12 +289,14 @@ const routes = [
         path: "/emailverification",
         name: "emailVerification",
         component: emailVerification,
+        beforeEnter: ifAccessEmailVerifcationPage,
         props: true
       },
       {
         path: "/verifypassword",
         name: "forgotPasswordVerification",
         component: forgotPasswordVerification,
+        beforeEnter: ifAccessForgotPasswordVerificationPage,
         props: true
       }
     ],

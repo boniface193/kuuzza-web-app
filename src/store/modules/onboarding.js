@@ -3,7 +3,10 @@ import axios from "axios";
 //holds the state properties
 const state = {
     token: localStorage.getItem('accessToken') || null,
-    present_signup_form: 'form1'
+    present_signup_form: 'form1',
+    accessEmailVerifcationPage: false,
+    accessForgotPasswordVerificationPage: false,
+    accessPasswordRecoveryPage: false,
 };
 
 //returns the state properties
@@ -11,7 +14,7 @@ const getters = {
     //checks if user is logged in
     loggedin: () => {
         return state.token != null;
-    }
+    },
 };
 
 //fetch data 
@@ -32,12 +35,13 @@ const actions = {
                 'password_confirmation': credentials.password
             })
                 .then(response => {
-                    context.commit('setToken', response.token)
+                    context.commit('setToken', response.token);
+                    context.commit('accessEmailVerifcationPage', true); // allow user to route to email verification page
                     resolve(response)
                 })
                 .catch(error => {
                     console.log(error)
-                    if(error.response){
+                    if (error.response) {
                         console.log(error.response)
                     }
                     reject(error)
@@ -71,17 +75,14 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
-                    console.log(error)
-                    if(error.response){
-                        console.log(error.response)
-                    }
                     context.commit('setToken', null);
+                    localStorage.removeItem('accessToken');
                     reject(error);
                 })
         })
     },
     // resend opt for email verification 
-    resendEmailOTP(credentials, context){
+    resendEmailOTP(credentials, context) {
         return new Promise((resolve, reject) => {
             axios.post("https://nova-ids.herokuapp.com/emails/send-otp", {
                 email: credentials.email
@@ -93,20 +94,6 @@ const actions = {
                     reject(error);
                 })
         })
-    }, 
-    // logout
-    logout: (context) => {
-        return new Promise((resolve, reject) => {
-            axios.post("/logout", {
-                token: state.token
-            }).then(response => {
-                context.commit('setToken', response.data.token)
-                resolve(response)
-            }).catch(error => {
-                context.commit('setToken', null)
-                reject(error)
-            })
-        })
     },
     //forgot password
     forgotPassword: (context, credentials) => {
@@ -116,6 +103,10 @@ const actions = {
             }).then(response => {
                 resolve(response)
             }).catch(error => {
+                console.log(error)
+                if (error.response) {
+                    console.log(error.response)
+                }
                 context.commit("", "");
                 reject(error)
             })
@@ -123,14 +114,16 @@ const actions = {
     },
     // verify forgot password 
     verifyForgotPassword: (context, credentials) => {
+        console.log(credentials.code)
         return new Promise((resolve, reject) => {
             axios.post("https://nova-ids.herokuapp.com/passwords/verify-otp", {
-                opt: credentials.code,
+                otp: credentials.code,
                 email: credentials.email
             }).then(response => {
                 resolve(response)
             })
                 .catch(error => {
+                    console.log(error.response)
                     context.commit("", "")
                     reject(error);
                 })
@@ -141,15 +134,14 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.post("https://nova-ids.herokuapp.com/passwords/new", {
                 email: credentials.email,
-                password: credentials.newPassword,
-                password_confirmation: credentials.newPassword,
-                opt: credentials.opt
+                password: credentials.password,
+                password_confirmation: credentials.password_confirmation,
+                otp: credentials.otp
             }).then(response => {
                 resolve(response)
             })
                 .catch(error => {
                     context.commit("", "");
-                    console.log(error)
                     reject(error);
                 })
         })
@@ -163,8 +155,15 @@ const mutations = {
         localStorage.setItem('accessToken', token);
         state.token = localStorage.getItem('accessToken') || null;
     },
+    removeToken: () => {
+        localStorage.removeItem('accessToken');
+    },
     // update the present form on signup 
-    present_signup_form: (state, form) => (state.present_signup_form = form)
+    present_signup_form: (state, form) => (state.present_signup_form = form),
+    accessEmailVerifcationPage: (state, status) => (state.accessEmailVerifcationPage = status),
+    accessForgotPasswordVerificationPage: (state, status) => (state.accessForgotPasswordVerificationPage = status),
+    accessPasswordRecoveryPage: (state, status) => (state.accessPasswordRecoveryPage = status)
+
 };
 
 

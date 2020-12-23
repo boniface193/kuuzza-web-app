@@ -64,20 +64,21 @@ export default {
         .then((response) => {
           this.loading = false;
           if (response.data.message === "An OTP has been sent to your email.") {
+            this.$store.commit("onboarding/accessForgotPasswordVerificationPage", true);
             this.$router.push({
               name: "forgotPasswordVerification",
               params: { email: emailAddress },
             });
-          } else {
-            this.errorMessage = `The account with email address <span class="primary--text">
-            ${emailAddress}</span> does not exist`;
-            this.error = true;
           }
         })
-        .catch(() => {
-          this.loading = false;
-          this.errorMessage = `Something went wrong pls try again`;
+        .catch((error) => {
           this.error = true;
+          this.loading = false; 
+          if(error.response){
+            this.errorMessage = `This Account does not Exist`;
+          }else {
+            this.errorMessage = `Something went wrong pls try again`;
+          }
         });
     },
   },

@@ -1,89 +1,102 @@
 <template>
-  <div style="margin:auto; max-width:1800px">
-  <v-card>
-    <!-- User dashboard layout -->
-    <!-- navbar -->
-    <v-app-bar dense elevation="0" app color="#F9FAFE" class="elevation-1">
-      <v-app-bar-nav-icon v-if="!drawer" @click.stop="drawer = !drawer">
-      </v-app-bar-nav-icon>
+  <div style="margin: auto; max-width: 1800px">
+    <v-card>
+      <!-- User dashboard layout -->
+      <!-- navbar -->
+      <v-app-bar dense elevation="0" app color="#F9FAFE" class="elevation-1">
+        <v-app-bar-nav-icon v-if="!drawer" @click.stop="drawer = !drawer">
+        </v-app-bar-nav-icon>
 
-      <v-spacer></v-spacer>
-      <v-icon color="#C4C4C4" size="21" class="mr-6">mdi-magnify</v-icon>
-      <div class="d-flex mr-6">
-        <v-icon size="21" color="#C4C4C4" class="">mdi-bell</v-icon>
-        <v-badge
-          color="primary"
-          bordered
-          dot
-          class="mt-2 position-absolute ml-4"
-        >
-        </v-badge>
-      </div>
-
-      <v-avatar size="31">
-        <v-img src="../../assets/layout/fire.svg"></v-img>
-      </v-avatar>
-    </v-app-bar>
-    <!-- drawer -->
-    <v-navigation-drawer app color="primary" width="250" dark v-model="drawer">
-      <v-container class="mx-5">
-        <div class="d-flex nova-logo">
-          N<span
-            ><v-img
-              src="../../assets/layout/fire.svg"
-              width="16px"
-            ></v-img></span
-          >VA
-        </div>
-      </v-container>
-      <v-list class="pa-0" nav tile>
-        <v-list-item class="my-5">
-          <v-list-item-content class="mx-5">
-            <v-list-item-title class="layout-title mb-3">
-              Ayotunde Lanwo
-            </v-list-item-title>
-            <v-list-item-subtitle class="layout-title-subtitle">
-              Store Manager
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-
-        <v-list-item-group mandatory>
-          <v-list-item
-            class="rounded-0"
-            v-for="item in items"
-            :key="item.key"
-            link
-            router
-            :to="item.routes"
+        <v-spacer></v-spacer>
+        <v-icon color="#C4C4C4" size="21" class="mr-6">mdi-magnify</v-icon>
+        <div class="d-flex mr-6">
+          <v-icon size="21" color="#C4C4C4" class="">mdi-bell</v-icon>
+          <v-badge
+            color="primary"
+            bordered
+            dot
+            class="mt-2 position-absolute ml-4"
           >
+          </v-badge>
+        </div>
+
+        <v-avatar size="31">
+          <v-img src="../../assets/layout/fire.svg"></v-img>
+        </v-avatar>
+      </v-app-bar>
+      <!-- drawer -->
+      <v-navigation-drawer
+        app
+        color="primary"
+        width="250"
+        dark
+        v-model="drawer"
+      >
+        <v-container class="mx-5">
+          <div class="d-flex nova-logo">
+            N<span
+              ><v-img
+                src="../../assets/layout/fire.svg"
+                width="16px"
+              ></v-img></span
+            >VA
+          </div>
+        </v-container>
+        <v-list class="pa-0" nav tile>
+          <v-list-item class="my-5">
             <v-list-item-content class="mx-5">
-              <v-list-item-title
-                class="text-size-md"
-                :class="{ activeColor: item.routes }"
-              >
-                <v-icon class="float-left" size="20">{{ item.icon }}</v-icon>
-                <div class="ml-12 pt-1 white--text">
-                  {{ item.title }}
-                </div>
+              <v-list-item-title class="layout-title mb-3">
+                Ayotunde Lanwo
               </v-list-item-title>
+              <v-list-item-subtitle class="layout-title-subtitle">
+                Store Manager
+              </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
-        </v-list-item-group>
-      </v-list>
-      <div class="ml-3 mt-8">
-        <span class="white--text text-size-md"
-          ><v-icon class="ml-4 mr-6" size="20">mdi-logout</v-icon>LogOut</span
-        >
-      </div>
-    </v-navigation-drawer>
-  </v-card>
+
+          <v-list-item-group mandatory>
+            <v-list-item
+              class="rounded-0"
+              v-for="item in items"
+              :key="item.key"
+              link
+              router
+              :to="item.routes"
+            >
+              <v-list-item-content class="mx-5">
+                <v-list-item-title
+                  class="text-size-md"
+                  :class="{ activeColor: item.routes }"
+                >
+                  <v-icon class="float-left" size="20">{{ item.icon }}</v-icon>
+                  <div class="ml-12 pt-1 white--text">
+                    {{ item.title }}
+                  </div>
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+        <div class="ml-3 mt-8">
+          <span class="white--text text-size-md" @click="logout"
+            ><v-icon class="ml-4 mr-6" size="20">mdi-logout</v-icon>LogOut</span
+          >
+        </div>
+      </v-navigation-drawer>
+    </v-card>
+    <!-- modal for dialog messages -->
+    <modal :dialog="dialog" width="120">
+      <div class="text-center dialog white">Loging Out...</div>
+    </modal>
   </div>
 </template>
 
 <script>
+import modal from "@/components/dashboard/modal.vue"
 export default {
+  components: { modal },
   data: () => ({
+    dialog: false,
     drawer: true,
     items: [
       {
@@ -128,6 +141,18 @@ export default {
       },
     ],
   }),
+  methods: {
+    // logout
+    logout() {
+      this.$store.commit("onboarding/removeToken");
+      this.dialog = true;
+      setTimeout(() => {
+        this.$router.push({
+          name: "Signin",
+        });
+      }, 1000);
+    },
+  },
 };
 </script>
 
@@ -135,7 +160,7 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Kumbh&family=Montserrat&family=Poppins&family=Roboto&family=Product+Sans&display=swap");
 
 .v-app-bar.v-app-bar--fixed {
-    max-width: 1550px;
+  max-width: 1550px;
 }
 .nova-logo {
   text-align: left;
