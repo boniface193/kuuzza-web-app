@@ -165,7 +165,7 @@ export default {
 .v-navigation-drawer--fixed {
     height: 100% !important;
     * {
-     zoom: 102%; 
+     zoom: 101.5%; 
     }
 }
 
