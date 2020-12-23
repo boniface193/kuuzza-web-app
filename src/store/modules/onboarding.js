@@ -107,7 +107,6 @@ const actions = {
     },
     // verify forgot password 
     verifyForgotPassword: (context, credentials) => {
-
         return new Promise((resolve, reject) => {
             axios.post("https://nova-ids.herokuapp.com/passwords/verify-otp", {
                 otp: credentials.code,
@@ -116,6 +115,7 @@ const actions = {
                 resolve(response)
             })
                 .catch(error => {
+                    console.log(error.response)
                     context.commit("", "")
                     reject(error);
                 })

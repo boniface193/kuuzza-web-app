@@ -166,8 +166,8 @@ export default {
     // destroy token
     denialAccess() {
       this.$store.commit("onboarding/setToken", null);
+      localStorage.removeItem('accessToken')
       this.$router.push({ name: "Signin" });
-      this.$store.commit("onboarding/accessEmailVerifcationPage", false);
     },
   },
 };
