@@ -23,5 +23,6 @@ export default {
   background: #f9fafe 0% 0% no-repeat padding-box;
   opacity: 1;
   height: 100%;
+  zoom: 80%;
 }
 </style>
