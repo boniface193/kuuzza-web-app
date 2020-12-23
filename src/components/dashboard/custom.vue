@@ -75,7 +75,7 @@ export default {
 }
 
 .customer-188 {
-  font: normal normal bold 50px/30px "Product Sans";
+  font: normal normal bold 50px/61px "Product Sans";
   letter-spacing: 0px;
   color: #2b2b2b;
   opacity: 1;
