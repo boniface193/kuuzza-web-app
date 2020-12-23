@@ -22,8 +22,8 @@ export default {
           value: "name",
           width: "50%",
         },
-        { text: "Total Orders", value: "totalOrder" },
-        { text: "Total Value of Orders(₦)", value: "totalValue" },
+        { text: "Total Orders", value: "totalOrder", width: "20%" },
+        { text: "Total Value of Orders(₦)", value: "totalValue", width: "30%" },
       ],
 
       items: [
