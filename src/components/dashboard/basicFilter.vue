@@ -25,160 +25,150 @@
         >
       </div>
       <div class="content">
-        <v-row>
-          <v-col class="col-12 col-md-6">
-            <!-- Price filter -->
-            <div class="filter" ref="priceFilter" v-if="price === true">
-              <div
-                class="filter-item px-4 py-2 d-flex align-center justify-space-between"
-                @click="toggleFilterItem('priceFilter')"
-              >
-                Price (&#8358;)
-                <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
-              </div>
-              <div class="py-2 px-4">
-                <multipleRange
-                  minNum="0"
-                  maxNum="1"
-                  @minMaxNumber="setPriceRange"
-                />
-              </div>
-            </div>
-            <!-- commission filter -->
-            <div
-              class="filter"
-              ref="commissionFilter"
-              v-if="commission === true"
-            >
-              <div
-                class="filter-item px-4 py-2 d-flex align-center justify-space-between"
-                @click="toggleFilterItem('commissionFilter')"
-              >
-                Commission (&#8358;)
-                <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
-              </div>
-              <div class="py-2 px-4">
-                <multipleRange
-                  minNum="0"
-                  maxNum="1"
-                  @minMaxNumber="setCommissionRange"
-                />
-              </div>
-            </div>
-            <!-- Quantity filter -->
-            <div class="filter" ref="quantityFilter" v-if="quantity === true">
-              <div
-                class="filter-item px-4 py-2 d-flex align-center justify-space-between"
-                @click="toggleFilterItem('quantityFilter')"
-              >
-                Quantity
-                <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
-              </div>
-              <div class="py-2 px-4">
-                <multipleRange
-                  minNum="0"
-                  maxNum="1"
-                  @minMaxNumber="setQuantityRange"
-                />
-              </div>
-            </div>
-          </v-col>
-          <v-col class="col-12 col-md-6">
-            <!-- category filter -->
-            <div class="filter" ref="categoryFilter" v-if="category.length > 0">
-              <div
-                class="filter-item px-4 py-2 d-flex align-center justify-space-between"
-                @click="toggleFilterItem('categoryFilter')"
-              >
-                Category
-                <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
-              </div>
-              <div class="py-2 px-4">
-                <v-checkbox
-                  v-for="(item, index) in category"
-                  :key="index"
-                  v-model="selected"
-                  :value="item"
-                  :label="item"
-                  class="my-0 py-0"
-                ></v-checkbox>
-              </div>
-            </div>
-            <!-- stock filter -->
-            <div class="filter" ref="stockFilter" v-if="stock === true">
-              <div
-                class="filter-item px-4 py-2 d-flex align-center justify-space-between"
-                @click="toggleFilterItem('stockFilter')"
-              >
-                Stock
-                <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
-              </div>
-              <div class="py-2 px-4">
-                <v-checkbox
-                  value="inStock"
-                  v-model="selected"
-                  label="Items in Stock"
-                  class="my-0 py-0"
-                ></v-checkbox>
-                <v-checkbox
-                  value="outOfStock"
-                  v-model="selected"
-                  label="Items out of stock"
-                  class="my-0 py-0"
-                ></v-checkbox>
-              </div>
-            </div>
-            <!-- payment filter -->
-            <div class="filter" ref="paymentFilter" v-if="payment === true">
-              <div
-                class="filter-item px-4 py-2 d-flex align-center justify-space-between"
-                @click="toggleFilterItem('paymentFilter')"
-              >
-                Payment
-                <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
-              </div>
-              <div class="py-2 px-4">
-                <v-checkbox
-                  value="paid"
-                  v-model="selected"
-                  label="Paid"
-                  class="my-0 py-0"
-                ></v-checkbox>
-                <v-checkbox
-                  value="not paid"
-                  v-model="selected"
-                  label="Not Paid"
-                  class="my-0 py-0"
-                ></v-checkbox>
-              </div>
-            </div>
-            <!-- delivery filter -->
-            <div class="filter" ref="deliveryFilter" v-if="delivery === true">
-              <div
-                class="filter-item px-4 py-2 d-flex align-center justify-space-between"
-                @click="toggleFilterItem('deliveryFilter')"
-              >
-                Delivery
-                <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
-              </div>
-              <div class="py-2 px-4">
-                <v-checkbox
-                  value="delivered"
-                  v-model="selected"
-                  label="Delivered"
-                  class="my-0 py-0"
-                ></v-checkbox>
-                <v-checkbox
-                  value="not delivered"
-                  v-model="selected"
-                  label="Not Delivered"
-                  class="my-0 py-0"
-                ></v-checkbox>
-              </div>
-            </div>
-          </v-col>
-        </v-row>
-        <div class="d-flex justify-end px-4 mb-2">
+        <!-- Price filter -->
+        <div class="filter" ref="priceFilter" v-if="price === true">
+          <div
+            class="filter-item px-4 py-2 d-flex align-center justify-space-between"
+            @click="toggleFilterItem('priceFilter')"
+          >
+            Price (&#8358;)
+            <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
+          </div>
+          <div class="py-2 px-4">
+            <multipleRange
+              minNum="0"
+              maxNum="1"
+              @minMaxNumber="setPriceRange"
+            />
+          </div>
+        </div>
+        <!-- commission filter -->
+        <div class="filter" ref="commissionFilter" v-if="commission === true">
+          <div
+            class="filter-item px-4 py-2 d-flex align-center justify-space-between"
+            @click="toggleFilterItem('commissionFilter')"
+          >
+            Commission (&#8358;)
+            <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
+          </div>
+          <div class="py-2 px-4">
+            <multipleRange
+              minNum="0"
+              maxNum="1"
+              @minMaxNumber="setCommissionRange"
+            />
+          </div>
+        </div>
+        <!-- Quantity filter -->
+        <div class="filter" ref="quantityFilter" v-if="quantity === true">
+          <div
+            class="filter-item px-4 py-2 d-flex align-center justify-space-between"
+            @click="toggleFilterItem('quantityFilter')"
+          >
+            Quantity
+            <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
+          </div>
+          <div class="py-2 px-4">
+            <multipleRange
+              minNum="0"
+              maxNum="1"
+              @minMaxNumber="setQuantityRange"
+            />
+          </div>
+        </div>
+        <!-- category filter -->
+        <div class="filter" ref="categoryFilter" v-if="category.length > 0">
+          <div
+            class="filter-item px-4 py-2 d-flex align-center justify-space-between"
+            @click="toggleFilterItem('categoryFilter')"
+          >
+            Category
+            <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
+          </div>
+          <div class="py-2 px-4">
+            <v-checkbox
+              v-for="(item, index) in category"
+              :key="index"
+              v-model="selected"
+              :value="item"
+              :label="item"
+              class="my-0 py-0"
+            ></v-checkbox>
+          </div>
+        </div>
+        <!-- stock filter -->
+        <div class="filter" ref="stockFilter" v-if="stock === true">
+          <div
+            class="filter-item px-4 py-2 d-flex align-center justify-space-between"
+            @click="toggleFilterItem('stockFilter')"
+          >
+            Stock
+            <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
+          </div>
+          <div class="py-2 px-4">
+            <v-checkbox
+              value="inStock"
+              v-model="selected"
+              label="Items in Stock"
+              class="my-0 py-0"
+            ></v-checkbox>
+            <v-checkbox
+              value="outOfStock"
+              v-model="selected"
+              label="Items out of stock"
+              class="my-0 py-0"
+            ></v-checkbox>
+          </div>
+        </div>
+        <!-- payment filter -->
+        <div class="filter" ref="paymentFilter" v-if="payment === true">
+          <div
+            class="filter-item px-4 py-2 d-flex align-center justify-space-between"
+            @click="toggleFilterItem('paymentFilter')"
+          >
+            Payment
+            <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
+          </div>
+          <div class="py-2 px-4">
+            <v-checkbox
+              value="paid"
+              v-model="selected"
+              label="Paid"
+              class="my-0 py-0"
+            ></v-checkbox>
+            <v-checkbox
+              value="not paid"
+              v-model="selected"
+              label="Not Paid"
+              class="my-0 py-0"
+            ></v-checkbox>
+          </div>
+        </div>
+        <!-- delivery filter -->
+        <div class="filter" ref="deliveryFilter" v-if="delivery === true">
+          <div
+            class="filter-item px-4 py-2 d-flex align-center justify-space-between"
+            @click="toggleFilterItem('deliveryFilter')"
+          >
+            Delivery
+            <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
+          </div>
+          <div class="py-2 px-4">
+            <v-checkbox
+              value="delivered"
+              v-model="selected"
+              label="Delivered"
+              class="my-0 py-0"
+            ></v-checkbox>
+            <v-checkbox
+              value="not delivered"
+              v-model="selected"
+              label="Not Delivered"
+              class="my-0 py-0"
+            ></v-checkbox>
+          </div>
+        </div>
+        <div class="d-flex justify-end px-4 mb-2 mt-2">
           <!-- reset filter btn -->
           <v-btn
             class="px-4 py-2 mr-2 primary--text"
@@ -247,14 +237,14 @@ export default {
         maxCommission: this.maxCommission,
         minQuantity: this.minQuantity,
         maxQuantity: this.maxQuantity,
-        selectedOptions: this.selected
+        selectedOptions: this.selected,
       });
       this.filterActive = false;
     },
     resetFilter() {
       this.$emit("resetFilter");
       this.filterActive = false;
-    }
+    },
   },
 };
 </script>
@@ -279,7 +269,7 @@ export default {
     background-color: rgb(239, 245, 255);
   }
   .basic-filter-content {
-    width: 500px;
+    width: 300px;
     border-radius: 8px;
     position: absolute;
     z-index: 5;
