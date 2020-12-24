@@ -1,5 +1,5 @@
 <template>
-  <div class="px-3 px-sm-12 pt-7 pb-4" style="zoom:110%">
+  <div class="px-3 px-sm-12 pt-7 pb-4" style="zoom: 110%">
     <!-- page title -->
     <h1>Settings</h1>
 
@@ -60,7 +60,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .settings-container {
   border-radius: 15px;
   .settings-nav {

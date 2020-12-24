@@ -6,7 +6,7 @@
       <v-col md="10" class="pr-0 text-center">
         <div class="px-10">
           <div
-            class="rounded-pill pa-125 round-img-bg-warning my-lg-16 my-md-16 mx-lg-5"
+            class="rounded-pill pa-125 round-img-bg-warning my-lg-16 my-md-16 mx-lg-5 mx-xl-67"
           >
             <div
               class="text-center mx-lg-15 mx-xl-25 mx-lg-25 mx-md-13 my-lg-16 my-md-16"
@@ -20,7 +20,6 @@
               >
             </div>
           </div>
-
           <pie-chart
             class=""
             :donut="true"

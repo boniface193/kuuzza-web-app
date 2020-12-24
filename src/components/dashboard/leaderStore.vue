@@ -19,17 +19,18 @@ export default {
         {
           text: "Rank",
           sortable: true,
-          value: "",
+          value: "1",
+          width: "14%",
         },
         {
           text: "Team Member",
           value: "name",
           href: true,
           routeName: "seller",
-          width: "40%",
+          width: "37%",
         },
-        { text: "Total Points", value: "totalPoint", width: "21.2%" },
-        { text: "Total Value of Orders(₦)", value: "totalValue", width: "20%" },
+        { text: "Total Points", value: "totalPoint", width: "20%" },
+        { text: "Total Value of Orders(₦)", value: "totalValue", width: "29%" },
       ],
 
       items: [
