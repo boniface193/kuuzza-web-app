@@ -199,7 +199,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .round-img-bg-success {
   background: #00c508 0% 0% no-repeat padding-box;
   opacity: 0.15;

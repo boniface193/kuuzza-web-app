@@ -76,8 +76,6 @@ const ifAccessPasswordRecoveryPage = (to, from, next) => {
   next({ name: 'Forgotpassword' })
 }
 
-//console.log(store.getters["onboarding/accountAuthenticated"])
-
 // verify if access has been given to a user to view password recovery page
 const ifAuthenticated = (to, from, next) => {
   store.commit("onboarding/setAuthenticated");

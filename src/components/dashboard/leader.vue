@@ -3,13 +3,10 @@
     <v-container>
       <!-- sumary of the leaders board -->
       <div class="d-flex justify-space-between my-3">
-        <h3 class="leader text-sm-body-2 text-truncate mr-2">
+        <h3 class="leader text-truncate mr-2">
           {{ leader }}
         </h3>
-        <router-link
-          to="inventory"
-          class="sell-text text-sm-body-2 text-truncate"
-        >
+        <router-link to="inventory" class="sell-text text-truncate">
           <p>
             {{ sell_text }}
           </p>
@@ -82,7 +79,7 @@ export default {
 .sell-text {
   text-align: left;
   font-family: Poppins sans-serif "Product Sans";
-  font: normal normal bold 14px/7px Sans-Serif;
+  font: normal normal bold 17px/7px Sans-Serif;
   letter-spacing: 0px;
   color: #5064cc;
   opacity: 1;
@@ -92,12 +89,12 @@ export default {
 
 .leader {
   text-align: left;
-  font-family: Poppins sans-serif "Product Sans";
-  font: normal normal bold 17px/7px Sans-Serif;
+  margin-left: 15px;
+  font: normal normal bold 20px/1px "Product Sans";
   letter-spacing: 0px;
   color: #2b2b2b;
   opacity: 1;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .round-img-bg-warning {
@@ -150,4 +147,11 @@ export default {
   font: normal normal bold 18px/20px "Product Sans";
   margin: 15px 0px;
 }
+
+// .Leader {
+//   font: normal normal bold 40px/0px "Product Sans";
+//   letter-spacing: 0px;
+//   color: #2b2b2b;
+//   opacity: 1;
+// }
 </style>

@@ -18,7 +18,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .bg-color {
   background: #f9fafe 0% 0% no-repeat padding-box;
   opacity: 1;

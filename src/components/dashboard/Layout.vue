@@ -3,7 +3,14 @@
     <v-card>
       <!-- User dashboard layout -->
       <!-- navbar -->
-      <v-app-bar dense elevation="0" app color="#F9FAFE" class="elevation-1">
+      <v-app-bar
+        dense
+        elevation="0"
+        app
+        color="#F9FAFE"
+        class="elevation-1"
+        max-width="100%"
+      >
         <v-app-bar-nav-icon v-if="!drawer" @click.stop="drawer = !drawer">
         </v-app-bar-nav-icon>
 

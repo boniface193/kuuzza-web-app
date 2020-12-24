@@ -55,13 +55,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.heading--text {
-  font: normal normal bold 30px/37px "Product Sans";
-  letter-spacing: 0px;
-  color: #2b2b2b;
-  opacity: 1;
-}
+<style lang="scss" scoped>
 .settings-container {
   border-radius: 15px;
   .settings-nav {
@@ -69,8 +63,8 @@ export default {
     width: 100%;
     max-height: 60px;
     .nav-item {
-      text-align: center;
       padding: 15px 5px;
+      text-align: center;
       border-bottom: 3px solid transparent;
       display: inline-block;
       margin: 0px 40px 0px 0px;
@@ -86,38 +80,6 @@ export default {
         font-weight: bold;
         transition-duration: 1s;
         transition-timing-function: linear;
-      }
-    }
-  }
-  .settings-input {
-    position: relative;
-    .edit-btn {
-      position: absolute;
-      bottom: 25px;
-      right: 0;
-      cursor: pointer;
-      color: #5064cc;
-      background: white;
-      padding: 5px 0px 0px 5px;
-    }
-  }
-  .store-width {
-    width: 50%;
-  }
-}
-@media (max-width: 950px) {
-  .settings-container {
-    .store-width {
-      width: 100%;
-    }
-  }
-}
-@media (max-width: 750px) {
-  .settings-container {
-    .settings-nav {
-      .nav-item {
-        margin: 0px 15px 0px 0px;
-        padding: 7px 3px;
       }
     }
   }
