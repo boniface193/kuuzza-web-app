@@ -97,7 +97,7 @@ export default {
   letter-spacing: 0px;
   color: #2b2b2b;
   opacity: 1;
-  line-height: 1.2;
+  line-height: 1.5;
 }
 
 .round-img-bg-warning {

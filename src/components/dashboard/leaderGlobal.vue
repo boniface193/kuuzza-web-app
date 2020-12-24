@@ -21,9 +21,9 @@ export default {
           sortable: true,
           value: "",
         },
-        { text: "Team Member", value: "name", href: true },
+        { text: "Team Member", value: "name", href: true, width: "40%" },
         { text: "Total Points", value: "totalPoint" },
-        { text: "Total Value of Orders(₦)", value: "totalValue" },
+        { text: "Total Value of Orders(₦)", value: "totalValue", width: "20%" },
       ],
 
       items: [

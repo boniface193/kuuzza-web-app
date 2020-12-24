@@ -39,7 +39,8 @@
         <!-- show area-chart -->
         <v-col cols="12" class="d-none d-md-block">
           <bar
-            bar_class="chart-heading mx-8 text-capitalize"
+            class=""
+            bar_class="chart-heading text-capitalize"
             bar_title="revenue(₦)"
           />
         </v-col>
