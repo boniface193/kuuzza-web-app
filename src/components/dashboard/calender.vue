@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center">
+  <div class="text-center calender">
     <!-- displays calendar filter -->
     <date-range-picker
       :dateRange="dateRange"
@@ -68,3 +68,11 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.reportrange-text[data-v-00277188] {
+  border-radius: 8px !important;
+  .fa{
+    color: #5064cc !important;
+  }
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <!-- to center dashboard content -->
     <div class="mx-lg-12 mx-md-5 mx-sm-5">
       <!-- welcome greetings -->

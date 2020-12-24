@@ -1,14 +1,10 @@
 <template>
-  <v-container>
-    <div class="">
-      <v-card elevation="0" class="py-3">
-        <div>
-          <!-- table  -->
-          <dataTable :headers="headers" :items="items" />
-        </div>
-      </v-card>
+  <v-card elevation="0" class="py-3">
+    <div>
+      <!-- table  -->
+      <dataTable :headers="headers" :items="items" />
     </div>
-  </v-container>
+  </v-card>
 </template>
 
 <script>

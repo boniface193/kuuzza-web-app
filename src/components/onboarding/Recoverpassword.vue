@@ -14,6 +14,7 @@
         type="password"
         color="primary"
         required
+        @keyup.enter="$refs.input2.focus"
       ></v-text-field>
 
       <!-- Confirm password-->
@@ -25,6 +26,8 @@
         type="password"
         color="primary"
         required
+        ref="input2"
+        @keyup.enter="validate_password()"
       ></v-text-field>
 
       <!-- button container -->
@@ -84,7 +87,9 @@ export default {
         //verifies password satisfies the requirement
         (v) => !!v || "Password is required",
         (v) =>
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(v) ||
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+            v
+          ) ||
           "Password must contain a minimum of 8 character, at least one uppercase, one lowercase, one number and one special character",
       ],
       confirm_passwordRules: [
@@ -116,14 +121,14 @@ export default {
           if (response.data.message === "Password reset successful.") {
             this.dialogMessage = "Your password has been successfully changed";
             this.dialog = true;
-            this.otp = null
+            this.otp = null;
             this.$store.commit("onboarding/accessPasswordRecoveryPage", false);
-            setTimeout(()=>{
+            setTimeout(() => {
               this.$router.push({
-              name: "Signin",
-            });
-            }, 3000)
-          } 
+                name: "Signin",
+              });
+            }, 3000);
+          }
         })
         .catch(() => {
           this.loading = false;

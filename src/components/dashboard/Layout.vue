@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import modal from "@/components/dashboard/modal.vue"
+import modal from "@/components/dashboard/modal.vue";
 export default {
   components: { modal },
   data: () => ({
@@ -118,6 +118,11 @@ export default {
         title: "Orders",
         icon: "mdi-shopping",
         routes: "/orders",
+      },
+      {
+        title: "Balance",
+        icon: "mdi-credit-card",
+        routes: "/balance",
       },
       {
         title: "Customers",
@@ -163,10 +168,10 @@ export default {
   max-width: 1550px;
 }
 .v-navigation-drawer--fixed {
-    height: 100% !important;
-    * {
-     zoom: 101.5%; 
-    }
+  height: 100% !important;
+  * {
+    zoom: 101.5%;
+  }
 }
 
 .nova-logo {

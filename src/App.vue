@@ -5,8 +5,14 @@
 </template>
 
 <script>
+//import { mapMutations } from "vuex";
 export default {
   name: "App",
+  created: function () {
+    this.$store.commit("onboarding/setAuthenticated");
+    this.$store.commit("onboarding/setVerifyAccountStatus");
+    this.$store.commit("onboarding/setTokenExpired")
+  },
 };
 </script>
 

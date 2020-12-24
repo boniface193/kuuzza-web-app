@@ -1,12 +1,13 @@
 <template>
   <div>
-    <div>
+    <div class="d-flex align-center justify-space-between">
       <!-- back to Inventory -->
       <router-link :to="{ name: 'inventoryPage' }" class="no-decoration">
         <h3 class="d-flex align-center return-btn my-3">
           <v-icon color="#2B2B2B">mdi-chevron-left</v-icon>Inventory History
         </h3>
       </router-link>
+       <calendar />
     </div>
 
     <!-- table  -->
@@ -22,10 +23,11 @@
 </template>
 <script>
 import dataTable from "@/components/dashboard/dataTable.vue";
+import calendar from "@/components/dashboard/calender.vue";
 import {mapGetters} from "vuex";
 export default {
   name: "history",
-  components: { dataTable },
+  components: { dataTable,  calendar },
   data: function () {
     return {
       selectedRow: [],

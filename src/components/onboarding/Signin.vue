@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p v-show="error" class="error--text mt-3 mb-0" >
+    <p v-show="error" class="error--text mt-3 mb-0">
       <span v-html="errorMessage"></span>
     </p>
     <!-- form section-->
@@ -14,6 +14,7 @@
         label="Email"
         color="primary"
         required
+        @keyup.enter="$refs.input2.focus"
       ></v-text-field>
 
       <!-- Password -->
@@ -25,6 +26,8 @@
         label="Password"
         color="primary"
         required
+        ref="input2"
+        @keyup.enter="validate_form()"
       ></v-text-field>
 
       <!-- button container -->
@@ -98,18 +101,19 @@ export default {
         })
         .then((response) => {
           this.loading = false;
-          if (response.data.message === "Login successful."){
+          if (response.data.message === "Login successful.") {
             this.$router.push({ name: "dashboard" });
           }
-        }).catch((error) => {
-          this.error = true;
-          this.loading = false
-          if(error.response){
-             this.errorMessage = `Incorrect email address or password`;
-          }else {
-            this.errorMessage = "Something went wrong, pls try again"
-          }
         })
+        .catch((error) => {
+          this.error = true;
+          this.loading = false;
+          if (error.response) {
+            this.errorMessage = `Incorrect email address or password`;
+          } else {
+            this.errorMessage = "Something went wrong, pls try again";
+          }
+        });
     },
   },
 };
