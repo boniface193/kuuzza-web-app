@@ -130,10 +130,14 @@ export default {
             }, 3000);
           }
         })
-        .catch(() => {
+        .catch((error) => {
           this.loading = false;
           this.error = true;
-          this.errorMessage = "something went wrong, pls try again";
+          if (error.response) {
+            this.errorMessage = "something went wrong, pls try again";
+          } else {
+            this.errorMessage = "No internet Connection!";
+          }
         });
     },
   },

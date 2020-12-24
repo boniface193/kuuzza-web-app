@@ -95,7 +95,7 @@ export default {
             if (error.response) {
               this.message = "OTP is invalid or expired";
             } else {
-              this.message = "Something went wrong, Please try again";
+              this.message = "No internet Connection!";
             }
           });
       } else {

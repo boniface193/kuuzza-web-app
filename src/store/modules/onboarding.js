@@ -60,6 +60,15 @@ const getters = {
     accountVerified: state => state.accountVerified,
     accountAuthenticated: state => state.accountAuthenticated,
     tokenExpired: state => state.tokenExpired,
+    getEmail:  state => {
+        if(localStorage.getItem('accessToken')) {
+            const email = decodeToken(state.token).meta.email
+            console.log(email)
+            return email;
+        }else {
+            return null;
+        }
+    },
 };
 
 //fetch data 

@@ -78,7 +78,7 @@ export default {
           if(error.response){
             this.errorMessage = `This Account does not Exist`;
           }else {
-            this.errorMessage = `Something went wrong pls try again`;
+            this.errorMessage = `No internet Connection!`;
           }
         });
     },

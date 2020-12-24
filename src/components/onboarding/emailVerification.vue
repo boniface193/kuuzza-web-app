@@ -60,6 +60,7 @@
           class="primary mx-auto py-5 px-8"
           :loading="loading2"
           :disabled="loading2"
+          v-if="dashboardBtn"
           @click="grantAccess"
           >Go to Dashboard</v-btn
         >
@@ -86,6 +87,7 @@ export default {
       errorMessage: false,
       message: "",
       resendOtpSuccess: false,
+      dashboardBtn: true
     };
   },
   methods: {
@@ -114,7 +116,13 @@ export default {
           .then((response) => {
             this.loading = false;
             if (response.data.message === "Email verified successfully.") {
-              this.dialog = true;
+
+              if(localStorage.getItem("accessToken")){
+                 this.dialog = true;
+              }else {
+                this.dashboardBtn = false
+                this.dialog = true;
+              }
             } 
           })
           .catch((error) => {
@@ -149,9 +157,13 @@ export default {
             this.message = "Invalid, Email already verified.";
           }
         })
-        .catch(() => {
+        .catch((error) => {
           this.errorMessage = true;
-          this.message = "Something went wrong, Please try again";
+          if(error.response) {
+            this.message = "Something went wrong, pls try again";
+          }else {
+            this.message = "No internet Connection!";
+          }
         });
     },
     // close modal

@@ -1,7 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "@/store";
-import verifyAccount from "@/views/verifyAccount.vue";
 import Signup from "@/components/onboarding/Signup.vue";
 import Signin from "@/components/onboarding/Signin.vue";
 import Recoverpassword from "@/components/onboarding/Recoverpassword.vue";
@@ -53,7 +52,7 @@ Vue.use(VueRouter);
 
 // verify if access has been given to a user to view email verification page
 const ifAccessEmailVerifcationPage = (to, from, next) => {
-  if (store.getters.accessEmailVerifcationPage === true) {
+  if (store.getters["onboarding/accessEmailVerifcationPage"] === true) {
     next()
     return
   }
@@ -77,8 +76,6 @@ const ifAccessPasswordRecoveryPage = (to, from, next) => {
   next({ name: 'Forgotpassword' })
 }
 
-console.log(store.getters["onboarding/accountAuthenticated"])
-
 // verify if access has been given to a user to view password recovery page
 const ifAuthenticated = (to, from, next) => {
   store.commit("onboarding/setAuthenticated");
@@ -87,18 +84,21 @@ const ifAuthenticated = (to, from, next) => {
 
     if (store.getters["onboarding/accountVerified"] === true) {
       store.commit("onboarding/setTokenExpired");
+      store.commit("onboarding/accessEmailVerifcationPage", false);
 
       if (store.getters["onboarding/tokenExpired"] === false) {
         next()
         return
       } else {
-        localStorage.removeItem('accessToken');
+        localStorage.removeItem("accessToken");
         next({ name: 'Signin' });
       }
 
     } else {
-      localStorage.removeItem('accessToken');
-      next({ name: 'verifyAccount' });
+      const emailAddress = store.getters["onboarding/getEmail"];
+      localStorage.removeItem("accessToken");
+      store.commit("onboarding/accessEmailVerifcationPage", true);
+      next({ name: 'emailVerification', params: { email: emailAddress, } });
     }
 
   } else {
@@ -118,11 +118,6 @@ const AlreadyLogin = (to, from, next) => {
 }
 
 const routes = [
-  {
-    path: "/verify-account",
-    name: "verifyAccount",
-    component: verifyAccount
-  },
   {//layout dashboard and children
     path: "/dashboard", component: Home,
     beforeEnter: ifAuthenticated,
