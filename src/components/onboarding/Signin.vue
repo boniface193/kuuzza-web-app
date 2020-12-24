@@ -111,7 +111,7 @@ export default {
           if (error.response) {
             this.errorMessage = `Incorrect email address or password`;
           } else {
-            this.errorMessage = "Something went wrong, pls try again";
+            this.errorMessage = "No internet Connection!";
           }
         });
     },
