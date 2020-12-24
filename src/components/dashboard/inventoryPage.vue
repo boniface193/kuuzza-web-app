@@ -3,7 +3,10 @@
     <!-- page title -->
     <div class="d-flex justify-space-between align-center">
       <h1>Inventory</h1>
-      <router-link :to="{ name: 'history' }">History</router-link>
+      <div class="d-flex align-center">
+        <router-link :to="{ name: 'history' }" class="mr-4">History</router-link>
+        <calendar />
+      </div>
     </div>
     <div class="d-flex justify-space-between align-center mt-8 mb-1 flex-wrap">
       <div class="select-item mr-8 mb-2">
@@ -113,11 +116,12 @@ import dataTable from "@/components/dashboard/dataTable.vue";
 import modal from "@/components/dashboard/modal.vue";
 import searchBar from "@/components/dashboard/searchBar.vue";
 import basicFilter from "@/components/dashboard/basicFilter.vue";
-import selectBtn from "@/components/dashboard/selectBtn.vue"
+import selectBtn from "@/components/dashboard/selectBtn.vue";
+import calendar from "@/components/dashboard/calender.vue";
 import { mapGetters } from "vuex";
 export default {
   name: "inventoryPage",
-  components: { dataTable, modal, searchBar, basicFilter, selectBtn},
+  components: { dataTable, modal, searchBar, basicFilter, selectBtn, calendar},
   data: function () {
     return {
       items: ["Items in stock", "Items out of stock"],

@@ -14,6 +14,7 @@
         label="Email"
         color="primary"
         required
+        @keyup.enter="validate_email()"
       ></v-text-field>
 
       <!-- button container -->

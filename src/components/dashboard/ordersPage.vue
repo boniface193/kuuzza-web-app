@@ -29,6 +29,9 @@
         <span class="small-btn primary--text mr-2 mb-5 mb-sm-0"
           ><img src="@/assets/img/upload2.svg" alt=""
         /></span>
+
+        <!-- calendar -->
+         <calendar />
       </div>
     </div>
 
@@ -46,10 +49,11 @@
 import searchBar from "@/components/dashboard/searchBar.vue";
 import dataTable from "@/components/dashboard/dataTable.vue";
 import basicFilter from "@/components/dashboard/basicFilter.vue";
+import calendar from "@/components/dashboard/calender.vue";
 import { mapGetters } from "vuex";
 export default {
   name: "ordersPage",
-  components: { searchBar, dataTable, basicFilter },
+  components: { searchBar, dataTable, basicFilter, calendar },
   data: function () {
     return {
       searchValue: "",

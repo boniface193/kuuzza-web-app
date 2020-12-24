@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import onboarding from "@/store/modules/onboarding.js"
+import store from "@/store";
+import verifyAccount from "@/views/verifyAccount.vue";
 import Signup from "@/components/onboarding/Signup.vue";
 import Signin from "@/components/onboarding/Signin.vue";
 import Recoverpassword from "@/components/onboarding/Recoverpassword.vue";
@@ -52,50 +53,76 @@ Vue.use(VueRouter);
 
 // verify if access has been given to a user to view email verification page
 const ifAccessEmailVerifcationPage = (to, from, next) => {
-  if (onboarding.state.accessEmailVerifcationPage === true) {
+  if (store.getters.accessEmailVerifcationPage === true) {
     next()
     return
   }
-  next('/signup')
+  next({ name: 'Signup' })
 }
 // verify if access has been given to a user to view password verification page
 const ifAccessForgotPasswordVerificationPage = (to, from, next) => {
-  if (onboarding.state.accessForgotPasswordVerificationPage === true) {
+  if (store.getters["onboarding/accessForgotPasswordVerificationPage"] === true) {
     next()
     return
   }
-  next('/forgotpassword')
+  next({ name: 'Forgotpassword' })
 }
 
 // verify if access has been given to a user to view password recovery page
 const ifAccessPasswordRecoveryPage = (to, from, next) => {
-  if (onboarding.state.accessPasswordRecoveryPage === true) {
+  if (store.getters["onboarding/accessPasswordRecoveryPage"] === true) {
     next()
     return
   }
-  next('/forgotpassword')
+  next({ name: 'Forgotpassword' })
 }
+
+console.log(store.getters["onboarding/accountAuthenticated"])
 
 // verify if access has been given to a user to view password recovery page
 const ifAuthenticated = (to, from, next) => {
-  if (onboarding.state.token !== null && localStorage.getItem('accessToken')) {
-    next()
-    return
-  } else{
-    next('/signin')
+  store.commit("onboarding/setAuthenticated");
+  if (store.getters["onboarding/accountAuthenticated"] === true) {
+    store.commit("onboarding/setVerifyAccountStatus");
+
+    if (store.getters["onboarding/accountVerified"] === true) {
+      store.commit("onboarding/setTokenExpired");
+
+      if (store.getters["onboarding/tokenExpired"] === false) {
+        next()
+        return
+      } else {
+        localStorage.removeItem('accessToken');
+        next({ name: 'Signin' });
+      }
+
+    } else {
+      localStorage.removeItem('accessToken');
+      next({ name: 'verifyAccount' });
+    }
+
+  } else {
+    next({ name: 'Signin' });
   }
 }
 
+// verify that the user is already logged
 const AlreadyLogin = (to, from, next) => {
-  if (onboarding.state.token !== null && localStorage.getItem('accessToken')) {
-    next('/dashboard')
+  store.commit("onboarding/setAuthenticated");
+  if (store.getters["onboarding/accountAuthenticated"] === true) {
+    next({ name: 'dashboard' })
     return
-  } else{
+  } else {
     next()
   }
 }
 
 const routes = [
+  {
+    path: "/verify-account",
+    name: "verifyAccount",
+    component: verifyAccount
+  },
   {//layout dashboard and children
     path: "/dashboard", component: Home,
     beforeEnter: ifAuthenticated,

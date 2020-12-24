@@ -25,6 +25,7 @@
         label="First Name"
         color="primary"
         required
+        @keyup.enter="$refs.input2.focus"
       ></v-text-field>
 
       <!-- Last Name -->
@@ -36,6 +37,8 @@
         label="Last Name"
         color="primary"
         required
+        @keyup.enter="$refs.input3.focus"
+        ref="input2"
       ></v-text-field>
 
       <!-- Email Adrress-->
@@ -47,6 +50,8 @@
         label="Email"
         color="primary"
         required
+        @keyup.enter="$refs.input4.focus"
+        ref="input3"
       ></v-text-field>
 
       <!-- Phone Number -->
@@ -58,6 +63,8 @@
         color="primary"
         type="tel"
         required
+        ref="input4"
+        @keyup.enter="validate_form(1)"
       ></v-text-field>
 
       <!-- button container -->
@@ -92,6 +99,8 @@
         type="address"
         label="Company Name"
         color="primary"
+        @keyup.enter="$refs.input6.focus"
+        ref="input5"
         required
       ></v-text-field>
 
@@ -106,6 +115,8 @@
         :rules="country_nameRules"
         color="primary"
         @change="get_states"
+        @keyup.enter="$refs.input7.focus"
+        ref="input6"
         required
       ></v-select>
 
@@ -117,6 +128,8 @@
         label="State"
         :rules="state_nameRules"
         color="primary"
+        @keyup.enter="$refs.input8.focus"
+        ref="input7"
         required
       ></v-select>
 
@@ -129,6 +142,8 @@
         label="Company Address"
         color="primary"
         required
+        ref="input8"
+        @keyup.enter="validate_form(2)"
       ></v-text-field>
 
       <!-- button conatainer -->
@@ -156,6 +171,8 @@
         label="Create Password"
         type="password"
         color="primary"
+        @keyup.enter="$refs.input10.focus"
+        ref="input9"
         required
       ></v-text-field>
 
@@ -168,6 +185,8 @@
         type="password"
         color="primary"
         required
+        ref="input10"
+        @keyup.enter="validate_form(3)"
       ></v-text-field>
 
       <!-- button container -->
@@ -265,13 +284,13 @@ export default {
       if (this.$refs[`form${form_num}`].validate()) {
         if (form_num == 3) {
           this.submit();
-        } else {
+        } else{
           this.$store.commit(
             "onboarding/present_signup_form",
             `form${form_num + 1}`
           );
         }
-      }
+      } 
     },
     //submit form and create an account
     submit() {
