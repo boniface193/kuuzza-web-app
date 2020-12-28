@@ -32,21 +32,21 @@
             required
           >
           </v-text-field>
-
+          <!-- edit btn -->
           <span
             class="edit-btn"
             v-show="editAdminName == false"
             @click="editAdminName = true"
             >Edit</span
           >
-
+          <!-- done btn -->
           <span
             class="edit-btn"
             v-show="editAdminName && !nameLoader"
             @click="editInfo('admin_name')"
             >Done</span
           >
-
+          <!-- loader -->
           <span class="edit-btn" v-show="nameLoader == true">
             <v-progress-circular
               indeterminate
@@ -69,18 +69,21 @@
             required
           >
           </v-text-field>
+          <!-- edit btn -->
           <span
             class="edit-btn"
             v-show="editPhoneNum == false"
             @click="editPhoneNum = true"
             >Edit</span
           >
+          <!-- done btn -->
           <span
             class="edit-btn"
             v-show="editPhoneNum && !phoneNumLoader"
             @click="editInfo('phonenum')"
             >Done</span
           >
+          <!-- loader -->
           <span class="edit-btn" v-show="phoneNumLoader == true">
             <v-progress-circular
               indeterminate
