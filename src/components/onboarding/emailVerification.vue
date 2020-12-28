@@ -87,7 +87,7 @@ export default {
       errorMessage: false,
       message: "",
       resendOtpSuccess: false,
-      dashboardBtn: true
+      dashboardBtn: true,
     };
   },
   methods: {
@@ -152,15 +152,12 @@ export default {
             setTimeout(() => {
               this.resendOtpSuccess = false;
             }, 3000);
-          } else if (response.data.message === "The given data was invalid.") {
-            this.errorMessage = true;
-            this.message = "Invalid, Email already verified.";
-          }
+          } 
         })
         .catch((error) => {
           this.errorMessage = true;
           if(error.response) {
-            this.message = "Something went wrong, pls try again";
+             this.message = error.response.errors.email[0];
           }else {
             this.message = "No internet Connection!";
           }

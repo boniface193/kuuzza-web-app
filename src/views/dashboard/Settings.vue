@@ -57,6 +57,9 @@
 <script>
 export default {
   name: "Settings",
+  created() {
+    this.$store.dispatch("settings/getUserProfile");
+  }
 };
 </script>
 
@@ -80,28 +83,6 @@ export default {
         border-color: #5064cc;
         font-weight: bold;
       }
-    }
-  }
-  .settings-input {
-    position: relative;
-    .edit-btn {
-      position: absolute;
-      bottom: 25px;
-      right: 0;
-      cursor: pointer;
-      color: #5064cc;
-      background: white;
-      padding: 5px 0px 0px 5px;
-    }
-  }
-  .store-width {
-    width: 50%;
-  }
-}
-@media (max-width: 950px) {
-  .settings-container {
-    .store-width {
-      width: 100%;
     }
   }
 }
