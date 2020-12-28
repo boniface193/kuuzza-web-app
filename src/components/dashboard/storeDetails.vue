@@ -1,91 +1,122 @@
 <template>
-  <div class="px-4 pt-7 my-2 pb-16 store-width">
-    <!-- store name field -->
-    <div class="mb-5 settings-input">
-      <p class="mb-1 secondary--text">Store Name</p>
-      <v-text-field
-        class="input mt-0"
-        :rules="inputRules"
-        type="name"
-        color="primary"
-        v-model="computedInfo.currentStoreName"
-        :disabled="editStoreName == false"
-        required
-      >
-      </v-text-field>
+  <div class="px-4 pt-7 my-2 pb-16">
+    <div v-show="!loader" class="store-width">
+      <!-- store name field -->
+      <div class="mb-5 settings-input">
+        <p class="mb-1 secondary--text">Store Name</p>
+        <v-text-field
+          class="input mt-0"
+          :rules="inputRules"
+          type="name"
+          color="primary"
+          v-model="computedInfo.currentStoreName"
+          :disabled="editStoreName == false"
+          required
+        >
+        </v-text-field>
 
-      <!-- edit btn -->
-      <span
-        class="edit-btn"
-        v-show="editStoreName == false"
-        @click="editStoreName = true"
-        >Edit</span
-      >
-      <!-- done btn -->
-      <span
-        class="edit-btn"
-        v-show="editStoreName == true"
-        @click="submitEditInfo('storeName')"
-        >Done</span
-      >
+        <!-- edit btn -->
+        <span
+          class="edit-btn"
+          v-show="editStoreName == false"
+          @click="editStoreName = true"
+          >Edit</span
+        >
+        <!-- done btn -->
+        <span
+          class="edit-btn"
+          v-show="editStoreName && !nameLoader"
+          @click="editInfo('storeName')"
+          >Done</span
+        >
+        <!-- loader --> 
+        <span class="edit-btn" v-show="nameLoader">
+          <v-progress-circular
+            indeterminate
+            color="primary"
+            :size="25"
+          ></v-progress-circular>
+        </span>
+
+      </div>
+      <!-- store location field -->
+      <div class="mb-5 settings-input">
+        <p class="mb-1 secondary--text">Store Location</p>
+        <v-text-field
+          class="input mt-0"
+          :rules="inputRules"
+          type="text"
+          color="primary"
+          v-model="computedInfo.currentStoreLocation"
+          :disabled="editStoreLocation == false"
+          required
+        >
+        </v-text-field>
+
+        <!-- edit btn -->
+        <span
+          class="edit-btn"
+          v-show="editStoreLocation == false"
+          @click="editStoreLocation = true"
+          >Edit</span
+        >
+        <!-- done btn -->
+        <span
+          class="edit-btn"
+          v-show="editStoreLocation && !locationLoader"
+          @click="editInfo('storeLocation')"
+          >Done</span
+        >
+        <!-- loader --> 
+        <span class="edit-btn" v-show="locationLoader">
+          <v-progress-circular
+            indeterminate
+            color="primary"
+            :size="25"
+          ></v-progress-circular>
+        </span>
+      </div>
+      <!-- phone number field -->
+      <div class="mb-5 settings-input">
+        <p class="mb-1 secondary--text">Phone Number</p>
+        <v-text-field
+          class="input mt-0"
+          :rules="inputRules"
+          type="tel"
+          color="primary"
+          v-model="computedInfo.currentStoreNum"
+          :disabled="editStoreNum == false"
+          required
+        >
+        </v-text-field>
+
+        <!-- edit btn -->
+        <span
+          class="edit-btn"
+          v-show="editStoreNum == false"
+          @click="editStoreNum = true"
+          >Edit</span
+        >
+        <!-- done btn -->
+        <span
+          class="edit-btn"
+          v-show="editStoreNum && !phoneNumLoader"
+          @click="editInfo('storeNum')"
+          >Done</span
+        >
+        <!-- loader --> 
+        <span class="edit-btn" v-show="phoneNumLoader">
+          <v-progress-circular
+            indeterminate
+            color="primary"
+            :size="25"
+          ></v-progress-circular>
+        </span>
+      </div>
     </div>
-    <!-- store location field -->
-    <div class="mb-5 settings-input">
-      <p class="mb-1 secondary--text">Store Location</p>
-      <v-text-field
-        class="input mt-0"
-        :rules="inputRules"
-        type="text"
-        color="primary"
-        v-model="computedInfo.currentStoreLocation"
-        :disabled="editStoreLocation == false"
-        required
-      >
-      </v-text-field>
 
-      <!-- edit btn -->
-      <span
-        class="edit-btn"
-        v-show="editStoreLocation == false"
-        @click="editStoreLocation = true"
-        >Edit</span
-      >
-      <!-- done btn -->
-      <span
-        class="edit-btn"
-        v-show="editStoreLocation == true"
-        @click="submitEditInfo('storeLocation')"
-        >Done</span
-      >
-    </div>
-    <!-- phone number field -->
-    <div class="mb-5 settings-input">
-      <p class="mb-1 secondary--text">Phone Number</p>
-      <v-text-field
-        class="input mt-0"
-        :rules="inputRules"
-        type="tel"
-        color="primary"
-        v-model="computedInfo.currentStoreNum"
-        :disabled="editStoreNum == false"
-        required
-      >
-      </v-text-field>
-
-      <!-- edit btn -->
-      <span
-        class="edit-btn"
-        v-show="editStoreNum == false"
-        @click="editStoreNum = true"
-        >Edit</span
-      >
-      <!-- done btn -->
-      <span
-        class="edit-btn"
-        v-show="editStoreNum == true"
-        @click="submitEditInfo('storeNum')"
-        >Done</span
-      >
+    <div class="loader-body text-center pt-10" v-show="loader">
+      <v-progress-circular indeterminate color="primary"></v-progress-circular>
     </div>
 
     <!-- modal for dialog messages -->
@@ -108,6 +139,7 @@
 </template>
 <script>
 import modal from "@/components/dashboard/modal.vue";
+import { mapGetters } from "vuex";
 export default {
   name: "storeDetails",
   components: { modal },
@@ -118,19 +150,25 @@ export default {
       editStoreNum: false,
       editStoreName: false,
       editStoreLocation: false,
+      nameLoader: false,
+      locationLoader: false,
+      phoneNumLoader: false,
       inputRules: [(v) => !!v || "This field is required"],
     };
   },
   computed: {
+    ...mapGetters({
+      loader: "settings/loader",
+    }),
     computedInfo() {
-      // gets the values of user information
-      //let user_info = this.$store.getters["admin/user_info"];
-      let storeName = "Mariam super store";
-      let storeLocation = "Ikeja Lagos Nigeria";
-      let storeNum = "null";
-      let currentStoreName = "Mariam super store";
-      let currentStoreLocation = "Ikeja Lagos Nigeria";
-      let currentStoreNum = "null";
+      // gets user profile informations
+      let userProfile = this.$store.getters["settings/getUserProfile"];
+      let storeName = userProfile.store.name;
+      let storeLocation = userProfile.store.location;
+      let storeNum = userProfile.store.phone_number;
+      let currentStoreName = userProfile.store.name;
+      let currentStoreLocation = userProfile.store.location;
+      let currentStoreNum = userProfile.store.phone_number;
 
       return {
         storeName: storeName,
@@ -144,43 +182,102 @@ export default {
   },
   methods: {
     // submits the edited information
-    submitEditInfo(input_field) {
-
+    editInfo(input_field) {
+      // // check if the edited input field is the store ame
       if (
         input_field === "storeName" &&
         this.computedInfo.currentStoreName != ""
       ) {
-        this.editStoreName = false;
         if (
           this.computedInfo.currentStoreName !== this.computedInfo.storeName
         ) {
-          this.dialogMessage = "Store name changed successfully!";
-          this.dialog = true;
+          this.nameLoader = true;
+          this.$store
+            .dispatch("settings/editStore", {
+              name: this.computedInfo.currentStoreName,
+            })
+            .then(() => {
+              this.dialogMessage = "Store name changed successfully!";
+              this.editStoreName = false;
+              this.nameLoader = false;
+              this.dialog = true;
+            })
+            .catch((error) => {
+              if (error.response) {
+                this.dialogMessage = "";
+              } else {
+                this.dialogMessage = "No internet connection!";
+              }
+              this.nameLoader = false;
+              this.dialog = true;
+            });
+        } else {
+          this.editStoreName = false;
         }
       }
 
+      // check if the edited input field is the store location
       if (
         input_field === "storeLocation" &&
         this.computedInfo.currentStoreLocation != ""
       ) {
-        this.editStoreLocation = false;
         if (
           this.computedInfo.currentStoreLocation !==
           this.computedInfo.storeLocation
         ) {
-          this.dialogMessage = "Store location changed successfully!";
-          this.dialog = true;
+          this.locationLoader = true;
+          this.$store
+            .dispatch("settings/editStore", {
+              location: this.computedInfo.currentStoreLocation,
+            })
+            .then(() => {
+              this.dialogMessage = "Store location changed successfully!";
+              this.editStoreLocation = false;
+              this.locationLoader = false;
+              this.dialog = true;
+            })
+            .catch((error) => {
+              if (error.response) {
+                this.dialogMessage = "";
+              } else {
+                this.dialogMessage = "No internet connection!";
+              }
+              this.locationLoader = false;
+              this.dialog = true;
+            });
+        } else {
+          this.editStoreLocation = false;
         }
       }
 
+      // check if the edited input field is the admin store phone number
       if (
         input_field === "storeNum" &&
         this.computedInfo.currentStoreNum != ""
       ) {
-        this.editStoreNum = false;
         if (this.computedInfo.currentStoreNum !== this.computedInfo.storeNum) {
-          this.dialogMessage = "phone number changed successfully!";
-          this.dialog = true;
+          this.phoneNumLoader = true;
+          this.$store
+            .dispatch("settings/editStore", {
+              phone_number: this.computedInfo.currentStoreNum,
+            })
+            .then(() => {
+              this.dialogMessage = "phone number changed successfully!";
+              this.editStoreNum = false;
+              this.phoneNumLoader = false;
+              this.dialog = true;
+            })
+            .catch((error) => {
+              if (error.response) {
+                this.dialogMessage = error.response.data.errors.phone_number[0];
+              } else {
+                this.dialogMessage = "No internet connection!";
+              }
+              this.phoneNumLoader = false;
+              this.dialog = true;
+            });
+        } else {
+          this.editStoreNum = false;
         }
       }
     },
@@ -194,6 +291,26 @@ export default {
 .status-img {
   width: 140px;
   .v-image {
+    width: 100%;
+  }
+}
+.store-width {
+  width: 50%;
+}
+.settings-input {
+  position: relative;
+  .edit-btn {
+    position: absolute;
+    bottom: 25px;
+    right: 0;
+    cursor: pointer;
+    color: #5064cc;
+    background: white;
+    padding: 5px 0px 0px 5px;
+  }
+}
+@media (max-width: 950px) {
+  .store-width {
     width: 100%;
   }
 }

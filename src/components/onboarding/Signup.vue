@@ -326,7 +326,7 @@ export default {
           if (error.response) {
             this.errorMessage = error.response.data.errors.email[0];
           } else {
-            this.errorMessage = "Something went wrong, Please try again or ";
+            this.errorMessage = "No internet Connection!";
           }
         });
     },

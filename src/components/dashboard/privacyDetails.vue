@@ -10,7 +10,7 @@
         <v-text-field
           class="input mt-0"
           v-model="oldPassword"
-          :rules="inputRules"
+          :rules="oldPasswordRules"
           :append-icon="value1 ? 'mdi-eye-off' : 'mdi-eye'"
           @click:append="() => (value1 = !value1)"
           :type="value1 ? 'password' : 'text'"
@@ -57,7 +57,11 @@
 
       <!-- button container -->
       <div class="pa-0 mt-5" style="width: 100%">
-        <v-btn class="primary px-8 py-5 mb-5" @click="update_password"
+        <v-btn
+          class="primary px-8 py-5 mb-5"
+          @click="update_password"
+          :loading="loading"
+          :disabled="loading"
           >Save Changes</v-btn
         >
       </div>
@@ -87,6 +91,7 @@ export default {
   components: { modal },
   data: function () {
     return {
+      loading: false,
       oldPassword: "",
       newPassword: "",
       confirmPassword: "",
@@ -95,13 +100,18 @@ export default {
       value1: String,
       value2: String,
       value3: String,
-      inputRules: [(v) => !!v || "Password is required"],
+      oldPasswordRules: [
+        (v) => !!v || "Password is required",
+        (v) => v !== this.newPassword || "old password cannot be the same as new password",
+      ],
       newPasswordRules: [
         //verifies password satisfies the requirement
         (v) => !!v || "New password is required",
         (v) =>
-          /^(?=.*[a-z])(?=.*\d)[a-zA-Z\d\w\W]{8,30}$/.test(v) ||
-          "Password must contain a minimum of 8 character and at least one number",
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+            v
+          ) ||
+          "Password must contain a minimum of 8 character, at least one uppercase, one lowercase, one number and one special character",
       ],
       confirmPasswordRules: [
         (v) => !!v || "Confirm Password is required",
@@ -114,8 +124,29 @@ export default {
       this.$refs.form.validate();
 
       if (this.$refs.form.validate()) {
-        this.dialogMessage = "Password changed successfully!";
-        this.dialog = true;
+        this.loading = true;
+        this.$store
+          .dispatch("settings/resetPassword", {
+            old_password: this.oldPassword,
+            password: this.newPassword,
+            password_confirmation: this.confirmPassword,
+          })
+          .then(() => {
+            this.dialog = true;
+            this.loading = false;
+            this.dialogMessage = "Password changed successfully!";
+            this.$refs.form.reset();
+          })
+          .catch((error) => {
+            this.dialog = true;
+            this.loading = false;
+            if (error.response) {
+              console.log(error.response)
+              this.dialogMessage = error.response.data.errors.old_password[0];
+            } else {
+              this.dialogMessage = "No internet connection!";
+            }
+          });
       }
     },
   },
@@ -125,6 +156,14 @@ export default {
 .status-img {
   width: 140px;
   .v-image {
+    width: 100%;
+  }
+}
+.store-width {
+  width: 50%;
+}
+@media (max-width: 950px) {
+  .store-width {
     width: 100%;
   }
 }
