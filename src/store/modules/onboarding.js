@@ -46,6 +46,7 @@ const state = {
     accountVerified: false,
     accountAuthenticated: false,
     tokenExpired: true,
+    doNothing: null,
 };
 
 //returns the state properties
@@ -110,6 +111,7 @@ const actions = {
                 resolve(response)
             })
                 .catch(error => {
+                    context.commit("removeToken")
                     reject(error);
                 })
         })
@@ -124,7 +126,7 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
-                    context.commit('', '');
+                    context.commit("doNothing");
                     reject(error);
                 })
         })
@@ -138,7 +140,7 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
-                    context.commit('', '');
+                    context.commit("doNothing");
                     reject(error);
                 })
         })
@@ -151,7 +153,7 @@ const actions = {
             }).then(response => {
                 resolve(response)
             }).catch(error => {
-                context.commit("", "");
+                context.commit("doNothing");
                 reject(error)
             })
         })
@@ -166,8 +168,7 @@ const actions = {
                 resolve(response)
             })
                 .catch(error => {
-                    console.log(error.response)
-                    context.commit("", "")
+                    context.commit("doNothing");
                     reject(error);
                 })
         })
@@ -184,24 +185,22 @@ const actions = {
                 resolve(response)
             })
                 .catch(error => {
-                    context.commit("", "");
+                    context.commit("doNothing");
                     reject(error);
                 })
         });
     },
     // check if an account exist
-    checkAccount: (context, credentials) => {
+    checkAccount: (context, data) => {
         return new Promise((resolve, reject) => {
-            axios.post("", {
-                email: credentials.email,
-            }).then(response => {
+            axios.post("auth/register/validate-email", data).then(response => {
                 resolve(response)
             })
                 .catch(error => {
-                    context.commit("", "");
+                    context.commit("doNothing");
                     reject(error);
                 })
-        })
+        });
     }
 };
 
@@ -233,7 +232,9 @@ const mutations = {
     setTokenExpired: (state) => {
         const tokenExpired = checkIftokenExpired();
         state.tokenExpired = tokenExpired;
-    }
+    },
+    // commit nothing
+    doNothing: (state) => (state.doNothing = null)
 
 };
 
