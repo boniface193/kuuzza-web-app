@@ -2,9 +2,6 @@
   <div>
     <p v-show="error" class="error--text mt-3 mb-0">
       <span v-html="errorMessage"></span>
-      <router-link to="/signin" style="text-decoration: none">
-        Sign In?</router-link
-      >
     </p>
 
     <!-- first form section-->
@@ -69,7 +66,11 @@
 
       <!-- button container -->
       <div class="pa-0 mt-5" style="width: 100%">
-        <v-btn class="primary px-8 py-5 mb-5" @click="validate_form(1)"
+        <v-btn
+          class="primary px-8 py-5 mb-5"
+          @click="validate_form(1)"
+          :loading="loading2"
+          :disabled="loading2"
           >Next</v-btn
         >
         <!-- signin link -->
@@ -147,7 +148,16 @@
       ></v-text-field>
 
       <!-- button conatainer -->
-      <div class="pa-0 mt-5" style="width: 100%">
+      <div
+        class="pa-0 mt-5 d-flex justify-space-between align-center btn-container"
+      >
+        <v-btn
+          class="primary--text mb-5 mb-0 px-1 py-2"
+          style="background: #5064cc26"
+          @click="previousForm(2)"
+        >
+          Back</v-btn
+        >
         <v-btn class="primary px-8 py-5 mb-5" @click="validate_form(2)"
           >Next</v-btn
         >
@@ -190,7 +200,16 @@
       ></v-text-field>
 
       <!-- button container -->
-      <div class="pa-0 mt-5" style="width: 100%">
+      <div
+        class="pa-0 mt-5 d-flex justify-space-between align-center btn-container"
+      >
+        <v-btn
+          class="primary--text mb-5 mb-0 px-1 py-2"
+          style="background: #5064cc26"
+          @click="previousForm(3)"
+        >
+          Back</v-btn
+        >
         <v-btn
           class="primary px-8 py-5 mb-5"
           @click="validate_form(3)"
@@ -210,6 +229,7 @@ export default {
   data: function () {
     return {
       loading: false,
+      loading2: false,
       errorMessage: "",
       error: false,
       first_name: "",
@@ -284,13 +304,43 @@ export default {
       if (this.$refs[`form${form_num}`].validate()) {
         if (form_num == 3) {
           this.submit();
-        } else{
+        } else if (form_num == 1) {
+          this.loading2 = true;
+          this.$store
+            .dispatch("onboarding/checkAccount", {
+              email: this.email,
+            })
+            .then(() => {
+              this.$store.commit(
+                "onboarding/present_signup_form",
+                `form${form_num + 1}`
+              );
+              this.error = false;
+              this.loading2 = false;
+            })
+            .catch((error) => {
+              this.error = true;
+              this.loading2 = false;
+              if (error.response) {
+                this.errorMessage = error.response.data.errors.email[0];
+              } else {
+                this.errorMessage = "No internet Connection!";
+              }
+            });
+        } else if (form_num == 2) {
           this.$store.commit(
             "onboarding/present_signup_form",
             `form${form_num + 1}`
           );
         }
-      } 
+      }
+    },
+    // go to previous form
+    previousForm(form_num) {
+      this.$store.commit(
+        "onboarding/present_signup_form",
+        `form${form_num - 1}`
+      );
     },
     //submit form and create an account
     submit() {
@@ -333,3 +383,18 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.btn-container {
+  width: 60%;
+}
+@media (max-width: 1100px) {
+  .btn-container {
+    width: 80%;
+  }
+}
+@media (max-width: 550px) {
+  .btn-container {
+    width: 100%;
+  }
+}
+</style>

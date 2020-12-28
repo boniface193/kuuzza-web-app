@@ -11,7 +11,8 @@ const state = {
         role: "",
         status: "",
     },
-    loader: false
+    loader: false,
+    doNothing: null
 };
 
 //returns the state properties
@@ -66,7 +67,6 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
-                    console.log(error.response)
                     reject(error);
                 })
         });
@@ -82,7 +82,7 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
-                    context.commit("", "")
+                    context.commit("doNothing")
                     reject(error);
                 })
         });
@@ -92,6 +92,7 @@ const actions = {
 //updates the different state properties
 const mutations = {
     setUserProfile: (state, data) => (state.profile = data),
+    doNothing: (state) => (state.doNothing = null)
 };
 
 
