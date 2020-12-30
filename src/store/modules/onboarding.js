@@ -64,7 +64,6 @@ const getters = {
     getEmail:  state => {
         if(localStorage.getItem('accessToken')) {
             const email = decodeToken(state.token).meta.email
-            console.log(email)
             return email;
         }else {
             return null;
@@ -123,9 +122,11 @@ const actions = {
                 otp: credentials.code,
                 email: credentials.email
             }).then(response => {
+                context.commit("setToken", response.data.token)
                 resolve(response);
             })
                 .catch(error => {
+                    console.log(error.response)
                     context.commit("doNothing");
                     reject(error);
                 })
