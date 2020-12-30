@@ -126,7 +126,6 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
-                    console.log(error.response)
                     context.commit("doNothing");
                     reject(error);
                 })
