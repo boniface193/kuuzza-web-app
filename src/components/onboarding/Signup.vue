@@ -206,6 +206,7 @@
         <v-btn
           class="primary--text mb-5 mb-0 px-1 py-2"
           style="background: #5064cc26"
+          :disabled="loading"
           @click="previousForm(3)"
         >
           Back</v-btn
@@ -317,6 +318,7 @@ export default {
               );
               this.error = false;
               this.loading2 = false;
+              this.errorMessage = "";
             })
             .catch((error) => {
               this.error = true;

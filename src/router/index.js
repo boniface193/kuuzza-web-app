@@ -1,6 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "@/store";
+import index from "@/views/index.vue";
+import pageNotFound from "@/components/pageNotFound.vue";
 import Signup from "@/components/onboarding/Signup.vue";
 import Signin from "@/components/onboarding/Signin.vue";
 import Recoverpassword from "@/components/onboarding/Recoverpassword.vue";
@@ -81,7 +83,6 @@ const ifAuthenticated = (to, from, next) => {
   store.commit("onboarding/setAuthenticated");
   if (store.getters["onboarding/accountAuthenticated"] === true) {
     store.commit("onboarding/setVerifyAccountStatus");
-
     if (store.getters["onboarding/accountVerified"] === true) {
       store.commit("onboarding/setTokenExpired");
       store.commit("onboarding/accessEmailVerifcationPage", false);
@@ -118,6 +119,11 @@ const AlreadyLogin = (to, from, next) => {
 }
 
 const routes = [
+  {
+    path: "/",
+    name: "index",
+    component: index
+  },
   {//layout dashboard and children
     path: "/dashboard", component: Home,
     beforeEnter: ifAuthenticated,
@@ -365,6 +371,10 @@ const routes = [
       }
     ],
   },
+  {
+    path: "*",
+    component: pageNotFound
+  }
 ];
 
 const router = new VueRouter({
