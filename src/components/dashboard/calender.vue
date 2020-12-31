@@ -45,7 +45,6 @@ export default {
   data() {
     return {
       opens: "left",
-
       ranges: {
         Today: [today, today],
         Yesterday: [yesterday, yesterday],
@@ -61,18 +60,33 @@ export default {
       },
 
       dateRange: {
-        startDate: Date.now(),
+        startDate: Date.now(-24 * 3600 * 1000),
         endDate: Date.now(),
       },
     };
   },
+
+  // methods: {
+  //   moment: () => {
+  //     return moment();
+  //   },
+  // },
+
+  // filters: {
+  //   moment: (date) => {
+  //     return moment(date).format("dddd");
+  //   },
+  // },
 };
 </script>
 <style lang="scss">
 .reportrange-text[data-v-00277188] {
   border-radius: 8px !important;
-  .fa{
+  .fa {
     color: #5064cc !important;
   }
+}
+.ranges.col-12.col-md-auto {
+  width: 20%;
 }
 </style>
