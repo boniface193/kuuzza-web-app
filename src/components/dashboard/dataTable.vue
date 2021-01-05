@@ -37,7 +37,7 @@
               </span>
             </th>
             <!-- action header -->
-            <th v-if="action === true">Action</th>
+            <th v-if="action === true" style="min-width: 200px">Action</th>
           </tr>
         </thead>
         <!-- tables body -->
@@ -46,7 +46,7 @@
           <tr
             v-for="item in sortedItems"
             :key="item.id"
-            :class="{ selectedRow: selected.includes(`${item.id}`) }"
+            :class="{ selectedRow: selected.includes(`${item.id}`),  suspendedRow: item.status == 'suspended' }"
           >
             <!-- columns -->
             <td
@@ -88,19 +88,27 @@
             </td>
 
             <!-- action column-->
-            <td v-if="action === true">
+            <td v-if="action === true" style="min-width: 200px">
               <span v-show="action === true">
                 <!-- edit btn -->
                 <span
                   ><v-icon
                     class="primary--text action-btn"
-                    @click="editRow(item.id)"
+                    :class="{
+                      'action-icon-not-active': item.status == 'suspended',
+                    }"
+                    @click="editRow(item.id, item.status)"
                     >mdi-pencil</v-icon
                   ></span
                 >
-                <!--  -->
+                <!-- suspend row -->
                 <span
-                  ><v-icon class="error--text action-btn"
+                  ><v-icon
+                    class="error--text action-btn"
+                    :class="{
+                      'action-icon-not-active': item.status == 'suspended',
+                    }"
+                    @click="offlineRow(item.id, item.status)"
                     >mdi-cancel</v-icon
                   ></span
                 >
@@ -197,15 +205,22 @@ export default {
     },
     // handles the request to delete a row
     deleteRow(itemId) {
-      //console.log(itemId)
       this.actions.deleteId = itemId;
-      //console.log(this.actions)
       this.$emit("requestedAction", this.actions);
     },
     // handles the request to edit a row
-    editRow(itemId) {
-      this.actions.editId = itemId;
-      this.$emit("requestedAction", this.actions);
+    editRow(itemId, itemStatus) {
+      if (itemStatus !== "suspended") {
+        this.actions.editId = itemId;
+        this.$emit("requestedAction", this.actions);
+      }
+    },
+    // handles request to take a row offline
+    offlineRow(itemId, itemStatus) {
+      if (itemStatus !== "suspended") {
+        this.actions.offlineId = itemId;
+        this.$emit("requestedAction", this.actions);
+      }
     },
   },
 };
@@ -281,10 +296,23 @@ export default {
               color: #979797 !important;
             }
           }
+          .action-icon-not-active {
+            color: #eeeeee !important;
+            cursor: context-menu;
+            &:hover {
+              color: #eeeeee !important;
+            }
+          }
         }
       }
       .selectedRow {
         background: #f9f9f9;
+      }
+      .suspendedRow{
+        background:rgb(249, 250, 255);
+        &:hover {
+          background: rgb(249, 250, 255);
+        }
       }
     }
   }

@@ -13,7 +13,10 @@ import Inventory from "@/views/dashboard/Inventory.vue";
 import Home from "@/views/dashboard/home.vue";
 import Settings from "../views/dashboard/Settings.vue";
 import userDetails from "@/components/dashboard/userDetails.vue";
+import team from "@/components/dashboard/team.vue";
 import teamDetails from "@/components/dashboard/teamDetails.vue";
+import teamInvite from "@/components/dashboard/teamInvite.vue";
+import editTeamMember from "@/components/dashboard/editTeamMember.vue";
 import bankAccounts from "@/components/dashboard/bankAccounts.vue";
 import storeDetails from "@/components/dashboard/storeDetails.vue";
 import privacyDetails from "@/components/dashboard/privacyDetails.vue";
@@ -306,8 +309,25 @@ const routes = [
           },
           {
             path: "team",
-            name: "team",
-            component: teamDetails
+            component: team,
+            children: [
+              {
+                path: "",
+                name: "teamDetails",
+                component: teamDetails
+              },
+              {
+                path: "invite",
+                name: "teamInvite",
+                component: teamInvite
+              },
+              {
+                path: "edit/:id",
+                name: "editTeamMember",
+                component: editTeamMember,
+                props: true
+              }
+            ]
           },
           {
             path: "bank-details",

@@ -88,7 +88,7 @@
             <v-progress-circular
               indeterminate
               color="primary"
-              :size="32"
+              :size="20"
             ></v-progress-circular>
           </span>
         </div>

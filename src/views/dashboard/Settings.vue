@@ -23,8 +23,13 @@
         <!-- nav link -->
         <router-link
           class="nav-item"
-          :class="{ 'nav-item--active': this.$route.name == 'team' }"
-          :to="{ name: 'team' }"
+          :class="{
+            'nav-item--active':
+              this.$route.name == 'teamDetails' ||
+              this.$route.name == 'teamInvite' ||
+              this.$route.name == 'editTeamMember'
+          }"
+          :to="{ name: 'teamDetails' }"
           >Team</router-link
         >
         <!-- nav link -->
@@ -59,7 +64,7 @@ export default {
   name: "Settings",
   created() {
     this.$store.dispatch("settings/getUserProfile");
-  }
+  },
 };
 </script>
 
