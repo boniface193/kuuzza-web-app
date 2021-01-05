@@ -37,6 +37,9 @@ export default {
         chart: {
           type: "bar",
           height: 350,
+          toolbar: {
+            show: false,
+          },
         },
         plotOptions: {
           bar: {
@@ -78,5 +81,16 @@ export default {
   letter-spacing: 0px;
   color: #2b2b2b;
   opacity: 1;
+}
+.apexcharts-toolbar {
+  /* position: absolute; */
+  z-index: 11;
+  max-width: 176px;
+  text-align: right;
+  border-radius: 3px;
+  padding: 0px 6px 2px 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>

@@ -9,7 +9,6 @@
       :autoApply="autoApply"
       :ranges="ranges"
     >
-      <!-- moment().format(); -->
       <template v-slot:input="picker" style="min-width: 350px">
         {{ moment(picker.ranges).format("dddd") | date }} -
         {{ moment(picker.ranges).format("dddd") | date }}
@@ -20,7 +19,6 @@
 
 <script>
 import DateRangePicker from "vue2-daterange-picker";
-// import moment from "vue-moment";
 //you need to import the CSS manually (in case you want to override it)
 import "vue2-daterange-picker/dist/vue2-daterange-picker.css";
 
@@ -67,7 +65,7 @@ export default {
       },
 
       dateRange: {
-        startDate: Date.now(-24 * 3600 * 1000),
+        startDate: Date.now(),
         endDate: Date.now(),
       },
 
