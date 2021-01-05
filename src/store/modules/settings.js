@@ -194,7 +194,6 @@ const actions = {
     },
     // update team member 
     updateTeamMember(context, data) {
-        console.log(data)
         return new Promise((resolve, reject) => {
             axios.put(`users/${data.id}`, data, {
                 headers: {
@@ -217,7 +216,7 @@ const mutations = {
     setUserProfile: (state, data) => (state.profile = data),
     setTeamMembers: (state, data) => (state.teamMembers = data),
     setPageDetails: (state, data) => (state.pageDetails = data),
-    setCurrentPage: (state, currentPage) => (state.pageDetails.current_page = currentPage),
+    setCurrentPage: (state, currentPage) => {state.pageDetails.current_page = currentPage},
     doNothing: (state) => (state.doNothing = null)
 };
 
