@@ -6,7 +6,6 @@ import vuetify from "./plugins/vuetify";
 import Chartkick from 'vue-chartkick'
 import Chart from 'chart.js'
 import VueApexCharts from 'vue-apexcharts'
-import moment from 'vue-moment'
 Vue.use(VueApexCharts)
 
 Vue.component('apexchart', VueApexCharts)
