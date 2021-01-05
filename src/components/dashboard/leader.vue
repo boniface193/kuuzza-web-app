@@ -6,7 +6,7 @@
         <h3 class="leader text-truncate mr-2">
           {{ leader }}
         </h3>
-        <router-link to="inventory" class="sell-text text-truncate">
+        <router-link to="leaderboard" class="sell-text text-truncate">
           <p>
             {{ sell_text }}
           </p>

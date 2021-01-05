@@ -2,14 +2,7 @@
   <v-container fluid>
     <div class="mx-lg-12 mx-md-5 mx-sm-5">
       <!-- page title -->
-      <div class="btn-pointer float-right">
-        <v-img
-          src="../../assets/download.svg"
-          width="16"
-          height="15"
-          class=""
-        ></v-img>
-      </div>
+
       <h1 class="heading--text">Balance</h1>
 
       <div class="settings-container mt-7 white">
@@ -49,6 +42,17 @@
             :to="{ name: 'paymentHistory' }"
             >Payment History</router-link
           >
+          <v-spacer></v-spacer>
+
+          <div class="btn-pointer d-flex">
+            <v-icon class="primary--text">mdi-sort</v-icon>
+            <v-img
+              src="../../assets/download.svg"
+              width="16"
+              height="15"
+              class="mx-8 mt-5"
+            ></v-img>
+          </div>
         </div>
         <router-view />
       </div>

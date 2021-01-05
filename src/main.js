@@ -6,13 +6,12 @@ import vuetify from "./plugins/vuetify";
 import Chartkick from 'vue-chartkick'
 import Chart from 'chart.js'
 import VueApexCharts from 'vue-apexcharts'
+import moment from 'vue-moment'
 Vue.use(VueApexCharts)
 
 Vue.component('apexchart', VueApexCharts)
 // mock server 
 //import { onboardServer } from './server/onboarding.js'
-
-Vue.use(require('vue-moment'));
 
 Vue.use(Chartkick.use(Chart))
 

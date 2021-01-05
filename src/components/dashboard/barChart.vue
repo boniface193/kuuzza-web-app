@@ -1,8 +1,8 @@
 <template>
-  <v-card elevation="0" class="pt-10 px-5">
+  <v-card elevation="0" class="pt-10">
     <h1 :class="bar_class">{{ bar_title }}</h1>
     <!-- displays the bar-chart -->
-    <v-container fluid>
+    <v-container>
       <apexchart
         width="100%"
         type="bar"
