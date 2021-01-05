@@ -19,6 +19,7 @@
       </div>
 
       <!-- table  -->
+      <div v-show="teamMembers.length > 0"> 
       <dataTable
         :action="true"
         :actions="actions"
@@ -27,6 +28,11 @@
         :items="teamMembers"
         @requestedAction="setRequestedAction"
       />
+      </div>
+      <!-- no data -->
+      <div class="text-center pt-10 pb-5" v-show="teamMembers.length == 0">
+        <p class="mb-0 secondary--text" style="font-size: 20px">No team member has been added yet!</p>
+      </div>
     </div>
 
     <!-- modal for dialog messages -->
