@@ -19,19 +19,36 @@
       </div>
 
       <!-- table  -->
-      <div v-show="teamMembers.length > 0"> 
-      <dataTable
-        :action="true"
-        :actions="actions"
-        :select="false"
-        :headers="tableHeaders"
-        :items="teamMembers"
-        @requestedAction="setRequestedAction"
-      />
+      <div v-show="teamMembers.length > 0">
+        <dataTable
+          :action="true"
+          :actions="actions"
+          :select="false"
+          :headers="tableHeaders"
+          :items="teamMembers"
+          :itemPerPage="getItemPerPage.itemPerPage || 15"
+          :paginationLength="pageDetails.last_page"
+          :page="pageDetails.current_page"
+          @requestedAction="setRequestedAction"
+          @itemPerPage="setItemPerPage"
+          @onPageChange="setCurentPage"
+        />
       </div>
       <!-- no data -->
-      <div class="text-center pt-10 pb-5" v-show="teamMembers.length == 0">
-        <p class="mb-0 secondary--text" style="font-size: 20px">No team member has been added yet!</p>
+      <div
+        class="text-center pt-10 pb-5"
+        v-show="teamMembers.length == 0 && !loader"
+      >
+        <p class="mb-0 secondary--text" style="font-size: 20px">
+          No team member has been added yet!
+        </p>
+      </div>
+      <!-- loader -->
+      <div class="text-center pt-10 pb-5" v-show="loader">
+        <v-progress-circular
+          indeterminate
+          color="primary"
+        ></v-progress-circular>
       </div>
     </div>
 
@@ -103,9 +120,9 @@
       </div>
     </modal>
 
-    <!-- take member offline modal -->
-    <modal :dialog="dialog3" width="470">
-      <div class="white pa-3 pb-10 dialog">
+    <!-- suspend member modal -->
+    <modal :dialog="dialog3" width="440">
+      <div class="white pa-3 pb-8 dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="closeDialog3"
             >mdi-close</v-icon
@@ -136,16 +153,59 @@
           <v-btn
             class="error py-5 mb-3 mb-sm-0"
             @click="suspendTeamMember"
-            :loading="offlineLoader"
-            :disabled="offlineLoader"
+            :loading="suspendLoader"
+            :disabled="suspendLoader"
             >Yes, suspend member</v-btn
           >
           <v-btn
             color="#F6F7FD"
             class="primary--text py-5"
             @click="closeDialog3"
-            :disabled="offlineLoader"
+            :disabled="suspendLoader"
             >No, keep this member</v-btn
+          >
+        </div>
+        <div></div>
+      </div>
+    </modal>
+    <!-- unsuspend modal -->
+    <modal :dialog="dialog4" width="440">
+      <div class="white pa-3 pb-8 dialog">
+        <div class="d-flex justify-end">
+          <v-icon class="error--text close-btn" @click="closeDialog4"
+            >mdi-close</v-icon
+          >
+        </div>
+        <div class="d-flex align-center">
+          <div>
+            <v-img
+              class=""
+              style="
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                margin-right: 10px;
+              "
+              src="@/assets/img/user-profile.svg"
+            >
+            </v-img>
+          </div>
+          <p class="grey--text title mb-0">{{ salesRepresentative }}</p>
+        </div>
+        <div class="text-center">
+          <p class="error--text mt-5">
+            Are you sure you want unsuspend this member?
+          </p>
+        </div>
+
+        <!-- btns -->
+        <div class="d-flex justify-center flex-wrap">
+          <v-btn
+            class="primary py-5 mb-3 mb-sm-0"
+            @click="unSuspendTeamMember"
+            :loading="unSuspendLoader"
+            :disabled="unSuspendLoader"
+            >Yes, unsuspend member</v-btn
           >
         </div>
         <div></div>
@@ -163,7 +223,9 @@ export default {
   components: { searchBar, modal, dataTable },
   data: function () {
     return {
-      offlineLoader: false,
+      itemPerPage: 15,
+      suspendLoader: false,
+      unSuspendLoader: false,
       deleteLoader: false,
       salesRepresentative: "",
       itemId: null,
@@ -171,7 +233,9 @@ export default {
       dialog1: false,
       dialog2: false,
       dialog3: false,
+      dialog4: false,
       dialogMessage: "",
+      loader: false,
       actions: {
         deleteId: null,
         editId: null,
@@ -182,17 +246,36 @@ export default {
           text: "Name",
           sortable: true,
           value: "name",
-           width: "40%",
+          width: "40%",
         },
-        { text: "Role", value: "role",  width: "20%", },
-        { text: "Status", value: "status", width: "20%"},
+        { text: "Role", value: "role", width: "20%" },
+        { text: "Status", value: "status", width: "20%" },
       ],
     };
+  },
+  created() {
+    //  get the team members details
+    if (this.$store.getters["settings/teamMembers"].length == 0) {
+      this.loader = true;
+      this.$store
+        .dispatch("settings/getTeamMembers", {
+          page: 1,
+          itemPerPage: 15,
+        })
+        .then(() => (this.loader = false))
+        .catch(() => (this.loader = false));
+    }
   },
   computed: {
     ...mapGetters({
       teamMembers: "settings/teamMembers",
+      pageDetails: "settings/pageDetails",
     }),
+    getItemPerPage() {
+      return {
+        itemPerPage: parseInt(this.pageDetails.per_page, 10),
+      };
+    },
   },
   methods: {
     getSearchValue(params) {
@@ -200,8 +283,8 @@ export default {
     },
     setRequestedAction(params) {
       this.actions = params;
+      //checks if edit action is triggered for a member
       if (this.actions.editId !== null) {
-        //checks if edit action is triggered for a member
         const item = this.teamMembers.find(
           (x) => x.id == `${this.actions.editId}`
         );
@@ -211,23 +294,41 @@ export default {
             id: item.id,
           },
         });
-      } else if (this.actions.deleteId !== null) {
-        //checks if delete action is triggered for a member
+      } //checks if delete action is triggered for a member
+      else if (this.actions.deleteId !== null) {
         const item = this.teamMembers.find(
           (x) => x.id == `${this.actions.deleteId}`
         );
         this.dialog2 = true;
         this.salesRepresentative = item.name;
         this.itemId = item.id;
-      } else if (this.actions.offlineId !== null) {
-        //checks if offline action is triggered for a member
+      } //checks if offline action is triggered for a member
+      else if (this.actions.offlineId !== null) {
         const item = this.teamMembers.find(
           (x) => x.id == `${this.actions.offlineId}`
         );
-        this.dialog3 = true;
+        if (this.actions.itemStatus == "suspended") {
+          this.dialog4 = true;
+        } else {
+          this.dialog3 = true;
+        }
+
         this.salesRepresentative = item.name;
         this.itemId = item.id;
       }
+    },
+    // set item per page
+    setItemPerPage(params) {
+      this.itemPerPage = params;
+      this.$store.dispatch("settings/getTeamMembers", {
+        page: this.pageDetails.current_page,
+        itemPerPage: this.itemPerPage,
+      });
+    },
+    // set current page
+    setCurentPage(params) {
+      this.$store.commit("settings/setCurrentPage", params);
+      this.setItemPerPage(this.itemPerPage)
     },
     // close the dialog that shows up when you want to delete a row
     closeDialog2() {
@@ -235,10 +336,16 @@ export default {
       this.actions.deleteId = null;
       this.itemId = null;
     },
-    // close the dialog that shows up when you want to take a memeber offline
+    // close the dialog that shows up when you want to suspend a team member
     closeDialog3() {
       this.dialog3 = false;
       this.actions.editId = null;
+      this.itemId = null;
+    },
+    // close the dialog that shows up when you want to suspend a team member
+    closeDialog4() {
+      this.dialog4 = false;
+      this.actions.offlineId = null;
       this.itemId = null;
     },
     // delete member
@@ -255,6 +362,7 @@ export default {
             this.closeDialog2();
             this.dialog1 = true;
             this.dialogMessage = "You have successfully deleted this member";
+            this.setItemPerPage(this.itemPerPage);
           })
           .catch((error) => {
             this.itemId = null;
@@ -273,23 +381,53 @@ export default {
     // suspend team member
     suspendTeamMember() {
       if (this.itemId !== null) {
-        this.offlineLoader = true;
+        this.suspendLoader = true;
         this.$store
           .dispatch("settings/suspendTeamMember", {
             id: this.itemId,
           })
           .then(() => {
             this.itemId = null;
-            this.offlineLoader = false;
+            this.suspendLoader = false;
             this.closeDialog3();
             this.dialog1 = true;
-            this.dialogMessage =
-              "You have successfully suspended this member";
+            this.dialogMessage = "You have successfully suspended this member";
+            this.setItemPerPage(this.itemPerPage);
           })
           .catch((error) => {
             this.itemId = null;
-            this.offlineLoader = false;
+            this.suspendLoader = false;
             this.closeDialog3();
+            this.dialog1 = true;
+            if (error.response) {
+              this.dialogMessage = "Pls try again, was not successfull";
+            } else {
+              this.dialogMessage = "No internet Connection!";
+            }
+          });
+      }
+    },
+    // unsuspend team member
+    unSuspendTeamMember() {
+      if (this.itemId !== null) {
+        this.unSuspendLoader = true;
+        this.$store
+          .dispatch("settings/unSuspendTeamMember", {
+            id: this.itemId,
+          })
+          .then(() => {
+            this.itemId = null;
+            this.unSuspendLoader = false;
+            this.closeDialog4();
+            this.dialog1 = true;
+            this.dialogMessage =
+              "You have successfully unsuspended this member";
+              this.setItemPerPage(this.itemPerPage);
+          })
+          .catch((error) => {
+            this.itemId = null;
+            this.unSuspendLoader = false;
+            this.closeDialog4();
             this.dialog1 = true;
             if (error.response) {
               this.dialogMessage = "Pls try again, was not successfull";

@@ -46,7 +46,10 @@
           <tr
             v-for="item in sortedItems"
             :key="item.id"
-            :class="{ selectedRow: selected.includes(`${item.id}`),  suspendedRow: item.status == 'suspended' }"
+            :class="{
+              selectedRow: selected.includes(`${item.id}`),
+              suspendedRow: item.status == 'suspended',
+            }"
           >
             <!-- columns -->
             <td
@@ -106,7 +109,7 @@
                   ><v-icon
                     class="error--text action-btn"
                     :class="{
-                      'action-icon-not-active': item.status == 'suspended',
+                      'success--text': item.status == 'suspended',
                     }"
                     @click="offlineRow(item.id, item.status)"
                     >mdi-cancel</v-icon
@@ -133,14 +136,19 @@
         <div class="d-flex justify-space-between align-center mb-2">
           <span class="mr-2">Number per page</span>
           <div class="select-item">
-            <selectBtn :items="[5, 10, 20, 30, 50]" />
+            <selectBtn
+              :items="[5, 10, 15, 30, 50]"
+              :item="itemPerPage"
+              @selectedItem="setItemPerPage"
+            />
           </div>
         </div>
       </div>
       <div class="pagination mb-2">
         <v-pagination
-          v-model="page"
+          v-model="currentPage"
           :length="paginationLength"
+          @input="onPageChange"
           circle
         ></v-pagination>
       </div>
@@ -157,13 +165,21 @@ export default {
       selected: [],
       selectAll: false,
       dialog: false,
-      page: 1,
       currentSort: "",
       modifier: 1,
-      paginationLength: 100,
+      currentPage: this.page
     };
   },
-  props: ["items", "headers", "action", "select", "actions"],
+  props: [
+    "items",
+    "headers",
+    "action",
+    "select",
+    "actions",
+    "paginationLength",
+    "page",
+    "itemPerPage",
+  ],
   computed: {
     // return sorted data
     sortedItems: function () {
@@ -190,6 +206,10 @@ export default {
       this.modifier = -1;
       this.currentSort = col;
     },
+    // set number of item per page
+    setItemPerPage(params) {
+      this.$emit("itemPerPage", params);
+    },
     selectRow() {
       this.selected = [];
       if (this.selectAll) {
@@ -199,8 +219,8 @@ export default {
       }
       this.emitSelectedRow();
     },
+    //
     emitSelectedRow() {
-      //console.log(this.selected)
       this.$emit("selectedRow", this.selected);
     },
     // handles the request to delete a row
@@ -217,11 +237,14 @@ export default {
     },
     // handles request to take a row offline
     offlineRow(itemId, itemStatus) {
-      if (itemStatus !== "suspended") {
-        this.actions.offlineId = itemId;
-        this.$emit("requestedAction", this.actions);
-      }
+      this.actions.offlineId = itemId;
+      this.actions.itemStatus = itemStatus;
+      this.$emit("requestedAction", this.actions);
     },
+    // on page change 
+    onPageChange() {
+      this.$emit("onPageChange", this.currentPage);
+    }
   },
 };
 </script>
@@ -308,8 +331,8 @@ export default {
       .selectedRow {
         background: #f9f9f9;
       }
-      .suspendedRow{
-        background:rgb(249, 250, 255);
+      .suspendedRow {
+        background: rgb(249, 250, 255);
         &:hover {
           background: rgb(249, 250, 255);
         }
