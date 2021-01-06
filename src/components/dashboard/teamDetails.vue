@@ -317,18 +317,35 @@ export default {
         this.itemId = item.id;
       }
     },
+
     // set item per page
     setItemPerPage(params) {
       this.itemPerPage = params;
+      let page = null
+      if(this.itemPerPage > this.pageDetails.per_page){
+        let range = Math.round((this.pageDetails.from - 1)/ this.pageDetails.per_page);
+        if(range < 0.5) {
+          page = range + 1
+        }else {
+          page = range;
+          this.$store.commit("settings/setCurrentPage", page); 
+        }
+      }else {
+        page = Math.round(((this.pageDetails.from - 1)/ this.itemPerPage) + 1);
+        this.$store.commit("settings/setCurrentPage", page);
+      }
       this.$store.dispatch("settings/getTeamMembers", {
-        page: this.pageDetails.current_page,
+        page: page,
         itemPerPage: this.itemPerPage,
       });
     },
     // set current page
     setCurentPage(params) {
       this.$store.commit("settings/setCurrentPage", params);
-      this.setItemPerPage(this.itemPerPage)
+      this.$store.dispatch("settings/getTeamMembers", {
+        page: params,
+        itemPerPage: this.itemPerPage,
+      });
     },
     // close the dialog that shows up when you want to delete a row
     closeDialog2() {

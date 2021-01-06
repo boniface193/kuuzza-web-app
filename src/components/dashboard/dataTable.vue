@@ -146,7 +146,7 @@
       </div>
       <div class="pagination mb-2">
         <v-pagination
-          v-model="currentPage"
+          v-model="getCurrentPage.currentPage"
           :length="paginationLength"
           @input="onPageChange"
           circle
@@ -185,6 +185,12 @@ export default {
     sortedItems: function () {
       return this.sort(this.items);
     },
+    // get the current table page
+    getCurrentPage() {
+      return {
+        currentPage: this.page
+      }
+    }
   },
   methods: {
     // sort data
@@ -243,7 +249,7 @@ export default {
     },
     // on page change 
     onPageChange() {
-      this.$emit("onPageChange", this.currentPage);
+      this.$emit("onPageChange", this.getCurrentPage.currentPage);
     }
   },
 };
