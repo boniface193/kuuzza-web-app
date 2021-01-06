@@ -14,13 +14,17 @@ const state = {
     loader: false,
     doNothing: null,
     teamMembers: [],
+    pageDetails: {
+        current_page: 1
+    },
 };
 
 //returns the state properties
 const getters = {
     getUserProfile: state => state.profile,
     loader: state => state.loader,
-    teamMembers: state => state.teamMembers
+    teamMembers: state => state.teamMembers,
+    pageDetails: state => state.pageDetails
 };
 
 //fetch data 
@@ -107,14 +111,15 @@ const actions = {
         });
     },
     // get all team Members information
-    getTeamMembers(context) {
+    getTeamMembers(context, data) {
         return new Promise((resolve, reject) => {
-            axios.get("users", {
+            axios.get(`users?page=${data.page}&per_page=${data.itemPerPage}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("accessToken")}`
                 }
             }).then(response => {
                 context.commit("setTeamMembers", response.data.data);
+                context.commit("setPageDetails", response.data.meta);
                 resolve(response);
             })
                 .catch(error => {
@@ -155,7 +160,7 @@ const actions = {
                 })
         })
     },
-    // take member offline
+    // suspend a team member
     suspendTeamMember(context, data) {
         return new Promise((resolve, reject) => {
             axios.post(`users/${data.id}/suspend`, {}, {
@@ -166,7 +171,22 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
-                    console.log(error.response)
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        })
+    },
+    // unsuspend a team member
+    unSuspendTeamMember(context, data) {
+        return new Promise((resolve, reject) => {
+            axios.post(`users/${data.id}/unsuspend`, {}, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                }
+            }).then(response => {
+                resolve(response);
+            })
+                .catch(error => {
                     context.commit("doNothing");
                     reject(error);
                 })
@@ -196,6 +216,8 @@ const actions = {
 const mutations = {
     setUserProfile: (state, data) => (state.profile = data),
     setTeamMembers: (state, data) => (state.teamMembers = data),
+    setPageDetails: (state, data) => (state.pageDetails = data),
+    setCurrentPage: (state, currentPage) => (state.pageDetails.current_page = currentPage),
     doNothing: (state) => (state.doNothing = null)
 };
 

@@ -23,11 +23,11 @@
 <script>
 export default {
   name: "selectBtn",
-  props: ["items"],
+  props: ["items", "item"],
   data: function () {
     return {
       selectDropdown: false,
-      selectedItem: this.items[0],
+      selectedItem: this.item,
     };
   },
   methods: {
@@ -45,7 +45,8 @@ export default {
     },
     setSelectedItem(item) {
       this.selectedItem = item;
-      this.selectDropdown = false
+      this.selectDropdown = false;
+      this.$emit("selectedItem", this.selectedItem);
     },
   },
 };

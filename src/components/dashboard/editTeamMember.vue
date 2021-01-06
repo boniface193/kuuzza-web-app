@@ -63,7 +63,7 @@
     <modal :dialog="dialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
         <div class="d-flex justify-end">
-          <v-icon class="error--text close-btn" @click="dialog = false"
+          <v-icon class="error--text close-btn" @click="closeModal"
             >mdi-close</v-icon
           >
         </div>
@@ -79,6 +79,7 @@
 </template>
 <script>
 import modal from "@/components/dashboard/modal.vue";
+import { mapGetters } from 'vuex';
 export default {
   name: "editTeamMember",
   components: { modal },
@@ -114,6 +115,9 @@ export default {
     })
   },
   computed: {
+     ...mapGetters({
+      pageDetails: "settings/pageDetails",
+    }),
     computedInfo() {
       let member = this.teamMember
 
@@ -139,6 +143,10 @@ export default {
               "You have successfully updated this team member";
             this.dialog = true;
             this.loading = false;
+            this.$store.dispatch("settings/getTeamMembers", {
+            page: this.pageDetails.current_page,
+            itemPerPage: this.pageDetails.per_page,
+      });
           })
           .catch((error) => {
             if (error.response) {
@@ -152,6 +160,10 @@ export default {
           });
       }
     },
+    closeModal(){
+      this.dialog= false;
+       this.$router.push({ name: "teamDetails" });
+    }
   },
 };
 </script>
