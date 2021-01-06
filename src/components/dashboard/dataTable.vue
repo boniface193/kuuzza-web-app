@@ -37,7 +37,7 @@
               </span>
             </th>
             <!-- action header -->
-            <th v-if="action === true" style="min-width: 200px">Action</th>
+            <th v-if="action === true">Action</th>
           </tr>
         </thead>
         <!-- tables body -->
@@ -46,10 +46,7 @@
           <tr
             v-for="item in sortedItems"
             :key="item.id"
-            :class="{
-              selectedRow: selected.includes(`${item.id}`),
-              suspendedRow: item.status == 'suspended',
-            }"
+            :class="{ selectedRow: selected.includes(`${item.id}`) }"
           >
             <!-- columns -->
             <td
@@ -91,27 +88,19 @@
             </td>
 
             <!-- action column-->
-            <td v-if="action === true" style="min-width: 200px">
+            <td v-if="action === true">
               <span v-show="action === true">
                 <!-- edit btn -->
                 <span
                   ><v-icon
                     class="primary--text action-btn"
-                    :class="{
-                      'action-icon-not-active': item.status == 'suspended',
-                    }"
-                    @click="editRow(item.id, item.status)"
+                    @click="editRow(item.id)"
                     >mdi-pencil</v-icon
                   ></span
                 >
-                <!-- suspend row -->
+                <!--  -->
                 <span
-                  ><v-icon
-                    class="error--text action-btn"
-                    :class="{
-                      'success--text': item.status == 'suspended',
-                    }"
-                    @click="offlineRow(item.id, item.status)"
+                  ><v-icon class="error--text action-btn"
                     >mdi-cancel</v-icon
                   ></span
                 >
@@ -136,19 +125,21 @@
         <div class="d-flex justify-space-between align-center mb-2">
           <span class="mr-2">Number per page</span>
           <div class="select-item">
-            <selectBtn
-              :items="[5, 10, 15, 30, 50]"
-              :item="itemPerPage"
-              @selectedItem="setItemPerPage"
-            />
+            <select>
+              <option>5</option>
+              <option>10</option>
+              <option>15</option>
+              <option>20</option>
+              <option>30</option>
+              <option>50</option>
+            </select>
           </div>
         </div>
       </div>
       <div class="pagination mb-2">
         <v-pagination
-          v-model="getCurrentPage.currentPage"
+          v-model="page"
           :length="paginationLength"
-          @input="onPageChange"
           circle
         ></v-pagination>
       </div>
@@ -156,41 +147,25 @@
   </div>
 </template>
 <script>
-import selectBtn from "@/components/dashboard/selectBtn.vue";
 export default {
   name: "dataTable",
-  components: { selectBtn },
   data: function () {
     return {
       selected: [],
       selectAll: false,
       dialog: false,
+      page: 1,
       currentSort: "",
       modifier: 1,
-      currentPage: this.page
+      paginationLength: 100,
     };
   },
-  props: [
-    "items",
-    "headers",
-    "action",
-    "select",
-    "actions",
-    "paginationLength",
-    "page",
-    "itemPerPage",
-  ],
+  props: ["items", "headers", "action", "select", "actions"],
   computed: {
     // return sorted data
     sortedItems: function () {
       return this.sort(this.items);
     },
-    // get the current table page
-    getCurrentPage() {
-      return {
-        currentPage: this.page
-      }
-    }
   },
   methods: {
     // sort data
@@ -212,10 +187,6 @@ export default {
       this.modifier = -1;
       this.currentSort = col;
     },
-    // set number of item per page
-    setItemPerPage(params) {
-      this.$emit("itemPerPage", params);
-    },
     selectRow() {
       this.selected = [];
       if (this.selectAll) {
@@ -225,32 +196,22 @@ export default {
       }
       this.emitSelectedRow();
     },
-    //
     emitSelectedRow() {
+      //console.log(this.selected)
       this.$emit("selectedRow", this.selected);
     },
     // handles the request to delete a row
     deleteRow(itemId) {
+      //console.log(itemId)
       this.actions.deleteId = itemId;
+      //console.log(this.actions)
       this.$emit("requestedAction", this.actions);
     },
     // handles the request to edit a row
-    editRow(itemId, itemStatus) {
-      if (itemStatus !== "suspended") {
-        this.actions.editId = itemId;
-        this.$emit("requestedAction", this.actions);
-      }
-    },
-    // handles request to take a row offline
-    offlineRow(itemId, itemStatus) {
-      this.actions.offlineId = itemId;
-      this.actions.itemStatus = itemStatus;
+    editRow(itemId) {
+      this.actions.editId = itemId;
       this.$emit("requestedAction", this.actions);
     },
-    // on page change 
-    onPageChange() {
-      this.$emit("onPageChange", this.getCurrentPage.currentPage);
-    }
   },
 };
 </script>
@@ -325,23 +286,10 @@ export default {
               color: #979797 !important;
             }
           }
-          .action-icon-not-active {
-            color: #eeeeee !important;
-            cursor: context-menu;
-            &:hover {
-              color: #eeeeee !important;
-            }
-          }
         }
       }
       .selectedRow {
         background: #f9f9f9;
-      }
-      .suspendedRow {
-        background: rgb(249, 250, 255);
-        &:hover {
-          background: rgb(249, 250, 255);
-        }
       }
     }
   }
@@ -351,8 +299,42 @@ export default {
 }
 .select-item {
   width: 75px;
-  height: 35px;
   position: relative;
+  select {
+    width: 75px;
+    height: 30px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    border: 1px solid #7070704d;
+    border-radius: 5px;
+    padding: 0px 12px;
+    background: #ffffff;
+    &:hover {
+      border-color: rgba(0, 0, 0, 0.87);
+    }
+    &:focus {
+      border: 2px solid #5064cc;
+    }
+    option {
+      color: #5064cc;
+      &:hover {
+        background-color: #5064cc26 !important;
+      }
+    }
+  }
+  &::before {
+    content: "\f107";
+    font-family: FontAwesome;
+    font-size: 22px;
+    display: block;
+    color: #5064cc; /*change in this line color*/
+    position: absolute;
+    right: 12px;
+    top: calc(16% - 6px);
+    pointer-events: none;
+  }
 }
 .productLink {
   color: #5064cc;

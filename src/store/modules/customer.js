@@ -8,7 +8,7 @@ const state = {
             totalOrder: 4,
             totalValue: 300000,
             id: "hr01",
-            route: "/seller/sellersCard",
+            // route: "/seller/sellersCard",
         },
         {
             name: "Abdulazeez Abdulazeez",

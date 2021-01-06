@@ -30,7 +30,13 @@ export default {
           width: "25%",
         },
         { text: "Amount (NGN)", value: "totalOrder", width: "25%" },
-        { text: "Description", value: "totalValue", width: "25%" },
+        {
+          text: "Description",
+          value: "totalValue",
+          width: "25%",
+          href: true,
+          routeName: "OrderDetails",
+        },
         { text: "Date Settled", value: "totalValue", width: "25%" },
       ],
     };
