@@ -26,6 +26,7 @@
           :select="false"
           :headers="tableHeaders"
           :items="teamMembers"
+          itemKey="id"
           :itemPerPage="getItemPerPage.itemPerPage || 15"
           :paginationLength="pageDetails.last_page"
           :page="pageDetails.current_page"
@@ -62,7 +63,7 @@
         </div>
 
         <div class="mb-7 mt-5 mx-auto status-img">
-          <v-img src="@/assets/img/success-img.svg"></v-img>
+          <v-img :src="statusImage"></v-img>
         </div>
 
         <h4>{{ dialogMessage }}</h4>
@@ -217,7 +218,9 @@
 import searchBar from "@/components/dashboard/searchBar.vue";
 import modal from "@/components/dashboard/modal.vue";
 import dataTable from "@/components/dashboard/dataTable.vue";
-import { mapGetters } from "vuex";
+import successImage from "@/assets/img/success-img.svg";
+import failedImage from "@/assets/img/failed-img.svg";
+import { mapGetters} from "vuex";
 export default {
   name: "teamDetails",
   components: { searchBar, modal, dataTable },
@@ -253,7 +256,7 @@ export default {
       ],
     };
   },
-  created() {
+  created () {
     //  get the team members details
     if (this.$store.getters["settings/teamMembers"].length == 0) {
       this.loader = true;
@@ -377,6 +380,7 @@ export default {
             this.itemId = null;
             this.deleteLoader = false;
             this.closeDialog2();
+            this.statusImage = successImage;
             this.dialog1 = true;
             this.dialogMessage = "You have successfully deleted this member";
             this.setItemPerPage(this.itemPerPage);
@@ -384,6 +388,7 @@ export default {
           .catch((error) => {
             this.itemId = null;
             this.deleteLoader = false;
+            this.statusImage = failedImage;
             this.closeDialog2();
             this.dialog1 = true;
 
@@ -407,6 +412,7 @@ export default {
             this.itemId = null;
             this.suspendLoader = false;
             this.closeDialog3();
+            this.statusImage = successImage;
             this.dialog1 = true;
             this.dialogMessage = "You have successfully suspended this member";
             this.setItemPerPage(this.itemPerPage);
@@ -415,6 +421,7 @@ export default {
             this.itemId = null;
             this.suspendLoader = false;
             this.closeDialog3();
+            this.statusImage = failedImage;
             this.dialog1 = true;
             if (error.response) {
               this.dialogMessage = "Pls try again, was not successfull";
@@ -436,6 +443,7 @@ export default {
             this.itemId = null;
             this.unSuspendLoader = false;
             this.closeDialog4();
+            this.statusImage = successImage;
             this.dialog1 = true;
             this.dialogMessage =
               "You have successfully unsuspended this member";
@@ -444,6 +452,7 @@ export default {
           .catch((error) => {
             this.itemId = null;
             this.unSuspendLoader = false;
+            this.statusImage = failedImage;
             this.closeDialog4();
             this.dialog1 = true;
             if (error.response) {

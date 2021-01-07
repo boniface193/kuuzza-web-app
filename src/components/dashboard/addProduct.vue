@@ -1,190 +1,209 @@
 <template>
   <div>
-    <div style="width: 200px">
-      <!-- back to Inventory -->
-      <router-link :to="{ name: 'inventoryPage' }" class="no-decoration">
-        <h3 class="d-flex align-center return-btn my-3">
-          <v-icon color="#2B2B2B">mdi-chevron-left</v-icon>Add New Product
-        </h3>
-      </router-link>
-    </div>
-    <progressBar :width="progress" class="mt-8 mb-6" />
-
     <div>
-      <!-- form 1 -->
-      <v-form
-        class="justify-space-between flex-wrap"
-        :class="{
-          'd-none': productForm !== 'form1',
-          'd-flex': productForm == 'form1',
-        }"
-        ref="form1"
-      >
-        <!-- product name -->
-        <div class="mb-3 input-field">
-          <p class="mb-1">Product Name</p>
-          <v-text-field
-            class="input mt-0"
-            v-model="productName"
-            type="name"
-            :rules="inputRules"
-            color="primary"
-            placeholder="Infinix Hot 100"
-            required
-            outlined
-          >
-          </v-text-field>
-        </div>
+      <div style="width: 200px">
+        <!-- back to Inventory -->
+        <router-link :to="{ name: 'inventoryPage' }" class="no-decoration">
+          <h3 class="d-flex align-center return-btn my-3">
+            <v-icon color="#2B2B2B">mdi-chevron-left</v-icon>Add New Product
+          </h3>
+        </router-link>
+      </div>
+      <progressBar :width="progress" class="mt-8 mb-6" />
 
-        <!-- select category -->
-        <div class="mb-9 input-field">
-          <p class="mb-1">Category</p>
-          <customSelect
-            width="100%"
-            height="57px"
-            caretColor="#5064cc"
-            placeholder="Select Category"
-            :searchBar="true"
-            :items="categories"
-            :inputStatus="categoryError"
-            @selectedItem="setCategory"
-          />
-          <div v-if="categoryError === true" class="inputError error--text">
-            Category is required
+      <div>
+        <!-- form 1 -->
+        <v-form
+          class="justify-space-between flex-wrap"
+          :class="{
+            'd-none': productForm !== 'form1',
+            'd-flex': productForm == 'form1',
+          }"
+          ref="form1"
+        >
+          <!-- product name -->
+          <div class="mb-3 input-field">
+            <p class="mb-1">Product Name</p>
+            <v-text-field
+              class="input mt-0"
+              v-model="productName"
+              type="name"
+              :rules="inputRules"
+              color="primary"
+              placeholder="Infinix Hot 100"
+              required
+              outlined
+            >
+            </v-text-field>
           </div>
-        </div>
 
-        <!-- SKU number -->
-        <div class="mb-3 input-field remove-appearance">
-          <p class="mb-1">SKU Number</p>
-          <v-text-field
-            class="input mt-0"
-            v-model="skuNumber"
-            type="number"
-            :rules="inputRules"
-            color="primary"
-            placeholder="Enter SKU Number"
-            required
-            outlined
-          >
-          </v-text-field>
-        </div>
-
-        <!-- quantity -->
-        <div class="mb-9 input-field">
-          <p class="mb-1">Quantity</p>
-          <customNumberInput
-            width="120px"
-            height="57px"
-            caretColor="#5064CC"
-            :quantity="0"
-            @quantity="setQuantity"
-            :inputStatus="quantityError"
-          />
-          <div v-if="quantityError === true" class="inputError error--text">
-            Quantity cannot be less or equal to 0
+          <!-- select category -->
+          <div class="mb-9 input-field">
+            <p class="mb-1">Category</p>
+            <customSelect
+              width="100%"
+              height="57px"
+              caretColor="#5064cc"
+              placeholder="Select Category"
+              :searchBar="true"
+              :items="categories"
+              :inputStatus="categoryError"
+              @selectedItem="setCategory"
+            />
+            <div v-if="categoryError === true" class="inputError error--text">
+              Category is required
+            </div>
           </div>
-        </div>
 
-        <!-- unit price -->
-        <div class="mb-3 input-field">
-          <p class="mb-1">Unit Price (N)</p>
-          <v-text-field
-            class="input mt-0"
-            v-model="price"
-            :rules="inputRules"
-            type="number"
-            min="1"
-            color="primary"
-            placeholder="Enter Amount"
-            required
-            outlined
-          >
-          </v-text-field>
-        </div>
-
-        <!-- commission -->
-        <div class="mb-3 input-field">
-          <p class="mb-1">Commission (N)</p>
-          <v-text-field
-            class="input mt-0"
-            v-model="commission"
-            :rules="priceRules"
-            type="number"
-            min="1"
-            color="primary"
-            placeholder="Enter Amount"
-            required
-            outlined
-          >
-          </v-text-field>
-        </div>
-
-        <!-- button container -->
-        <div class="d-flex justify-end" style="width: 100%">
-          <!-- continue button -->
-          <v-btn class="primary px-10 py-6 mb-5" @click="nextForm(1)"
-            >Continue</v-btn
-          >
-        </div>
-      </v-form>
-
-      <!-- form 2 -->
-      <v-form
-        class="justify-space-between flex-wrap"
-        :class="{
-          'd-none': productForm !== 'form2',
-          'd-flex': productForm == 'form2',
-        }"
-        ref="form2"
-      >
-        <!-- product description -->
-        <div class="mb-3 input-field">
-          <p class="mb-1">Product Description</p>
-          <v-textarea
-            outlined
-            name="input-7-4"
-            :rules="inputRules"
-            v-model="productDescription"
-            placeholder="Enter brief description about product"
-          ></v-textarea>
-        </div>
-
-        <!-- image uploader -->
-        <div class="mb-9 input-field">
-          <p class="mb-1">Upload Product Image</p>
-          <imageUploader
-            itemHolder="Select image"
-            width="100%"
-            height="57px"
-            caretColor="#5064cc"
-            @images="setImages"
-          />
-          <div v-if="imageError === true" class="inputError error--text">
-            At Least one image is required
+          <!-- SKU number -->
+          <div class="mb-3 input-field remove-appearance">
+            <p class="mb-1">SKU Number</p>
+            <v-text-field
+              class="input mt-0"
+              v-model="skuNumber"
+              type="text"
+              :rules="inputRules"
+              color="primary"
+              placeholder="Enter SKU Number"
+              required
+              outlined
+            >
+            </v-text-field>
           </div>
-        </div>
 
-        <!-- button container -->
-        <div class="d-flex justify-space-between" style="width: 100%">
-          <!-- return button -->
-          <v-btn
-            class="primary--text px-8 py-4 mb-5"
-            style="background: #5064cc26"
-            @click="prevForm(2)"
-            >Return</v-btn
-          >
-          <!-- add product button -->
-          <v-btn
-            class="primary px-10 py-6 mb-5"
-            :loading="loading"
-            :disabled="loading"
-            @click="submit"
-            >Add Product</v-btn
-          >
-        </div>
-      </v-form>
+          <!-- quantity -->
+          <div class="mb-9 input-field">
+            <p class="mb-1">Quantity</p>
+            <customNumberInput
+              width="120px"
+              height="57px"
+              caretColor="#5064CC"
+              :quantity="0"
+              @quantity="setQuantity"
+              :inputStatus="quantityError"
+            />
+            <div v-if="quantityError === true" class="inputError error--text">
+              Quantity cannot be less or equal to 0
+            </div>
+          </div>
+
+          <!-- unit price -->
+          <div class="mb-3 input-field">
+            <p class="mb-1">Unit Price (N)</p>
+            <v-text-field
+              class="input mt-0"
+              v-model="price"
+              :rules="inputRules"
+              type="number"
+              min="1"
+              color="primary"
+              placeholder="Enter Amount"
+              required
+              outlined
+            >
+            </v-text-field>
+          </div>
+
+          <!-- commission -->
+          <div class="mb-3 input-field">
+            <p class="mb-1">Commission (N)</p>
+            <v-text-field
+              class="input mt-0"
+              v-model="commission"
+              :rules="priceRules"
+              type="number"
+              min="1"
+              color="primary"
+              placeholder="Enter Amount"
+              required
+              outlined
+            >
+            </v-text-field>
+          </div>
+
+          <!-- button container -->
+          <div class="d-flex justify-end" style="width: 100%">
+            <!-- continue button -->
+            <v-btn class="primary px-10 py-6 mb-5" @click="nextForm(1)"
+              >Continue</v-btn
+            >
+          </div>
+        </v-form>
+
+        <!-- form 2 -->
+        <v-form
+          class="justify-space-between flex-wrap"
+          :class="{
+            'd-none': productForm !== 'form2',
+            'd-flex': productForm == 'form2',
+          }"
+          ref="form2"
+        >
+          <!-- product description -->
+          <div class="mb-3 input-field">
+            <p class="mb-1">Product Description</p>
+            <v-textarea
+              outlined
+              name="input-7-4"
+              :rules="inputRules"
+              v-model="productDescription"
+              placeholder="Enter brief description about product"
+              @change="setProgress"
+            ></v-textarea>
+          </div>
+
+          <!-- image uploader -->
+          <div class="mb-9 input-field">
+            <p class="mb-1">Upload Product Image</p>
+            <imageUploader
+              itemHolder="Select image"
+              width="100%"
+              height="57px"
+              caretColor="#5064cc"
+              @images="setImages"
+            />
+            <div v-if="imageError === true" class="inputError error--text">
+              At Least one image is required
+            </div>
+          </div>
+
+          <!-- button container -->
+          <div class="d-flex justify-space-between" style="width: 100%">
+            <!-- return button -->
+            <v-btn
+              class="primary--text px-8 py-4 mb-5"
+              style="background: #5064cc26"
+              @click="prevForm(2)"
+              >Return</v-btn
+            >
+            <!-- add product button -->
+            <v-btn
+              class="primary px-10 py-6 mb-5"
+              :loading="loading"
+              :disabled="loading"
+              @click="submit"
+              >Add Product</v-btn
+            >
+          </div>
+        </v-form>
+      </div>
     </div>
+    <!-- modal for dialog messages -->
+    <modal :dialog="dialog" width="400">
+      <div class="white pa-3 pb-10 text-center dialog">
+        <div class="d-flex justify-end">
+          <v-icon class="error--text close-btn" @click="closeModal"
+            >mdi-close</v-icon
+          >
+        </div>
+
+        <div class="mb-7 mt-5 mx-auto status-img">
+          <v-img :src="statusImage"></v-img>
+        </div>
+
+        <h4>{{ dialogMessage }}</h4>
+      </div>
+    </modal>
   </div>
 </template>
 <script>
@@ -192,11 +211,24 @@ import progressBar from "@/components/dashboard/progressBar.vue";
 import customSelect from "@/components/dashboard/customSelect.vue";
 import customNumberInput from "@/components/dashboard/customNumberInput.vue";
 import imageUploader from "@/components/dashboard/imageUploader.vue";
+import modal from "@/components/dashboard/modal.vue";
+import successImage from "@/assets/img/success-img.svg";
+import failedImage from "@/assets/img/failed-img.svg";
 export default {
   name: "addProduct",
-  components: { progressBar, customSelect, customNumberInput, imageUploader },
+  components: {
+    progressBar,
+    customSelect,
+    customNumberInput,
+    imageUploader,
+    modal,
+  },
   data: function () {
     return {
+      failedRequest: false,
+      dialog: false,
+      dialogMessage: "",
+      statusImage: null,
       productForm: "form1",
       progress: "30%",
       productName: "",
@@ -238,10 +270,11 @@ export default {
       if (
         this.$refs[`form${formNum}`].validate() &&
         this.category !== "" &&
-        this.quantity !== 0
+        this.quantity != 0
       ) {
         this.productForm = `form${formNum + 1}`;
         this.progress = "70%";
+        this.setProgress();
       }
     },
     // previous form
@@ -259,7 +292,7 @@ export default {
     },
     // verfiy that quantity is not less or equal to 0
     verifyQuantity() {
-      if (this.quantity === 0 || this.quantity < 0) {
+      if (this.quantity == 0 || this.quantity < 0) {
         this.quantityError = true;
       } else {
         this.quantityError = false;
@@ -286,32 +319,68 @@ export default {
     // set images
     setImages(params) {
       this.images = params;
-      console.log(this.images);
       this.verifyImages();
+      this.setProgress();
     },
-    // submit 
+    // set progress
+    setProgress() {
+      if (this.imageError === false && this.productDescription != "") {
+        this.progress = "100%";
+      } else {
+        this.progress = "70%";
+      }
+    },
+    // submit
     submit() {
-      
+      this.$refs.form2.validate();
+      this.verifyImages();
+      if (this.$refs.form2.validate() && this.imageError === false) {
+        this.addProduct();
+      }
     },
     // add products
     addProduct() {
       this.loading = true;
-      this.$store.dispatch("inventory/addProduct", {
-        productName: this.productName,
-        category: this.category,
-        skuNumber: this.skuNumber,
-        quantity: this.quantity,
-        price: this.price,
-        commission: this.commission,
-        productDescription: this.productDescription,
-        images: this.images,
-      }).then((response) => {
-        this.loading = false
-        if(response.status == "success"){
-            alert("successfully added product")
-        }
-      })
-    }
+      this.$store
+        .dispatch("inventory/addProduct", {
+          name: this.productName,
+          category: this.category,
+          sku: this.skuNumber,
+          quantity: this.quantity,
+          price: this.price,
+          commission: this.commission,
+          description: this.productDescription,
+          image: "https://homepages.cae.wisc.edu/~ece533/images/watch.png",
+        })
+        .then((response) => {
+          this.failedRequest = false;
+          this.loading = false;
+          this.dialog = true;
+          this.statusImage = successImage;
+          this.dialogMessage =
+            "Product have successfully been added to your inventory.";
+          this.$store.dispatch("inventory/getProducts");
+          console.log(response.data.data)
+        })
+        .catch((error) => {
+          this.failedRequest = true;
+          this.loading = false;
+          this.dialog = true;
+          this.statusImage = failedImage;
+          if (error.response) {
+            this.dialogMessage = error.response.message;
+          } else {
+            this.dialogMessage = "No internet connection!";
+          }
+        });
+    },
+    // close modal
+    closeModal() {
+      this.dialog = false;
+      if (this.failedRequest === false) {
+        this.$router.push({ name: "inventoryPage" });
+      }
+    },
   },
 };
 </script>
@@ -340,6 +409,12 @@ export default {
   font-size: 12px;
   margin-top: 8px;
   padding-left: 12px;
+}
+.status-img {
+  width: 140px;
+  .v-image {
+    width: 100%;
+  }
 }
 @media (max-width: 750px) {
   .input-field {

@@ -37,7 +37,7 @@
           <div class="py-2 px-4">
             <multipleRange
               minNum="0"
-              maxNum="1"
+              maxNum="1000000000"
               @minMaxNumber="setPriceRange"
             />
           </div>
@@ -54,7 +54,7 @@
           <div class="py-2 px-4">
             <multipleRange
               minNum="0"
-              maxNum="1"
+              maxNum="1000000000"
               @minMaxNumber="setCommissionRange"
             />
           </div>
@@ -71,7 +71,7 @@
           <div class="py-2 px-4">
             <multipleRange
               minNum="0"
-              maxNum="1"
+              maxNum="1000000000"
               @minMaxNumber="setQuantityRange"
             />
           </div>

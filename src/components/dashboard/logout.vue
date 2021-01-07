@@ -20,6 +20,7 @@ export default {
   methods: {
     logout() {
       this.dialog = true;
+      this.$store.commit("reset");
       this.$store.commit("onboarding/removeToken");
       setTimeout(() => {
         this.$router.push({

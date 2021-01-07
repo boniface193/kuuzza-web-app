@@ -45,9 +45,9 @@
           <!-- table row -->
           <tr
             v-for="item in sortedItems"
-            :key="item.id"
+            :key="item[`${itemKey}`]"
             :class="{
-              selectedRow: selected.includes(`${item.id}`),
+              selectedRow: selected.includes(item[`${itemKey}`]),
               suspendedRow: item.status == 'suspended',
             }"
           >
@@ -60,7 +60,7 @@
               <span class="with-checkbox">
                 <v-checkbox
                   v-if="index2 == 0 && select === true"
-                  :value="item.id"
+                  :value="item[`${itemKey}`]"
                   v-model="selected"
                   @click="emitSelectedRow"
                 ></v-checkbox>
@@ -81,7 +81,7 @@
                   <router-link
                     :to="{
                       name: header.routeName,
-                      params: { id: item.id },
+                      params: { id: item[`${itemKey}`] },
                     }"
                     class="productLink"
                     >{{ item[`${header.value}`] }}</router-link
@@ -100,7 +100,7 @@
                     :class="{
                       'action-icon-not-active': item.status == 'suspended',
                     }"
-                    @click="editRow(item.id, item.status)"
+                    @click="editRow(item[`${itemKey}`], item.status)"
                     >mdi-pencil</v-icon
                   ></span
                 >
@@ -111,7 +111,7 @@
                     :class="{
                       'success--text': item.status == 'suspended',
                     }"
-                    @click="offlineRow(item.id, item.status)"
+                    @click="offlineRow(item[`${itemKey}`], item.status)"
                     >mdi-cancel</v-icon
                   ></span
                 >
@@ -119,7 +119,7 @@
                 <span
                   ><v-icon
                     class="error--text action-btn"
-                    @click="deleteRow(item.id)"
+                    @click="deleteRow(item[`${itemKey}`])"
                     >mdi-trash-can-outline</v-icon
                   ></span
                 ></span
@@ -179,6 +179,7 @@ export default {
     "paginationLength",
     "page",
     "itemPerPage",
+    "itemKey"
   ],
   computed: {
     // return sorted data
@@ -220,7 +221,7 @@ export default {
       this.selected = [];
       if (this.selectAll) {
         for (let i in this.items) {
-          this.selected.push(this.items[i].id);
+          this.selected.push(this.items[i][`${this.itemKey}`]);
         }
       }
       this.emitSelectedRow();

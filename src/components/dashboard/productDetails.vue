@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row class="mb-5">
+    <v-row class="mb-5" v-show="pageLoader == false">
       <v-col class="col-12 col-md-6 pr-5">
         <div class="d-flex align-center justify-space-between">
           <!-- back to Inventory -->
@@ -17,7 +17,7 @@
 
         <div class="pl-2 mt-8">
           <!-- product name -->
-          <h2>{{ productDetails.productName }}</h2>
+          <h2>{{ productDetails.name }}</h2>
 
           <!-- product category -->
           <p class="mt-2 mb-7 secondary--text">{{ productDetails.category }}</p>
@@ -62,6 +62,11 @@
       @closeEditInventory="closeEditInventory"
       :productId="$route.params.id"
     /> -->
+    
+    <!-- loader -->
+    <div class="text-center pt-10 pb-5" v-show="pageLoader == true">
+      <v-progress-circular indeterminate color="primary"></v-progress-circular>
+    </div>
   </div>
 </template>
 <script>
@@ -72,14 +77,31 @@ export default {
   data: function () {
     return {
       editInventory: false,
+      productDetails: {},
+      pageLoader: false,
+      dialog: false,
+      dialogMessage: ""
     };
   },
-  computed: {
-    productDetails() {
-      return this.$store.getters["inventory/getProductDetails"](
-        this.$route.params.id
-      );
-    },
+  created() {
+    this.pageLoader = true;
+    this.$store
+      .dispatch("inventory/getProductDetail", {
+        id: this.$route.params.id,
+      })
+      .then((response) => {
+        this.pageLoader = false;
+        this.productDetails = response.data.data;
+      })
+      .catch((error) => {
+        this.dialog = true;
+        this.pageLoader = false;
+        if (error.response) {
+          this.dialogMessage = "Sorry, this data does not Exist";
+        } else {
+          this.dialogMessage = "No internet Connection!";
+        }
+      });
   },
   methods: {
     closeEditInventory() {

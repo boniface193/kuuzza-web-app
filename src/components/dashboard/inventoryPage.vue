@@ -4,16 +4,24 @@
     <div class="d-flex justify-space-between align-center">
       <h1>Inventory</h1>
       <div class="d-flex align-center">
-        <router-link :to="{ name: 'history' }" class="mr-4">History</router-link>
+        <router-link :to="{ name: 'history' }" class="mr-4"
+          >History</router-link
+        >
         <calendar />
       </div>
     </div>
     <div class="d-flex justify-space-between align-center mt-8 mb-1 flex-wrap">
       <div class="select-item mr-8 mb-2">
-        <selectBtn  :items="['Actions','Take product offline', 'Delete product']" />
+        <selectBtn
+          :items="['Take product offline', 'Delete product']"
+          :item="'Actions'"
+          :dropDownMenu="true"
+        />
       </div>
 
-      <div class="d-flex align-center flex-wrap tool-container justify-space-between">
+      <div
+        class="d-flex align-center flex-wrap tool-container justify-space-between"
+      >
         <!-- search bar -->
         <searchBar
           placeholder="Search inventory"
@@ -22,7 +30,7 @@
           borderColor="#e2e2e2"
           class="mr-2 mb-2 search-bar"
         />
-        <div class="d-flex align-center flex-wrap justify-space-between mb-2 ">
+        <div class="d-flex align-center flex-wrap justify-space-between mb-2">
           <!-- filter -->
           <basicFilter
             class="mr-2"
@@ -54,16 +62,39 @@
         </div>
       </div>
     </div>
+
     <!-- table  -->
-    <dataTable
-      :action="false"
-      :actions="actions"
-      :select="true"
-      :headers="tableHeaders"
-      :items="inventories"
-      @requestedAction="setRequestedAction"
-      @selectedRow="rowSelected"
-    />
+    <div v-show="products.length > 0">
+      <dataTable
+        :action="false"
+        :actions="actions"
+        :select="true"
+        :headers="tableHeaders"
+        :items="products"
+        itemKey="reference"
+        :itemPerPage="getItemPerPage.itemPerPage || 15"
+        :paginationLength="productsPageDetails.last_page"
+        :page="productsPageDetails.current_page"
+        @requestedAction="setRequestedAction"
+        @selectedRow="rowSelected"
+        @itemPerPage="setItemPerPage"
+        @onPageChange="setCurentPage"
+      />
+    </div>
+
+    <!-- no data -->
+    <div
+      class="text-center pt-10 pb-5"
+      v-show="products.length == 0 && !tableLoader"
+    >
+      <p class="mb-0 secondary--text" style="font-size: 20px">
+        No product has been added yet!
+      </p>
+    </div>
+    <!-- loader -->
+    <div class="text-center pt-10 pb-5" v-show="tableLoader">
+      <v-progress-circular indeterminate color="primary"></v-progress-circular>
+    </div>
 
     <!-- modal -->
     <modal :dialog="dialog1" width="470">
@@ -121,11 +152,13 @@ import calendar from "@/components/dashboard/calender.vue";
 import { mapGetters } from "vuex";
 export default {
   name: "inventoryPage",
-  components: { dataTable, modal, searchBar, basicFilter, selectBtn, calendar},
+  components: { dataTable, modal, searchBar, basicFilter, selectBtn, calendar },
   data: function () {
     return {
       items: ["Items in stock", "Items out of stock"],
       item: "Items in stock",
+      itemPerPage: 15,
+      tableLoader: false,
       dialog1: false,
       searchValue: "",
       inventoryName: "",
@@ -147,7 +180,7 @@ export default {
         {
           text: "Product Name",
           sortable: true,
-          value: "productName",
+          value: "name",
           href: true,
           routeName: "productDetails",
           width: "300px",
@@ -161,10 +194,28 @@ export default {
       ],
     };
   },
+  created() {
+    if (this.$store.getters["inventory/products"].length == 0) {
+      this.tableLoader = true;
+      this.$store
+        .dispatch("inventory/getProducts", {
+          page: 1,
+          itemPerPage: 15,
+        })
+        .then(() => (this.tableLoader = false))
+        .catch(() => (this.tableLoader = false));
+    }
+  },
   computed: {
     ...mapGetters({
-      inventories: "inventory/inventories",
+      products: "inventory/products",
+      productsPageDetails: "inventory/productsPageDetails"
     }),
+    getItemPerPage() {
+      return {
+        itemPerPage: parseInt(this.productsPageDetails.per_page, 10),
+      };
+    },
   },
   methods: {
     setRequestedAction(params) {
@@ -183,6 +234,35 @@ export default {
         this.inventoryName = item.name;
       }
     },
+    // set item per page
+    setItemPerPage(params) {
+      this.itemPerPage = params;
+      let page = null
+      if(this.itemPerPage > this.productsPageDetails.per_page){
+        let range = Math.round((this.productsPageDetails.from - 1)/ this.productsPageDetails.per_page);
+        if(range < 0.5) {
+          page = range + 1
+        }else {
+          page = range;
+          this.$store.commit("inventory/setCurrentPage", page); 
+        }
+      }else {
+        page = Math.round(((this.productsPageDetails.from - 1)/ this.itemPerPage) + 1);
+        this.$store.commit("inventory/setCurrentPage", page);
+      }
+      this.$store.dispatch("inventory/getProducts", {
+        page: page,
+        itemPerPage: this.itemPerPage,
+      });
+    },
+    // set current page
+    setCurentPage(params) {
+      this.$store.commit("inventory/setCurrentPage", params);
+      this.$store.dispatch("inventory/getProducts", {
+        page: params,
+        itemPerPage: this.itemPerPage,
+      });
+    },
     // close the dialog that shows up when you want to delete a row
     closeDialog1() {
       this.dialog1 = false;
@@ -190,15 +270,12 @@ export default {
     },
     rowSelected(params) {
       this.selectedRow = params;
-      //console.log(this.selectedRow)
     },
     getSearchValue(params) {
       this.searchValue = params;
     },
-    // filterTable 
+    // filterTable
     filterTable(params) {
-     // this.filterTableByPrice(params.minPrice, params.maxPrice)
-     console.log(params.selectedOptions)
       this.$store.commit("inventory/filterInventories", {
         minPrice: params.minPrice,
         maxPrice: params.maxPrice,
@@ -206,13 +283,13 @@ export default {
         maxCommission: params.maxCommission,
         minQuantity: params.minQuantity,
         maxQuantity: params.maxQuantity,
-        selectedOptions: params.selectedOptions
+        selectedOptions: params.selectedOptions,
       });
     },
     // reset filter
     resetFilter() {
       this.$store.commit("inventory/resetFilter");
-    }
+    },
   },
 };
 </script>
@@ -242,7 +319,7 @@ export default {
   }
 }
 @media (max-width: 953px) {
-  .tool-container{
+  .tool-container {
     width: 100%;
     justify-content: space-between;
   }

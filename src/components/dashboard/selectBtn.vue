@@ -1,5 +1,5 @@
 <template>
-  <div class="select-btn" tabindex="0" ref="select">
+  <div class="select-btn" tabindex="0" v-on-clickaway="away">
     <!-- select -->
     <div class="select" @click="toggleDropdown">
       <div class="select-placeholder d-flex align-center justify-space-between">
@@ -21,9 +21,11 @@
   </div>
 </template>
 <script>
+import { mixin as clickaway } from "vue-clickaway";
 export default {
   name: "selectBtn",
-  props: ["items", "item"],
+  mixins: [clickaway],
+  props: ["items", "item", "dropDownMenu"],
   data: function () {
     return {
       selectDropdown: false,
@@ -33,18 +35,15 @@ export default {
   methods: {
     // toggle the select dropdown
     toggleDropdown() {
-      if((document.querySelector(".select-btn") == document.activeElement) && this.selectDropdown == true) {
-        this.selectDropdown = true;
-      } else {
-        if(this.selectDropdown === true) {
-          this.selectDropdown = false
-        }else {
-          this.selectDropdown = true
-        }
-      }
+     this.selectDropdown = !this.selectDropdown;
+    },
+    away() {
+      this.dropdown = false;
     },
     setSelectedItem(item) {
-      this.selectedItem = item;
+      if(this.dropDownMenu !== true){
+        this.selectedItem = item;
+      }
       this.selectDropdown = false;
       this.$emit("selectedItem", this.selectedItem);
     },

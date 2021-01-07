@@ -8,6 +8,20 @@ import sellers from "./modules/sellers";
 import customer from "./modules/customer";
 import settings from "./modules/settings";
 
+// initial state
+const initialState = {
+  onboarding: onboarding.state,
+  dashboard: dashboard.state,
+  inventory: inventory.state,
+  orders: orders.state,
+  sellers: sellers.state,
+  customer: customer.state,
+  settings: settings.state
+}
+
+//Convert object in string 
+const COPY = JSON.stringify(initialState);
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -19,5 +33,14 @@ export default new Vuex.Store({
     sellers: sellers,
     customer: customer,
     settings: settings
+  },
+  mutations: {
+    reset(state) {
+      //Convert string in object 
+      let copyState = JSON.parse(COPY);
+      Object.keys(state).forEach(key => {
+        Object.assign(state[key], copyState[key]);
+      })
+    }
   }
 });
