@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pb-10">
     <!-- page title -->
     <div class="d-flex justify-space-between align-center">
       <h1>Inventory</h1>
@@ -250,7 +250,7 @@ export default {
         page = Math.round(((this.productsPageDetails.from - 1)/ this.itemPerPage) + 1);
         this.$store.commit("inventory/setCurrentPage", page);
       }
-      this.$store.dispatch("inventory/getProducts", {
+      this.$store.dispatch("inventory/getfilteredProducts", {
         page: page,
         itemPerPage: this.itemPerPage,
       });
@@ -258,7 +258,7 @@ export default {
     // set current page
     setCurentPage(params) {
       this.$store.commit("inventory/setCurrentPage", params);
-      this.$store.dispatch("inventory/getProducts", {
+      this.$store.dispatch("inventory/getfilteredProducts", {
         page: params,
         itemPerPage: this.itemPerPage,
       });

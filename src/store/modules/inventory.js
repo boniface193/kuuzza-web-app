@@ -5,7 +5,7 @@ const state = {
     products: [],
     inventoriesHistory: [],
     productsPageDetails: {
-        current_page: 1
+        current_page: 1,
     },
     doNothing: null
 };
@@ -28,10 +28,10 @@ const actions = {
                 }
             })
                 .then(response => {
-                    resolve(response)
+                    context.commit("inventory/addProduct", response.data.data);
+                    resolve(response);
                 })
                 .catch(error => {
-                    context.commit('doNothing')
                     reject(error)
                 })
         })
@@ -69,14 +69,34 @@ const actions = {
                 })
         })
     },
+    // filter products 
+    getfilteredProducts(context, data) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/products?page=${data.page}&per_page=${data.itemPerPage}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                }
+            }).then(response => {
+                context.commit("setProducts", response.data.data);
+                context.commit("setProductsPageDetails", response.data.meta);
+                resolve(response);
+            })
+                .catch(error => {
+                    reject(error);
+                })
+        })
+    }
     
 };
 
 //updates the different state properties
 const mutations = {
     setProducts: (state, data) => (state.products = data),
-    setProductsPageDetails: (state, data) => (state.ProductsPageDetails = data),
-    setCurrentPage: (state, currentPage) => {state.ProductsPageDetails.current_page = currentPage},
+    addProduct: (state, data) => {
+        state.products.data.push(data)
+    },
+    setProductsPageDetails: (state, data) => (state.productsPageDetails = data),
+    setCurrentPage: (state, currentPage) => {state.productsPageDetails.current_page = currentPage},
     doNothing: (state) => (state.doNothing = null)
 };
 

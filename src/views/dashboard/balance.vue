@@ -2,9 +2,10 @@
   <v-container fluid>
     <div class="mx-lg-12 mx-md-5 mx-sm-5">
       <!-- page title -->
-
-      <h1 class="heading--text">Balance</h1>
-
+      <div class="d-flex justify-space-between">
+        <h1 class="heading--text">Balance</h1>
+        <dateFilter />
+      </div>
       <div class="settings-container mt-7 white">
         <!-- nav section -->
         <div class="settings-nav px-4 py-auto d-flex">
@@ -44,14 +45,17 @@
           >
           <v-spacer></v-spacer>
 
-          <div class="btn-pointer d-flex">
-            <v-icon class="primary--text">mdi-sort</v-icon>
-            <v-img
-              src="../../assets/download.svg"
-              width="16"
-              height="15"
-              class="mx-8 mt-5"
-            ></v-img>
+          <div class="d-flex my-3">
+            <basicFilter
+              :price="filterParameters.price"
+              :category="[]"
+              headerName="Filter Balance"
+              @filterOption="filterTable"
+              @resetFilter="resetFilter"
+            />
+            <div class="btn-pointer">
+              <v-img src="../../assets/download.svg" class="mr-sm-3 mr-lg-8 ml-sm-3 ml-lg-8 mt-2"></v-img>
+            </div>
           </div>
         </div>
         <router-view />
@@ -61,8 +65,29 @@
 </template>
 
 <script>
+import dateFilter from "@/components/dashboard/calender.vue";
+import basicFilter from "@/components/dashboard/basicFilter.vue";
 export default {
-  // components: {},
+  components: {
+    dateFilter,
+    basicFilter,
+  },
+  data() {
+    return {
+      filterParameters: {
+        price: true,
+      },
+    };
+  },
+
+  methods: {
+    filterTable() {
+    },
+    // reset filter
+    resetFilter() {
+      // this.$store.commit("inventory/resetFilter");
+    },
+  },
 };
 </script>
 

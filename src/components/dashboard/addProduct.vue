@@ -104,19 +104,30 @@
             </v-text-field>
           </div>
 
-          <!-- commission -->
+          <!-- service charge -->
           <div class="mb-3 input-field">
-            <p class="mb-1">Commission (N)</p>
+            <p class="mb-1">Service Charge</p>
             <v-text-field
               class="input mt-0"
-              v-model="commission"
-              :rules="priceRules"
-              type="number"
-              min="1"
+              v-model="charges"
               color="primary"
-              placeholder="Enter Amount"
               required
               outlined
+              disabled
+            >
+            </v-text-field>
+          </div>
+
+          <!-- listed price -->
+          <div class="mb-3 input-field">
+            <p class="mb-1">Listed Price</p>
+            <v-text-field
+              class="input mt-0"
+              v-model="calculatedPrices.totalPrice"
+              color="primary"
+              required
+              outlined
+              disabled
             >
             </v-text-field>
           </div>
@@ -236,7 +247,8 @@ export default {
       skuNumber: "",
       quantity: 0,
       price: "",
-      commission: "",
+      charges: "5%",
+      totalPrice: 0,
       productDescription: "",
       images: null,
       loading: false,
@@ -259,6 +271,23 @@ export default {
       categoryError: false,
       imageError: false,
     };
+  },
+  computed: {
+    calculatedPrices() {
+      if (this.price == "") {
+        return {
+          commission: 0,
+          totalPrice: 0,
+        };
+      } else {
+        const commission = Math.round(0.05 * parseInt(this.price, 10));
+        const totalPrice = commission + parseInt(this.price, 10);
+        return {
+          commission: commission,
+          totalPrice: totalPrice,
+        };
+      }
+    },
   },
   methods: {
     // next form
@@ -348,19 +377,17 @@ export default {
           sku: this.skuNumber,
           quantity: this.quantity,
           price: this.price,
-          commission: this.commission,
+          commission: this.calculatedPrices.commission,
           description: this.productDescription,
           image: "https://homepages.cae.wisc.edu/~ece533/images/watch.png",
         })
-        .then((response) => {
+        .then(() => {
           this.failedRequest = false;
           this.loading = false;
           this.dialog = true;
           this.statusImage = successImage;
           this.dialogMessage =
             "Product have successfully been added to your inventory.";
-          this.$store.dispatch("inventory/getProducts");
-          console.log(response.data.data)
         })
         .catch((error) => {
           this.failedRequest = true;

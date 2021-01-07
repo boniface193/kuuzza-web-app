@@ -22,19 +22,17 @@
           </v-col>
           <v-col v-if="item.title" cols="4" class="text-truncate">
             <span class="large-text"> {{ item.title }}</span>
-            <div class="mt-2 letter-spacing small-text">
+            <div class="mt-2 small-text">
               {{ item.email }}
             </div>
           </v-col>
           <v-col v-if="item.indexOfOrder" cols="3" class="text-truncate">
             <span class="small-text">{{ item.indexOfOrder }}</span>
-            <div class="mt-2 letter-spacing large-text">{{ item.number }}</div>
+            <div class="mt-2 large-text">{{ item.number }}</div>
           </v-col>
           <v-col v-if="item.totalSpent" cols="3">
             <span class="small-text">{{ item.totalSpent }}</span>
-            <div class="mt-2 letter-spacing large-text">
-              ₦{{ item.totalAmountSpent }}
-            </div>
+            <div class="mt-2 large-text">₦{{ item.totalAmountSpent }}</div>
           </v-col>
           <v-col v-if="item.count" cols="4">
             {{ item.count }}
@@ -71,7 +69,7 @@ export default {
 
 .text {
   font-family: Poppins sans-serif "Product Sans";
-  font: normal normal normal 14px/10px Sans-Serif;
+  font: normal normal normal 14px/9px Sans-Serif;
   color: #646464;
   opacity: 1;
 }
@@ -79,7 +77,7 @@ export default {
 .sell-text {
   text-align: left;
   font-family: Poppins sans-serif "Product Sans";
-  font: normal normal bold 17px/7px Sans-Serif;
+  font: normal normal bold 17px/1px Sans-Serif;
   letter-spacing: 0px;
   color: #5064cc;
   opacity: 1;
@@ -133,25 +131,19 @@ export default {
   opacity: 0.7;
 }
 
-.letter-spacing {
-  letter-spacing: 1.5px;
-  font-family: "Product Sans" Light;
-}
-
 .small-text {
-  font: normal normal lighter 11px/20px "Product Sans" Light;
-  margin: 15px 0px;
+  font: normal normal lighter 14px/17px "Product Sans" Light;
+  text-align: left;
+  letter-spacing: 0px;
+  color: #505050;
+  opacity: 1;
 }
 
 .large-text {
-  font: normal normal bold 18px/20px "Product Sans";
-  margin: 15px 0px;
+  font: normal normal bold 18px/18px "Product Sans";
+  text-align: left;
+  letter-spacing: 0px;
+  color: #646464;
+  opacity: 1;
 }
-
-// .Leader {
-//   font: normal normal bold 40px/0px "Product Sans";
-//   letter-spacing: 0px;
-//   color: #2b2b2b;
-//   opacity: 1;
-// }
 </style>

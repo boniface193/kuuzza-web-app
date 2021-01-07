@@ -9,11 +9,29 @@
       :autoApply="autoApply"
       :ranges="ranges"
     >
-      <template v-slot:input="picker" style="min-width: 350px">
-        {{ moment(picker.ranges).format("dddd") | date }} -
-        {{ moment(picker.ranges).format("dddd") | date }}
-      </template>
     </date-range-picker>
+
+    <!-- <date-range-picker
+      ref="picker"
+      :opens="opens"
+      :locale-data="{ firstDay: 1, format: 'LLLL' }"
+      :minDate="minDate"
+      :maxDate="maxDate"
+      :singleDatePicker="singleDatePicker"
+      :timePicker="timePicker"
+      :timePicker24Hour="timePicker24Hour"
+      :showWeekNumbers="showWeekNumbers"
+      :showDropdowns="showDropdowns"
+      :autoApply="autoApply"
+      v-model="dateRange"
+      @update="updateValues"
+      @toggle="checkOpen"
+      :linkedCalendars="linkedCalendars"
+    >
+      <template v-slot:input="picker" style="min-width: 350px">
+        {{ picker.startDate | date }} - {{ picker.endDate | date }}
+      </template>
+    </date-range-picker> -->
   </div>
 </template>
 
@@ -26,6 +44,7 @@ import moment from "moment";
 
 // this is to initialize the date ranges
 let today = new Date();
+
 today.setHours(0, 0, 0, 0);
 // last 7 days
 let lastWeek = new Date();
@@ -68,10 +87,6 @@ export default {
         startDate: Date.now(),
         endDate: Date.now(),
       },
-
-      // dateFormat: (classes, date) => {
-      //   return moment();
-      // },
     };
   },
 
@@ -80,12 +95,6 @@ export default {
       return moment();
     },
   },
-
-  // filters: {
-  //   moment: (date) => {
-  //     return moment(date).format("dddd");
-  //   },
-  // },
 };
 </script>
 <style lang="scss">

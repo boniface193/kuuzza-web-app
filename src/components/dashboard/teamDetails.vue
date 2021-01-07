@@ -226,6 +226,7 @@ export default {
   components: { searchBar, modal, dataTable },
   data: function () {
     return {
+      statusImage: null,
       itemPerPage: 15,
       suspendLoader: false,
       unSuspendLoader: false,
