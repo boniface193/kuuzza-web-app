@@ -89,7 +89,7 @@
 
           <!-- unit price -->
           <div class="mb-3 input-field">
-            <p class="mb-1">Unit Price (N)</p>
+            <p class="mb-1">Unit Price (&#8358;)</p>
             <v-text-field
               class="input mt-0"
               v-model="price"

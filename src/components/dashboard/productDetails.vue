@@ -29,7 +29,7 @@
           <!-- product unit price -->
           <p class="mt-2 mb-3">
             <span class="item-title">Unit Price: </span
-            ><span class="secondary--text">N{{ productDetails.price }}</span>
+            ><span class="secondary--text">&#8358;{{ productDetails.price }}</span>
           </p>
           <!-- product quantity -->
           <p class="mt-2 mb-3">
@@ -38,9 +38,16 @@
           </p>
           <!-- product commission -->
           <p class="mt-2 mb-3">
-            <span class="item-title">Commission per item: </span
-            ><span class="secondary--text">{{
+            <span class="item-title">Service Charge: </span
+            ><span class="secondary--text">&#8358;{{
               productDetails.commission
+            }}</span>
+          </p>
+          <!-- product commission -->
+          <p class="mt-2 mb-3">
+            <span class="item-title">Total price: </span
+            ><span class="secondary--text">&#8358;{{
+              productDetails.commission + productDetails.price
             }}</span>
           </p>
           <!-- product description -->
