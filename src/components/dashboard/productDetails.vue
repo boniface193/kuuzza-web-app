@@ -29,7 +29,9 @@
           <!-- product unit price -->
           <p class="mt-2 mb-3">
             <span class="item-title">Unit Price: </span
-            ><span class="secondary--text">&#8358;{{ productDetails.price }}</span>
+            ><span class="secondary--text"
+              >&#8358;{{ numberWithCommas(productDetails.price) }}</span
+            >
           </p>
           <!-- product quantity -->
           <p class="mt-2 mb-3">
@@ -39,16 +41,20 @@
           <!-- product commission -->
           <p class="mt-2 mb-3">
             <span class="item-title">Service Charge: </span
-            ><span class="secondary--text">&#8358;{{
-              productDetails.commission
-            }}</span>
+            ><span class="secondary--text"
+              >&#8358;{{ numberWithCommas(productDetails.commission) }}</span
+            >
           </p>
           <!-- product commission -->
           <p class="mt-2 mb-3">
             <span class="item-title">Total price: </span
-            ><span class="secondary--text">&#8358;{{
-              productDetails.commission + productDetails.price
-            }}</span>
+            ><span class="secondary--text"
+              >&#8358;{{
+                numberWithCommas(
+                  productDetails.commission + productDetails.price
+                )
+              }}</span
+            >
           </p>
           <!-- product description -->
           <p class="mt-8 mb-3">
@@ -69,7 +75,7 @@
       @closeEditInventory="closeEditInventory"
       :productId="$route.params.id"
     /> -->
-    
+
     <!-- loader -->
     <div class="text-center pt-10 pb-5" v-show="pageLoader == true">
       <v-progress-circular indeterminate color="primary"></v-progress-circular>
@@ -87,7 +93,7 @@ export default {
       productDetails: {},
       pageLoader: false,
       dialog: false,
-      dialogMessage: ""
+      dialogMessage: "",
     };
   },
   created() {
@@ -113,6 +119,9 @@ export default {
   methods: {
     closeEditInventory() {
       this.editInventory = false;
+    },
+    numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
   },
 };
