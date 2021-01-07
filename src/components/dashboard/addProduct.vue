@@ -106,10 +106,10 @@
 
           <!-- service charge -->
           <div class="mb-3 input-field">
-            <p class="mb-1">Service Charge</p>
+            <p class="mb-1 primary--text">Service Charge (5%)</p>
             <v-text-field
               class="input mt-0"
-              v-model="charges"
+              v-model="calculatedPrices.commission"
               color="primary"
               required
               outlined
@@ -118,18 +118,20 @@
             </v-text-field>
           </div>
 
-          <!-- listed price -->
-          <div class="mb-3 input-field">
-            <p class="mb-1">Listed Price</p>
-            <v-text-field
-              class="input mt-0"
-              v-model="calculatedPrices.totalPrice"
-              color="primary"
-              required
-              outlined
-              disabled
-            >
-            </v-text-field>
+          <!-- total price -->
+          <div class="d-flex justify-end" style="width:100%">
+            <div class="mb-3 input-field">
+              <p class="mb-1 primary--text">Total Price <span class="success--text">(NB: this would be the price tag on NOVA)</span></p>
+              <v-text-field
+                class="input mt-0"
+                v-model="calculatedPrices.totalPrice"
+                color="primary"
+                required
+                outlined
+                disabled
+              >
+              </v-text-field>
+            </div>
           </div>
 
           <!-- button container -->
@@ -247,7 +249,6 @@ export default {
       skuNumber: "",
       quantity: 0,
       price: "",
-      charges: "5%",
       totalPrice: 0,
       productDescription: "",
       images: null,
