@@ -20,10 +20,10 @@
                   color="white"
                 ></v-checkbox>
                 <span>{{
-                      header.money === true
-                        ? `${header.text} (&#8358;)`
-                        : header.text
-                    }}</span></span
+                  header.money === true
+                    ? `${header.text} (&#8358;)`
+                    : header.text
+                }}</span></span
               >
               <span class="sort-icons">
                 <v-icon
@@ -238,19 +238,22 @@ export default {
       this.emitSelectedRow();
     },
     emitSelectedRow() {
-      //console.log(this.selected)
       this.$emit("selectedRow", this.selected);
     },
     // handles the request to delete a row
     deleteRow(itemId) {
-      //console.log(itemId)
       this.actions.deleteId = itemId;
-      //console.log(this.actions)
       this.$emit("requestedAction", this.actions);
     },
     // handles the request to edit a row
     editRow(itemId) {
       this.actions.editId = itemId;
+      this.$emit("requestedAction", this.actions);
+    },
+    // handles request to take a row offline
+    offlineRow(itemId, itemStatus) {
+      this.actions.offlineId = itemId;
+      this.actions.itemStatus = itemStatus;
       this.$emit("requestedAction", this.actions);
     },
     // on page change
