@@ -45,8 +45,11 @@
           <!-- table row -->
           <tr
             v-for="item in sortedItems"
-            :key="item.id"
-            :class="{ selectedRow: selected.includes(`${item.id}`) }"
+            :key="item[`${itemKey}`]"
+            :class="{
+              selectedRow: selected.includes(item[`${itemKey}`]),
+              suspendedRow: item.status == 'suspended',
+            }"
           >
             <!-- columns -->
             <td
@@ -57,7 +60,7 @@
               <span class="with-checkbox">
                 <v-checkbox
                   v-if="index2 == 0 && select === true"
-                  :value="item.id"
+                  :value="item[`${itemKey}`]"
                   v-model="selected"
                   @click="emitSelectedRow"
                 ></v-checkbox>
@@ -78,7 +81,7 @@
                   <router-link
                     :to="{
                       name: header.routeName,
-                      params: { id: item.id },
+                      params: { id: item[`${itemKey}`] },
                     }"
                     class="productLink"
                     >{{ item[`${header.value}`] }}</router-link
@@ -94,13 +97,21 @@
                 <span
                   ><v-icon
                     class="primary--text action-btn"
-                    @click="editRow(item.id)"
+                    :class="{
+                      'action-icon-not-active': item.status == 'suspended',
+                    }"
+                    @click="editRow(item[`${itemKey}`], item.status)"
                     >mdi-pencil</v-icon
                   ></span
                 >
                 <!--  -->
                 <span
-                  ><v-icon class="error--text action-btn"
+                  ><v-icon
+                    class="error--text action-btn"
+                    :class="{
+                      'success--text': item.status == 'suspended',
+                    }"
+                    @click="offlineRow(item[`${itemKey}`], item.status)"
                     >mdi-cancel</v-icon
                   ></span
                 >
@@ -108,7 +119,7 @@
                 <span
                   ><v-icon
                     class="error--text action-btn"
-                    @click="deleteRow(item.id)"
+                    @click="deleteRow(item[`${itemKey}`])"
                     >mdi-trash-can-outline</v-icon
                   ></span
                 ></span
@@ -124,22 +135,20 @@
         <p class="mb-2 mr-5">Page {{ page }} of {{ paginationLength }}</p>
         <div class="d-flex justify-space-between align-center mb-2">
           <span class="mr-2">Number per page</span>
-          <div class="select-item">
-            <select>
-              <option>5</option>
-              <option>10</option>
-              <option>15</option>
-              <option>20</option>
-              <option>30</option>
-              <option>50</option>
-            </select>
+         <div class="select-item">
+            <selectBtn
+              :items="[5, 10, 15, 30, 50]"
+              :item="itemPerPage"
+              @selectedItem="setItemPerPage"
+            />
           </div>
         </div>
       </div>
       <div class="pagination mb-2">
         <v-pagination
-          v-model="page"
+          v-model="getCurrentPage.currentPage"
           :length="paginationLength"
+           @input="onPageChange"
           circle
         ></v-pagination>
       </div>
@@ -147,25 +156,41 @@
   </div>
 </template>
 <script>
+import selectBtn from "@/components/dashboard/selectBtn.vue";
 export default {
   name: "dataTable",
+  components: { selectBtn },
   data: function () {
     return {
       selected: [],
       selectAll: false,
       dialog: false,
-      page: 1,
       currentSort: "",
       modifier: 1,
-      paginationLength: 100,
     };
   },
-  props: ["items", "headers", "action", "select", "actions"],
+  props: [
+    "items",
+    "headers",
+    "action",
+    "select",
+    "actions",
+    "paginationLength",
+    "page",
+    "itemPerPage",
+    "itemKey"
+  ],
   computed: {
     // return sorted data
     sortedItems: function () {
       return this.sort(this.items);
     },
+    // get the current table page
+    getCurrentPage() {
+      return {
+        currentPage: this.page
+      }
+    }
   },
   methods: {
     // sort data
@@ -187,11 +212,15 @@ export default {
       this.modifier = -1;
       this.currentSort = col;
     },
+     // set number of item per page
+    setItemPerPage(params) {
+      this.$emit("itemPerPage", params);
+    },
     selectRow() {
       this.selected = [];
       if (this.selectAll) {
         for (let i in this.items) {
-          this.selected.push(this.items[i].id);
+          this.selected.push(this.items[i][`${this.itemKey}`]);
         }
       }
       this.emitSelectedRow();
@@ -212,6 +241,10 @@ export default {
       this.actions.editId = itemId;
       this.$emit("requestedAction", this.actions);
     },
+    // on page change 
+    onPageChange() {
+      this.$emit("onPageChange", this.getCurrentPage.currentPage);
+    }
   },
 };
 </script>

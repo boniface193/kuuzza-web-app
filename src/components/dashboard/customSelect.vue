@@ -4,7 +4,7 @@
     :style="{ width: width, height: height }"
     :class="{ errorStatus: inputStatus === true }"
     tabindex="0"
-    ref="customSelect"
+    v-on-clickaway="away"
   >
     <div
       class="custom-select-content d-flex align-center justify-space-between"
@@ -51,8 +51,10 @@
   </div>
 </template>
 <script>
+import { mixin as clickaway } from "vue-clickaway";
 export default {
   name: "customSelect",
+  mixins: [clickaway],
   props: [
     "width",
     "height",
@@ -79,19 +81,13 @@ export default {
   },
   methods: {
     toggleDropdown() {
-
-     if((document.querySelector(".custom-select") == document.activeElement) && this.dropdown == true) {
-        this.dropdown = true;
-      } else {
-        if(this.dropdown === true) {
-          this.dropdown = false
-        }else {
-          this.dropdown = true
-        }
-      }
+      this.dropdown = !this.dropdown;
+    },
+    away() {
+      this.dropdown = false;
     },
     itemSelected(item) {
-      this.dropdown = false
+      this.dropdown = false;
       this.selectedValue = item;
       this.itemHolder = item;
       this.$emit("selectedItem", this.selectedValue);
@@ -128,7 +124,7 @@ export default {
     border-radius: 10px;
     position: absolute;
     background: #ffffff;
-    display: none;
+    display: block;
     z-index: 1000;
     left: 0;
     margin-top: 5px;
@@ -181,9 +177,6 @@ export default {
     }
   }
   &:focus {
-    .custom-dropdown {
-      display: block;
-    }
     border: 2px solid #5064cc;
   }
 }

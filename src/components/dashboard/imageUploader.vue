@@ -6,7 +6,6 @@
       ref="imageInput"
       accept="image/*"
       @change="onImagePicked"
-      multiple
     />
 
     <div

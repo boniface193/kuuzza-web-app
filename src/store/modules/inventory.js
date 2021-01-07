@@ -1,181 +1,103 @@
-import axios from "axios";
+import axios from "@/axios/inventory.js";
 
 //holds the state properties
 const state = {
-    inventories:
-        [
-            {
-                productName: "Infinix Hot 3",
-                image: "@assets/img/laptop.png",
-                category: "Phones & devices",
-                sku: "00772000000",
-                price: 25000,
-                commission: 100,
-                quantity: 30,
-                stockStatus: "inStock",
-                description: `Infinix Hot 10, core i5, 128 GB SSD, 8GB, 13", 12 hours battery,
-                              backlit keyboard, Multi-Touch 1.8GHz dual-core intelcore i5
-                              processor with 3MB shared L3 cache (Turbo boost up to 2.9GHz) 8GB of
-                              1,600MHz LPDDR3 RAM 128GB PCle-based flash storage 13 inch, 1440 x
-                              900 pixel display. Intel HD Graphics 600011ac Wi-Fi`,
-                id: "kjkwde98",
-            },
-            {
-                productName: "Apple MacBook 2013 Pro Core i5",
-                image: "@assets/img/laptop.png",
-                category: "TV",
-                sku: "0000000000",
-                price: "150000",
-                commission: 1200,
-                quantity: 30,
-                stockStatus: "outOfStock",
-                description: `Infinix Hot 10, core i5, 128 GB SSD, 8GB, 13", 12 hours battery,
-                backlit keyboard, Multi-Touch 1.8GHz dual-core intelcore i5
-                processor with 3MB shared L3 cache (Turbo boost up to 2.9GHz) 8GB of
-                1,600MHz LPDDR3 RAM 128GB PCle-based flash storage 13 inch, 1440 x
-                900 pixel display. Intel HD Graphics 600011ac Wi-Fi`,
-                id: "njwa872",
-            },
-            {
-                productName: "Iphone 12",
-                image: "@assets/img/laptop.png",
-                category: "Gadgets",
-                sku: "0000000000",
-                price: 25000,
-                commission: "1000",
-                quantity: 15,
-                stockStatus: "inStock",
-                description: `Infinix Hot 10, core i5, 128 GB SSD, 8GB, 13", 12 hours battery,
-                backlit keyboard, Multi-Touch 1.8GHz dual-core intelcore i5
-                processor with 3MB shared L3 cache (Turbo boost up to 2.9GHz) 8GB of
-                1,600MHz LPDDR3 RAM 128GB PCle-based flash storage 13 inch, 1440 x
-                900 pixel display. Intel HD Graphics 600011ac Wi-Fi`,
-                id: "wswawa0",
-            },
-            {
-                productName: "Earphone",
-                image: "@assets/img/laptop.png",
-                category: "Phones & devices",
-                sku: "000002787000",
-                price: 2500,
-                commission: 200,
-                quantity: 10,
-                stockStatus: "inStock",
-                description: `Infinix Hot 10, core i5, 128 GB SSD, 8GB, 13", 12 hours battery,
-                backlit keyboard, Multi-Touch 1.8GHz dual-core intelcore i5
-                processor with 3MB shared L3 cache (Turbo boost up to 2.9GHz) 8GB of
-                1,600MHz LPDDR3 RAM 128GB PCle-based flash storage 13 inch, 1440 x
-                900 pixel display. Intel HD Graphics 600011ac Wi-Fi`,
-                id: "hjbwahyaw7",
-            },
-        ],
-    filteredInventories: null,
-    inventoriesHistory: [
-        {
-            productName: "Apple MacBook 2013 Pro Core i5",
-            image: "@assets/img/laptop.png",
-            sku: "0000000000",
-            quantity: 30,
-            status: "Added",
-            time: "031220 8:05am",
-            salesRepresentative: "-",
-            id: "kjkwde98",
-        },
-        {
-            productName: "Infinix Hot 10",
-            image: "@assets/img/laptop.png",
-            sku: "6298918",
-            quantity: 2,
-            status: "Sold",
-            time: "031120 8:05am",
-            salesRepresentative: "Abdulazeez",
-            id: "kjk78hj98",
-        },
-        {
-            productName: "Hp10 pavilon",
-            image: "@assets/img/laptop.png",
-            sku: "0000000230",
-            quantity: 30,
-            status: "Added",
-            time: "031220 8:05am",
-            salesRepresentative: "-",
-            id: "ggyu278",
-        },
-        {
-            productName: "Apple MacBook 2013 Pro Core i5",
-            image: "@assets/img/laptop.png",
-            sku: "0000000000",
-            quantity: 30,
-            status: "Added",
-            time: "031220 8:05am",
-            salesRepresentative: "-",
-            id: "87hjsa",
-        },
-        {
-            productName: "Iphone 12",
-            image: "@assets/img/laptop.png",
-            sku: "00000010",
-            quantity: 1000,
-            status: "Sold",
-            time: "031220 9:05am",
-            salesRepresentative: "Ayotunde Lanwo",
-            id: "yuu223",
-        },
-    ],
+    products: [],
+    inventoriesHistory: [],
+    productsPageDetails: {
+        current_page: 1,
+    },
+    doNothing: null
 };
 
 //returns the state properties
 const getters = {
-    inventories: state => {
-        if (state.filteredInventories === null) {
-            return state.inventories
-        } else {
-            return state.filteredInventories
-        }
-    },
+    products: state => state.products,
     inventoriesHistory: state => state.inventoriesHistory,
-    getProductDetails: state => {
-        return (productId) => state.inventories.find(({ id }) => id === productId);
-    }
+    productsPageDetails: state => state.productsPageDetails
 };
 
 //take actions 
 const actions = {
-    addProduct(context, details) {
+    // add product to inventory
+    addProduct(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post("/inventory/addproduct", {
-                productName: details.productName,
-                category: details.category,
-                skuNumber: details.skuNumber,
-                quantity: details.quantity,
-                price: details.price,
-                commission: details.commission,
-                productDescription: details.productDescription,
-                images: details.images,
+            axios.post("/products", data, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                }
             })
                 .then(response => {
-                    resolve(response)
+                    context.commit("inventory/addProduct", response.data.data);
+                    resolve(response);
                 })
                 .catch(error => {
-                    context.commit('', '')
                     reject(error)
                 })
         })
+    },
+    // get inventories 
+    getProducts(context) {
+        return new Promise((resolve, reject) => {
+            axios.get("/products", {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                }
+            }).then(response => {
+                context.commit("setProducts", response.data.data);
+                context.commit("setProductsPageDetails", response.data.meta);
+                resolve(response);
+            })
+                .catch(error => {
+                    reject(error);
+                })
+        })
+    },
+    // get a product detail
+    getProductDetail(context, data) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/products/${data.id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                }
+            }).then(response => {
+                resolve(response);
+            })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        })
+    },
+    // filter products 
+    getfilteredProducts(context, data) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/products?page=${data.page}&per_page=${data.itemPerPage}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                }
+            }).then(response => {
+                context.commit("setProducts", response.data.data);
+                context.commit("setProductsPageDetails", response.data.meta);
+                resolve(response);
+            })
+                .catch(error => {
+                    reject(error);
+                })
+        })
     }
-
+    
 };
 
 //updates the different state properties
 const mutations = {
-    filterInventories: (state, payload) => {
-        state.filteredInventories = state.inventories.filter(item =>
-            (item.price >= payload.minPrice && item.price <= payload.maxPrice) ||
-            (item.commission >= payload.minCommission && item.commission <= payload.maxCommission) ||
-            (item.quantity >= payload.minQuantity && item.quantity <= payload.maxQuantity) ||
-            (payload.selectedOptions.includes(item.category) ) || 
-            (payload.selectedOptions.includes(item.stockStatus) ) )
+    setProducts: (state, data) => (state.products = data),
+    addProduct: (state, data) => {
+        state.products.data.push(data)
     },
-    resetFilter: (state) => (state.filteredInventories = null)
+    setProductsPageDetails: (state, data) => (state.productsPageDetails = data),
+    setCurrentPage: (state, currentPage) => {state.productsPageDetails.current_page = currentPage},
+    doNothing: (state) => (state.doNothing = null)
 };
 
 

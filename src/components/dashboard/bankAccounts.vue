@@ -7,7 +7,7 @@
         <div class="mb-5 settings-input">
           <p class="mb-1">Bank</p>
           <div style="height: 52px">
-            <selectBtn :items="['Select bank', 'Zenith Bank', 'Gt Bank']" />
+            <selectBtn :items="['Zenith Bank', 'Gt Bank']" :item="'Select Bank'"/>
           </div>
         </div>
 
