@@ -44,6 +44,7 @@
             >Payment History</router-link
           >
           <v-spacer></v-spacer>
+
           <div class="d-flex my-3">
             <basicFilter
               :price="filterParameters.price"
@@ -80,16 +81,11 @@ export default {
   },
 
   methods: {
-    filterTable(params) {
-      this.$store.commit("inventory/filterInventories", {
-        minPrice: params.minPrice,
-        maxPrice: params.maxPrice,
-        selectedOptions: params.selectedOptions,
-      });
+    filterTable() {
     },
     // reset filter
     resetFilter() {
-      this.$store.commit("inventory/resetFilter");
+      // this.$store.commit("inventory/resetFilter");
     },
   },
 };

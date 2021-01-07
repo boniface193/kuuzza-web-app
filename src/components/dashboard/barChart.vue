@@ -39,7 +39,7 @@ export default {
           height: 350,
           toolbar: {
             show: false,
-          },n
+          },
         },
         plotOptions: {
           bar: {
