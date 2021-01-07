@@ -19,7 +19,11 @@
                   @click="selectRow"
                   color="white"
                 ></v-checkbox>
-                <span>{{ header.text }}</span></span
+                <span>{{
+                      header.money === true
+                        ? `${header.text} (&#8358;)`
+                        : header.text
+                    }}</span></span
               >
               <span class="sort-icons">
                 <v-icon
@@ -73,7 +77,11 @@
                 />
                 <!-- shows if the content is a text and not an image or link -->
                 <span v-if="header.image !== true && header.href !== true"
-                  >{{ item[`${header.value}`] }}
+                  >{{
+                    header.money === true
+                      ? numberWithCommas(item[`${header.value}`])
+                      : item[`${header.value}`]
+                  }}
                 </span>
 
                 <!-- shows if the content is a text and link but not an image -->
@@ -84,7 +92,11 @@
                       params: { id: item[`${itemKey}`] },
                     }"
                     class="productLink"
-                    >{{ item[`${header.value}`] }}</router-link
+                    >{{
+                      header.money === true
+                        ? numberWithCommas(item[`${header.value}`])
+                        : item[`${header.value}`]
+                    }}</router-link
                   >
                 </span></span
               >
@@ -135,7 +147,7 @@
         <p class="mb-2 mr-5">Page {{ page }} of {{ paginationLength }}</p>
         <div class="d-flex justify-space-between align-center mb-2">
           <span class="mr-2">Number per page</span>
-         <div class="select-item">
+          <div class="select-item">
             <selectBtn
               :items="[5, 10, 15, 30, 50]"
               :item="itemPerPage"
@@ -148,7 +160,7 @@
         <v-pagination
           v-model="getCurrentPage.currentPage"
           :length="paginationLength"
-           @input="onPageChange"
+          @input="onPageChange"
           circle
         ></v-pagination>
       </div>
@@ -178,7 +190,7 @@ export default {
     "paginationLength",
     "page",
     "itemPerPage",
-    "itemKey"
+    "itemKey",
   ],
   computed: {
     // return sorted data
@@ -188,9 +200,9 @@ export default {
     // get the current table page
     getCurrentPage() {
       return {
-        currentPage: this.page
-      }
-    }
+        currentPage: this.page,
+      };
+    },
   },
   methods: {
     // sort data
@@ -212,7 +224,7 @@ export default {
       this.modifier = -1;
       this.currentSort = col;
     },
-     // set number of item per page
+    // set number of item per page
     setItemPerPage(params) {
       this.$emit("itemPerPage", params);
     },
@@ -241,10 +253,14 @@ export default {
       this.actions.editId = itemId;
       this.$emit("requestedAction", this.actions);
     },
-    // on page change 
+    // on page change
     onPageChange() {
       this.$emit("onPageChange", this.getCurrentPage.currentPage);
-    }
+    },
+    // separate money with comma
+    numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
   },
 };
 </script>
