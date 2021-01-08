@@ -125,7 +125,7 @@
         </div>
 
         <div class="mb-7 mt-5 mx-auto status-img">
-          <v-img src="@/assets/img/success-img.svg"></v-img>
+          <v-img :src="statusImage"></v-img>
         </div>
 
         <h4>{{ dialogMessage }}</h4>
@@ -135,12 +135,15 @@
 </template>
 <script>
 import modal from "@/components/dashboard/modal.vue";
+import successImage from "@/assets/img/success-img.svg";
+import failedImage from "@/assets/img/failed-img.svg";
 import { mapGetters } from "vuex";
 export default {
   name: "userDetails",
   components: { modal },
   data: function () {
     return {
+      statusImage: null,
       dialog: false,
       dialogMessage: "",
       editAdminName: false,
@@ -190,6 +193,7 @@ export default {
               this.dialogMessage = "Name changed successfully!";
               this.editAdminName = false;
               this.nameLoader = false;
+              this.statusImage = successImage;
               this.dialog = true;
             })
             .catch((error) => {
@@ -199,6 +203,7 @@ export default {
                 this.dialogMessage = "No internet connection!";
               }
               this.nameLoader = false;
+              this.statusImage = failedImage
               this.dialog = true;
             });
         } else {
@@ -221,6 +226,7 @@ export default {
               this.dialogMessage = "Phone number changed successfully!";
               this.editPhoneNum = false;
               this.phoneNumLoader = false;
+              this.statusImage = successImage;
               this.dialog = true;
             })
             .catch((error) => {
@@ -230,6 +236,7 @@ export default {
                 this.dialogMessage = "No internet connection!";
               }
               this.phoneNumLoader = false;
+              this.statusImage = failedImage;
               this.dialog = true;
             });
         } else {
