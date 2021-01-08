@@ -216,7 +216,6 @@ export default {
     setPriceRange(params) {
       this.minPrice = params.minNum;
       this.maxPrice = params.maxNum;
-      console.log(this.minPrice, this.maxPrice);
     },
     setCommissionRange(params) {
       this.minCommission = params.minNum;

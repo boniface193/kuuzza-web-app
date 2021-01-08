@@ -41,6 +41,7 @@
       :select="true"
       :headers="tableHeaders"
       :items="orders"
+      itemKey="id"
       @selectedRow="rowSelected"
     />
   </div>

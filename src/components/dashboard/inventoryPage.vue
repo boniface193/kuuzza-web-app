@@ -35,7 +35,6 @@
           <basicFilter
             class="mr-2"
             :price="filterParameters.price"
-            :commission="filterParameters.commission"
             :quantity="filterParameters.quantity"
             :category="filterParameters.category"
             :stock="filterParameters.stock"
@@ -96,47 +95,20 @@
       <v-progress-circular indeterminate color="primary"></v-progress-circular>
     </div>
 
-    <!-- modal -->
-    <modal :dialog="dialog1" width="470">
-      <div class="white pa-3 pb-10 dialog">
+    <!-- modal for dialog messages -->
+    <modal :dialog="dialog1" width="400">
+      <div class="white pa-3 pb-10 text-center dialog">
         <div class="d-flex justify-end">
-          <v-icon class="error--text close-btn" @click="closeDialog1"
+          <v-icon class="error--text close-btn" @click="dialog1 = false"
             >mdi-close</v-icon
           >
         </div>
 
-        <p>Are you sure you want to delete this team member?</p>
-
-        <div class="d-flex align-center">
-          <div>
-            <v-img
-              class=""
-              style="
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                margin-right: 10px;
-              "
-              src="@/assets/img/user-profile.svg"
-            >
-            </v-img>
-          </div>
-          <p class="grey--text title mb-0">{{ inventoryName }}</p>
+        <div class="mb-7 mt-5 mx-auto status-img">
+          <v-img :src="statusImage"></v-img>
         </div>
-        <p class="mt-5">All associated data will also be deleted!</p>
-        <p class="error--text">Are you sure? There is no undo.</p>
 
-        <!-- btns -->
-        <div class="d-flex justify-space-between flex-wrap">
-          <v-btn class="error py-5 mb-3 mb-sm-0">Yes, delete this member</v-btn>
-          <v-btn
-            color="#F6F7FD"
-            class="primary--text py-5"
-            @click="closeDialog1"
-            >No, keep this member</v-btn
-          >
-        </div>
-        <div></div>
+        <h4>{{ dialogMessage }}</h4>
       </div>
     </modal>
   </div>
@@ -149,6 +121,8 @@ import searchBar from "@/components/dashboard/searchBar.vue";
 import basicFilter from "@/components/dashboard/basicFilter.vue";
 import selectBtn from "@/components/dashboard/selectBtn.vue";
 import calendar from "@/components/dashboard/calender.vue";
+//import successImage from "@/assets/img/success-img.svg";
+import failedImage from "@/assets/img/failed-img.svg";
 import { mapGetters } from "vuex";
 export default {
   name: "inventoryPage",
@@ -160,10 +134,12 @@ export default {
       itemPerPage: 15,
       tableLoader: false,
       dialog1: false,
+      dialogMessage: "",
       searchValue: "",
       inventoryName: "",
       selected: "",
       selectedRow: [],
+      statusImage: null,
       actions: {
         deleteId: null,
         editId: null,
@@ -171,10 +147,18 @@ export default {
       },
       filterParameters: {
         price: true,
-        commission: true,
         quantity: true,
         category: ["Phones & devices", "TV", "Gadgets"],
         stock: true,
+      },
+      filteringOptions: {
+        minPrice: 0,
+        maxPrice: 0,
+        minCommission: 0,
+        maxCommission: 0,
+        minQuantity: 0,
+        maxQuantity: 0,
+        selectedOptions: []
       },
       tableHeaders: [
         {
@@ -203,7 +187,16 @@ export default {
           itemPerPage: 15,
         })
         .then(() => (this.tableLoader = false))
-        .catch(() => (this.tableLoader = false));
+        .catch((error) => {
+          this.statusImage = failedImage;
+          this.dialog1 = true;
+          if(error.response){
+            this.dialogMessage = "Something went wrong, pls try again!";
+          }else{
+            this.dialogMessage = "No internet connection!";
+          }
+          this.tableLoader = false
+          });
     }
   },
   computed: {
@@ -253,7 +246,22 @@ export default {
       this.$store.dispatch("inventory/getfilteredProducts", {
         page: page,
         itemPerPage: this.itemPerPage,
-      });
+        minPrice: this.filteringOptions.minPrice,
+        maxPrice: this.filteringOptions.maxPrice,
+        minCommission: this.filteringOptions.minCommission,
+        maxCommission: this.filteringOptions.maxCommission,
+        minQuantity: this.filteringOptions.minQuantity,
+        maxQuantity: this.filteringOptions.maxQuantity,
+        selectedOptions: this.filteringOptions.selectedOptions,
+      }).catch((error) => {
+        this.statusImage = failedImage;
+        if(error.response){
+           this.dialogMessage = "Something went wrong, pls try again!"
+        }else{
+           this.dialogMessage = "No internet Connection!";
+        }
+        this.dialog1 = true;
+      })
     },
     // set current page
     setCurentPage(params) {
@@ -261,7 +269,20 @@ export default {
       this.$store.dispatch("inventory/getfilteredProducts", {
         page: params,
         itemPerPage: this.itemPerPage,
-      });
+        minPrice: this.filteringOptions.minPrice,
+        maxPrice: this.filteringOptions.maxPrice,
+        minQuantity: this.filteringOptions.minQuantity,
+        maxQuantity: this.filteringOptions.maxQuantity,
+        selectedOptions: this.filteringOptions.selectedOptions,
+      }).catch((error) => {
+        this.statusImage = failedImage;
+        if(error.response){
+           this.dialogMessage = "Something went wrong, pls try again!"
+        }else{
+           this.dialogMessage = "No internet Connection!";
+        }
+        this.dialog1 = true;
+      })
     },
     // close the dialog that shows up when you want to delete a row
     closeDialog1() {
@@ -273,22 +294,74 @@ export default {
     },
     getSearchValue(params) {
       this.searchValue = params;
+       this.$store.dispatch("inventory/searchProducts", {
+         value: this.searchValue,
+       }).then(()=>{})
+       .catch((error) => {
+        this.statusImage = failedImage;
+        if(error.response){
+           this.dialogMessage = "Something went wrong, pls try again!"
+        }else{
+           this.dialogMessage = "No internet Connection!";
+        }
+        this.dialog1 = true;
+      })
     },
     // filterTable
     filterTable(params) {
-      this.$store.commit("inventory/filterInventories", {
+      // set filtering parameters
+      this.filteringOptions.minPrice = params.minPrice,
+      this.filteringOptions.maxPrice = params.maxPrice,
+      this.filteringOptions.minQuantity = params.minQuantity,
+      this.filteringOptions.maxQuantity = params.maxQuantity,
+      this.filteringOptions.selectedOptions = params.selectedOptions,
+
+      // trigger filter
+      this.$store.dispatch("inventory/getfilteredProducts", {
         minPrice: params.minPrice,
         maxPrice: params.maxPrice,
-        minCommission: params.minCommission,
-        maxCommission: params.maxCommission,
         minQuantity: params.minQuantity,
         maxQuantity: params.maxQuantity,
         selectedOptions: params.selectedOptions,
-      });
+        itemPerPage: this.itemPerPage,
+        page: 1
+      }).catch((error) => {
+        this.statusImage = failedImage;
+        if(error.response){
+           this.dialogMessage = "Something went wrong, pls try again!"
+        }else{
+           this.dialogMessage = "No internet Connection!";
+        }
+        this.dialog1 = true;
+      })
     },
     // reset filter
     resetFilter() {
-      this.$store.commit("inventory/resetFilter");
+      // reset filter
+      this.filteringOptions.minPrice = 0;
+      this.filteringOptions.maxPrice = 0;
+      this.filteringOptions.minQuantity = 0;
+      this.filteringOptions.maxQuantity = 0;
+      this.filteringOptions.selectedOptions = [];
+
+      // trigger filter
+      this.$store.dispatch("inventory/getfilteredProducts", {
+        minPrice: this.minPrice,
+        maxPrice: this.maxPrice,
+        minQuantity: this.minQuantity,
+        maxQuantity: this.maxQuantity,
+        selectedOptions: this.selectedOptions,
+        itemPerPage: this.itemPerPage,
+        page: 1
+      }).catch((error) => {
+        this.statusImage = failedImage;
+        if(error.response){
+           this.dialogMessage = "Something went wrong, pls try again!"
+        }else{
+           this.dialogMessage = "No internet Connection!";
+        }
+        this.dialog1 = true;
+      })
     },
   },
 };
