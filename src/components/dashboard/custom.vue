@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="0" class="px-4">
+  <v-card elevation="0" class="px-4 rounded-lg" height="100%">
     <v-row>
       <!-- components to display customer and sellers summary -->
       <v-col md="6">

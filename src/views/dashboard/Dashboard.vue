@@ -3,7 +3,8 @@
     <!-- to center dashboard content -->
     <div class="mx-lg-12 mx-md-5 mx-sm-5">
       <!-- welcome greetings -->
-      <calendar class="float-right d-none d-md-block" />
+      <calendar class="float-right d-none d-md-block" 
+    ranges="false" />
       <div class="welcome-user">Welcome Ayotunde</div>
       <div class="pa-2"></div>
       <v-row>
@@ -39,14 +40,14 @@
         <!-- show area-chart -->
         <v-col cols="12" class="d-none d-md-block">
           <bar
-            class=""
+            class="rounded-lg"
             bar_class="chart-heading text-capitalize"
             bar_title="revenue(₦)"
           />
         </v-col>
       </v-row>
 
-      <v-row class="mt-3">
+      <v-row>
         <!-- donut chart -->
         <v-col md="8" class="d-none d-md-block">
           <donut
@@ -56,7 +57,7 @@
           />
         </v-col>
 
-        <v-col md="4" class="mt-0 pt-0">
+        <v-col md="4">
           <v-row>
             <v-col md="12">
               <leader
@@ -86,7 +87,7 @@
             :listItem="topCustomerList"
           />
         </v-col>
-        <v-col class="mt-0 pt-0 col-lg-4 col-sm-12">
+        <v-col class=" col-lg-4 col-sm-12">
           <v-row>
             <v-col sm="12">
               <!-- show numbers of customers -->

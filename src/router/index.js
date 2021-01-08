@@ -51,6 +51,11 @@ import revenue from "@/components/dashboard/revenue.vue";
 import settlements from "@/components/dashboard/settlements.vue";
 import awaitingSettlements from "@/components/dashboard/awaitingSettlements.vue";
 import paymentHistory from "@/components/dashboard/paymentHistory.vue";
+import bestSeller from "@/views/dashboard/bestSeller.vue";
+import allBest from "@/components/dashboard/allBest.vue";
+import newBest from "@/components/dashboard/newBest.vue";
+import returningBest from "@/components/dashboard/returningBest.vue";
+
 
 
 Vue.use(VueRouter);
@@ -292,7 +297,27 @@ const routes = [
           },
         ]
       },
-
+      {
+        path: "/bestseller",
+        component: bestSeller,
+        children: [
+          {
+            path: "",
+            name: "allBest",
+            component: allBest
+          },
+          {
+            path: "newBest",
+            name: "newBest",
+            component: newBest
+          },
+          {
+            path: "returningBest",
+            name: "returningBest",
+            component: returningBest
+          },
+        ]
+      },
       {
         path: "/settings",
         component: Settings,

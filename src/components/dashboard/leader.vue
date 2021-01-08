@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="0">
+  <v-card elevation="0" height="100%" class="rounded-lg">
     <v-container>
       <!-- sumary of the leaders board -->
       <div class="d-flex justify-space-between my-3">

@@ -8,7 +8,10 @@
       </div>
     </div>
     <!-- select dropdown -->
-    <div class="select-dropdown" :class="{'select-dropdown--active' : selectDropdown}">
+    <div
+      class="select-dropdown"
+      :class="{ 'select-dropdown--active': selectDropdown }"
+    >
       <p
         class="py-2 mb-0 dropdown-item"
         v-for="(item, index) in items"
@@ -35,13 +38,13 @@ export default {
   methods: {
     // toggle the select dropdown
     toggleDropdown() {
-     this.selectDropdown = !this.selectDropdown;
+      this.selectDropdown = !this.selectDropdown;
     },
     away() {
       this.dropdown = false;
     },
     setSelectedItem(item) {
-      if(this.dropDownMenu !== true){
+      if (this.dropDownMenu !== true) {
         this.selectedItem = item;
       }
       this.selectDropdown = false;

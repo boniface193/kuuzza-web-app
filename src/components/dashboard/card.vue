@@ -1,6 +1,6 @@
 <template>
   <!-- card shows individual revenue, items in stocks, total commission -->
-  <v-card :width="width" height="180" elevation="0" class="pt-5">
+  <v-card :width="width" height="180" elevation="0" class="pt-5 rounded-lg">
     <div class="d-flex justify-center">
       <div :class="img_color" class="rounded-pill pa-7 text-center"></div>
       <div class="mx-4">

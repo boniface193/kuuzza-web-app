@@ -13,6 +13,7 @@ Vue.component('apexchart', VueApexCharts)
 //import { onboardServer } from './server/onboarding.js'
 
 Vue.use(Chartkick.use(Chart))
+Vue.use(require('vue-moment'));
 
 Vue.config.productionTip = false;
 

@@ -54,7 +54,10 @@
               @resetFilter="resetFilter"
             />
             <div class="btn-pointer">
-              <v-img src="../../assets/download.svg" class="mr-sm-3 mr-lg-8 ml-sm-3 ml-lg-8 mt-2"></v-img>
+              <v-img
+                src="../../assets/download.svg"
+                class="mr-sm-3 mr-lg-8 ml-sm-3 ml-lg-8 mt-2"
+              ></v-img>
             </div>
           </div>
         </div>
@@ -81,8 +84,7 @@ export default {
   },
 
   methods: {
-    filterTable() {
-    },
+    filterTable() {},
     // reset filter
     resetFilter() {
       // this.$store.commit("inventory/resetFilter");
