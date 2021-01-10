@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="0" height="100%" class="rounded-lg">
+  <v-card elevation="0"  height="100%" class="rounded-lg">
     <v-container>
       <!-- sumary of the leaders board -->
       <div class="d-flex justify-space-between my-3">
@@ -75,6 +75,7 @@ export default {
   opacity: 1;
 }
 
+
 .sell-text {
   text-align: left;
   font-family: Poppins sans-serif "Product Sans";
@@ -147,4 +148,5 @@ export default {
   color: #646464;
   opacity: 1;
 }
+
 </style>

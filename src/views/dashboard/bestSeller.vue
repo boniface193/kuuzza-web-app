@@ -7,7 +7,7 @@
           to="/dashboard"
           style="text-decoration: none; color: #2b2b2b"
         >
-          <h2 class="float-left">
+          <h2 class="float-left text-sm-body-1 text-md-h6 text-lg-h5 text-xl-h3 text-body-1 font-weight-bold">
             <v-icon class="mb-1 mr-3" size="35">mdi-chevron-left</v-icon> Best
             Selling Items
           </h2>
@@ -42,17 +42,17 @@ export default {
           text: "Rank",
           sortable: true,
           value: "1",
-          width: "14%",
+          width: "25%",
         },
         {
           text: "Product Name",
           value: "name",
           href: true,
           routeName: "seller",
-          width: "37%",
+          width: "25%",
         },
-        { text: "Total Quantity Sold", value: "totalPoint", width: "20%" },
-        { text: "Total Value of Orders(₦)", value: "totalValue", width: "29%" },
+        { text: "Total Quantity Sold", value: "totalPoint", width: "25%" },
+        { text: "Total Value of Orders(₦)", value: "totalValue", width: "25%" },
       ],
 
       items: [

@@ -1,7 +1,7 @@
 <template>
   <div class="px-3 px-sm-12 pt-7 pb-4" style="zoom: 110%">
     <!-- page title -->
-    <h1>Settings</h1>
+    <h1 class="text-sm-h6 text-md-h5 text-lg-h4 text-xl-h3 text-h6 font-weight-bold">Settings</h1>
 
     <div class="settings-container mt-7 white">
       <!-- nav section -->

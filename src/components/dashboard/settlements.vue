@@ -7,6 +7,7 @@
         :headers="headers"
         :items="items"
         :select="true"
+        itemKey="id"
       />
     </div>
   </v-card>
@@ -35,7 +36,7 @@ export default {
           value: "totalValue",
           width: "25%",
           href: true,
-          routeName: "customerDetail",
+          routeName: "OrderDetails",
         },
         { text: "Date Settled", value: "totalValue", width: "25%" },
       ],

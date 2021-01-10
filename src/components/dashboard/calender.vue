@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center calender">
+  <div class="text-center calender d-none d-md-block">
     <!-- displays calendar filter -->
     <date-range-picker
       v-model="dateRange"

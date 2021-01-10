@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-lg-12 mx-md-5 mx-sm-5 my-8">
+  <div class="mx-lg-12 mx-md-5 mx-sm-5">
     <!-- page title -->
     <div class="btn-pointer float-right">
       <v-img
@@ -9,7 +9,7 @@
         class=""
       ></v-img>
     </div>
-    <h1 class="heading--text">Customer</h1>
+    <h1 class="text-sm-h6 text-md-h5 text-lg-h4 text-xl-h3 text-h6 font-weight-bold">Customer</h1>
 
     <div class="settings-container mt-7 white">
       <!-- nav section -->

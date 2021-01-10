@@ -2,7 +2,7 @@
   <div class="pb-10">
     <!-- page title -->
     <div class="d-flex justify-space-between align-center">
-      <h1>Inventory</h1>
+      <h1 class="text-sm-h6 text-md-h5 text-lg-h4 text-xl-h3 text-h6 font-weight-bold">Inventory</h1>
       <div class="d-flex align-center">
         <router-link :to="{ name: 'history' }" class="mr-4"
           >History</router-link

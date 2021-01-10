@@ -1,11 +1,15 @@
 <template>
   <v-container fluid>
-    <div class="mx-lg-12 mx-md-5 mx-sm-5 my-8">
+    <div class="mx-lg-12 mx-md-5 mx-sm-5">
       <!-- page title -->
       <filter-By-Date
         class="float-right text-caption text-sm-subtitle-2 text-md-subtitle-1"
       />
-      <h1 class="heading--text">Leaderboard</h1>
+      <h1
+        class="text-sm-h6 text-md-h5 text-lg-h4 text-xl-h3 text-h6 font-weight-bold"
+      >
+        Leaderboard
+      </h1>
 
       <div class="settings-container mt-7 white">
         <!-- nav section -->
