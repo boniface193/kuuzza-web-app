@@ -6,7 +6,7 @@
         <h3 class="leader text-truncate mr-2">
           {{ leader }}
         </h3>
-        <router-link to="leaderboard" class="sell-text text-truncate">
+        <router-link :to="{ name: linkToDetails }" class="sell-text text-truncate">
           <p>
             {{ sell_text }}
           </p>
@@ -46,6 +46,7 @@
 <script>
 export default {
   props: {
+    linkToDetails: String,
     card_title: String,
     img_color_text: String,
     card_digit: Number,

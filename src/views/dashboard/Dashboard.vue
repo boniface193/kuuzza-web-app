@@ -3,8 +3,7 @@
     <!-- to center dashboard content -->
     <div class="mx-lg-12 mx-md-5 mx-sm-5">
       <!-- welcome greetings -->
-      <calendar class="float-right d-none d-md-block" 
-    ranges="false" />
+      <calendar class="float-right d-none d-md-block" ranges="false" />
       <div class="welcome-user">Welcome Ayotunde</div>
       <div class="pa-2"></div>
       <v-row>
@@ -51,7 +50,7 @@
         <!-- donut chart -->
         <v-col md="8" class="d-none d-md-block">
           <donut
-            class="py-5 px-5"
+            class="py-5 px-5 my-3"
             bar_class="chart-heading text-capitalize"
             bar_title="Order Status"
           />
@@ -61,6 +60,7 @@
           <v-row>
             <v-col md="12">
               <leader
+                linkToDetails="leaderboard"
                 leader="Leaderboard"
                 sell_text="See all"
                 :listItem="listItem"
@@ -69,6 +69,7 @@
 
             <v-col md="12">
               <leader
+                linkToDetails="bestSeller"
                 leader="Best Selling Items"
                 sell_text="See all"
                 :listItem="listItems"
@@ -82,12 +83,12 @@
       <v-row>
         <v-col class="col-lg-8 col-sm-12 d-none d-sm-block">
           <leader
-            class="py-5"
+            class="my-3"
             leader="Top Customers"
             :listItem="topCustomerList"
           />
         </v-col>
-        <v-col class=" col-lg-4 col-sm-12">
+        <v-col class="col-lg-4 col-sm-12">
           <v-row>
             <v-col sm="12">
               <!-- show numbers of customers -->

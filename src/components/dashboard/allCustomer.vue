@@ -8,6 +8,7 @@
           :headers="headers"
           :items="items"
           :select="true"
+          itemKey="id"
         />
       </div>
     </v-card>

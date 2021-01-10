@@ -13,8 +13,8 @@
           <!-- nav link -->
           <router-link
             class="nav-item text-sm-subtitle-1 text-caption"
-            :class="{ 'nav-item--active': this.$route.name == 'leaderStore' }"
-            :to="{ name: 'leaderStore' }"
+            :class="{ 'nav-item--active': this.$route.name == 'leaderboard' }"
+            :to="{ name: 'leaderboard' }"
             >Store</router-link
           >
           <!-- nav link -->

@@ -3,23 +3,36 @@
     <div class="mx-lg-12 mx-md-5 mx-sm-5 my-8">
       <!-- page title -->
       <div class="d-flex justify-space-between">
-        <h1 class="heading--text">Best Seller</h1>
+        <router-link
+          to="/dashboard"
+          style="text-decoration: none; color: #2b2b2b"
+        >
+          <h2 class="float-left">
+            <v-icon class="mb-1 mr-3" size="35">mdi-chevron-left</v-icon> Best
+            Selling Items
+          </h2>
+        </router-link>
         <dateFilter />
       </div>
-        <div>
-          <!-- table  -->
-          <dataTable :headers="headers" :items="items" 
-          :select="true"/>
-        </div>
+      <div>
+        <!-- table  -->
+        <dataTable
+          :headers="headers"
+          :items="items"
+          :select="true"
+          itemKey="id"
+        />
+      </div>
     </div>
+    <router-view />
   </v-container>
 </template>
 <script>
 import dataTable from "@/components/dashboard/dataTable.vue";
-import dateFilter from "@/components/dashboard/calender.vue"
+import dateFilter from "@/components/dashboard/calender.vue";
 export default {
   components: {
-      dateFilter,
+    dateFilter,
     dataTable,
   },
   data() {

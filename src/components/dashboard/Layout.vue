@@ -142,11 +142,6 @@ export default {
         routes: "/seller",
       },
       {
-        title: "Best Seller",
-        icon: "mdi-account",
-        routes: "/bestseller",
-      },
-      {
         title: "Settings",
         icon: "mdi-cog",
         routes: "/settings",

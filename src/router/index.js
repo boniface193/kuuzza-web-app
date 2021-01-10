@@ -52,10 +52,6 @@ import settlements from "@/components/dashboard/settlements.vue";
 import awaitingSettlements from "@/components/dashboard/awaitingSettlements.vue";
 import paymentHistory from "@/components/dashboard/paymentHistory.vue";
 import bestSeller from "@/views/dashboard/bestSeller.vue";
-import allBest from "@/components/dashboard/allBest.vue";
-import newBest from "@/components/dashboard/newBest.vue";
-import returningBest from "@/components/dashboard/returningBest.vue";
-
 
 
 Vue.use(VueRouter);
@@ -133,13 +129,18 @@ const routes = [
     component: index
   },
   {//layout dashboard and children
-    path: "/dashboard", component: Home,
+    path: "/dashboard",
+    component: Home,
     beforeEnter: ifAuthenticated,
     children: [
       {
         path: "",
-        name: "dashboard",
-        component: Dashboard
+        component: Dashboard,
+      },
+      {
+        path: "bestSeller",
+        name: "bestSeller",
+        component: bestSeller
       },
       {
         path: "/inventory",
@@ -179,11 +180,11 @@ const routes = [
         children: [
           {
             path: "",
-            name: "leaderStore",
+            name: "leaderboard",
             component: leaderStore
           },
           {
-            path: "",
+            path: "leaderGlobal",
             name: "leaderGlobal",
             component: leaderGlobal
           },
@@ -290,31 +291,10 @@ const routes = [
             ]
           },
           {
-            path: "sellers-details/:id",
+            path: ":id",
             name: "seller",
             component: sellersCard,
             props: true
-          },
-        ]
-      },
-      {
-        path: "/bestseller",
-        component: bestSeller,
-        children: [
-          {
-            path: "",
-            name: "allBest",
-            component: allBest
-          },
-          {
-            path: "newBest",
-            name: "newBest",
-            component: newBest
-          },
-          {
-            path: "returningBest",
-            name: "returningBest",
-            component: returningBest
           },
         ]
       },

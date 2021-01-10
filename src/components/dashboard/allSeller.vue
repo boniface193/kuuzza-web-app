@@ -7,6 +7,7 @@
           class="mr-0"
           :headers="headers"
           :items="items"
+          itemKey="id"
           :select="true"
         />
       </div>

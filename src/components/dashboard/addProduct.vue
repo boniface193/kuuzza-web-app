@@ -119,9 +119,14 @@
           </div>
 
           <!-- total price -->
-          <div class="d-flex justify-end" style="width:100%">
+          <div class="d-flex justify-end" style="width: 100%">
             <div class="mb-3 input-field">
-              <p class="mb-1 primary--text">Total Price <span class="success--text">(NB: this would be the price tag on NOVA)</span></p>
+              <p class="mb-1 primary--text">
+                Total Price
+                <span class="success--text"
+                  >(NB: this would be the price tag on NOVA)</span
+                >
+              </p>
               <v-text-field
                 class="input mt-0"
                 v-model="calculatedPrices.totalPrice"
