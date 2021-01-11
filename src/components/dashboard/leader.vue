@@ -1,12 +1,12 @@
 <template>
-  <v-card elevation="0">
+  <v-card elevation="0"  height="100%" class="rounded-lg">
     <v-container>
       <!-- sumary of the leaders board -->
       <div class="d-flex justify-space-between my-3">
         <h3 class="leader text-truncate mr-2">
           {{ leader }}
         </h3>
-        <router-link to="leaderboard" class="sell-text text-truncate">
+        <router-link :to="{ name: linkToDetails }" class="sell-text text-truncate">
           <p>
             {{ sell_text }}
           </p>
@@ -46,6 +46,7 @@
 <script>
 export default {
   props: {
+    linkToDetails: String,
     card_title: String,
     img_color_text: String,
     card_digit: Number,
@@ -73,6 +74,7 @@ export default {
   color: #646464;
   opacity: 1;
 }
+
 
 .sell-text {
   text-align: left;
@@ -146,4 +148,5 @@ export default {
   color: #646464;
   opacity: 1;
 }
+
 </style>

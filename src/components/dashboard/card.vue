@@ -1,6 +1,6 @@
 <template>
   <!-- card shows individual revenue, items in stocks, total commission -->
-  <v-card :width="width" height="180" elevation="0" class="pt-5">
+  <v-card :width="width" height="195" elevation="0" class="pt-5 rounded-lg">
     <div class="d-flex justify-center">
       <div :class="img_color" class="rounded-pill pa-7 text-center"></div>
       <div class="mx-4">
@@ -13,7 +13,7 @@
       </div>
     </div>
     <v-container>
-      <h3 class="card-digit text-sm-subtitle-1 text-md-h6 text-lg-h3">
+      <h3 class="card-digit text-sm-body-1 text-md-h6 text-lg-h5 text-xl-h3 text-body-1">
         {{ card_digit }}
       </h3>
       <h6 class="card-title">{{ card_title }}</h6>
@@ -57,7 +57,7 @@ export default {
 
 .card-digit {
   text-align: center;
-  font: normal normal bold 40px/61px "Product Sans";
+  font: normal normal bold 40px/50px "Product Sans";
   letter-spacing: 0px;
   color: #2b2b2b;
   opacity: 1;

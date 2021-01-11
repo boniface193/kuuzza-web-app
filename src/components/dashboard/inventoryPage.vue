@@ -248,7 +248,12 @@
         <div class="d-flex justify-space-between flex-wrap">
           <v-btn
             class="error py-5 mb-3 mb-sm-0"
-            @click="()=>{inBulk = false; deleteProducts()}"
+            @click="
+              () => {
+                inBulk = false;
+                deleteProducts();
+              }
+            "
             :loading="deleteDialogLoader"
             :disabled="deleteDialogLoader"
             >Yes, delete
@@ -292,7 +297,12 @@
         <div class="d-flex justify-space-between flex-wrap">
           <v-btn
             class="error py-5 mb-3 mb-sm-0"
-            @click="()=>{inBulk = true; deleteProducts()}"
+            @click="
+              () => {
+                inBulk = true;
+                deleteProducts();
+              }
+            "
             :loading="deleteDialogBulkLoader"
             :disabled="deleteDialogBulkLoader"
             >Yes, delete
@@ -461,10 +471,10 @@ export default {
           (x) => x.reference == `${this.actions.offlineId}`
         );
         this.selectedProduct = item;
-       
+
         if (this.actions.itemStatus === true) {
           this.offlineDialog = true;
-          console.log(this.actions.itemStatus)
+          console.log(this.actions.itemStatus);
         } else {
           console.log(item);
         }
@@ -558,21 +568,21 @@ export default {
     closeOfflineDialog() {
       if (this.offlineDialogLoader === false) {
         this.offlineDialog = false;
-        this.selectedProduct = ""
+        this.selectedProduct = "";
       }
     },
     // close modal for taking products offline in bulk
     closeOfflineDialogBulk() {
       if (this.offlineDialogBulkLoader === false) {
         this.offlineDialogBulk = false;
-         this.actions.offlineId = null;
+        this.actions.offlineId = null;
       }
     },
     // close modal for deleting product
     closeDeleteDialog() {
       if (this.deleteDialogLoader === false) {
         this.deleteDialog = false;
-        this.selectedProduct = ""
+        this.selectedProduct = "";
       }
     },
     // close modal for deleting products in bulk
@@ -717,8 +727,7 @@ export default {
       this.filteringOptions.selectedOptions = [];
 
       // trigger filter
-     this.getProducts();
-      
+      this.getProducts();
     },
   },
 };

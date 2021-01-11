@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex align-center justify-space-between">
       <!-- page title -->
-      <h1>Orders</h1>
+      <h1 class="text-sm-h6 text-md-h5 text-lg-h4 text-xl-h3 text-h6 font-weight-bold">Orders</h1>
 
       <div class="d-flex align-center flex-wrap">
         <!-- search bar -->

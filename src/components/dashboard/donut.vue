@@ -1,9 +1,9 @@
 <template>
   <!-- donut chart -->
-  <v-card elevation="0">
+  <v-card elevation="0"  class="rounded-lg">
     <h1 :class="bar_class">{{ bar_title }}</h1>
     <v-row>
-      <v-col md="10" class="pr-0 text-center">
+      <v-col md="10" class="text-center">
         <div class="px-10">
           <div
             class="rounded-pill pa-125 round-img-bg-warning my-lg-16 my-md-16 mx-lg-5 mx-xl-67"
@@ -21,7 +21,6 @@
             </div>
           </div>
           <pie-chart
-            class=""
             :donut="true"
             :data="data.dataSet"
             :colors="data.color"
@@ -30,7 +29,6 @@
           ></pie-chart>
         </div>
       </v-col>
-      <!--  -->
       <v-col md="2" class="pl-0">
         <div class="mt-16 pt-10">
           <div v-for="datas in data.dataSet" :key="datas">

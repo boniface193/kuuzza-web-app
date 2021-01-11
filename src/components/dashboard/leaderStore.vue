@@ -2,7 +2,7 @@
   <v-card elevation="0" class="py-3">
     <div>
       <!-- table  -->
-      <dataTable :headers="headers" :items="items" />
+      <dataTable :headers="headers" :items="items" itemKey="id" />
     </div>
   </v-card>
 </template>

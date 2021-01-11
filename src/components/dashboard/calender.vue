@@ -1,37 +1,24 @@
 <template>
-  <div class="text-center calender">
+  <div class="text-center calender d-none d-md-block">
     <!-- displays calendar filter -->
     <date-range-picker
-      :dateRange="dateRange"
+      v-model="dateRange"
       :opens="opens"
       :minDate="minDate"
       :maxDate="maxDate"
       :autoApply="autoApply"
       :ranges="ranges"
-    >
-    </date-range-picker>
-
-    <!-- <date-range-picker
-      ref="picker"
-      :opens="opens"
-      :locale-data="{ firstDay: 1, format: 'LLLL' }"
-      :minDate="minDate"
-      :maxDate="maxDate"
-      :singleDatePicker="singleDatePicker"
-      :timePicker="timePicker"
-      :timePicker24Hour="timePicker24Hour"
-      :showWeekNumbers="showWeekNumbers"
-      :showDropdowns="showDropdowns"
-      :autoApply="autoApply"
-      v-model="dateRange"
-      @update="updateValues"
-      @toggle="checkOpen"
       :linkedCalendars="linkedCalendars"
+      :showWeekNumbers="showWeekNumbers"
+      :singleDatePicker="singleDatePicker"
+      :alwaysShowCalender="alwaysShowCalender"
     >
       <template v-slot:input="picker" style="min-width: 350px">
-        {{ picker.startDate | date }} - {{ picker.endDate | date }}
+        {{ picker.startDate | moment("calendar") }} -
+        {{ picker.endDate | moment("calendar") }}
+        <v-icon>mdi-chevron-down</v-icon>
       </template>
-    </date-range-picker> -->
+    </date-range-picker>
   </div>
 </template>
 
@@ -39,8 +26,6 @@
 import DateRangePicker from "vue2-daterange-picker";
 //you need to import the CSS manually (in case you want to override it)
 import "vue2-daterange-picker/dist/vue2-daterange-picker.css";
-
-import moment from "moment";
 
 // this is to initialize the date ranges
 let today = new Date();
@@ -61,14 +46,17 @@ export default {
     maxDate: null,
     showWeekNumbers: Boolean,
     linkedCalendars: Boolean,
+    singleDatePicker: Boolean,
     showDropdowns: Boolean,
     timePicker: Boolean,
     timePicker24Hour: Boolean,
     autoApply: Boolean,
+    alwaysShowCalender: Boolean,
   },
   data() {
     return {
       opens: "left",
+      // To specify ranges you need to pass and array where each element is an array with exactly two Date objects (from, to) or their timestamp equivalent.
       ranges: {
         Today: [today, today],
         Yesterday: [yesterday, yesterday],
@@ -82,18 +70,11 @@ export default {
           new Date(today.getFullYear(), 11, 31),
         ],
       },
-
       dateRange: {
         startDate: Date.now(),
         endDate: Date.now(),
       },
     };
-  },
-
-  methods: {
-    moment: () => {
-      return moment();
-    },
   },
 };
 </script>

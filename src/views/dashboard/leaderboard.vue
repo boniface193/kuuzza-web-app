@@ -1,11 +1,15 @@
 <template>
   <v-container fluid>
-    <div class="mx-lg-12 mx-md-5 mx-sm-5 my-8">
+    <div class="mx-lg-12 mx-md-5 mx-sm-5">
       <!-- page title -->
       <filter-By-Date
         class="float-right text-caption text-sm-subtitle-2 text-md-subtitle-1"
       />
-      <h1 class="heading--text">Leaderboard</h1>
+      <h1
+        class="text-sm-h6 text-md-h5 text-lg-h4 text-xl-h3 text-h6 font-weight-bold"
+      >
+        Leaderboard
+      </h1>
 
       <div class="settings-container mt-7 white">
         <!-- nav section -->
@@ -13,8 +17,8 @@
           <!-- nav link -->
           <router-link
             class="nav-item text-sm-subtitle-1 text-caption"
-            :class="{ 'nav-item--active': this.$route.name == 'leaderStore' }"
-            :to="{ name: 'leaderStore' }"
+            :class="{ 'nav-item--active': this.$route.name == 'leaderboard' }"
+            :to="{ name: 'leaderboard' }"
             >Store</router-link
           >
           <!-- nav link -->

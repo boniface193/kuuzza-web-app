@@ -3,7 +3,7 @@
     <div class="mx-lg-12 mx-md-5 mx-sm-5">
       <!-- page title -->
       <div class="d-flex justify-space-between">
-        <h1 class="heading--text">Balance</h1>
+        <h1 class="text-sm-h6 text-md-h5 text-lg-h4 text-xl-h3 text-h6 font-weight-bold">Balance</h1>
         <dateFilter />
       </div>
       <div class="settings-container mt-7 white">
@@ -54,7 +54,10 @@
               @resetFilter="resetFilter"
             />
             <div class="btn-pointer">
-              <v-img src="../../assets/download.svg" class="mr-sm-3 mr-lg-8 ml-sm-3 ml-lg-8 mt-2"></v-img>
+              <v-img
+                src="../../assets/download.svg"
+                class="mr-sm-3 mr-lg-8 ml-sm-3 ml-lg-8 mt-2"
+              ></v-img>
             </div>
           </div>
         </div>
@@ -81,8 +84,7 @@ export default {
   },
 
   methods: {
-    filterTable() {
-    },
+    filterTable() {},
     // reset filter
     resetFilter() {
       // this.$store.commit("inventory/resetFilter");
