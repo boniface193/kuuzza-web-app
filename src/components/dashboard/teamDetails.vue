@@ -27,6 +27,7 @@
           :headers="tableHeaders"
           :items="teamMembers"
           itemKey="id"
+          statusKey="status"
           :itemPerPage="getItemPerPage.itemPerPage || 15"
           :paginationLength="pageDetails.last_page"
           :page="pageDetails.current_page"
@@ -282,9 +283,11 @@ export default {
     },
   },
   methods: {
+    // get the value in the search bar
     getSearchValue(params) {
       this.searchValue = params;
     },
+    // set the selected actions paramter and the neccessary calls
     setRequestedAction(params) {
       this.actions = params;
       //checks if edit action is triggered for a member
@@ -321,7 +324,24 @@ export default {
         this.itemId = item.id;
       }
     },
-
+    // close the dialog that shows up when you want to delete a row
+    closeDialog2() {
+      this.dialog2 = false;
+      this.actions.deleteId = null;
+      this.itemId = null;
+    },
+    // close the dialog that shows up when you want to suspend a team member
+    closeDialog3() {
+      this.dialog3 = false;
+      this.actions.editId = null;
+      this.itemId = null;
+    },
+    // close the dialog that shows up when you want to suspend a team member
+    closeDialog4() {
+      this.dialog4 = false;
+      this.actions.offlineId = null;
+      this.itemId = null;
+    },
     // set item per page
     setItemPerPage(params) {
       this.itemPerPage = params;
@@ -350,24 +370,6 @@ export default {
         page: params,
         itemPerPage: this.itemPerPage,
       });
-    },
-    // close the dialog that shows up when you want to delete a row
-    closeDialog2() {
-      this.dialog2 = false;
-      this.actions.deleteId = null;
-      this.itemId = null;
-    },
-    // close the dialog that shows up when you want to suspend a team member
-    closeDialog3() {
-      this.dialog3 = false;
-      this.actions.editId = null;
-      this.itemId = null;
-    },
-    // close the dialog that shows up when you want to suspend a team member
-    closeDialog4() {
-      this.dialog4 = false;
-      this.actions.offlineId = null;
-      this.itemId = null;
     },
     // delete member
     deleteMember() {

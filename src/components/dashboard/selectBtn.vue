@@ -33,6 +33,7 @@ export default {
     return {
       selectDropdown: false,
       selectedItem: this.item,
+      selectedDropDownValue: null
     };
   },
   methods: {
@@ -46,9 +47,12 @@ export default {
     setSelectedItem(item) {
       if (this.dropDownMenu !== true) {
         this.selectedItem = item;
+        this.$emit("selectedItem", this.selectedItem);
+      }else {
+        this.selectedDropDownValue = item
+        this.$emit("selectedItem", this.selectedDropDownValue);
       }
       this.selectDropdown = false;
-      this.$emit("selectedItem", this.selectedItem);
     },
   },
 };

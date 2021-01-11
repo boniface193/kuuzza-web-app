@@ -3,7 +3,8 @@ import axios from "@/axios/inventory.js";
 //holds the state properties
 const state = {
     products: [],
-    inventoriesHistory: [],
+    inventoryHistory: [],
+    inventoryHistoryPageDetails: {},
     productsPageDetails: {
         current_page: 1,
     },
@@ -13,7 +14,7 @@ const state = {
 //returns the state properties
 const getters = {
     products: state => state.products,
-    inventoriesHistory: state => state.inventoriesHistory,
+    inventoryHistory: state => state.inventoryHistory,
     productsPageDetails: state => state.productsPageDetails
 };
 
@@ -112,6 +113,58 @@ const actions = {
                     reject(error);
                 })
         })
+    },
+    // take products offline
+    takeProductsOffline(context, data) {
+        return new Promise((resolve, reject) => { 
+            axios.post(`/products/offline`, data,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    }
+                }).then(response => {
+                    resolve(response);
+                })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        })
+    },
+    // delete products
+    deleteProducts(context, data) {
+        return new Promise((resolve, reject) => { 
+            axios.delete(`/products`, data,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    }
+                }).then(response => {
+                    resolve(response);
+                })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        })
+    },
+    // get inventory history
+    getInventoryHistory(context) {
+        return new Promise((resolve, reject) => { 
+            axios.get(`/inventory-history`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    }
+                }).then(response => {
+                    context.commit("setInventoryHistory", response.data.data);
+                    context.commit("setInventoryHistoryPageDetails", response.data.meta);
+                    resolve(response);
+                })
+                .catch(error => {
+                    reject(error);
+                })
+        })
     }
 
 };
@@ -124,6 +177,8 @@ const mutations = {
     },
     setProductsPageDetails: (state, data) => (state.productsPageDetails = data),
     setCurrentPage: (state, currentPage) => { state.productsPageDetails.current_page = currentPage },
+    setInventoryHistory: (state, data) => (state.inventoryHistory = data),
+    setInventoryHistoryPageDetails: (state, data) => (state.inventoryHistoryPageDetails = data),
     doNothing: (state) => (state.doNothing = null)
 };
 

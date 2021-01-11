@@ -93,6 +93,10 @@ export default {
         maxNum: this.sliderMax,
       });
     },
+    resetRange() {
+      this.minAngle = this.minNum;
+      this.maxAngle = this.maxNum;
+    }
   },
 };
 </script>

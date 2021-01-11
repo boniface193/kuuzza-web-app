@@ -41,9 +41,6 @@ const actions = {
             context.commit("setUserProfile", response.data.data)
             state.loader = false
         })
-            .catch(error => {
-                console.log(error.response)
-            })
     },
     // edit user profile
     editUserProfile(context, data) {
