@@ -52,7 +52,9 @@
             :key="item[`${itemKey}`]"
             :class="{
               selectedRow: selected.includes(item[`${itemKey}`]),
-              suspendedRow: item.status == 'suspended',
+              statusRow:
+                item[`${statusKey}`] == 'suspended' ||
+                item[`${statusKey}`] == false,
             }"
           >
             <!-- columns -->
@@ -70,10 +72,10 @@
                 ></v-checkbox>
                 <!-- shows if the content is an image -->
                 <img
-                  src="@/assets/img/laptop.png"
+                  :src="item[header.value]"
                   v-if="header.image === true"
                   alt="Product Image"
-                  style="width: 150px; height: 120px"
+                  style="width: 60px; height: 50px"
                 />
                 <!-- shows if the content is a text and not an image or link -->
                 <span v-if="header.image !== true && header.href !== true"
@@ -121,9 +123,13 @@
                   ><v-icon
                     class="error--text action-btn"
                     :class="{
-                      'success--text': item.status == 'suspended',
+                      'success--text':
+                        item[`${statusKey}`] === 'suspended' ||
+                        item[`${statusKey}`] === false,
                     }"
-                    @click="offlineRow(item[`${itemKey}`], item.status)"
+                    @click="
+                      offlineRow(item[`${itemKey}`], item[`${statusKey}`])
+                    "
                     >mdi-cancel</v-icon
                   ></span
                 >
@@ -191,6 +197,7 @@ export default {
     "page",
     "itemPerPage",
     "itemKey",
+    "statusKey",
   ],
   computed: {
     // return sorted data
@@ -236,6 +243,10 @@ export default {
         }
       }
       this.emitSelectedRow();
+    },
+    // clear the items 
+    clearRow() {
+      this.selected = [];
     },
     emitSelectedRow() {
       this.$emit("selectedRow", this.selected);
@@ -339,6 +350,9 @@ export default {
             }
           }
         }
+      }
+      .statusRow {
+        background-color: rgb(239, 245, 255);
       }
       .selectedRow {
         background: #f9f9f9;

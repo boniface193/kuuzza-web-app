@@ -36,9 +36,10 @@
           </div>
           <div class="py-2 px-4">
             <multipleRange
-              minNum="0"
-              maxNum="1000000000"
+              :minNum="numberRange.minNum"
+              :maxNum="numberRange.maxNum"
               @minMaxNumber="setPriceRange"
+              ref="priceRange"
             />
           </div>
         </div>
@@ -53,9 +54,10 @@
           </div>
           <div class="py-2 px-4">
             <multipleRange
-              minNum="0"
-              maxNum="1000000000"
+              :minNum="numberRange.minNum"
+              :maxNum="numberRange.maxNum"
               @minMaxNumber="setCommissionRange"
+              ref="commissionRange"
             />
           </div>
         </div>
@@ -70,9 +72,10 @@
           </div>
           <div class="py-2 px-4">
             <multipleRange
-              minNum="0"
-              maxNum="1000000000"
+              :minNum="numberRange.minNum"
+              :maxNum="numberRange.maxNum"
               @minMaxNumber="setQuantityRange"
+              ref="quantityRange"
             />
           </div>
         </div>
@@ -212,6 +215,14 @@ export default {
       maxQuantity: 0,
     };
   },
+  computed: {
+    numberRange() {
+      return {
+        maxNum: 1000000000,
+        minNum: 0
+      }
+    }
+  },
   methods: {
     setPriceRange(params) {
       this.minPrice = params.minNum;
@@ -243,6 +254,10 @@ export default {
     resetFilter() {
       this.$emit("resetFilter");
       this.filterActive = false;
+      this.$refs.priceRange.resetRange();
+      this.$refs.commissionRange.resetRange();
+      this.$refs.quantityRange.resetRange();
+      this.selected = []
     },
   },
 };
