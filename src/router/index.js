@@ -27,6 +27,7 @@ import Leaderboard from "@/views/dashboard/leaderboard.vue";
 import inventoryHistory from "@/components/dashboard/inventoryHistory.vue";
 import inventoryPage from "@/components/dashboard/inventoryPage.vue";
 import addProduct from "@/components/dashboard/addProduct.vue";
+import editProduct from "@/components/inventory/editProduct.vue";
 import productDetails from "@/components/dashboard/productDetails.vue";
 import productList from "@/components/dashboard/productList.vue";
 import leaderStore from "@/components/dashboard/leaderStore.vue";
@@ -161,6 +162,11 @@ const routes = [
             path: "add-product",
             name: "addProduct",
             component: addProduct
+          },
+          {
+            path: "edit-product/:id",
+            name: "editProduct",
+            component: editProduct
           },
           {
             path: ":id",

@@ -255,7 +255,7 @@ export default {
       this.$emit("resetFilter");
       this.filterActive = false;
       this.$refs.priceRange.resetRange();
-      this.$refs.commissionRange.resetRange();
+      //this.$refs.commissionRange.resetRange();
       this.$refs.quantityRange.resetRange();
       this.selected = []
     },
