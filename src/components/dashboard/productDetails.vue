@@ -10,7 +10,7 @@
             </h3>
           </router-link>
 
-          <span class="small-btn" @click="editInventory = true">
+          <span class="small-btn" @click="editProduct">
             <v-icon class="primary--text">mdi-pencil</v-icon>
           </span>
         </div>
@@ -69,12 +69,6 @@
         <img src="@/assets/img/infinix.png" style="width: 80%; margin: auto" />
       </v-col>
     </v-row>
-    <!-- edit inventory modal -->
-    <!-- <editInventory
-      :dialog="editInventory"
-      @closeEditInventory="closeEditInventory"
-      :productId="$route.params.id"
-    /> -->
 
     <!-- loader -->
     <div class="text-center pt-10 pb-5" v-show="pageLoader == true">
@@ -83,10 +77,8 @@
   </div>
 </template>
 <script>
-//import editInventory from "@/components/dashboard/editInventory.vue";
 export default {
   name: "productDetails",
-  //components: { editInventory },
   data: function () {
     return {
       editInventory: false,
@@ -117,8 +109,13 @@ export default {
       });
   },
   methods: {
-    closeEditInventory() {
-      this.editInventory = false;
+    editProduct() {
+      this.$router.push({
+        name: "editProduct",
+        params: {
+          id: this.$route.params.id
+        },
+      });
     },
     numberWithCommas(x) {
       if (this.productDetails.name) {

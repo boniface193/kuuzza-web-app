@@ -6,6 +6,7 @@
       type="text"
       v-model="searchValue"
       @change="updateSearchValue"
+      @keyup.enter="updateSearchValue"
       :placeholder="placeholder"
     />
   </div>
