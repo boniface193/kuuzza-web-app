@@ -394,6 +394,7 @@ export default {
           this.statusImage = successImage;
           this.dialogMessage =
             "Product have successfully been added to your inventory.";
+            this.$store.dispatch("inventory/getfilteredProducts")
         })
         .catch((error) => {
           this.failedRequest = true;
