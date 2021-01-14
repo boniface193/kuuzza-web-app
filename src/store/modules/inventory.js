@@ -209,7 +209,7 @@ const actions = {
     // get inventory history
     getInventoryHistory(context) {
         return new Promise((resolve, reject) => {
-            axios.get(`/inventory-history`,
+            axios.get("/inventory-history",
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("accessToken")}`
