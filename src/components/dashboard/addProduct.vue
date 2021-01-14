@@ -47,6 +47,7 @@
               placeholder="Select Category"
               :searchBar="true"
               :items="categories"
+              :item="category"
               :inputStatus="categoryError"
               @selectedItem="setCategory"
             />
@@ -78,7 +79,7 @@
               width="120px"
               height="57px"
               caretColor="#5064CC"
-              :quantity="0"
+              :quantity="quantity"
               @quantity="setQuantity"
               :inputStatus="quantityError"
             />

@@ -101,11 +101,15 @@ export default {
     submitRepresentative() {
       this.$refs.form.validate();
       if (this.$refs.form.validate()) {
-          this.loading = true,
+          this.loading = true;
+          let getUrl = window.location;
+          let baseUrl = getUrl .protocol + "//" + getUrl.host + "/";
+          console.log(baseUrl)
         this.$store
           .dispatch("settings/inviteMember", {
             email: this.email,
             role: this.role,
+            link: `${baseUrl}signup/team-member/${this.email}`
           })
           .then((response) => {
             if (response.data.message === "Invitation sent successfully.") {

@@ -49,6 +49,7 @@
           />
           <!-- export btn -->
           <span class="small-btn primary--text mr-2"
+          @click="exportProducts"
             ><img src="@/assets/img/upload2.svg" alt=""
           /></span>
           <!-- import btn -->
@@ -163,7 +164,7 @@ import searchBar from "@/components/dashboard/searchBar.vue";
 import basicFilter from "@/components/dashboard/basicFilter.vue";
 import selectBtn from "@/components/dashboard/selectBtn.vue";
 import calendar from "@/components/dashboard/calender.vue";
-//import successImage from "@/assets/img/success-img.svg";
+import successImage from "@/assets/img/success-img.svg";
 import failedImage from "@/assets/img/failed-img.svg";
 import deleteProductModal from "@/components/inventory/deleteProductModal";
 import takeProductOfflineModal from "@/components/inventory/takeProductOfflineModal";
@@ -404,7 +405,7 @@ export default {
     setItemPerPage(params) {
       this.itemPerPage = params;
       let page = null;
-      if (this.searchProduct === true) {
+      if (this.$store.getters["inventory/searchProduct"] === true) {
         if (this.itemPerPage > this.searchPageDetails.per_page) {
           let range = Math.round(
             (this.searchPageDetails.from - 1) / this.searchPageDetails.per_page
@@ -468,7 +469,7 @@ export default {
     },
     // set current page
     setCurentPage(params) {
-      if (this.searchProduct === true) {
+      if (this.$store.getters["inventory/searchProduct"] === true) {
         this.$store.commit("inventory/setSearchCurrentPage", params);
         this.getSearchValue();
       } else {
@@ -491,7 +492,7 @@ export default {
     // set search value
     setSearchValue(params) {
       this.searchValue = params;
-      this.searchProduct = true;
+      this.$store.commit("inventory/setSearchProduct", true);
       this.$store.commit("inventory/setSearchCurrentPage", 1);
       this.getSearchValue();
     },
@@ -515,8 +516,8 @@ export default {
             this.dialog1 = true;
           });
       } else {
+        this.$store.commit("inventory/setSearchProduct", false);
         this.getProducts();
-        this.searchProduct = false;
       }
     },
     // filterTable
@@ -537,7 +538,10 @@ export default {
         });
       this.$store.commit("inventory/setFilteredCurrentPage", 1);
 
-      let route = (this.searchProduct !== true) ? "inventory/getfilteredProducts" : "inventory/searchProducts"
+      let route =
+        this.$store.getters["inventory/searchProduct"] !== true
+          ? "inventory/getfilteredProducts"
+          : "inventory/searchProducts";
 
       // make request the filtered products
       this.tableLoader = true;
@@ -577,6 +581,27 @@ export default {
 
       // trigger filter
       this.getProducts();
+    },
+    exportProducts() {
+      this.dialog1 = true;
+      this.statusImage = successImage;
+      this.dialogMessage = "Exporting Product...";
+      this.$store
+        .dispatch("inventory/exportProducts")
+        .then(() => {
+          this.dialog1 = true;
+          this.statusImage = successImage;
+          this.dialogMessage = "Products successfully exported, An email would be sent to you shortly!";
+        })
+        .catch((error) => {
+          this.statusImage = failedImage;
+          this.dialog1 = true;
+          if (error.response) {
+            this.dialogMessage = "Something went wrong, pls try again!";
+          } else {
+            this.dialogMessage = "No internet Connection!";
+          }
+        });
     },
   },
 };

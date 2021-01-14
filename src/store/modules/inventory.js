@@ -5,9 +5,7 @@ const state = {
     products: [],
     inventoryHistory: [],
     inventoryHistoryPageDetails: {},
-    productsPageDetails: {
-        current_page: 1,
-    },
+    searchProduct: false,
     filteredProductsDetails: {
         page: 1,
         itemPerPage: 15,
@@ -40,6 +38,7 @@ const getters = {
     products: state => state.products,
     inventoryHistory: state => state.inventoryHistory,
     productsPageDetails: state => state.productsPageDetails,
+    searchProduct: state => state.searchProduct,
 };
 
 //take actions 
@@ -54,6 +53,22 @@ const actions = {
             })
                 .then(response => {
                     context.commit("addProduct", response.data.data)
+                    resolve(response);
+                })
+                .catch(error => {
+                    context.commit("doNothing")
+                    reject(error)
+                })
+        })
+    },
+    updateProduct(context, data) {
+        return new Promise((resolve, reject) => {
+            axios.put(`/products/${data.ref}`, data, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                }
+            })
+                .then(response => {
                     resolve(response);
                 })
                 .catch(error => {
@@ -177,14 +192,14 @@ const actions = {
     // delete products
     deleteProducts(context, data) {
         return new Promise((resolve, reject) => {
-            axios.delete(`/products`, data,
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                    }
-                }).then(response => {
-                    resolve(response);
-                })
+            axios.delete(`/products`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                }, data
+            },
+            ).then(response => {
+                resolve(response);
+            })
                 .catch(error => {
                     context.commit("doNothing");
                     reject(error);
@@ -208,8 +223,23 @@ const actions = {
                     reject(error);
                 })
         })
+    },
+    // export product
+    exportProducts() {
+        return new Promise((resolve, reject) => {
+            axios.post(`/products/export`, {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    }
+                }).then(response => {
+                    resolve(response);
+                })
+                .catch(error => {
+                    reject(error);
+                })
+        })
     }
-
 };
 
 //updates the different state properties
@@ -225,6 +255,7 @@ const mutations = {
     setSearchProductsPageDetails: (state, data) => (state.searchProductsDetails.pageDetails = data),
     setSearchCurrentPage: (state, currentPage) => (state.searchProductsDetails.page = currentPage),
     setSearchItemPerPage: (state, itemPerPage) => (state.searchProductsDetails.itemPerPage = itemPerPage),
+    setSearchProduct: (state, status) => (state.searchProduct = status),
     setInventoryHistory: (state, data) => (state.inventoryHistory = data),
     setInventoryHistoryPageDetails: (state, data) => (state.inventoryHistoryPageDetails = data),
     setSelectedReferences: (state, value) => (state.selectedReferences = value),
