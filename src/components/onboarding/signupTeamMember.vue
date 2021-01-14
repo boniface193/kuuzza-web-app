@@ -65,9 +65,7 @@
 
       <!-- button container -->
       <div class="pa-0 mt-5" style="width: 100%">
-        <v-btn
-          class="primary px-8 py-5 mb-5"
-          @click="validateForm(1)"
+        <v-btn class="primary px-8 py-5 mb-5" @click="validateForm(1)"
           >Next</v-btn
         >
       </div>
@@ -194,6 +192,8 @@ export default {
       this.present_form = `form${formNum}`;
     },
     submit() {
+      const params = new URLSearchParams(window.location.search);
+      const userId = params.get("invite_id");
       this.loading = true;
       this.$store
         .dispatch("onboarding/inviteTeamMember", {
@@ -202,7 +202,7 @@ export default {
           phone_number: this.phone_number,
           password: this.create_password,
           confirmation_password: this.confirm_password,
-          id: this.$route.params.id,
+          id: userId,
         })
         .then((response) => {
           this.loading = false;

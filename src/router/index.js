@@ -406,7 +406,7 @@ const routes = [
         props: true,
       },
       {
-        path: "team-member/:email/:id",
+        path: "team-member/:email",
         name: "signupTeamMember",
         component: signupTeamMember,
         props: true,

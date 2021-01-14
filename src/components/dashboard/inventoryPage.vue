@@ -7,7 +7,7 @@
         <router-link :to="{ name: 'inventoryHistory' }" class="mr-4"
           >History</router-link
         >
-        <calendar />
+        <calendar @updateDate="setDate"/>
       </div>
     </div>
     <div class="d-flex justify-space-between align-center mt-8 mb-1 flex-wrap">
@@ -380,6 +380,9 @@ export default {
     // close the dialog that shows up when you want to delete a row
     closeDialog1() {
       this.dialog1 = false;
+    },
+    setDate(params){
+      console.log(params)
     },
     rowSelected(params) {
       this.selectedRow = params;

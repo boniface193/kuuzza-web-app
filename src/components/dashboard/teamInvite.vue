@@ -82,7 +82,7 @@ export default {
     return {
       email: "",
       role: "",
-      roles: ["super-admin", "admin"],
+      roles: ["vendor.super-admin", "vendor.admin"],
       emailRules: [
         // verifies email address satisfies the requirement
         (v) => !!v || "E-mail is required",
@@ -121,7 +121,11 @@ export default {
           }).catch((error) => {
 
             if(error.response){
-              this.errorMessage= error.response.data.errors.email[0];
+              if(error.response.data.errors.email[0]){
+                this.errorMessage= error.response.data.errors.email[0];
+              }else {
+                this.errorMessage = "Something went wrong, pls try again"
+              }
             }else {
               this.errorMessage= "No internet connection!";
             }

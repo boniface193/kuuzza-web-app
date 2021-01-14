@@ -33,7 +33,7 @@ const checkIftokenExpired = () => {
         return expiration >= new Date() || false;
     } else {
         return false
-    }  
+    }
 };
 
 //holds the state properties
@@ -61,11 +61,11 @@ const getters = {
     accountVerified: state => state.accountVerified,
     accountAuthenticated: state => state.accountAuthenticated,
     tokenExpired: state => state.tokenExpired,
-    getEmail:  state => {
-        if(localStorage.getItem('accessToken')) {
+    getEmail: state => {
+        if (localStorage.getItem('accessToken')) {
             const email = decodeToken(state.token).meta.email
             return email;
-        }else {
+        } else {
             return null;
         }
     },
@@ -194,6 +194,18 @@ const actions = {
     checkAccount: (context, data) => {
         return new Promise((resolve, reject) => {
             axios.post("auth/register/validate-email", data).then(response => {
+                resolve(response)
+            })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        });
+    },
+    // registration for invited team member
+    inviteTeamMember: (context, data) => {
+        return new Promise((resolve, reject) => {
+            axios.post("register/invite", data).then(response => {
                 resolve(response)
             })
                 .catch(error => {
