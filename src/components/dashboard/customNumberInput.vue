@@ -1,6 +1,17 @@
 <template>
-  <div class="quantity-input" :style="{ width: width, height: height }" :class="{errorStatus: inputStatus === true}">
-    <input type="number" class="" placeholder="" min="1" v-model="newQuantity" @change="emitQuantity"/>
+  <div
+    class="quantity-input"
+    :style="{ width: width, height: height }"
+    :class="{ errorStatus: inputStatus === true }"
+  >
+    <input
+      type="number"
+      class=""
+      placeholder=""
+      min="1"
+      v-model="getQuantity.quantity"
+      @change="emitQuantity"
+    />
     <div class="numberControl">
       <span style="border-top-right-radius: 8px" @click="increaseNum"
         ><v-icon :color="caretColor" class="caret">mdi-chevron-up</v-icon></span
@@ -17,24 +28,26 @@
 export default {
   name: "customNumberInput",
   props: ["width", "height", "caretColor", "inputStatus", "quantity"],
-  data: function () {
-    return {
-      newQuantity: this.quantity
-    };
+  computed: {
+    getQuantity() {
+      return {
+        quantity: this.quantity,
+      };
+    },
   },
   methods: {
     increaseNum() {
-      this.newQuantity = parseInt(this.newQuantity, 10) + 1;
+      this.getQuantity.quantity = parseInt(this.getQuantity.quantity, 10) + 1;
       this.emitQuantity();
     },
     decreaseNum() {
-      if (this.newQuantity > 0) {
-        this.newQuantity = parseInt(this.newQuantity, 10) - 1;
+      if (this.getQuantity.quantity > 0) {
+        this.getQuantity.quantity = parseInt(this.getQuantity.quantity, 10) - 1;
         this.emitQuantity();
       }
     },
     emitQuantity() {
-      this.$emit("quantity", this.newQuantity);
+      this.$emit("quantity", parseInt(this.getQuantity.quantity, 10));
     }
   },
 };
@@ -80,9 +93,9 @@ export default {
     }
   }
 }
-.errorStatus{
+.errorStatus {
   border: 2px solid #e62222 !important;
-  &:hover{
+  &:hover {
     border-color: #e62222 !important;
   }
 }

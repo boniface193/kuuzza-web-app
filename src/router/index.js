@@ -5,6 +5,7 @@ import index from "@/views/index.vue";
 import pageNotFound from "@/components/pageNotFound.vue";
 import Signup from "@/components/onboarding/Signup.vue";
 import Signin from "@/components/onboarding/Signin.vue";
+import signupTeamMember from "@/components/onboarding/signupTeamMember.vue";
 import Recoverpassword from "@/components/onboarding/Recoverpassword.vue";
 import Forgotpassword from "@/components/onboarding/Forgotpassword.vue";
 import Onboarding from "@/views/onboarding/Onboarding.vue";
@@ -364,44 +365,52 @@ const routes = [
 
   {  // onboarding routes
     path: '/signup', component: Onboarding,
-    beforeEnter: AlreadyLogin,
     children: [
       {
         path: "",
         name: "Signup",
         component: Signup,
+        beforeEnter: AlreadyLogin,
       },
       {
         path: "/signin",
         name: "Signin",
-        component: Signin
+        component: Signin,
+        beforeEnter: AlreadyLogin,
       },
       {
         path: "/recoverpassword",
         name: "Recoverpassword",
         component: Recoverpassword,
-        beforeEnter: ifAccessPasswordRecoveryPage,
+        beforeEnter: AlreadyLogin, ifAccessPasswordRecoveryPage,
         props: true
       },
       {
         path: "/forgotpassword",
         name: "Forgotpassword",
-        component: Forgotpassword
+        component: Forgotpassword,
+        beforeEnter: AlreadyLogin,
       },
       {
         path: "/emailverification",
         name: "emailVerification",
         component: emailVerification,
-        beforeEnter: ifAccessEmailVerifcationPage,
+        beforeEnter: AlreadyLogin, ifAccessEmailVerifcationPage,
         props: true
       },
       {
         path: "/verifypassword",
         name: "forgotPasswordVerification",
         component: forgotPasswordVerification,
-        beforeEnter: ifAccessForgotPasswordVerificationPage,
-        props: true
-      }
+        beforeEnter: AlreadyLogin, ifAccessForgotPasswordVerificationPage,
+        props: true,
+      },
+      {
+        path: "team-member/:email/:id",
+        name: "signupTeamMember",
+        component: signupTeamMember,
+        props: true,
+      },
     ],
   },
   {

@@ -1,5 +1,5 @@
 <template>
-  <div style="margin:auto; max-width:1500px">
+  <div style="margin: auto; max-width: 1500px">
     <v-main>
       <v-row class="onboarding-container">
         <v-col class="pl-7 pr-7 pt-15 pl-sm-15 pr-sm-0 pb-5 col-12 col-md-6">
@@ -12,8 +12,9 @@
           <h1
             class="primary--text mt-5 mb-0"
             v-show="
-              (present_form == 'form1' || present_form == 'form2') &&
-              this.$route.name == 'Signup'
+              ((present_form == 'form1' || present_form == 'form2') &&
+                this.$route.name == 'Signup') ||
+              this.$route.name == 'signupTeamMember'
             "
           >
             Welcome!
@@ -104,7 +105,8 @@
               v-show="
                 (present_form == 'form3' && this.$route.name == 'Signup') ||
                 this.$route.name == 'emailVerification' ||
-                this.$route.name == 'forgotPasswordVerification'
+                this.$route.name == 'forgotPasswordVerification' ||
+                this.$route.name == 'signupTeamMember'
               "
               class="white--text"
               style="width: 70%"

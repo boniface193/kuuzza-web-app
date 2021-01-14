@@ -13,7 +13,7 @@
       <span
         class="custom-placeholder"
         :class="{ 'selected-color': selectedValue !== null }"
-        >{{ itemHolder }}</span
+        >{{ getItemValue.itemHolder }}</span
       >
       <span
         ><v-icon :color="caretColor" class="caret"
@@ -63,13 +63,13 @@ export default {
     "items",
     "inputStatus",
     "searchBar",
+    "item"
   ],
   data: function () {
     return {
       dropdown: false,
       selectedValue: null,
       searchValue: "",
-      itemHolder: this.placeholder,
     };
   },
   computed: {
@@ -78,6 +78,11 @@ export default {
         return item.toLowerCase().includes(this.searchValue.toLowerCase());
       });
     },
+    getItemValue() {
+      return {
+        itemHolder : this.placeholder
+      }
+    }
   },
   methods: {
     toggleDropdown() {
@@ -89,8 +94,8 @@ export default {
     itemSelected(item) {
       this.dropdown = false;
       this.selectedValue = item;
-      this.itemHolder = item;
       this.$emit("selectedItem", this.selectedValue);
+      this.getItemValue.itemHolder = item;
     },
   },
 };
