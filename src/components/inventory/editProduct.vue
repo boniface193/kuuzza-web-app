@@ -288,7 +288,7 @@ export default {
             quantity: this.productDetails.quantity,
             price: this.productDetails.price,
             commission: this.productDetails.commission,
-            description: this.productDetails.productDescription,
+            description: this.productDetails.description,
             image: "https://homepages.cae.wisc.edu/~ece533/images/watch.png",
             ref: this.$route.params.id
           })
@@ -298,7 +298,7 @@ export default {
             this.dialog = true;
             this.statusImage = successImage;
             this.dialogMessage =
-              "Product have successfully updated this product.";
+              "You have successfully updated this product.";
               this.$store.dispatch("inventory/getfilteredProducts");
           })
           .catch((error) => {

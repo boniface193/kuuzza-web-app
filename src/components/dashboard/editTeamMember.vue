@@ -85,7 +85,7 @@ export default {
   components: { modal },
   data: function () {
     return {
-      roles: ["vendor.super-admin", "vendor.admin"],
+      roles: ["super-admin", "admin"],
       emailRules: [
         // verifies email address satisfies the requirement
         (v) => !!v || "E-mail is required",
