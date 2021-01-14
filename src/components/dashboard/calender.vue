@@ -12,6 +12,7 @@
       :showWeekNumbers="showWeekNumbers"
       :singleDatePicker="singleDatePicker"
       :alwaysShowCalender="alwaysShowCalender"
+      @update="updateValues"
     >
       <template v-slot:input="picker" style="min-width: 350px">
         {{ picker.startDate | moment("calendar") }} -
@@ -76,6 +77,12 @@ export default {
       },
     };
   },
+
+  methods:{
+    updateValues(){
+      this.$emit("updateDate", this.dateRange)
+    }
+  }
 };
 </script>
 <style lang="scss">
