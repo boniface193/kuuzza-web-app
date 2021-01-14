@@ -186,7 +186,10 @@ export default {
 
   methods: {
     dateValue(value){
-      console.log(value)
+      const startDate = value.startDate.toLocaleDateString().replaceAll("/", "-");
+      const endDate = value.endDate.toLocaleDateString().replaceAll("/", "-");
+      console.log(startDate)
+      console.log(endDate)
     }
   }
 };
