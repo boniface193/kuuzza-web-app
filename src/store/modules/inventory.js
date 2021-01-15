@@ -239,6 +239,23 @@ const actions = {
                     reject(error);
                 })
         })
+    },
+    // import product
+    importProducts(context, data) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/products/import`, data,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    }
+                }).then(response => {
+                    resolve(response);
+                })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        })
     }
 };
 

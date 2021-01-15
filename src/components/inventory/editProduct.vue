@@ -277,6 +277,7 @@ export default {
       }
     },
     setImages() {},
+    
     updateProduct() {
       if (this.edited === true) {
         this.loading = true;
