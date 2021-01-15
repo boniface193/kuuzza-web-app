@@ -128,6 +128,7 @@ import leader from "@/components/dashboard/leader.vue";
 import custom from "@/components/dashboard/custom.vue";
 import donut from "@/components/dashboard/donut.vue";
 import calendar from "@/components/dashboard/calender.vue";
+import moment from "moment"
 
 export default {
   components: {
@@ -186,8 +187,8 @@ export default {
 
   methods: {
     dateValue(value){
-      const startDate = value.startDate.toLocaleDateString().replaceAll("/", "-");
-      const endDate = value.endDate.toLocaleDateString().replaceAll("/", "-");
+      const startDate = moment(value.startDate).format();
+      const endDate = moment(value.endDate).format();
       console.log(startDate)
       console.log(endDate)
     }
