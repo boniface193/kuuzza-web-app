@@ -17,8 +17,8 @@
       @change="uploadFile"
     />
 
-    <div class="d-flex align-center justify-center browse-container" v-if="!importingFile">
-      <div class="text-center">
+    <div class="d-flex align-center justify-center browse-container">
+      <div class="text-center" v-show="!importingFile && !fileImported">
         <img src="@/assets/img/Group12879.svg" alt="" class="mb-5" />
         <h2 class="mb-3">Import file</h2>
         <p class="secondary--text">
@@ -31,7 +31,7 @@
         </p>
       </div>
 
-      <div class="text-center" v-if="importingFile">
+      <div class="text-center" v-show="importingFile && !fileImported">
         <h2 class="mb-3">Importing file...</h2>
         <p class="secondary--text">
           Please wait a few seconds while we <br />import your file to Nova
