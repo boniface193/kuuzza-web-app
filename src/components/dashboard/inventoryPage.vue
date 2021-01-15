@@ -382,7 +382,13 @@ export default {
       this.dialog1 = false;
     },
     setDate(params){
-      console.log(params)
+      const startDate = params.startDate.toLocaleDateString().replaceAll("/", "-");
+      const endDate = params.endDate.toLocaleDateString().replaceAll("/", "-");
+      this.$store.commit("inventory/setDateRange", {
+        startDate: startDate,
+        endDate: endDate
+      })
+      this.getfilteredProducts();
     },
     rowSelected(params) {
       this.selectedRow = params;

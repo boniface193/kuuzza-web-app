@@ -29,6 +29,10 @@ const state = {
         selectedOptions: [],
         value: ""
     },
+    dateRange: {
+        startDate: null,
+        endDate: null,
+    },
     selectedReferences: [],
     doNothing: null
 };
@@ -118,9 +122,10 @@ const actions = {
         let quantityRange = ((state.filteredProductsDetails.filter.maxQuantity) ? `quantity_between=${state.filteredProductsDetails.filter.minQuantity},${state.filteredProductsDetails.filter.maxQuantity}` : "");
         let inStock = (state.filteredProductsDetails.filter.selectedOptions.includes('inStock') ? `in_stock=${true}` : "")
         let outOfStock = (state.filteredProductsDetails.filter.selectedOptions.includes('outOfStock') ? `out_of_stock=${true}` : "")
-
+        let dateRange = (state.dateRange.endDate !== null) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
+        
         return new Promise((resolve, reject) => {
-            axios.get(`/products?${page}&${perPage}&${priceRange}&${quantityRange}&${inStock}&${outOfStock}`,
+            axios.get(`/products?${page}&${perPage}&${priceRange}&${quantityRange}&${inStock}&${outOfStock}&${dateRange}`,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("accessToken")}`
@@ -276,6 +281,7 @@ const mutations = {
     setInventoryHistory: (state, data) => (state.inventoryHistory = data),
     setInventoryHistoryPageDetails: (state, data) => (state.inventoryHistoryPageDetails = data),
     setSelectedReferences: (state, value) => (state.selectedReferences = value),
+    setDateRange: (state, dateRange) => (state.dateRange = dateRange),
     doNothing: (state) => (state.doNothing = null)
 };
 

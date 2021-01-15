@@ -365,44 +365,42 @@ const routes = [
 
   {  // onboarding routes
     path: '/signup', component: Onboarding,
+    beforeEnter: AlreadyLogin,
     children: [
       {
         path: "",
         name: "Signup",
         component: Signup,
-        beforeEnter: AlreadyLogin,
       },
       {
         path: "/signin",
         name: "Signin",
         component: Signin,
-        beforeEnter: AlreadyLogin,
       },
       {
         path: "/recoverpassword",
         name: "Recoverpassword",
         component: Recoverpassword,
-        beforeEnter: AlreadyLogin, ifAccessPasswordRecoveryPage,
+        beforeEnter: ifAccessPasswordRecoveryPage,
         props: true
       },
       {
         path: "/forgotpassword",
         name: "Forgotpassword",
         component: Forgotpassword,
-        beforeEnter: AlreadyLogin,
       },
       {
         path: "/emailverification",
         name: "emailVerification",
         component: emailVerification,
-        beforeEnter: AlreadyLogin, ifAccessEmailVerifcationPage,
+        beforeEnter: ifAccessEmailVerifcationPage,
         props: true
       },
       {
         path: "/verifypassword",
         name: "forgotPasswordVerification",
         component: forgotPasswordVerification,
-        beforeEnter: AlreadyLogin, ifAccessForgotPasswordVerificationPage,
+        beforeEnter: ifAccessForgotPasswordVerificationPage,
         props: true,
       },
       {
