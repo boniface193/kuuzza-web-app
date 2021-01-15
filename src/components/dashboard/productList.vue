@@ -9,11 +9,17 @@
       </router-link>
     </div>
 
-    <input type="file" style="display: none" ref="docInput" accept=".csv"/>
+    <input
+      type="file"
+      style="display: none"
+      ref="docInput"
+      accept=".xlsx, .xls, .csv"
+      @change="uploadFile"
+    />
 
-    <div class="d-flex align-center justify-center browse-container">
+    <div class="d-flex align-center justify-center browse-container" v-if="!importingFile">
       <div class="text-center">
-        <img src="@/assets/img/Group12879.svg" alt="" class="mb-5"/>
+        <img src="@/assets/img/Group12879.svg" alt="" class="mb-5" />
         <h2 class="mb-3">Import file</h2>
         <p class="secondary--text">
           Drag and drop a file to import <br />
@@ -25,7 +31,7 @@
         </p>
       </div>
 
-      <div class="text-center" style="display: none">
+      <div class="text-center" v-if="importingFile">
         <h2 class="mb-3">Importing file...</h2>
         <p class="secondary--text">
           Please wait a few seconds while we <br />import your file to Nova
@@ -41,9 +47,30 @@
 <script>
 export default {
   name: "productList",
+  data: function() {
+    return {
+      importingFile: false,
+      fileImported: false
+    }
+  },
   methods: {
     pickDocument() {
       this.$refs.docInput.click();
+    },
+    uploadFile() {
+      let formData = new FormData();
+      formData.append("file", this.$refs.docInput.files[0]);
+      this.importingFile = true;
+       
+       this.$store.dispatch("inventory/importProducts", {
+         file: formData
+       }).then(()=> {
+          this.importingFile = false;
+         console.log(111)
+       }).catch(()=> {
+          this.importingFile = false;
+         console.log(222)
+       })
     },
   },
 };
@@ -59,7 +86,7 @@ export default {
     margin-right: 15px;
   }
 }
-.browse-container{
+.browse-container {
   padding-top: 13%;
 }
 .browse {

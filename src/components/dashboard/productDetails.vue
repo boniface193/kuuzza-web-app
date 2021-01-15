@@ -26,6 +26,19 @@
             <span class="item-title">SKU: </span
             ><span class="secondary--text">{{ productDetails.sku }}</span>
           </p>
+          
+          <!-- product quantity -->
+          <p class="mt-2 mb-3">
+            <span class="item-title">Quantity: </span
+            ><span class="secondary--text">{{ productDetails.quantity }}</span>
+          </p>
+          <!-- product commission -->
+          <!-- <p class="mt-2 mb-3">
+            <span class="item-title">Service Charge: </span
+            ><span class="secondary--text"
+              >&#8358;{{ numberWithCommas(productDetails.commission) }}</span
+            >
+          </p> -->
           <!-- product unit price -->
           <p class="mt-2 mb-3">
             <span class="item-title">Unit Price: </span
@@ -33,26 +46,13 @@
               >&#8358;{{ numberWithCommas(productDetails.price) }}</span
             >
           </p>
-          <!-- product quantity -->
-          <p class="mt-2 mb-3">
-            <span class="item-title">Quantity: </span
-            ><span class="secondary--text">{{ productDetails.quantity }}</span>
-          </p>
-          <!-- product commission -->
-          <p class="mt-2 mb-3">
-            <span class="item-title">Service Charge: </span
-            ><span class="secondary--text"
-              >&#8358;{{ numberWithCommas(productDetails.commission) }}</span
-            >
-          </p>
-          <!-- product commission -->
+
+          <!-- total price -->
           <p class="mt-2 mb-3">
             <span class="item-title">Total price: </span
             ><span class="secondary--text"
               >&#8358;{{
-                numberWithCommas(
-                  productDetails.commission + productDetails.price
-                )
+               productDetails.total_price_label
               }}</span
             >
           </p>
@@ -97,6 +97,7 @@ export default {
       .then((response) => {
         this.pageLoader = false;
         this.productDetails = response.data.data;
+        console.log(this.productDetails)
       })
       .catch((error) => {
         this.dialog = true;

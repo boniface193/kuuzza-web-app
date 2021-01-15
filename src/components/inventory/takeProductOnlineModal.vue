@@ -142,7 +142,7 @@ export default {
       let item;
       if (this.selectedReferences.length !== 0) {
         item = this.products.find(
-          (x) => x.reference == this.selectedReferences[0]
+          (x) => x.id == this.selectedReferences[0]
         );
       } else {
         item = {};
