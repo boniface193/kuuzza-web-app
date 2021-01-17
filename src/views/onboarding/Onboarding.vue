@@ -10,7 +10,6 @@
       @load="onLoad"
     ></v-img>
     <v-progress-circular
-      :size="50"
       color="primary"
       indeterminate
     ></v-progress-circular>
@@ -146,7 +145,6 @@ export default {
   // get state properties from vuex store
   data(){
     return {
-      isFinishedLoading: false,
       isLoading: true,
     }
   },

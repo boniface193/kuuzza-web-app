@@ -86,7 +86,7 @@
         </v-list>
         <div class="ml-3 mt-8">
           <span class="white--text text-size-md" @click="logout"
-            ><v-icon class="ml-4 mr-6" size="20">mdi-logout</v-icon>LogOut</span
+            ><v-icon class="ml-4 mr-6" size="20">mdi-logout</v-icon>Log Out</span
           >
         </div>
       </v-navigation-drawer>
