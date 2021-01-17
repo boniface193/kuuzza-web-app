@@ -40,7 +40,7 @@
 
           <!-- import products -->
           <router-link :to="{ name: 'productList' }">
-            <importIcon class="mr-2" toolTipText="import products"/>
+            <importIcon class="mr-2" toolTipText="Import products"/>
           </router-link>
 
           <!-- add product btn -->
