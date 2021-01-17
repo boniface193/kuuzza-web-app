@@ -87,7 +87,7 @@
             <br /><br />
             <span class="secondary--text"
               >Are you sure you want to delete this
-              {{  
+              {{
                 this.selectedReferences.length == 1 ? "product" : "products"
               }}</span
             >
@@ -150,13 +150,11 @@ export default {
     selectedProduct() {
       let item;
       if (this.selectedReferences.length !== 0) {
-        item = this.products.find(
-          (x) => x.id == this.selectedReferences[0]
-        );
+        item = this.products.find((x) => x.id == this.selectedReferences[0]);
       } else {
-        item = {}
+        item = {};
       }
-      
+
       return {
         name: item.name ? item.name : null,
         sku: item.sku ? item.sku : null,
@@ -196,8 +194,8 @@ export default {
             "You have successfully deleted " +
             (this.selectedReferences.length == 1 ? "product" : "products") +
             ".";
-            this.getfilteredProducts();
-            this.$emit("clearSelectedRow");
+          this.getProducts();
+          this.$emit("clearSelectedRow");
         })
         .catch((error) => {
           this.deleteDialogBulkLoader = false;
@@ -213,17 +211,11 @@ export default {
           }
         });
     },
-     // request for page with the request informations
-    getfilteredProducts() {
-      this.$store.dispatch("inventory/getfilteredProducts").catch((error) => {
-        this.statusImage = failedImage;
-        if (error.response) {
-          this.dialogMessage = "Something went wrong, pls try again!";
-        } else {
-          this.dialogMessage = "No internet Connection!";
-        }
-        this.dialog1 = true;
-      });
+    // get updated products details
+    getProducts() {
+      this.$store.getters["inventory/searchProduct"] === true
+        ? this.$store.dispatch("inventory/getfilteredProducts")
+        : this.$store.dispatch("inventory/searchProducts");
     },
   },
 };
