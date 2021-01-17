@@ -106,42 +106,40 @@
 
             <!-- action column-->
             <td v-if="action === true">
-              <span v-show="action === true">
+              <span v-show="action === true" class="d-flex align-center">
                 <!-- edit btn -->
                 <span
-                  ><v-icon
-                    class="primary--text action-btn"
-                    :class="{
-                      'action-icon-not-active': item.status == 'suspended',
-                    }"
-                    @click="editRow(item[`${itemKey}`], item.status)"
-                    >mdi-pencil</v-icon
-                  ></span
+                  @click="editRow(item[`${itemKey}`], item.status)"
+                  class="mr-1"
                 >
-                <!--  -->
+                  <editIcon toolTipText="Edit" />
+                </span>
+
+                <!-- remove btn -->
                 <span
-                  ><v-icon
-                    class="error--text action-btn"
-                    :class="{
-                      'success--text':
-                        item[`${statusKey}`] === 'suspended' ||
-                        item[`${statusKey}`] === false,
-                    }"
-                    @click="
-                      offlineRow(item[`${itemKey}`], item[`${statusKey}`])
+                  @click="offlineRow(item[`${itemKey}`], item[`${statusKey}`])"
+                  class="mr-1"
+                >
+                  <removeIcon
+                    :color="
+                      item[`${statusKey}`] === 'suspended' ||
+                      item[`${statusKey}`] === false
+                        ? 'success'
+                        : 'error'
                     "
-                    >mdi-cancel</v-icon
-                  ></span
-                >
+                    :toolTipText="
+                      item[`${statusKey}`] === 'suspended' ||
+                      item[`${statusKey}`] === false
+                        ? 'Take online'
+                        : 'Take offline'
+                    "
+                  />
+                </span>
+
                 <!-- delete btn -->
-                <span
-                  ><v-icon
-                    class="error--text action-btn"
-                    @click="deleteRow(item[`${itemKey}`])"
-                    >mdi-trash-can-outline</v-icon
-                  ></span
-                ></span
-              >
+                <span @click="deleteRow(item[`${itemKey}`])" class="mr-1">
+                  <deleteIcon toolTipText="Delete" /> </span
+              ></span>
             </td>
           </tr>
         </tbody>
@@ -175,9 +173,12 @@
 </template>
 <script>
 import selectBtn from "@/components/dashboard/selectBtn.vue";
+import editIcon from "@/components/icons/editIcon.vue";
+import deleteIcon from "@/components/icons/deleteIcon.vue";
+import removeIcon from "@/components/icons/removeIcon.vue";
 export default {
   name: "dataTable",
-  components: { selectBtn },
+  components: { selectBtn, editIcon, deleteIcon, removeIcon },
   data: function () {
     return {
       selected: [],
@@ -244,7 +245,7 @@ export default {
       }
       this.emitSelectedRow();
     },
-    // clear the items 
+    // clear the items
     clearRow() {
       this.selected = [];
     },

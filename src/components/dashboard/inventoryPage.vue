@@ -7,7 +7,8 @@
         <router-link :to="{ name: 'inventoryHistory' }" class="mr-4"
           >History</router-link
         >
-        <calendar @updateDate="setDate"/>
+        <!-- calendar -->
+        <calendar @updateDate="setDate" />
       </div>
     </div>
     <div class="d-flex justify-space-between align-center mt-8 mb-1 flex-wrap">
@@ -27,37 +28,21 @@
       <div
         class="d-flex align-center flex-wrap tool-container justify-space-between"
       >
-        <!-- search bar -->
-        <searchBar
-          placeholder="Search inventory"
-          @search="setSearchValue"
-          bgColor="white"
-          borderColor="#e2e2e2"
-          class="mr-2 mb-2 search-bar"
-        />
+        <!-- search products-->
+        <searchProducts />
+
         <div class="d-flex align-center flex-wrap justify-space-between mb-2">
-          <!-- filter -->
-          <basicFilter
-            class="mr-2"
-            :price="filterParameters.price"
-            :quantity="filterParameters.quantity"
-            :category="filterParameters.category"
-            :stock="filterParameters.stock"
-            headerName="Filter Products"
-            @filterOption="filterTable"
-            @resetFilter="resetFilter"
-          />
-          <!-- export btn -->
-          <span class="small-btn primary--text mr-2"
-          @click="exportProducts"
-            ><img src="@/assets/img/upload2.svg" alt=""
-          /></span>
-          <!-- import btn -->
+          <!-- filter products-->
+          <filterProducts class="mr-2" />
+
+          <!-- export products -->
+          <exportProducts class="mr-2" />
+
+          <!-- import products -->
           <router-link :to="{ name: 'productList' }">
-            <span class="small-btn primary--text mr-2"
-              ><img src="@/assets/img/download.svg" alt=""
-            /></span>
+            <importIcon class="mr-2" toolTipText="import products"/>
           </router-link>
+
           <!-- add product btn -->
           <router-link :to="{ name: 'addProduct' }">
             <v-btn class="primary py-6 px-4"
@@ -79,17 +64,9 @@
         :items="products"
         itemKey="id"
         statusKey="is_online"
-        :itemPerPage="getItemPerPage.itemPerPage || 15"
-        :paginationLength="
-          searchProduct == true
-            ? searchPageDetails.last_page
-            : pageDetails.last_page
-        "
-        :page="
-          searchProduct == true
-            ? searchPageDetails.current_page
-            : pageDetails.current_page
-        "
+        :itemPerPage="pageDetails.per_page || 15"
+        :paginationLength="pageDetails.last_page"
+        :page="pageDetails.current_page"
         @requestedAction="setRequestedAction"
         @selectedRow="rowSelected"
         @itemPerPage="setItemPerPage"
@@ -160,23 +137,27 @@
 <script>
 import dataTable from "@/components/dashboard/dataTable.vue";
 import modal from "@/components/dashboard/modal.vue";
-import searchBar from "@/components/dashboard/searchBar.vue";
-import basicFilter from "@/components/dashboard/basicFilter.vue";
+import searchProducts from "@/components/inventory/searchProducts.vue";
+import filterProducts from "@/components/inventory/filterProducts.vue";
 import selectBtn from "@/components/dashboard/selectBtn.vue";
 import calendar from "@/components/dashboard/calender.vue";
-import successImage from "@/assets/img/success-img.svg";
+//import successImage from "@/assets/img/success-img.svg";
 import failedImage from "@/assets/img/failed-img.svg";
 import deleteProductModal from "@/components/inventory/deleteProductModal";
 import takeProductOfflineModal from "@/components/inventory/takeProductOfflineModal";
 import takeProductOnlineModal from "@/components/inventory/takeProductOnlineModal";
+import exportProducts from "@/components/inventory/exportProducts.vue";
+import importIcon from "@/components/icons/importIcon.vue";
 import { mapGetters, mapState } from "vuex";
 export default {
   name: "inventoryPage",
   components: {
     dataTable,
     modal,
-    searchBar,
-    basicFilter,
+    searchProducts,
+    filterProducts,
+    exportProducts,
+    importIcon,
     selectBtn,
     calendar,
     deleteProductModal,
@@ -187,10 +168,8 @@ export default {
     return {
       items: ["Items in stock", "Items out of stock"],
       item: "Items in stock",
-      searchProduct: false,
       inBulk: null,
       itemPerPage: 15,
-      tableLoader: false,
       selectedProduct: "",
       dialog1: false,
       offlineDialog: false,
@@ -200,7 +179,6 @@ export default {
       deleteDialog: false,
       deleteDialogBulk: false,
       dialogMessage: "",
-      searchValue: "",
       inventoryName: "",
       selected: "",
       selectedRow: [],
@@ -210,21 +188,6 @@ export default {
         deleteId: null,
         editId: null,
         offlineId: null,
-      },
-      filterParameters: {
-        price: true,
-        quantity: true,
-        category: ["Phones & devices", "TV", "Gadgets"],
-        stock: true,
-      },
-      filteringOptions: {
-        minPrice: 0,
-        maxPrice: 0,
-        minCommission: 0,
-        maxCommission: 0,
-        minQuantity: 0,
-        maxQuantity: 0,
-        selectedOptions: [],
       },
       tableHeaders: [
         {
@@ -251,18 +214,12 @@ export default {
   computed: {
     ...mapGetters({
       products: "inventory/products",
+      searchProduct: "inventory/searchProduct",
     }),
     ...mapState({
-      pageDetails: (state) =>
-        state.inventory.filteredProductsDetails.pageDetails,
-      searchPageDetails: (state) =>
-        state.inventory.searchProductsDetails.pageDetails,
+      pageDetails: (state) => state.inventory.pageDetails,
+      tableLoader: (state) => state.inventory.tableLoader,
     }),
-    getItemPerPage() {
-      return {
-        itemPerPage: parseInt(this.pageDetails.per_page, 10),
-      };
-    },
   },
   methods: {
     // take bulk action
@@ -381,13 +338,15 @@ export default {
     closeDialog1() {
       this.dialog1 = false;
     },
-    setDate(params){
-      const startDate = params.startDate.toLocaleDateString().replaceAll("/", "-");
+    setDate(params) {
+      const startDate = params.startDate
+        .toLocaleDateString()
+        .replaceAll("/", "-");
       const endDate = params.endDate.toLocaleDateString().replaceAll("/", "-");
       this.$store.commit("inventory/setDateRange", {
         startDate: startDate,
-        endDate: endDate
-      })
+        endDate: endDate,
+      });
       this.getfilteredProducts();
     },
     rowSelected(params) {
@@ -395,10 +354,10 @@ export default {
     },
     // get products from inventory
     getProducts() {
-      this.tableLoader = true;
+      this.$store.commit("inventory/setTableLoader", true);
       this.$store
         .dispatch("inventory/getProducts")
-        .then(() => (this.tableLoader = false))
+        .then(() => this.$store.commit("inventory/setTableLoader", false))
         .catch((error) => {
           this.statusImage = failedImage;
           this.dialog1 = true;
@@ -407,84 +366,22 @@ export default {
           } else {
             this.dialogMessage = "No internet connection!";
           }
-          this.tableLoader = false;
+          this.$store.commit("inventory/setTableLoader", false);
         });
     },
     // set item per page
     setItemPerPage(params) {
-      this.itemPerPage = params;
-      let page = null;
-      if (this.$store.getters["inventory/searchProduct"] === true) {
-        if (this.itemPerPage > this.searchPageDetails.per_page) {
-          let range = Math.round(
-            (this.searchPageDetails.from - 1) / this.searchPageDetails.per_page
-          );
-          if (range < 0.5) {
-            page = range + 1;
-            this.$store.commit(
-              "inventory/setSearchItemPerPage",
-              this.itemPerPage
-            );
-            this.$store.commit("inventory/setSearchCurrentPage", page);
-          } else {
-            page = range;
-            this.$store.commit(
-              "inventory/setSearchItemPerPage",
-              this.itemPerPage
-            );
-            this.$store.commit("inventory/setSearchCurrentPage", page);
-          }
-        } else {
-          page = Math.round(
-            (this.searchPageDetails.from - 1) / this.itemPerPage + 1
-          );
-          this.$store.commit(
-            "inventory/setSearchItemPerPage",
-            this.itemPerPage
-          );
-          this.$store.commit("inventory/setSearchCurrentPage", page);
-        }
-        this.getSearchValue();
-      } else {
-        if (this.itemPerPage > this.pageDetails.per_page) {
-          let range = Math.round(
-            (this.pageDetails.from - 1) / this.pageDetails.per_page
-          );
-          if (range < 0.5) {
-            page = range + 1;
-            this.$store.commit(
-              "inventory/setFilteredItemPerPage",
-              this.itemPerPage
-            );
-            this.$store.commit("inventory/setFilteredCurrentPage", page);
-          } else {
-            page = range;
-            this.$store.commit(
-              "inventory/setFilteredItemPerPage",
-              this.itemPerPage
-            );
-            this.$store.commit("inventory/setFilteredCurrentPage", page);
-          }
-        } else {
-          page = Math.round((this.pageDetails.from - 1) / this.itemPerPage + 1);
-          this.$store.commit(
-            "inventory/setFilteredItemPerPage",
-            this.itemPerPage
-          );
-          this.$store.commit("inventory/setFilteredCurrentPage", page);
-        }
-        this.getfilteredProducts();
-      }
+      this.$store.commit("inventory/setItemPerPage", params);
+      this.searchProduct === true
+        ? this.getSearchProduct()
+        : this.getfilteredProducts();
     },
     // set current page
     setCurentPage(params) {
-      if (this.$store.getters["inventory/searchProduct"] === true) {
-        this.$store.commit("inventory/setSearchCurrentPage", params);
-        this.getSearchValue();
-      } else {
-        this.$store.commit("inventory/setFilteredCurrentPage", params);
-        this.getfilteredProducts();
-      }
+      this.$store.commit("inventory/setPage", params);
+      this.searchProducts === true
+        ? this.getSearchProduct()
+        : this.getfilteredProducts();
     },
     // request for page with the request informations
     getfilteredProducts() {
@@ -498,119 +395,17 @@ export default {
         this.dialog1 = true;
       });
     },
-    // set search value
-    setSearchValue(params) {
-      this.searchValue = params;
-      this.$store.commit("inventory/setSearchProduct", true);
-      this.$store.commit("inventory/setSearchCurrentPage", 1);
-      this.getSearchValue();
-    },
     // search products
-    getSearchValue() {
-      this.tableLoader = true;
-      if (this.searchValue !== "") {
-        this.$store
-          .dispatch("inventory/searchProducts", {
-            value: this.searchValue,
-          })
-          .then(() => (this.tableLoader = false))
-          .catch((error) => {
-            this.tableLoader = false;
-            this.statusImage = failedImage;
-            if (error.response) {
-              this.dialogMessage = "Something went wrong, pls try again!";
-            } else {
-              this.dialogMessage = "No internet Connection!";
-            }
-            this.dialog1 = true;
-          });
-      } else {
-        this.$store.commit("inventory/setSearchProduct", false);
-        this.getProducts();
-      }
-    },
-    // filterTable
-    filterTable(params) {
-      // set filtering parameters
-      (this.filteringOptions.minPrice = params.minPrice),
-        (this.filteringOptions.maxPrice = params.maxPrice),
-        (this.filteringOptions.minQuantity = params.minQuantity),
-        (this.filteringOptions.maxQuantity = params.maxQuantity),
-        (this.filteringOptions.selectedOptions = params.selectedOptions),
-        // commit values for filter
-        this.$store.commit("inventory/setFilter", {
-          minPrice: this.filteringOptions.minPrice,
-          maxPrice: this.filteringOptions.maxPrice,
-          minQuantity: this.filteringOptions.minQuantity,
-          maxQuantity: this.filteringOptions.maxQuantity,
-          selectedOptions: this.filteringOptions.selectedOptions,
-        });
-      this.$store.commit("inventory/setFilteredCurrentPage", 1);
-
-      let route =
-        this.$store.getters["inventory/searchProduct"] !== true
-          ? "inventory/getfilteredProducts"
-          : "inventory/searchProducts";
-
-      // make request the filtered products
-      this.tableLoader = true;
-      this.$store
-        .dispatch(`${route}`, {
-          value: this.searchValue,
-        })
-        .then(() => (this.tableLoader = false))
-        .catch((error) => {
-          this.tableLoader = false;
-          this.statusImage = failedImage;
-          if (error.response) {
-            this.dialogMessage = "Something went wrong, pls try again!";
-          } else {
-            this.dialogMessage = "No internet Connection!";
-          }
-          this.dialog1 = true;
-        });
-    },
-    // reset filter
-    resetFilter() {
-      // reset filter
-      this.filteringOptions.minPrice = 0;
-      this.filteringOptions.maxPrice = 0;
-      this.filteringOptions.minQuantity = 0;
-      this.filteringOptions.maxQuantity = 0;
-      this.filteringOptions.selectedOptions = [];
-
-      // commit values for filter
-      this.$store.commit("inventory/setFilter", {
-        minPrice: this.filteringOptions.minPrice,
-        maxPrice: this.filteringOptions.maxPrice,
-        minQuantity: this.filteringOptions.minQuantity,
-        maxQuantity: this.filteringOptions.maxQuantity,
-        selectedOptions: this.filteringOptions.selectedOptions,
+    getSearchProduct() {
+      this.$store.dispatch("inventory/searchProducts").catch((error) => {
+        this.statusImage = failedImage;
+        if (error.response) {
+          this.dialogMessage = "Something went wrong, pls try again!";
+        } else {
+          this.dialogMessage = "No internet Connection!";
+        }
+        this.dialog1 = true;
       });
-
-      // trigger filter
-      this.getProducts();
-    },
-    exportProducts() {
-      this.dialog1 = true;
-      this.statusImage = successImage;
-      this.dialogMessage = "Exporting Product...";
-      this.$store
-        .dispatch("inventory/exportProducts")
-        .then(() => {
-          this.dialog1 = true;
-          this.statusImage = successImage;
-          this.dialogMessage = "Products successfully exported, An email would be sent to you shortly!";
-        })
-        .catch((error) => {
-          this.statusImage = failedImage;
-          this.dialog1 = true;
-          if (error.response) {
-            this.dialogMessage = "Something went wrong, pls try again!";
-          } else {
-            this.dialogMessage = "No internet Connection!";
-          }
-        });
     },
   },
 };

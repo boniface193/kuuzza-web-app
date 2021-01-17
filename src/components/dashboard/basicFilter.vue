@@ -1,20 +1,10 @@
 <template>
   <div class="basic-filter">
-    <div
-      class="sort-btn"
-      @click="
-        () => {
-          if (this.filterActive == true) {
-            this.filterActive = false;
-          } else {
-            this.filterActive = true;
-          }
-        }
-      "
-      :class="{ 'sort-btn-active': filterActive }"
-    >
-      <v-icon class="primary--text">mdi-sort</v-icon>
+    <!-- filter icon -->
+    <div @click="filterActive = !filterActive">
+      <filterIcon :toolTipText="toolTipText"/>
     </div>
+
     <div class="basic-filter-content" v-show="filterActive">
       <div class="header white--text px-4">
         <p class="pa-0 ma-0">
@@ -188,10 +178,12 @@
 </template>
 <script>
 import multipleRange from "@/components/dashboard/multipleRange";
+import filterIcon from "@/components/icons/filterIcon.vue";
 export default {
   name: "basicFilter",
   components: {
     multipleRange,
+    filterIcon
   },
   props: [
     "headerName",
@@ -202,6 +194,7 @@ export default {
     "stock",
     "payment",
     "delivery",
+    "toolTipText"
   ],
   data: function () {
     return {
@@ -219,9 +212,9 @@ export default {
     numberRange() {
       return {
         maxNum: 1000000000,
-        minNum: 0
-      }
-    }
+        minNum: 0,
+      };
+    },
   },
   methods: {
     setPriceRange(params) {
@@ -257,7 +250,7 @@ export default {
       this.$refs.priceRange.resetRange();
       //this.$refs.commissionRange.resetRange();
       this.$refs.quantityRange.resetRange();
-      this.selected = []
+      this.selected = [];
     },
   },
 };

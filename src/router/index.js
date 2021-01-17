@@ -98,6 +98,7 @@ const ifAuthenticated = (to, from, next) => {
         return
       } else {
         localStorage.removeItem("accessToken");
+        console.log(111)
         next({ name: 'Signin' });
       }
 
@@ -116,11 +117,15 @@ const ifAuthenticated = (to, from, next) => {
 // verify that the user is already logged
 const AlreadyLogin = (to, from, next) => {
   store.commit("onboarding/setAuthenticated");
-  if (store.getters["onboarding/accountAuthenticated"] === true) {
-    next({ name: 'dashboard' })
-    return
-  } else {
-    next()
+  if (to.name === 'signupTeamMember'){
+    next();
+  }else {
+    if (store.getters["onboarding/accountAuthenticated"] === true) {
+      next({ name: 'dashboard' })
+      return
+    } else {
+      next();
+    }
   }
 }
 

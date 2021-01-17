@@ -128,7 +128,7 @@ export default {
       dialogMessage: "",
       offlineDialogLoader: false,
       offlineDialogBulkLoader: false,
-      requestedStatistic: ""
+      requestedStatistic: "",
     };
   },
   computed: {
@@ -141,13 +141,11 @@ export default {
     selectedProduct() {
       let item;
       if (this.selectedReferences.length !== 0) {
-        item = this.products.find(
-          (x) => x.id == this.selectedReferences[0]
-        );
+        item = this.products.find((x) => x.id == this.selectedReferences[0]);
       } else {
-        item = {}
+        item = {};
       }
-      
+
       return {
         name: item.name ? item.name : null,
         sku: item.sku ? item.sku : null,
@@ -187,11 +185,11 @@ export default {
             "You have successfully taking " +
             (response.data.meta.total == 1 ? "product" : "products") +
             " offline.";
-            this.requestedStatistic = `<span class="secondary--text">Total: ${response.data.meta.total} </span>
+          this.requestedStatistic = `<span class="secondary--text">Total: ${response.data.meta.total} </span>
             <span class="primary--text">Successful: ${response.data.meta.successful} </span> 
-            <span class="error--text">Failed: ${response.data.meta.failed}</span>`
-            this.getfilteredProducts();
-            this.$emit("clearSelectedRow");
+            <span class="error--text">Failed: ${response.data.meta.failed}</span>`;
+          this.getProducts();
+          this.$emit("clearSelectedRow");
         })
         .catch((error) => {
           this.offlineDialogBulkLoader = false;
@@ -202,27 +200,22 @@ export default {
           this.dialog1 = true;
           this.requestedStatistic = "";
           if (error.response) {
-            if(error.response.data.message == "Invalid product refs.") {
-              this.dialogMessage = "<span class='error--text'>Failed! </span> product already offline";
-            }else{
-               this.dialogMessage = "Something went wrong, pls try again!";
+            if (error.response.data.message == "Invalid product refs.") {
+              this.dialogMessage =
+                "<span class='error--text'>Failed! </span> product already offline";
+            } else {
+              this.dialogMessage = "Something went wrong, pls try again!";
             }
           } else {
             this.dialogMessage = "No internet connection!";
           }
         });
     },
-     // request for page with the request informations
-    getfilteredProducts() {
-      this.$store.dispatch("inventory/getfilteredProducts").catch((error) => {
-        this.statusImage = failedImage;
-        if (error.response) {
-          this.dialogMessage = "Something went wrong, pls try again!";
-        } else {
-          this.dialogMessage = "No internet Connection!";
-        }
-        this.dialog1 = true;
-      });
+    // get updated products details
+    getProducts() {
+      this.$store.getters["inventory/searchProduct"] === true
+        ? this.$store.dispatch("inventory/getfilteredProducts")
+        : this.$store.dispatch("inventory/searchProducts");
     },
   },
 };

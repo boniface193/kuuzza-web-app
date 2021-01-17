@@ -191,7 +191,7 @@ import successImage from "@/assets/img/success-img.svg";
 import failedImage from "@/assets/img/failed-img.svg";
 export default {
   name: "editInventory",
-  components: { customSelect, customNumberInput, imageUploader , modal},
+  components: { customSelect, customNumberInput, imageUploader, modal },
   data: function () {
     return {
       productDetails: {},
@@ -277,7 +277,7 @@ export default {
       }
     },
     setImages() {},
-    
+
     updateProduct() {
       if (this.edited === true) {
         this.loading = true;
@@ -291,16 +291,17 @@ export default {
             commission: this.productDetails.commission,
             description: this.productDetails.description,
             image: "https://homepages.cae.wisc.edu/~ece533/images/watch.png",
-            ref: this.$route.params.id
+            ref: this.$route.params.id,
           })
           .then(() => {
             this.failedRequest = false;
             this.loading = false;
             this.dialog = true;
             this.statusImage = successImage;
-            this.dialogMessage =
-              "You have successfully updated this product.";
-              this.$store.dispatch("inventory/getfilteredProducts");
+            this.dialogMessage = "You have successfully updated this product.";
+            this.$store.getters["inventory/searchProduct"] === true
+              ? this.$store.dispatch("inventory/getfilteredProducts")
+              : this.$store.dispatch("inventory/searchProducts");
           })
           .catch((error) => {
             this.failedRequest = true;

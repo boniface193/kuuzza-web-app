@@ -104,7 +104,6 @@ export default {
           this.loading = true;
           let getUrl = window.location;
           let baseUrl = getUrl .protocol + "//" + getUrl.host + "/";
-          console.log(baseUrl)
         this.$store
           .dispatch("settings/inviteMember", {
             email: this.email,

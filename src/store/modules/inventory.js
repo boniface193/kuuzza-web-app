@@ -1,33 +1,44 @@
 import axios from "@/axios/inventory.js";
 
+// set the number of item you want to show on table
+const setItemPerPage = (itemPerPage, per_page, from_page) => {
+    let page = null;
+    if (itemPerPage > per_page) {
+        let range = Math.round(
+            (from_page - 1) / per_page
+        );
+        if (range < 0.5) {
+            page = range + 1;
+            return page;
+        } else {
+            page = range;
+            return page;
+        }
+    } else {
+        page = Math.round(
+            (from_page - 1) / itemPerPage + 1
+        );
+        return page
+    }
+}
+
 //holds the state properties
 const state = {
+    tableLoader: false,
     products: [],
     inventoryHistory: [],
     inventoryHistoryPageDetails: {},
     searchProduct: false,
-    filteredProductsDetails: {
-        page: 1,
-        itemPerPage: 15,
-        pageDetails: {},
-        filter: {
-            minPrice: 0,
-            maxPrice: 0,
-            minQuantity: 0,
-            maxQuantity: 0,
-            selectedOptions: [],
-        },
-    },
-    searchProductsDetails: {
-        page: 1,
-        itemPerPage: 15,
-        pageDetails: {},
+    searchValue: "",
+    page: 1,
+    itemPerPage: 15,
+    pageDetails: {},
+    filter: {
         minPrice: 0,
         maxPrice: 0,
         minQuantity: 0,
         maxQuantity: 0,
         selectedOptions: [],
-        value: ""
     },
     dateRange: {
         startDate: null,
@@ -90,7 +101,7 @@ const actions = {
                 }
             }).then(response => {
                 context.commit("setProducts", response.data.data);
-                context.commit("setFilteredProductsPageDetails", response.data.meta);
+                context.commit("setPageDetails", response.data.meta);
                 resolve(response);
             })
                 .catch(error => {
@@ -116,14 +127,14 @@ const actions = {
     },
     // filter products 
     getfilteredProducts(context) {
-        let page = ((state.filteredProductsDetails.page) ? `page=${state.filteredProductsDetails.page}` : "");
-        let perPage = ((state.filteredProductsDetails.itemPerPage) ? `per_page=${state.filteredProductsDetails.itemPerPage}` : "");
-        let priceRange = ((state.filteredProductsDetails.filter.maxPrice) ? `price_between=${state.filteredProductsDetails.filter.minPrice},${state.filteredProductsDetails.filter.maxPrice}` : "");
-        let quantityRange = ((state.filteredProductsDetails.filter.maxQuantity) ? `quantity_between=${state.filteredProductsDetails.filter.minQuantity},${state.filteredProductsDetails.filter.maxQuantity}` : "");
-        let inStock = (state.filteredProductsDetails.filter.selectedOptions.includes('inStock') ? `in_stock=${true}` : "")
-        let outOfStock = (state.filteredProductsDetails.filter.selectedOptions.includes('outOfStock') ? `out_of_stock=${true}` : "")
+        let page = ((state.page) ? `page=${state.page}` : "");
+        let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
+        let priceRange = ((state.filter.maxPrice) ? `price_between=${state.filter.minPrice},${state.filter.maxPrice}` : "");
+        let quantityRange = ((state.filter.maxQuantity) ? `quantity_between=${state.filter.minQuantity},${state.filter.maxQuantity}` : "");
+        let inStock = (state.filter.selectedOptions.includes('inStock') ? `in_stock=${true}` : "")
+        let outOfStock = (state.filter.selectedOptions.includes('outOfStock') ? `out_of_stock=${true}` : "")
         let dateRange = (state.dateRange.endDate !== null) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
-        
+
         return new Promise((resolve, reject) => {
             axios.get(`/products?${page}&${perPage}&${priceRange}&${quantityRange}&${inStock}&${outOfStock}&${dateRange}`,
                 {
@@ -132,7 +143,7 @@ const actions = {
                     }
                 }).then(response => {
                     context.commit("setProducts", response.data.data);
-                    context.commit("setFilteredProductsPageDetails", response.data.meta);
+                    context.commit("setPageDetails", response.data.meta);
                     resolve(response);
                 })
                 .catch(error => {
@@ -141,18 +152,19 @@ const actions = {
         })
     },
     // search products
-    searchProducts(context, data) {
-        let page = ((state.searchProductsDetails.page) ? `page=${state.searchProductsDetails.page}` : "");
-        let perPage = ((state.searchProductsDetails.itemPerPage) ? `per_page=${state.searchProductsDetails.itemPerPage}` : "");
+    searchProducts(context) {
+        let page = ((state.page) ? `page=${state.page}` : "");
+        let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
+        let route = (state.searchValue !== "") ? `/search?q=${state.searchValue}&${page}&${perPage}` : ""
         return new Promise((resolve, reject) => {
-            axios.get(`/products/search?q=${data.value}&${page}&${perPage}`,
+            axios.get(`/products${route}`,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("accessToken")}`
                     }
                 }).then(response => {
                     context.commit("setProducts", response.data.data);
-                    context.commit("setSearchProductsPageDetails", response.data.meta);
+                    context.commit("setPageDetails", response.data.meta);
                     resolve(response);
                 })
                 .catch(error => {
@@ -270,19 +282,23 @@ const mutations = {
     addProduct: (state, data) => {
         state.products.push(data)
     },
-    setFilteredProductsPageDetails: (state, data) => (state.filteredProductsDetails.pageDetails = data),
-    setFilteredCurrentPage: (state, currentPage) => (state.filteredProductsDetails.page = currentPage),
-    setFilteredItemPerPage: (state, itemPerPage) => (state.filteredProductsDetails.itemPerPage = itemPerPage),
-    setFilter: (state, data) => (state.filteredProductsDetails.filter = data),
-    setSearchProductsPageDetails: (state, data) => (state.searchProductsDetails.pageDetails = data),
-    setSearchCurrentPage: (state, currentPage) => (state.searchProductsDetails.page = currentPage),
-    setSearchItemPerPage: (state, itemPerPage) => (state.searchProductsDetails.itemPerPage = itemPerPage),
-    setSearchProduct: (state, status) => (state.searchProduct = status),
     setInventoryHistory: (state, data) => (state.inventoryHistory = data),
     setInventoryHistoryPageDetails: (state, data) => (state.inventoryHistoryPageDetails = data),
     setSelectedReferences: (state, value) => (state.selectedReferences = value),
     setDateRange: (state, dateRange) => (state.dateRange = dateRange),
-    doNothing: (state) => (state.doNothing = null)
+    
+    setTableLoader: (state, status) => (state.tableLoader = status),
+    setSearchProduct: (state, status) => (state.searchProduct = status),
+    setSearchValue: (state, value) => (state.searchValue = value),
+    setPageDetails: (state, data) => (state.pageDetails = data),
+    setItemPerPage: (state, itemPerPage) => {
+        state.itemPerPage = itemPerPage;
+        let page = setItemPerPage(itemPerPage, state.pageDetails.per_page, state.pageDetails.from);
+        state.page = page;
+    },
+    setPage: (state, page) => (state.page = page),
+    setFilter: (state, filter) => (state.filter = filter),
+    doNothing: (state) => (state.doNothing = null),
 };
 
 

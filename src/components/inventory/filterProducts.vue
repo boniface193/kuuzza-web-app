@@ -1,0 +1,129 @@
+<template>
+  <div>
+    <basicFilter
+      :price="filterParameters.price"
+      :quantity="filterParameters.quantity"
+      :category="filterParameters.category"
+      :stock="filterParameters.stock"
+      toolTipText="Filter products"
+      headerName="Filter Products"
+      @filterOption="filterTable"
+      @resetFilter="resetFilter"
+    />
+
+    <!--------------------------- modal for dialog messages ------------------------------>
+    <modal :dialog="dialog" width="400">
+      <div class="white pa-3 pb-10 text-center dialog">
+        <div class="d-flex justify-end">
+          <v-icon class="error--text close-btn" @click="dialog = false"
+            >mdi-close</v-icon
+          >
+        </div>
+
+        <div class="mb-7 mt-5 mx-auto status-img">
+          <v-img :src="statusImage"></v-img>
+        </div>
+
+        <h4>{{ dialogMessage }}</h4>
+      </div>
+    </modal>
+  </div>
+</template>
+<script>
+import basicFilter from "@/components/dashboard/basicFilter.vue";
+import modal from "@/components/dashboard/modal.vue";
+import failedImage from "@/assets/img/failed-img.svg";
+import { mapState } from "vuex";
+export default {
+  name: "filterProducts",
+  components: { basicFilter, modal },
+  data: function () {
+    return {
+      searchValue: "",
+      dialog: false,
+      dialogMessage: "",
+      statusImage: null,
+      filterParameters: {
+        price: true,
+        quantity: true,
+        category: ["Phones & devices", "TV", "Gadgets"],
+        stock: true,
+      },
+      filteringOptions: {
+        minPrice: 0,
+        maxPrice: 0,
+        minQuantity: 0,
+        maxQuantity: 0,
+        selectedOptions: [],
+      },
+    };
+  },
+  computed: {
+    ...mapState({
+      tableLoader: (state) => state.inventory.tableLoader,
+    }),
+  },
+  methods: {
+    // get products
+    getProducts() {
+      this.$store.commit("inventory/setSearchProduct", false);
+      this.$store.commit("inventory/setTableLoader", true);
+      this.$store
+        .dispatch("inventory/getfilteredProducts")
+        .then(() => this.$store.commit("inventory/setTableLoader", false))
+        .catch((error) => {
+          this.$store.commit("inventory/setTableLoader", false);
+          this.statusImage = failedImage;
+          if (error.response) {
+            this.dialogMessage = "Something went wrong, pls try again!";
+          } else {
+            this.dialogMessage = "No internet Connection!";
+          }
+          this.dialog = true;
+        });
+    },
+    // filterTable
+    filterTable(params) {
+      // commit values for filter
+      this.$store.commit("inventory/setFilter", {
+        minPrice: params.minPrice,
+        maxPrice: params.maxPrice,
+        minQuantity: params.minQuantity,
+        maxQuantity: params.maxQuantity,
+        selectedOptions: params.selectedOptions,
+      });
+
+      // set page back to page 1
+      this.$store.commit("inventory/setPage", 1);
+
+      // get products
+      this.getProducts();
+    },
+    // reset filter
+    resetFilter() {
+      // commit values for filter
+      this.$store.commit("inventory/setFilter", {
+        minPrice: 0,
+        maxPrice: 0,
+        minQuantity: 0,
+        maxQuantity: 0,
+        selectedOptions: [],
+      });
+
+      // set page back to page 1
+      this.$store.commit("inventory/setPage", 1);
+
+      // get products
+      this.getProducts();
+    },
+  },
+};
+</script>
+<style lang="scss" scoped>
+.status-img {
+  width: 140px;
+  .v-image {
+    width: 100%;
+  }
+}
+</style>
