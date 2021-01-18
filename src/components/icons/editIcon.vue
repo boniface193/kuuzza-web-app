@@ -32,7 +32,7 @@ export default {
     text-align: center;
     border-radius: 3px;
     padding: 5px;
-    top: 45px;
+    top: 40px;
     position: absolute;
     z-index: 2;
     display: none;

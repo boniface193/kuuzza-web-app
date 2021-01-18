@@ -205,7 +205,7 @@ const actions = {
     // registration for invited team member
     inviteTeamMember: (context, data) => {
         return new Promise((resolve, reject) => {
-            axios.post("register/invite", data).then(response => {
+            axios.post("invites/accept", data).then(response => {
                 resolve(response)
             })
                 .catch(error => {

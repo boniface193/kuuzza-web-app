@@ -127,13 +127,45 @@
         >
       </div>
     </v-form>
+
+     <!-- modal for dialog messages -->
+    <modal :dialog="dialog" width="450">
+      <div class="white pa-3 pb-10 text-center dialog">
+        <div class="d-flex justify-end">
+          <v-icon class="error--text close-btn" @click="cancelModal"
+            >mdi-close</v-icon
+          >
+        </div>
+
+        <div class="mb-7 mt-5 mx-auto status-img">
+          <v-img :src="statusImage"></v-img>
+        </div>
+        <p class="my-3">You have successfully accepted you invite.</p>
+
+        <!-- <v-btn
+          class="primary mx-auto py-5 px-8"
+          :loading="loading2"
+          :disabled="loading2"
+          v-if="dashboardBtn"
+          @click="grantAccess"
+          >Go to Dashboard</v-btn
+        > -->
+      </div>
+    </modal>
   </div>
 </template>
 <script>
+import modal from "@/components/dashboard/modal.vue";
+import successImage from "@/assets/img/success-img.svg";
+//import failedImage from "@/assets/img/failed-img.svg";
 export default {
   name: "signupTeamMember",
+  components: { modal },
   data: function () {
     return {
+      statusImage: null,
+      dialog: false,
+      loading2: false,
       loading: false,
       error: false,
       errorMessage: "",
@@ -201,31 +233,60 @@ export default {
           last_name: this.last_name,
           phone_number: this.phone_number,
           password: this.create_password,
-          confirmation_password: this.confirm_password,
-          id: userId,
+          password_confirmation: this.confirm_password,
+          invite_id: userId,
         })
-        .then((response) => {
+        .then(() => {
           this.loading = false;
-          if (response.data.message === "Registeration successful.") {
-            console.log();
-          }
+          this.dialog = true;
+          this.statusImage = successImage;
+          //  if (response.data.message === "Registeration successful.") {
+              
+          //  }
         })
         .catch((error) => {
           this.error = true;
           this.loading = false;
           if (error.response) {
-            this.errorMessage = error.response.data.errors.email[0];
+            if(error.response.data.errors.email[0]){
+               this.errorMessage = error.response.data.errors.email[0];
+            }else if (error.response.data.errors.invite_id[0]){
+              this.errorMessage = error.response.data.errors.invite_id[0]
+            }else {
+              this.errorMessage = "Something went wrong, pls try again!";
+            }
           } else {
             this.errorMessage = "No internet Connection!";
           }
         });
     },
+     // close modal
+    cancelModal() {
+      this.dialog = false;
+      this.logout();
+    },
+    logout() {
+      this.$store.commit("reset");
+      this.$store.commit("onboarding/removeToken");
+      setTimeout(() => {
+        this.$router.push({
+          name: "Signin",
+        });
+      }, 1000);
+    },
+
   },
 };
 </script>
 <style lang="scss" scoped>
 .btn-container {
   width: 60%;
+}
+.status-img {
+  width: 140px;
+  .v-image {
+    width: 100%;
+  }
 }
 @media (max-width: 1100px) {
   .btn-container {
