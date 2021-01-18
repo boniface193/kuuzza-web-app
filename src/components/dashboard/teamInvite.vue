@@ -112,6 +112,7 @@ export default {
           })
           .then((response) => {
             if (response.data.message === "Invitation sent successfully.") {
+              this.errorMessage = "";
               this.dialog = true;
               this.dialogMessage = `An invite have been sent to ${this.email}`;
               this.$refs.form.reset();

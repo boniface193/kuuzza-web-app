@@ -53,7 +53,7 @@
           <v-list-item class="my-5">
             <v-list-item-content class="mx-5">
               <v-list-item-title class="layout-title mb-3">
-                Ayotunde Lanwo
+                {{ userName }}
               </v-list-item-title>
               <v-list-item-subtitle class="layout-title-subtitle">
                 Store Manager
@@ -86,7 +86,8 @@
         </v-list>
         <div class="ml-3 mt-8">
           <span class="white--text text-size-md" @click="logout"
-            ><v-icon class="ml-4 mr-6" size="20">mdi-logout</v-icon>Log Out</span
+            ><v-icon class="ml-4 mr-6" size="20">mdi-logout</v-icon>Log
+            Out</span
           >
         </div>
       </v-navigation-drawer>
@@ -100,6 +101,7 @@
 
 <script>
 import modal from "@/components/dashboard/modal.vue";
+import { mapState } from "vuex";
 export default {
   components: { modal },
   data: () => ({
@@ -153,6 +155,16 @@ export default {
       },
     ],
   }),
+  created() {
+    if (this.$store.getters["settings/getUserProfile"].name === "") {
+      this.$store.dispatch("settings/getUserProfile");
+    }
+  },
+  computed: {
+    ...mapState({
+      userName: (state) => state.settings.profile.name,
+    }),
+  },
   methods: {
     // logout
     logout() {
