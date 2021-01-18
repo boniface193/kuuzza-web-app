@@ -8,6 +8,7 @@
         :items="items"
         :select="true"
         itemKey="id"
+        @selectedRow="rowSelected"
       />
     </div>
   </v-card>
@@ -23,6 +24,7 @@ export default {
   data() {
     return {
       width: "100%",
+      selectedRow: [],
       headers: [
         {
           text: "Status",
@@ -30,7 +32,7 @@ export default {
           value: "name",
           width: "25%",
         },
-        { text: "Amount (NGN)", value: "totalOrder", width: "25%" },
+        { text: "Amount (NGN)", value: "totalOrder", width: "25%", money: true },
         {
           text: "Description",
           value: "totalValue",
