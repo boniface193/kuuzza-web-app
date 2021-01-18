@@ -97,7 +97,7 @@ export default {
   },
   created(){
         this.$store
-      .dispatch({orders: "orders/getOrders",})
+      .dispatch( "orders/getOrders")
   },
   methods: {
     getSearchValue(params) {
