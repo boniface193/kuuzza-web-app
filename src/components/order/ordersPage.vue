@@ -92,8 +92,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      orders: "orders/orders",
+      orders: "orders/getOrders",
     }),
+  },
+  created(){
+        this.$store
+      .dispatch( "orders/getOrders")
   },
   methods: {
     getSearchValue(params) {
