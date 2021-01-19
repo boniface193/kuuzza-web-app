@@ -72,6 +72,23 @@
             </v-text-field>
           </div>
 
+            <!-- unit price -->
+          <div class="mb-3 input-field">
+            <p class="mb-1">Unit Price (&#8358;)</p>
+            <v-text-field
+              class="input mt-0"
+              v-model="price"
+              :rules="inputRules"
+              type="number"
+              min="1"
+              color="primary"
+              placeholder="Enter Amount"
+              required
+              outlined
+            >
+            </v-text-field>
+          </div>
+          
           <!-- quantity -->
           <div class="mb-9 input-field">
             <p class="mb-1">Quantity</p>
@@ -88,25 +105,8 @@
             </div>
           </div>
 
-          <!-- unit price -->
-          <div class="mb-3 input-field">
-            <p class="mb-1">Unit Price (&#8358;)</p>
-            <v-text-field
-              class="input mt-0"
-              v-model="price"
-              :rules="inputRules"
-              type="number"
-              min="1"
-              color="primary"
-              placeholder="Enter Amount"
-              required
-              outlined
-            >
-            </v-text-field>
-          </div>
-
           <!-- service charge -->
-          <div class="mb-3 input-field">
+          <!-- <div class="mb-3 input-field">
             <p class="mb-1 primary--text">Service Charge (5%)</p>
             <v-text-field
               class="input mt-0"
@@ -117,10 +117,10 @@
               disabled
             >
             </v-text-field>
-          </div>
+          </div> -->
 
           <!-- total price -->
-          <div class="d-flex justify-end" style="width: 100%">
+          <!-- <div class="d-flex justify-end" style="width: 100%">
             <div class="mb-3 input-field">
               <p class="mb-1 primary--text">
                 Total Price
@@ -138,7 +138,7 @@
               >
               </v-text-field>
             </div>
-          </div>
+          </div> -->
 
           <!-- button container -->
           <div class="d-flex justify-end" style="width: 100%">

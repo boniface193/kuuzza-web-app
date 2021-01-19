@@ -62,9 +62,6 @@
 <script>
 export default {
   name: "Settings",
-  created() {
-    this.$store.dispatch("settings/getUserProfile");
-  },
 };
 </script>
 
