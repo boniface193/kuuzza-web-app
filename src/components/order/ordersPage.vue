@@ -1,8 +1,5 @@
 <template>
   <div>
-    <v-alert dismissible v-if="isAlert" :type="alertColor">
-      {{ errorMsg }}
-    </v-alert>
     <div class="d-flex align-center justify-space-between">
       <!-- page title -->
 
@@ -58,6 +55,23 @@
       @onPageChange="setCurentPage"
       @selectedRow="rowSelected"
     />
+
+    <!--------------------------- modal for dialog messages ------------------------------>
+    <modal :dialog="isAlert" width="400">
+      <div class="white pa-3 pb-10 text-center dialog">
+        <div class="d-flex justify-end">
+          <v-icon class="error--text close-btn" @click="isAlert = false"
+            >mdi-close</v-icon
+          >
+        </div>
+
+        <div class="mb-7 mt-5 mx-auto status-img">
+          <v-img :src="alertColor"></v-img>
+        </div>
+
+        <h4>{{ errorMsg }}</h4>
+      </div>
+    </modal>
   </div>
 </template>
 <script>
@@ -66,12 +80,15 @@ import dataTable from "@/components/dashboard/dataTable.vue";
 import basicFilter from "@/components/dashboard/basicFilter.vue";
 import calendar from "@/components/dashboard/calender.vue";
 import { mapGetters, mapState } from "vuex";
+import modal from "@/components/dashboard/modal.vue";
+import failedImage from "@/assets/img/failed-img.svg";
+import successImage from "@/assets/img/success-img.svg";
 export default {
   name: "ordersPage",
-  components: { searchBar, dataTable, basicFilter, calendar },
+  components: { searchBar, dataTable, basicFilter, calendar, modal },
   data: function () {
     return {
-      alertColor: "",
+      alertColor: null,
       errorMsg: "",
       isAlert: false,
       itemPerPage: 15,
@@ -133,8 +150,8 @@ export default {
     // filter by date
     dateValue(params) {
       this.$store.commit("orders/filterRange", {
-        startDate: params.startDate.toISOString().split('T')[0],
-        endDate: params.endDate.toISOString().split('T')[0],
+        startDate: params.startDate.toISOString().split("T")[0],
+        endDate: params.endDate.toISOString().split("T")[0],
       });
       this.filterGetOrders();
     },
@@ -146,16 +163,17 @@ export default {
       this.$store
         .dispatch("orders/exportOrder")
         .then(() => {
+          this.alertColor = successImage;
           this.errorMsg =
             "Orders successfully exported, An email would be sent to you shortly!";
         })
         .catch((error) => {
           if (error.response) {
             this.errorMsg = "Something went wrong, pls try again!";
-            this.alertColor = "error";
+            this.alertColor = failedImage;
           } else {
             this.errorMsg = "No internet Connection!";
-            this.alertColor = "secondary";
+            this.alertColor = failedImage;
           }
         });
     },
@@ -164,7 +182,7 @@ export default {
       this.$store.dispatch("orders/filterGetOrders").catch((e) => {
         if (e.response.status === 422) {
           this.isAlert = true;
-          this.alertColor = "error";
+          this.alertColor = failedImage;
           this.errorMsg = e.response.data;
         }
       });
@@ -198,16 +216,12 @@ export default {
     // set item per page
     setItemPerPage(params) {
       this.$store.commit("orders/setItemPerPage", params);
-      this.searchOrder === true
-        ? this.getOrders()
-        : this.filterGetOrders();
+      this.searchOrder === true ? this.getOrders() : this.filterGetOrders();
     },
     // set current page
     setCurentPage(params) {
       this.$store.commit("orders/setPage", params);
-      this.searchOrders === true
-        ? this.getOrders()
-        : this.filterGetOrders();
+      this.searchOrders === true ? this.getOrders() : this.filterGetOrders();
     },
     // filter function
     filterTable(params) {
