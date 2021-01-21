@@ -156,7 +156,7 @@ const actions = {
         let page = ((state.page) ? `page=${state.page}` : "");
         let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
         let route = (state.searchValue !== "") ? `/search?q=${state.searchValue}&${page}&${perPage}` : ""
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {   
             axios.get(`/products${route}`,
                 {
                     headers: {
