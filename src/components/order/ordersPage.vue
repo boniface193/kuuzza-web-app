@@ -133,14 +133,10 @@ export default {
     // filter by date
     dateValue(params) {
       this.$store.commit("orders/filterRange", {
-        startDate: params.startDate.toLocaleDateString().replaceAll("/", "-"),
-        endDate: params.endDate.toLocaleDateString().replaceAll("/", "-"),
+        startDate: params.startDate.toISOString().split('T')[0],
+        endDate: params.endDate.toISOString().split('T')[0],
       });
       this.filterGetOrders();
-      // const startDate = params.startDate.toLocaleDateString().replaceAll("/", "-");
-      // const endDate = params.endDate.toLocaleDateString().replaceAll("/", "-");
-      // console.log(startDate)
-      // console.log(endDate)
     },
     // export order
     exportOrder() {
@@ -202,16 +198,16 @@ export default {
     // set item per page
     setItemPerPage(params) {
       this.$store.commit("orders/setItemPerPage", params);
-      // this.searchProduct === true
-      //   ? this.getSearchProduct()
-      //   : this.getfilteredProducts();
+      this.searchOrder === true
+        ? this.getOrders()
+        : this.filterGetOrders();
     },
     // set current page
     setCurentPage(params) {
       this.$store.commit("orders/setPage", params);
-      // this.searchProducts === true
-      //   ? this.getSearchProduct()
-      //   : this.getfilteredProducts();
+      this.searchOrders === true
+        ? this.getOrders()
+        : this.filterGetOrders();
     },
     // filter function
     filterTable(params) {
