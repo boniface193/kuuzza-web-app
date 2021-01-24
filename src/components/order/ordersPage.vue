@@ -40,9 +40,23 @@
         <calendar @updateDate="dateValue" />
       </div>
     </div>
+    <!-- this is the loader visible to the user -->
 
+    <div
+      v-if="isLoading"
+      style="position: absolute; margin: 15% 50%; text-align: center"
+    >
+      <!-- this image time loader is calculated by the loader to triger the load time -->
+      <v-progress-circular
+        color="primary"
+        class=""
+        indeterminate
+      ></v-progress-circular>
+    </div>
+    <!-- loader ends here -->
     <!-- table  -->
     <dataTable
+      ref="table"
       :action="false"
       :select="false"
       :headers="tableHeaders"
@@ -55,7 +69,10 @@
       @onPageChange="setCurentPage"
       @selectedRow="rowSelected"
     />
+<<<<<<< HEAD
+=======
 
+>>>>>>> 2124de8f20afef2d46f9d4639a1a9cced7588c40
     <!--------------------------- modal for dialog messages ------------------------------>
     <modal :dialog="isAlert" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
@@ -88,6 +105,10 @@ export default {
   components: { searchBar, dataTable, basicFilter, calendar, modal },
   data: function () {
     return {
+<<<<<<< HEAD
+      isLoading: true,
+=======
+>>>>>>> 2124de8f20afef2d46f9d4639a1a9cced7588c40
       alertColor: null,
       errorMsg: "",
       isAlert: false,
@@ -143,7 +164,9 @@ export default {
     }),
   },
   created() {
-    this.$store.dispatch("orders/getOrders");
+    this.$store.dispatch("orders/getOrders").then(() => {
+      this.isLoading = false;
+    });
     this.$store.dispatch("orders/filterGetOrders");
   },
   methods: {
@@ -191,7 +214,9 @@ export default {
     getSearchValue(params) {
       this.$store.commit("orders/getSearchValue", params);
       this.$store.commit("orders/setSearchOrder", true);
-      this.$store.dispatch("orders/searchOrders");
+      this.$store.dispatch("orders/searchOrders").then(() => {
+        this.isLoading = false;
+      });
     },
     // returns searched values to the table
     ordersPage() {
@@ -203,10 +228,10 @@ export default {
         this.getOrders();
       }
     },
-    // get orders from the store to the datatable
+    // search orders from the store to the datatable
     getOrders() {
-      this.$store.dispatch("orders/searchOrders").catch((e) => {
-        console.log(e);
+      this.$store.dispatch("orders/searchOrders").then(() => {
+        this.isLoading = false;
       });
     },
     // this method is to check selected row, but it have been set to false on the datatable, you can change it to true to use it
@@ -232,6 +257,7 @@ export default {
       });
       this.filterGetOrders();
     },
+
     // reset the filter and it will affect the table
     resetFilter() {
       this.$store.commit("orders/filterOrders", {
