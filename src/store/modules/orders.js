@@ -66,6 +66,7 @@ const actions = {
                 }
             })
                 .then(response => {
+
                     context.commit("setOrders", response.data.data)
                     context.commit("setPageDetails", response.data.meta);
                     resolve(response.data.data)

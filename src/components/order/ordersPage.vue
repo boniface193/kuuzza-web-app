@@ -69,10 +69,6 @@
       @onPageChange="setCurentPage"
       @selectedRow="rowSelected"
     />
-<<<<<<< HEAD
-=======
-
->>>>>>> 2124de8f20afef2d46f9d4639a1a9cced7588c40
     <!--------------------------- modal for dialog messages ------------------------------>
     <modal :dialog="isAlert" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
@@ -83,7 +79,12 @@
         </div>
 
         <div class="mb-7 mt-5 mx-auto status-img">
-          <v-img :src="alertColor"></v-img>
+          <v-img
+            :src="alertColor"
+            width="30%"
+            height="30%"
+            style="margin: 0px 35%"
+          ></v-img>
         </div>
 
         <h4>{{ errorMsg }}</h4>
@@ -105,10 +106,7 @@ export default {
   components: { searchBar, dataTable, basicFilter, calendar, modal },
   data: function () {
     return {
-<<<<<<< HEAD
       isLoading: true,
-=======
->>>>>>> 2124de8f20afef2d46f9d4639a1a9cced7588c40
       alertColor: null,
       errorMsg: "",
       isAlert: false,
