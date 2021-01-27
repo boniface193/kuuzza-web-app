@@ -17,7 +17,7 @@
         <!-- product name -->
         <p class="mt-2 mb-3">
           <span class="item-title">Product Name: </span
-          ><span class="secondary--text">{{ orderDetails.productName }}</span>
+          ><span class="secondary--text">{{ orderDetails.product_name }}</span>
         </p>
         <!-- product SKU -->
         <p class="mt-2 mb-3">
@@ -27,12 +27,12 @@
         <!-- payment status -->
         <p class="mt-2 mb-3">
           <span class="item-title">Payment Status: </span
-          ><span class="secondary--text">{{ orderDetails.payment }}</span>
+          ><span class="secondary--text">{{ orderDetails.payment_status_label }}</span>
         </p>
         <!-- Delivery status -->
         <p class="mt-2 mb-3">
           <span class="item-title">Delivery Status: </span
-          ><span class="secondary--text">{{ orderDetails.delivery }}</span>
+          ><span class="secondary--text">{{ orderDetails.delivery_status_label }}</span>
         </p>
 
         <!-- Seller Details -->
@@ -40,7 +40,7 @@
           <span class="item-title">Seller Details: </span>
         </p>
         <p class="secondary--text">
-          Emike Mba<br />emikemba@gmail.com<br />08012383928
+          {{orderDetails.seller_name}}<br />emikemba@gmail.com<br />08012383928
         </p>
 
         <!-- Customer Details -->
@@ -48,7 +48,7 @@
           <span class="item-title">Customer Details: </span>
         </p>
         <p class="secondary--text">
-          Emike Mba<br />emikemba@gmail.com<br />08012383928<br />
+          {{orderDetails.customer_name}}<br />emikemba@gmail.com<br />08012383928<br />
         </p>
         <hr class="secondary--text" style="width: 300px" />
 
@@ -57,7 +57,7 @@
           <span class="item-title">Delivery Address: </span>
         </p>
         <p class="secondary--text">
-            129 Ademola Adetokunbo Crescent Wuse 2 FCT Abuja 900288 Nigeria
+            {{orderDetails.delivery_address}}
         </p>
       </div>
     </v-col>
@@ -69,12 +69,17 @@
 <script>
 export default {
   name: "orderDetails",
-  computed: {
-    orderDetails() {
-      return this.$store.getters["orders/getOrderDetails"](
-        this.$route.params.id
-      );
-    },
+  data(){
+    return {
+      orderDetails: {}
+    }
+  },
+  created(){
+    this.$store.dispatch("orders/getOrdersDetail", {id: this.$route.params.id}).then(response => {
+      this.orderDetails = response.data.data
+    }).catch((e) => {
+      console.log(e)
+    })
   },
 };
 </script>

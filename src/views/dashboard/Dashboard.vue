@@ -1,10 +1,14 @@
-<template> 
+<template>
   <v-container fluid>
     <!-- to center dashboard content -->
     <div class="mx-lg-12 mx-md-5 mx-sm-5">
       <!-- welcome greetings -->
-      <calendar class="float-right d-none d-md-block" @updateDate="dateValue" />
-      <div class="welcome-user text-sm-h6 text-md-h5 text-lg-h4 text-xl-h3 text-h6 font-weight-bold">Welcome!</div>
+      <calendar class="float-right" @updateDate="dateValue" />
+      <div
+        class="welcome-user text-sm-h6 text-md-h5 text-lg-h4 text-xl-h3 text-h6 font-weight-bold"
+      >
+        Welcome!
+      </div>
       <div class="pa-2"></div>
       <v-row>
         <!-- to show total revenue, item in stock, total commission -->
@@ -128,7 +132,7 @@ import leader from "@/components/dashboard/leader.vue";
 import custom from "@/components/dashboard/custom.vue";
 import donut from "@/components/dashboard/donut.vue";
 import calendar from "@/components/dashboard/calender.vue";
-import moment from "moment"
+import moment from "moment";
 
 export default {
   components: {
@@ -180,19 +184,18 @@ export default {
           totalSpent: "Total Spent",
           totalAmountSpent: "1,000,000",
         },
-        
       ],
     };
   },
 
   methods: {
-    dateValue(value){
+    dateValue(value) {
       const startDate = moment(value.startDate).format();
       const endDate = moment(value.endDate).format();
-      console.log(startDate)
-      console.log(endDate)
-    }
-  }
+      console.log(startDate);
+      console.log(endDate);
+    },
+  },
 };
 </script>
 

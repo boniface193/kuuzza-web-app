@@ -1,47 +1,58 @@
 import axios from "@/axios/order.js";
-console.log(axios)
+
+// set the number of item you want to show on table
+const setItemPerPage = (itemPerPage, per_page, from_page) => {
+    let page = null;
+    if (itemPerPage > per_page) {
+        let range = Math.round(
+            (from_page - 1) / per_page
+        );
+        if (range < 0.5) {
+            page = range + 1;
+            return page;
+        } else {
+            page = range;
+            return page;
+        }
+    } else {
+        page = Math.round(
+            (from_page - 1) / itemPerPage + 1
+        );
+        return page
+    }
+}
+
 //holds the state properties
 const state = {
-    orders: [
-        // {
-        //     productName: "Infinix Hot 3",
-        //     orderNumber: "8787239",
-        //     price: 839201,
-        //     commission: 5000,
-        //     seller: "Abdulazeez Abdulazeez",
-        //     customer: "Ayotunde Lanwo",
-        //     time: "031220 9:05am",
-        //     payment: "paid",
-        //     delivery: "delivered",
-        //     id: "hhbhbhj8u8909"
-        // },
-        // {
-        //     productName: "Iphone 12",
-        //     orderNumber: "87872909",
-        //     price: 700000,
-        //     commission: 11000,
-        //     seller: "Ikechukwu",
-        //     customer: "Emike Lanwo",
-        //     time: "031220 9:05am",
-        //     payment: "not paid",
-        //     delivery: "not delivered",
-        //     id: "eyugd873"
-        // }
-    ],
-    filteredOrders: null
+    orders: [],
+    searchOrder: false,
+    searchValue: "",
+    page: 1,
+    itemPerPage: 15,
+    pageDetails: {},
+    filter: {
+        minPrice: 0,
+        maxPrice: 0,
+        paid: false,
+        unpaid: false,
+        delivered: false,
+        notDelivered: false,
+        selectedOptions: [],
+    },
+    dateRange: {
+        startDate: null,
+        endDate: null,
+    },
+    selectedReferences: [],
+    doNothing: null,
 };
-
 //returns the state properties
 const getters = {
-    orders: state => {
-        if (state.filteredOrders === null) {
-            return state.orders
-        } else {
-            return state.filteredOrders
-        }
+    orders(state) {
+        return state.orders
     },
-    getOrderDetails: state => {
-        return (orderId) => state.orders.find(({ id }) => id === orderId);
+    searchOrder(state) {
+        return state.searchOrder
     }
 };
 
@@ -55,12 +66,93 @@ const actions = {
                 }
             })
                 .then(response => {
-                    context.commit("getOrders", resolve(response))
-                    console.log(response)
+
+                    context.commit("setOrders", response.data.data)
+                    context.commit("setPageDetails", response.data.meta);
+                    resolve(response.data.data)
                 })
                 .catch(error => {
-                    context.commit('', '')
                     reject(error)
+                })
+        })
+    },
+
+    filterGetOrders(context) {
+        let page = ((state.page) ? `page=${state.page}` : "");
+        let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
+        let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== null) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
+        let priceRange = ((state.filter.maxPrice) ? `price_between=${state.filter.minPrice},${state.filter.maxPrice}` : "");
+        let paid = ((state.filter.selectedOptions.includes('paid')) ? `paid=${true}` : "");
+        let unpaid = ((state.filter.selectedOptions.includes('unpaid')) ? `unpaid=${true}` : "");
+        let delivered = ((state.filter.selectedOptions.includes('delivered')) ? `delivered=${true}` : "");
+        let notDelivered = ((state.filter.selectedOptions.includes('notDelivered')) ? `not_delivered=${true}` : "");
+        return new Promise((resolve, reject) => {
+            axios.get(`/orders?${dateRange}&${priceRange}&${paid}&${unpaid}&${delivered}&${notDelivered}&${perPage}&${page}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    }
+                }).then(response => {
+                    context.commit("setOrders", response.data.data);
+                    context.commit("setPageDetails", response.data.meta);
+                    resolve(response);
+                })
+                .catch(error => {
+                    reject(error);
+                })
+        })
+    },
+
+    getOrdersDetail(context, data) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/orders/${data.id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                }
+            }).then(response => {
+                resolve(response);
+                console.log(resolve)
+            })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        })
+    },
+
+    searchOrders(context) {
+        let page = ((state.page) ? `page=${state.page}` : "");
+        let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
+        let route = (state.searchValue !== "") ? `/search?q=${state.searchValue}&${page}&${perPage}` : ""
+        return new Promise((resolve, reject) => {
+            axios.get(`/orders${route}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    }
+                }).then(response => {
+                    context.commit("setOrders", response.data.data);
+                    context.commit("setPageDetails", response.data.meta);
+                    resolve(response);
+                })
+                .catch(error => {
+                    reject(error);
+                })
+        })
+    },
+
+    exportOrder() {
+        return new Promise((resolve, reject) => {
+            axios.post(`/orders/export`, {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    }
+                }).then(response => {
+                    resolve(response);
+                })
+                .catch(error => {
+                    reject(error);
                 })
         })
     }
@@ -69,17 +161,33 @@ const actions = {
 
 //updates the different state properties
 const mutations = {
-    getOrders: (state, payload) => (state.filterOrders = payload),
-    filterOrders: (state, payload) => {
-        state.filteredOrders = state.orders.filter(item =>
-            (item.price >= payload.minPrice && item.price <= payload.maxPrice) ||
-            (item.commission >= payload.minCommission && item.commission <= payload.maxCommission) || 
-            (payload.selectedOptions.includes(item.payment) ) ||
-            (payload.selectedOptions.includes(item.delivery) ))
+    setOrders(state, data) {
+        state.orders = data
     },
-    resetFilter: (state) => (state.filteredOrders = null)
+    filterOrders(state, filter) {
+        state.filter = filter
+    },
+    filterRange(state, dateRange) {
+        state.dateRange = dateRange
+    },
+    getSearchValue(state, value) {
+        state.searchValue = value
+    },
+    setSearchOrder(state, status) {
+        state.searchOrder = status
+    },
+    setPageDetails(state, data) {
+        state.pageDetails = data
+    },
+    setItemPerPage(state, itemPerPage) {
+        state.itemPerPage = itemPerPage;
+        let page = setItemPerPage(itemPerPage, state.pageDetails.per_page, state.pageDetails.from);
+        state.page = page;
+    },
+    setPage(state, page) {
+        state.page = page
+    },
 };
-
 
 export default {
     //export all the listed properties
