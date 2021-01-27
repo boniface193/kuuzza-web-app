@@ -22,14 +22,14 @@ const setItemPerPage = (itemPerPage, per_page, from_page) => {
     }
 }
 const curday = ()=> {
-    today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth()+1; //As January is 0.
-    var yyyy = today.getFullYear();
+    const today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth()+1; //As January is 0.
+    let yyyy = today.getFullYear();
     
     if(dd<10) dd='0'+dd;
     if(mm<10) mm='0'+mm;
-    return (mm+'-'+dd+'-'+yyyy);
+    return (dd+'-'+mm+'-'+yyyy);
 };
 
 //holds the state properties
