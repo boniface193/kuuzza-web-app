@@ -21,6 +21,16 @@ const setItemPerPage = (itemPerPage, per_page, from_page) => {
         return page
     }
 }
+const curday = ()=> {
+    today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //As January is 0.
+    var yyyy = today.getFullYear();
+    
+    if(dd<10) dd='0'+dd;
+    if(mm<10) mm='0'+mm;
+    return (mm+'-'+dd+'-'+yyyy);
+};
 
 //holds the state properties
 const state = {
@@ -41,8 +51,8 @@ const state = {
         selectedOptions: [],
     },
     dateRange: {
-        startDate: null,
-        endDate: null,
+        startDate: curday(),
+        endDate: curday(),
     },
     selectedReferences: [],
     doNothing: null
@@ -244,7 +254,10 @@ const actions = {
     // export product
     exportProducts() {
         return new Promise((resolve, reject) => {
-            axios.post(`/products/export`, {},
+            axios.post(`/products/export`, {
+                start_date: state.dateRange.startDate,
+                end_date: state.dateRange.endDate
+            },
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("accessToken")}`
