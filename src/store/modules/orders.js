@@ -40,8 +40,8 @@ const state = {
         selectedOptions: [],
     },
     dateRange: {
-        startDate: null,
-        endDate: null,
+        startDate: new Date().toISOString().split("T")[0],
+        endDate: new Date().toISOString().split("T")[0],
     },
     selectedReferences: [],
     doNothing: null,
@@ -143,7 +143,10 @@ const actions = {
 
     exportOrder() {
         return new Promise((resolve, reject) => {
-            axios.post(`/orders/export`, {},
+            axios.post(`/orders/export`, {
+                start_date: state.dateRange.startDate,
+                end_date: state.dateRange.endDate
+            },
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("accessToken")}`
