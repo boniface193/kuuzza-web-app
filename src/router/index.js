@@ -98,7 +98,6 @@ const ifAuthenticated = (to, from, next) => {
         return
       } else {
         localStorage.removeItem("accessToken");
-        console.log(111)
         next({ name: 'Signin' });
       }
 

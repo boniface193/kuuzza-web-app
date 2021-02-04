@@ -64,7 +64,7 @@
 </template>
 <script>
 export default {
-  name: "Signup",
+  name: "Signin",
   data: function () {
     return {
       errorMessage: "",
@@ -98,6 +98,7 @@ export default {
         .dispatch("onboarding/signIn", {
           email: this.email,
           password: this.password,
+          type: "vendor"
         })
         .then((response) => {
           this.loading = false;
