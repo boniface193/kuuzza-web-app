@@ -97,7 +97,6 @@ export default {
       .then((response) => {
         this.pageLoader = false;
         this.productDetails = response.data.data;
-        console.log(this.productDetails)
       })
       .catch((error) => {
         this.dialog = true;

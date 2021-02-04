@@ -98,14 +98,10 @@ const actions = {
                 })
         })
     },
-
     //allows users to login
-    signIn: (context, credentials) => {
+    signIn: (context, data) => {
         return new Promise((resolve, reject) => {
-            axios.post("auth/login", {
-                email: credentials.email,
-                password: credentials.password,
-            }).then(response => {
+            axios.post("auth/login", data).then(response => {
                 context.commit("setToken", response.data.token)
                 resolve(response)
             })
