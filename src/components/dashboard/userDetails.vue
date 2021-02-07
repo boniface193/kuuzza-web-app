@@ -7,7 +7,7 @@
         <div class="profile-img my-5">
           <v-img src="@/assets/img/user-profile.svg"></v-img>
         </div>
-        <h4>Ayotunde Lanwo</h4>
+        <h4>{{userInfo.name}}</h4>
         <p class="secondary--text">Store Manager</p>
         <a class="primary--text" style="text-decoration: underline"
           >Change profile picture</a
@@ -156,15 +156,15 @@ export default {
   computed: {
     ...mapGetters({
       loader: "settings/loader",
+      userInfo: "settings/getUserProfile"
     }),
     computedInfo() {
       // gets the values of user information
-      let userInfo = this.$store.getters["settings/getUserProfile"];
-      let fullName = userInfo.name;
-      let phoneNum = userInfo.phone_number;
-      let currentFullName = userInfo.name;
-      let currentPhoneNum = userInfo.phone_number;
-      let currentEmail = userInfo.email;
+      let fullName = this.userInfo.name;
+      let phoneNum = this.userInfo.phone_number;
+      let currentFullName = this.userInfo.name;
+      let currentPhoneNum = this.userInfo.phone_number;
+      let currentEmail = this.userInfo.email;
 
       return {
         fullName: fullName,

@@ -82,9 +82,14 @@ const actions = {
                 email: credentials.email,
                 phone_number: credentials.phoneNumber,
                 company_name: credentials.companyName,
-                company_country: credentials.country,
-                company_state: credentials.state,
-                company_address: credentials.companyAddress,
+                company_location: {
+                    address: "Ikeja, Lagos.",
+                    lat: 6.452890,
+                    lng: 3.256350,
+                },
+                // company_country: credentials.country,
+                // company_state: credentials.state,
+                // company_address: credentials.companyAddress,
                 password: credentials.password,
                 password_confirmation: credentials.password
             })
