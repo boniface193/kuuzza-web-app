@@ -144,6 +144,7 @@
         color="primary"
         required
         ref="input8"
+        id="autocomplete"
         @keyup.enter="validate_form(2)"
       ></v-text-field>
 
@@ -291,6 +292,11 @@ export default {
     ...mapState({
       present_form: (state) => state.onboarding.present_signup_form,
     }),
+  },
+  mounted() {
+    // let autocomplete = new google.maps.places.Autocomplete(
+    //   document.getElementById("autocomplete")
+    // )
   },
   methods: {
     //get the states under the country selected

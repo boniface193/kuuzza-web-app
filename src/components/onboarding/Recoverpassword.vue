@@ -115,6 +115,7 @@ export default {
           password: this.create_password,
           password_confirmation: this.confirm_password,
           otp: this.$route.params.otp,
+          type: "vendor"
         })
         .then((response) => {
           this.loading = false;

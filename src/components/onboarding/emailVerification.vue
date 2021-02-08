@@ -112,6 +112,7 @@ export default {
           .dispatch("onboarding/verifyEmail", {
             code: this.code,
             email: this.$route.params.email,
+            type: "vendor"
           })
           .then((response) => {
             this.loading = false;
