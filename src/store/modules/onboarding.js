@@ -117,12 +117,9 @@ const actions = {
         })
     },
     // verify email address 
-    verifyEmail: (context, credentials) => {
+    verifyEmail: (context, data) => {
         return new Promise((resolve, reject) => {
-            axios.post("emails/verify", {
-                otp: credentials.code,
-                email: credentials.email
-            }).then(response => {
+            axios.post("emails/verify", data).then(response => {
                 context.commit("setToken", response.data.token)
                 resolve(response);
             })
@@ -133,11 +130,9 @@ const actions = {
         })
     },
     // resend opt for email verification 
-    resendEmailOTP(context, credentials) {
+    resendEmailOTP(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post("emails/send-otp", {
-                email: credentials.email
-            }).then(response => {
+            axios.post("emails/send-otp", data).then(response => {
                 resolve(response);
             })
                 .catch(error => {
@@ -147,11 +142,9 @@ const actions = {
         })
     },
     // forgot password
-    forgotPassword: (context, credentials) => {
+    forgotPassword: (context, data) => {
         return new Promise((resolve, reject) => {
-            axios.post("passwords/reset", {
-                email: credentials.email
-            }).then(response => {
+            axios.post("passwords/reset", data).then(response => {
                 resolve(response)
             }).catch(error => {
                 context.commit("doNothing");
@@ -160,12 +153,9 @@ const actions = {
         })
     },
     // verify forgot password 
-    verifyForgotPassword: (context, credentials) => {
+    verifyForgotPassword: (context, data) => {
         return new Promise((resolve, reject) => {
-            axios.post("passwords/verify-otp", {
-                otp: credentials.code,
-                email: credentials.email
-            }).then(response => {
+            axios.post("passwords/verify-otp", data).then(response => {
                 resolve(response)
             })
                 .catch(error => {
@@ -175,14 +165,9 @@ const actions = {
         })
     },
     // recover password
-    recoverPassword: (context, credentials) => {
+    recoverPassword: (context, data) => {
         return new Promise((resolve, reject) => {
-            axios.post("passwords/new", {
-                email: credentials.email,
-                password: credentials.password,
-                password_confirmation: credentials.password_confirmation,
-                otp: credentials.otp
-            }).then(response => {
+            axios.post("passwords/new", data).then(response => {
                 resolve(response)
             })
                 .catch(error => {
