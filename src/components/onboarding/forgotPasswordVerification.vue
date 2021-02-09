@@ -75,8 +75,9 @@ export default {
         this.loading = true;
         this.$store
           .dispatch("onboarding/verifyForgotPassword", {
-            code: this.code,
+            otp: this.code,
             email: this.$route.params.email,
+            type: "vendor"
           })
           .then((response) => {
             this.loading = false;
