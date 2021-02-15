@@ -52,10 +52,12 @@
         class=""
         indeterminate
       ></v-progress-circular>
+      
     </div>
     <!-- loader ends here -->
     <!-- table  -->
     <dataTable
+    v-show="orders.length > 0"
       ref="table"
       :action="false"
       :select="false"
@@ -69,6 +71,7 @@
       @onPageChange="setCurentPage"
       @selectedRow="rowSelected"
     />
+    <p v-if="orders.length == 0" class="text-center mt-8">No Item Found</p>
     <!--------------------------- modal for dialog messages ------------------------------>
     <modal :dialog="isAlert" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
