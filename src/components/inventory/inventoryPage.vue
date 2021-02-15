@@ -29,7 +29,9 @@
         class="d-flex align-center flex-wrap tool-container justify-space-between"
       >
         <!-- search products-->
-        <searchProducts />
+        <div class="search-container mr-md-2">
+          <searchProducts />
+        </div>
 
         <div class="d-flex align-center flex-wrap justify-space-between mb-2">
           <!-- filter products-->
@@ -40,14 +42,18 @@
 
           <!-- import products -->
           <router-link :to="{ name: 'productList' }">
-            <importIcon class="mr-2" toolTipText="Import products"/>
+            <importIcon class="mr-2" toolTipText="Import products" />
           </router-link>
 
-          <!-- add product btn -->
-          <router-link :to="{ name: 'addProduct' }">
+          <!-- add product btn primary-->
+          <router-link :to="{ name: 'addProduct' }" class="add-btn-primary">
             <v-btn class="primary py-6 px-4"
               ><span>+</span> Add New Product</v-btn
             >
+          </router-link>
+          <!-- add product btn primary-->
+          <router-link :to="{ name: 'addProduct' }" class="add-btn-secondary">
+            <span class="btn">+</span>
           </router-link>
         </div>
       </div>
@@ -340,7 +346,7 @@ export default {
     },
     setDate(params) {
       this.$store.commit("inventory/setDateRange", {
-         startDate: params.startDate.toISOString().split("T")[0],
+        startDate: params.startDate.toISOString().split("T")[0],
         endDate: params.endDate.toISOString().split("T")[0],
       });
       this.getfilteredProducts();
@@ -412,6 +418,9 @@ export default {
   height: 42px;
   position: relative;
 }
+.search-container {
+  width: 350px;
+}
 .v-btn {
   span {
     font-size: 25px;
@@ -437,10 +446,38 @@ export default {
     width: 100%;
   }
 }
+.add-btn-secondary {
+  display: none;
+  .btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #5064cc;
+    position: fixed;
+    bottom: 40px;
+    right: 20px;
+    color: white;
+    font-size: 25px;
+  }
+}
 @media (max-width: 953px) {
   .tool-container {
     width: 100%;
     justify-content: space-between;
+  }
+}
+@media (max-width: 550px) {
+  .search-container {
+    width: 100%;
+  }
+  .add-btn-primary {
+    display: none;
+  }
+  .add-btn-secondary {
+    display: block;
   }
 }
 </style>

@@ -100,12 +100,12 @@
         type="address"
         label="Company Name"
         color="primary"
-        @keyup.enter="$refs.input6.focus"
+        @keyup.enter="$refs.autocomplete.focus"
         ref="input5"
         required
       ></v-text-field>
 
-      <!-- country -->
+      <!-- country
       <v-select
         class="onboarding-input mr-5 mt-5"
         :items="countries"
@@ -121,7 +121,7 @@
         required
       ></v-select>
 
-      <!-- state -->
+      
       <v-select
         class="onboarding-input mr-5 mt-5"
         :items="states"
@@ -132,7 +132,7 @@
         @keyup.enter="$refs.input8.focus"
         ref="input7"
         required
-      ></v-select>
+      ></v-select> -->
 
       <!-- company address -->
       <v-text-field
@@ -143,7 +143,7 @@
         label="Company Address"
         color="primary"
         required
-        ref="input8"
+        ref="autocomplete"
         id="autocomplete"
         @keyup.enter="validate_form(2)"
       ></v-text-field>
@@ -224,7 +224,7 @@
   </div>
 </template>
 <script>
-import countries from "@/assets/data/countries.js";
+//import countries from "@/assets/data/countries.js";
 import { mapState } from "vuex";
 export default {
   name: "Signup",
@@ -239,13 +239,13 @@ export default {
       email: "",
       phone_number: "",
       company_name: "",
-      country: "",
-      state: "",
+      lat: "",
+      lng: "",
+      validAddress: false,
+      autocomplete: "",
       company_address: "",
       create_password: "",
       confirm_password: "",
-      countries: countries,
-      states: [],
       first_nameRules: [
         (v) => !!v || "First Name is required", // verifies first name satisfies the requirement
       ],
@@ -266,19 +266,18 @@ export default {
         //verifies comapany name satisfies the requirement
         (v) => !!v || "Company Name is required",
       ],
-      country_nameRules: [(v) => !!v || "Country is required"],
-      state_nameRules: [(v) => !!v || "State is required"],
+      // country_nameRules: [(v) => !!v || "Country is required"],
+      // state_nameRules: [(v) => !!v || "State is required"],
       address_nameRules: [
         //verifies comapany address satisfies the requirement
         (v) => !!v || "Company address is required",
+        () => this.validAddress || "Select a valid Address"
       ],
       create_passwordRules: [
         //verifies password satisfies the requirement
         (v) => !!v || "Password is required",
         (v) =>
-         /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(
-            v
-          ) ||
+          /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(v) ||
           "Password must contain a minimum of 8 character, at least one uppercase, one lowercase, one number",
       ],
       confirm_passwordRules: [
@@ -292,19 +291,47 @@ export default {
     ...mapState({
       present_form: (state) => state.onboarding.present_signup_form,
     }),
+    getAddress() {
+      return {
+        company_address: "",
+      };
+    },
   },
   mounted() {
-    // let autocomplete = new google.maps.places.Autocomplete(
-    //   document.getElementById("autocomplete")
-    // )
+    this.autocomplete = new window.google.maps.places.Autocomplete(
+      document.getElementById("autocomplete"),
+      {
+        bounds: new window.google.maps.LatLngBounds(
+          new window.google.maps.LatLng(6.5244, 3.3792)
+        ),
+        types: ["establishment"],
+        componentRestrictions: { country: ["NG"] },
+        fields: ["place_id", "geometry", "name"],
+      }
+    );
+
+    this.autocomplete.addListener("place_changed", this.onPlaceChanged);
   },
   methods: {
-    //get the states under the country selected
-    get_states() {
-      this.states = this.countries.find(
-        (x) => x.country === this.country
-      ).states;
+    onPlaceChanged() {
+      let place = this.autocomplete.getPlace();
+      if (!place.geometry) {
+        // User did not select a prediction; reset the input field
+        this.validAddress = false;
+      } else {
+        //Display details about the valid place
+        this.validAddress = true;
+        this.getAddress.company_address = place.name;
+        this.lat = place.geometry.location.lat();
+        this.lng = place.geometry.location.lng();
+      }
     },
+    //get the states under the country selected
+    // get_states() {
+    //   this.states = this.countries.find(
+    //     (x) => x.country === this.country
+    //   ).states;
+    // },
     //validate forms
     validate_form(form_num) {
       this.$refs[`form${form_num}`].validate();
@@ -335,7 +362,7 @@ export default {
                 this.errorMessage = "No internet Connection!";
               }
             });
-        } else if (form_num == 2) {
+        } else if (form_num == 2 && this.validAddress) {
           this.$store.commit(
             "onboarding/present_signup_form",
             `form${form_num + 1}`
@@ -355,15 +382,18 @@ export default {
       this.loading = true;
       this.$store
         .dispatch("onboarding/register", {
-          firstName: this.first_name,
-          lastName: this.last_name,
+          first_name: this.first_name,
+          last_name: this.last_name,
           email: this.email,
-          phoneNumber: this.phone_number,
-          companyName: this.company_name,
-          country: this.country,
-          state: this.state,
-          companyAddress: this.company_address,
+          phone_number: this.phone_number,
+          company_name: this.company_name,
+          company_location: {
+            address: this.getAddress.company_address,
+            lat: this.lat,
+            lng: this.lng,
+          },
           password: this.create_password,
+          password_confirmation: this.confirm_password,
         })
         .then((response) => {
           this.loading = false;

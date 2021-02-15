@@ -3,7 +3,9 @@ import axios from "@/axios";
 //holds the state properties
 const state = {
     profile: {
-        store: {},
+        store: {
+            location: {}
+        },
         name: "",
         email: "",
         phone_number: "",

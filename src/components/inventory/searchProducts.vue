@@ -1,6 +1,7 @@
 <template>
   <div>
     <!-- search bar -->
+
     <searchBar
       placeholder="Search inventory"
       @search="setSearchValue"
@@ -25,7 +26,6 @@
         <h4>{{ dialogMessage }}</h4>
       </div>
     </modal>
-
   </div>
 </template>
 <script>
@@ -36,12 +36,12 @@ import { mapState } from "vuex";
 export default {
   name: "searchProducts",
   components: { searchBar, modal },
-  data: function() {
-      return {
-          dialog: false,
-          dialogMessage: "",
-          statusImage: null
-      }
+  data: function () {
+    return {
+      dialog: false,
+      dialogMessage: "",
+      statusImage: null,
+    };
   },
   computed: {
     ...mapState({
