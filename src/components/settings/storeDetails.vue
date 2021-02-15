@@ -47,6 +47,7 @@
           :rules="inputRules"
           type="text"
           color="primary"
+          id="autocomplete"
           v-model="computedInfo.currentStoreLocation"
           :disabled="editStoreLocation == false"
           required
@@ -156,8 +157,25 @@ export default {
       nameLoader: false,
       locationLoader: false,
       phoneNumLoader: false,
+      lat: "",
+      lng: "",
       inputRules: [(v) => !!v || "This field is required"],
     };
+  },
+  mounted() {
+    this.autocomplete = new window.google.maps.places.Autocomplete(
+      document.getElementById("autocomplete"),
+      {
+        bounds: new window.google.maps.LatLngBounds(
+          new window.google.maps.LatLng(6.5244, 3.3792)
+        ),
+        types: ["establishment"],
+        componentRestrictions: { country: ["NG"] },
+        fields: ["place_id", "geometry", "name"],
+      }
+    );
+
+    this.autocomplete.addListener("place_changed", this.onPlaceChanged);
   },
   computed: {
     ...mapGetters({
@@ -167,10 +185,10 @@ export default {
       // gets user profile informations
       let userProfile = this.$store.getters["settings/getUserProfile"];
       let storeName = userProfile.store.name;
-      let storeLocation = userProfile.store.location;
+      let storeLocation = userProfile.store.location.address;
       let storeNum = userProfile.store.phone_number;
       let currentStoreName = userProfile.store.name;
-      let currentStoreLocation = userProfile.store.location;
+      let currentStoreLocation = userProfile.store.location.address;
       let currentStoreNum = userProfile.store.phone_number;
 
       return {
@@ -184,6 +202,19 @@ export default {
     },
   },
   methods: {
+    onPlaceChanged() {
+      let place = this.autocomplete.getPlace();
+      if (!place.geometry) {
+        // User did not select a prediction; reset the input field
+        //this.validAddress = false;
+      } else {
+        //Display details about the valid place
+        //this.validAddress = true;
+        this.computedInfo.currentStoreLocation = place.name;
+        this.lat = place.geometry.location.lat();
+        this.lng = place.geometry.location.lng();
+      }
+    },
     // submits the edited information
     editInfo(input_field) {
       // // check if the edited input field is the store ame
@@ -233,7 +264,11 @@ export default {
           this.locationLoader = true;
           this.$store
             .dispatch("settings/editStore", {
-              location: this.computedInfo.currentStoreLocation,
+               location: {
+                address: this.computedInfo.currentStoreLocation,
+                lat: this.lat,
+                lng: this.lng
+              },
             })
             .then(() => {
               this.dialogMessage = "Store location changed successfully!";

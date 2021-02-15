@@ -29,7 +29,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .search-bar {
-  width: 350px;
+  width: 100%;
   height: 42px;
   background: #f9fafe;
   border-radius: 8px;

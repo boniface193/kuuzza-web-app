@@ -34,7 +34,7 @@
         >
         <!-- nav link -->
         <router-link
-          class="nav-item"
+          class="nav-item hide-item"
           :class="{ 'nav-item--active': this.$route.name == 'bankAccounts' }"
           :to="{ name: 'bankAccounts' }"
           >Bank Accounts</router-link
@@ -48,7 +48,7 @@
         >
         <!-- nav link -->
         <router-link
-          class="nav-item logout"
+          class="nav-item hide-item"
           :class="{ 'nav-item--active': this.$route.name == 'logout' }"
           :to="{ name: 'logout' }"
           >Log Out</router-link
@@ -106,7 +106,7 @@ export default {
         margin: 0px;
         padding: 5px 3px;
       }
-      .logout {
+      .hide-item {
         display: none;
       }
     }

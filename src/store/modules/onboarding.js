@@ -74,25 +74,9 @@ const getters = {
 //fetch data 
 const actions = {
     //creates user account
-    register(context, credentials) {
+    register(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post("auth/register", {
-                first_name: credentials.firstName,
-                last_name: credentials.lastName,
-                email: credentials.email,
-                phone_number: credentials.phoneNumber,
-                company_name: credentials.companyName,
-                company_location: {
-                    address: "Ikeja, Lagos.",
-                    lat: 6.452890,
-                    lng: 3.256350,
-                },
-                // company_country: credentials.country,
-                // company_state: credentials.state,
-                // company_address: credentials.companyAddress,
-                password: credentials.password,
-                password_confirmation: credentials.password
-            })
+            axios.post("auth/register", data)
                 .then(response => {
                     context.commit("setToken", response.data.token);
                     resolve(response)

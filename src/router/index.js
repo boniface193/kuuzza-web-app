@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import store from "@/store";
 import index from "@/views/index.vue";
 import pageNotFound from "@/components/pageNotFound.vue";
+// onboarding pages
 import Signup from "@/components/onboarding/Signup.vue";
 import Signin from "@/components/onboarding/Signin.vue";
 import signupTeamMember from "@/components/onboarding/signupTeamMember.vue";
@@ -10,34 +11,39 @@ import Recoverpassword from "@/components/onboarding/Recoverpassword.vue";
 import Forgotpassword from "@/components/onboarding/Forgotpassword.vue";
 import Onboarding from "@/views/onboarding/Onboarding.vue";
 import Dashboard from "@/views/dashboard/Dashboard.vue";
-import Inventory from "@/views/dashboard/Inventory.vue";
-import Home from "@/views/dashboard/home.vue";
-import Settings from "../views/dashboard/Settings.vue";
-import userDetails from "@/components/dashboard/userDetails.vue";
-import team from "@/components/dashboard/team.vue";
-import teamDetails from "@/components/dashboard/teamDetails.vue";
-import teamInvite from "@/components/dashboard/teamInvite.vue";
-import editTeamMember from "@/components/dashboard/editTeamMember.vue";
-import bankAccounts from "@/components/dashboard/bankAccounts.vue";
-import storeDetails from "@/components/dashboard/storeDetails.vue";
-import privacyDetails from "@/components/dashboard/privacyDetails.vue";
-import logout from "@/components/dashboard/logout.vue";
 import emailVerification from "@/components/onboarding/emailVerification.vue";
 import forgotPasswordVerification from "@/components/onboarding/forgotPasswordVerification.vue";
-import Leaderboard from "@/views/dashboard/leaderboard.vue";
-import inventoryHistory from "@/components/dashboard/inventoryHistory.vue";
-import inventoryPage from "@/components/dashboard/inventoryPage.vue";
-import addProduct from "@/components/dashboard/addProduct.vue";
+// inventory pages
+import Inventory from "@/views/Inventory.vue";
+import inventoryHistory from "@/components/inventory/inventoryHistory.vue";
+import inventoryPage from "@/components/inventory/inventoryPage.vue";
+import addProduct from "@/components/inventory/addProduct.vue";
 import editProduct from "@/components/inventory/editProduct.vue";
-import productDetails from "@/components/dashboard/productDetails.vue";
-import productList from "@/components/dashboard/productList.vue";
+import productDetails from "@/components/inventory/productDetails.vue";
+import productList from "@/components/inventory/productList.vue";
+import Home from "@/views/dashboard/home.vue";
+// settings pages
+import Settings from "../views/Settings.vue";
+import userDetails from "@/components/settings/userDetails.vue";
+import team from "@/components/settings/team.vue";
+import teamDetails from "@/components/settings/teamDetails.vue";
+import teamInvite from "@/components/settings/teamInvite.vue";
+import editTeamMember from "@/components/settings/editTeamMember.vue";
+import bankAccounts from "@/components/settings/bankAccounts.vue";
+import storeDetails from "@/components/settings/storeDetails.vue";
+import privacyDetails from "@/components/settings/privacyDetails.vue";
+import logout from "@/components/settings/logout.vue";
+
+import Leaderboard from "@/views/dashboard/leaderboard.vue";
+
 import leaderStore from "@/components/dashboard/leaderStore.vue";
 import leaderGlobal from "@/components/dashboard/leaderGlobal.vue";
 import Sellers from "@/views/dashboard/seller.vue";
 import allSeller from "@/components/dashboard/allSeller.vue";
 import newSeller from "@/components/dashboard/newSeller.vue";
 import returningSeller from "@/components/dashboard/returningSeller.vue";
-import Orders from "@/views/dashboard/Orders.vue";
+// orders page
+import Orders from "@/views/Orders.vue";
 import ordersPage from "@/components/order/ordersPage.vue";
 import orderDetails from "@/components/order/orderDetails";
 import sellersCard from "@/components/dashboard/sellersCard.vue";

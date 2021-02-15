@@ -110,7 +110,7 @@ export default {
         this.loading = true;
         this.$store
           .dispatch("onboarding/verifyEmail", {
-            code: this.code,
+            otp: this.code,
             email: this.$route.params.email,
             type: "vendor"
           })
