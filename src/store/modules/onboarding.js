@@ -1,24 +1,15 @@
 import axios from "@/axios";
 
-// decode token
+//decode token
 const decodeToken = (token) => {
     var base64Payload = token.split('.')[1];
     var payload = Buffer.from(base64Payload, 'base64');
     return JSON.parse(payload.toString());
 }
 
-// checkif user account is verified
-const checkIfAccountVerified = () => {
-    if (localStorage.getItem('accessToken')) {
-        const accountStatus = decodeToken(state.token).meta.email_verified
-        return accountStatus;
-    } else {
-        return false;
-    }
-}
 
 // check if user is authenticated
-const checkIfAuthenticated = () => {
+const checkIfTokenIsPresent = () => {
     if (state.token !== null) {
         return true;
     } else {
@@ -38,41 +29,35 @@ const checkIftokenExpired = () => {
 
 //holds the state properties
 const state = {
-    token: localStorage.getItem('accessToken') || null,
     present_signup_form: 'form1',
-    accessEmailVerifcationPage: false,
-    accessForgotPasswordVerificationPage: false,
-    accessPasswordRecoveryPage: false,
-    accountVerified: false,
-    accountAuthenticated: false,
+    token: localStorage.getItem('accessToken') || null,
+    tokenIsPresent: false,
     tokenExpired: true,
     doNothing: null,
 };
 
 //returns the state properties
 const getters = {
-    //checks if user is logged in
-    loggedin: () => {
-        return state.token != null;
-    },
-    accessEmailVerifcationPage: state => state.accessEmailVerifcationPage,
-    accessForgotPasswordVerificationPage: state => state.accessForgotPasswordVerificationPage,
-    accessPasswordRecoveryPage: state => state.accessPasswordRecoveryPage,
-    accountVerified: state => state.accountVerified,
-    accountAuthenticated: state => state.accountAuthenticated,
+    tokenIsPresent: state => state.tokenIsPresent,
     tokenExpired: state => state.tokenExpired,
-    getEmail: state => {
-        if (localStorage.getItem('accessToken')) {
-            const email = decodeToken(state.token).meta.email
-            return email;
-        } else {
-            return null;
-        }
-    },
 };
 
 //fetch data 
 const actions = {
+    // get user profile details
+    getUserProfile() {
+        return new Promise((resolve, reject) => {
+            axios.get("profile", {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                }
+            }).then(response => {
+                resolve(response)
+            }).catch((error) => {
+                reject(error)
+            })
+        })
+    },
     //creates user account
     register(context, data) {
         return new Promise((resolve, reject) => {
@@ -200,16 +185,9 @@ const mutations = {
         localStorage.removeItem('accessToken');
         state.token = localStorage.getItem('accessToken') || null
     },
-    accessEmailVerifcationPage: (state, status) => (state.accessEmailVerifcationPage = status),
-    accessForgotPasswordVerificationPage: (state, status) => (state.accessForgotPasswordVerificationPage = status),
-    accessPasswordRecoveryPage: (state, status) => (state.accessPasswordRecoveryPage = status),
-    setVerifyAccountStatus: (state) => {
-        const accountVerified = checkIfAccountVerified();
-        state.accountVerified = accountVerified;
-    },
-    setAuthenticated: (state) => {
-        const accountAuthenticated = checkIfAuthenticated();
-        state.accountAuthenticated = accountAuthenticated;
+    tokenIsPresent: (state) => {
+        const tokenIsPresent = checkIfTokenIsPresent();
+        state.tokenIsPresent = tokenIsPresent;
     },
     setTokenExpired: (state) => {
         const tokenExpired = checkIftokenExpired();

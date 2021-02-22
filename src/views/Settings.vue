@@ -35,8 +35,8 @@
         <!-- nav link -->
         <router-link
           class="nav-item hide-item"
-          :class="{ 'nav-item--active': this.$route.name == 'bankAccounts' }"
-          :to="{ name: 'bankAccounts' }"
+          :class="{ 'nav-item--active': this.$route.name == 'AddBankDetails' || this.$route.name == 'WithdrawFund' || this.$route.name == 'EditBankDetails'}"
+          :to="{ name: 'AddBankDetails' }"
           >Bank Accounts</router-link
         >
         <!-- nav link -->

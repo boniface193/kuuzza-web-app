@@ -82,8 +82,6 @@ export default {
           .then((response) => {
             this.loading = false;
             if (response.data.message === "OTP verified successfully.") {
-              this.$store.commit("onboarding/accessForgotPasswordVerificationPage", false);
-              this.$store.commit("onboarding/accessPasswordRecoveryPage", true);
               this.$router.push({
                 name: "Recoverpassword",
                 params: { otp: response.data.otp, email: this.$route.params.email},
