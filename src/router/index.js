@@ -131,35 +131,6 @@ const ifAccessPasswordRecoveryPage = (to, from, next) => {
   next({ name: 'Forgotpassword' })
 }
 
-// verify if access has been given to a user to view password recovery page
-// const ifAuthenticated = (to, from, next) => {
-//   store.commit("onboarding/setAuthenticated");
-//   if (store.getters["onboarding/accountAuthenticated"] === true) {
-//     store.commit("onboarding/setVerifyAccountStatus");
-//     if (store.getters["onboarding/accountVerified"] === true) {
-//       store.commit("onboarding/setTokenExpired");
-//       store.commit("onboarding/accessEmailVerifcationPage", false);
-
-//       if (store.getters["onboarding/tokenExpired"] === false) {
-//         next()
-//         return
-//       } else {
-//         localStorage.removeItem("accessToken");
-//         next({ name: 'Signin' });
-//       }
-
-//     } else {
-//       const emailAddress = store.getters["onboarding/getEmail"];
-//       localStorage.removeItem("accessToken");
-//       store.commit("onboarding/accessEmailVerifcationPage", true);
-//       next({ name: 'emailVerification', params: { email: emailAddress, } });
-//     }
-
-//   } else {
-//     next({ name: 'Signin' });
-//   }
-// }
-
 // verify that the user is already logged
 const AlreadyLogin = (to, from, next) => {
   if (to.name === 'signupTeamMember'){

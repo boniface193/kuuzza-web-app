@@ -326,6 +326,12 @@ export default {
         this.lng = place.geometry.location.lng();
       }
     },
+    //get the states under the country selected
+    // get_states() {
+    //   this.states = this.countries.find(
+    //     (x) => x.country === this.country
+    //   ).states;
+    // },
     //validate forms
     validate_form(form_num) {
       this.$refs[`form${form_num}`].validate();
