@@ -22,9 +22,6 @@
           </v-col>
           <v-col v-if="item.title" cols="4" class="text-truncate">
             <span class="large-text"> {{ item.title }}</span>
-            <div class="mt-2 small-text">
-              {{ item.email }}
-            </div>
           </v-col>
           <v-col v-if="item.indexOfOrder" cols="3" class="text-truncate">
             <span class="small-text">{{ item.indexOfOrder }}</span>
