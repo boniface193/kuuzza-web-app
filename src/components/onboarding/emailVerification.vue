@@ -117,7 +117,6 @@ export default {
           .then((response) => {
             this.loading = false;
             if (response.data.message === "Email verified successfully.") {
-
               if(localStorage.getItem("accessToken")){
                  this.dialog = true;
               }else {

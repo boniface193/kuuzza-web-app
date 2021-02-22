@@ -29,10 +29,14 @@ import team from "@/components/settings/team.vue";
 import teamDetails from "@/components/settings/teamDetails.vue";
 import teamInvite from "@/components/settings/teamInvite.vue";
 import editTeamMember from "@/components/settings/editTeamMember.vue";
-import bankAccounts from "@/components/settings/bankAccounts.vue";
+import WithdrawalPage from "@/components/settings/WithdrawalPage.vue";
 import storeDetails from "@/components/settings/storeDetails.vue";
 import privacyDetails from "@/components/settings/privacyDetails.vue";
 import logout from "@/components/settings/logout.vue";
+// withdrawal 
+import WithdrawFund from "@/components/withdrawalPages/WithdrawFund.vue";
+import AddBankDetails from "@/components/withdrawalPages/AddBankDetails.vue";
+import EditBankDetails from '@/components/withdrawalPages/EditBankDetails.vue';
 
 import Leaderboard from "@/views/dashboard/leaderboard.vue";
 
@@ -61,12 +65,49 @@ import awaitingSettlements from "@/components/dashboard/awaitingSettlements.vue"
 import paymentHistory from "@/components/dashboard/paymentHistory.vue";
 import bestSeller from "@/views/dashboard/bestSeller.vue";
 
-
 Vue.use(VueRouter);
+
+// requirement for user to log on to the dashboard
+const ifAuthenticated = (to, from, next) => {
+  store.commit("onboarding/tokenIsPresent");
+  if (store.getters["onboarding/tokenIsPresent"] === true) {
+    store.dispatch("onboarding/getUserProfile").then((response) => {
+      const profile = response.data.data;
+      if (profile.email_verified) {
+        if (profile.status) {
+          store.commit("onboarding/setTokenExpired");
+          if (store.getters["onboarding/tokenExpired"] === false) {
+            next()
+            return
+          } else {
+            localStorage.removeItem("accessToken");
+            next({ name: 'Signin' });
+          }
+        } else {
+          store.commit("onboarding/loggedIn", false);
+          next({ name: "SuspensionPage" })
+        }
+      } else {
+        next({
+          name: 'Emailverification', params: {
+            email: profile.email,
+          },
+        });
+      }
+    }).catch((error) => {
+      if (error.response) {
+        localStorage.removeItem("accessToken");
+        next({ name: "Signin" })
+      }
+    })
+  } else {
+    next({ name: 'Signin' });
+  }
+}
 
 // verify if access has been given to a user to view email verification page
 const ifAccessEmailVerifcationPage = (to, from, next) => {
-  if (store.getters["onboarding/accessEmailVerifcationPage"] === true) {
+  if (from.name === "Signup" || from.name === "Signin") {
     next()
     return
   }
@@ -74,7 +115,7 @@ const ifAccessEmailVerifcationPage = (to, from, next) => {
 }
 // verify if access has been given to a user to view password verification page
 const ifAccessForgotPasswordVerificationPage = (to, from, next) => {
-  if (store.getters["onboarding/accessForgotPasswordVerificationPage"] === true) {
+  if (from.name === "Forgotpassword") {
     next()
     return
   }
@@ -83,7 +124,7 @@ const ifAccessForgotPasswordVerificationPage = (to, from, next) => {
 
 // verify if access has been given to a user to view password recovery page
 const ifAccessPasswordRecoveryPage = (to, from, next) => {
-  if (store.getters["onboarding/accessPasswordRecoveryPage"] === true) {
+  if (from.name === "forgotPasswordVerification") {
     next()
     return
   }
@@ -91,46 +132,55 @@ const ifAccessPasswordRecoveryPage = (to, from, next) => {
 }
 
 // verify if access has been given to a user to view password recovery page
-const ifAuthenticated = (to, from, next) => {
-  store.commit("onboarding/setAuthenticated");
-  if (store.getters["onboarding/accountAuthenticated"] === true) {
-    store.commit("onboarding/setVerifyAccountStatus");
-    if (store.getters["onboarding/accountVerified"] === true) {
-      store.commit("onboarding/setTokenExpired");
-      store.commit("onboarding/accessEmailVerifcationPage", false);
+// const ifAuthenticated = (to, from, next) => {
+//   store.commit("onboarding/setAuthenticated");
+//   if (store.getters["onboarding/accountAuthenticated"] === true) {
+//     store.commit("onboarding/setVerifyAccountStatus");
+//     if (store.getters["onboarding/accountVerified"] === true) {
+//       store.commit("onboarding/setTokenExpired");
+//       store.commit("onboarding/accessEmailVerifcationPage", false);
 
-      if (store.getters["onboarding/tokenExpired"] === false) {
-        next()
-        return
-      } else {
-        localStorage.removeItem("accessToken");
-        next({ name: 'Signin' });
-      }
+//       if (store.getters["onboarding/tokenExpired"] === false) {
+//         next()
+//         return
+//       } else {
+//         localStorage.removeItem("accessToken");
+//         next({ name: 'Signin' });
+//       }
 
-    } else {
-      const emailAddress = store.getters["onboarding/getEmail"];
-      localStorage.removeItem("accessToken");
-      store.commit("onboarding/accessEmailVerifcationPage", true);
-      next({ name: 'emailVerification', params: { email: emailAddress, } });
-    }
+//     } else {
+//       const emailAddress = store.getters["onboarding/getEmail"];
+//       localStorage.removeItem("accessToken");
+//       store.commit("onboarding/accessEmailVerifcationPage", true);
+//       next({ name: 'emailVerification', params: { email: emailAddress, } });
+//     }
 
-  } else {
-    next({ name: 'Signin' });
-  }
-}
+//   } else {
+//     next({ name: 'Signin' });
+//   }
+// }
 
 // verify that the user is already logged
 const AlreadyLogin = (to, from, next) => {
-  store.commit("onboarding/setAuthenticated");
   if (to.name === 'signupTeamMember'){
     next();
   }else {
-    if (store.getters["onboarding/accountAuthenticated"] === true) {
+    if (localStorage.getItem("accessToken")) {
       next({ name: 'dashboard' })
-      return
     } else {
       next();
+      return
     }
+  }
+}
+
+// allow a user to edit account only when comming from the withdrawal page
+const allowEditBankAccount = (to, from, next) => {
+  if (from.name === "WithdrawFund") {
+    next();
+    return
+  } else {
+    next({ name: "WithdrawFund" });
   }
 }
 
@@ -354,9 +404,26 @@ const routes = [
             ]
           },
           {
-            path: "bank-details",
-            name: "bankAccounts",
-            component: bankAccounts
+            path: "",
+            component: WithdrawalPage,
+            children: [
+              {
+                path: "add-account",
+                name: "AddBankDetails",
+                component: AddBankDetails
+              },
+              {
+                path: "withdraw-fund",
+                name: "WithdrawFund",
+                component: WithdrawFund
+              },
+              {
+                path: "change-account",
+                name: "EditBankDetails",
+                component: EditBankDetails ,
+                beforeEnter: allowEditBankAccount
+              }
+            ]
           },
           {
             path: "privacy",

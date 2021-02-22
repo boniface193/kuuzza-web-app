@@ -12,6 +12,7 @@ const state = {
         photo: null,
         role: "",
         status: "",
+        id: "",
     },
     loader: false,
     doNothing: null,
@@ -33,15 +34,22 @@ const getters = {
 const actions = {
 
     // get profile informations
+
     getUserProfile(context) {
-        state.loader = true;
-        axios.get("profile", {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-            }
-        }).then(response => {
-            context.commit("setUserProfile", response.data.data)
-            state.loader = false
+        return new Promise((resolve, reject) => {
+
+            state.loader = true;
+            axios.get("profile", {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                }
+            }).then(response => {
+                context.commit("setUserProfile", response.data.data)
+                state.loader = false
+                resolve(response)
+            }).catch((error) => {
+                reject(error)
+            })
         })
     },
     // edit user profile
@@ -215,7 +223,7 @@ const mutations = {
     setUserProfile: (state, data) => (state.profile = data),
     setTeamMembers: (state, data) => (state.teamMembers = data),
     setPageDetails: (state, data) => (state.pageDetails = data),
-    setCurrentPage: (state, currentPage) => {state.pageDetails.current_page = currentPage},
+    setCurrentPage: (state, currentPage) => { state.pageDetails.current_page = currentPage },
     doNothing: (state) => (state.doNothing = null)
 };
 

@@ -120,10 +120,9 @@ export default {
         .then((response) => {
           this.loading = false;
           if (response.data.message === "Password reset successful.") {
-            this.dialogMessage = "Your password has been successfully changed";
+            this.dialogMessage = "You have successfully changed your password";
             this.dialog = true;
             this.otp = null;
-            this.$store.commit("onboarding/accessPasswordRecoveryPage", false);
             setTimeout(() => {
               this.$router.push({
                 name: "Signin",

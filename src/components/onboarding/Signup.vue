@@ -271,7 +271,7 @@ export default {
       address_nameRules: [
         //verifies comapany address satisfies the requirement
         (v) => !!v || "Company address is required",
-        () => this.validAddress || "Select a valid Address"
+        () => this.validAddress || "Select a valid Address",
       ],
       create_passwordRules: [
         //verifies password satisfies the requirement
@@ -326,12 +326,6 @@ export default {
         this.lng = place.geometry.location.lng();
       }
     },
-    //get the states under the country selected
-    // get_states() {
-    //   this.states = this.countries.find(
-    //     (x) => x.country === this.country
-    //   ).states;
-    // },
     //validate forms
     validate_form(form_num) {
       this.$refs[`form${form_num}`].validate();
@@ -345,13 +339,13 @@ export default {
               email: this.email,
             })
             .then(() => {
+              this.error = false;
+              this.loading2 = false;
+              this.errorMessage = "";
               this.$store.commit(
                 "onboarding/present_signup_form",
                 `form${form_num + 1}`
               );
-              this.error = false;
-              this.loading2 = false;
-              this.errorMessage = "";
             })
             .catch((error) => {
               this.error = true;
@@ -399,7 +393,6 @@ export default {
           this.loading = false;
           if (response.data.message === "Registeration successful.") {
             this.$store.commit("onboarding/present_signup_form", "form1");
-            this.$store.commit("onboarding/accessEmailVerifcationPage", true);
             this.$router.push({
               name: "emailVerification",
               params: {
