@@ -15,20 +15,86 @@
         </v-app-bar-nav-icon>
 
         <v-spacer></v-spacer>
+        <!-- search icon -->
         <v-icon color="#C4C4C4" size="21" class="mr-6">mdi-magnify</v-icon>
-        <div class="d-flex mr-6">
-          <v-icon size="21" color="#C4C4C4" class="">mdi-bell</v-icon>
-          <v-badge
-            color="primary"
-            bordered
-            dot
-            class="mt-2 position-absolute ml-4"
-          >
-          </v-badge>
+        <!-- notification -->
+        <div class="d-flex mr-6" style="cursor: pointer">
+          <!-- notification dropdown -->
+          <v-menu open-on-hover top>
+            <!-- activator -->
+            <template v-slot:activator="{ on, attrs }">
+              <!-- icon -->
+              <v-icon size="21" color="#C4C4C4" v-bind="attrs" v-on="on"
+                >mdi-bell</v-icon
+              >
+              <!-- signal -->
+              <v-badge
+                color="primary"
+                bordered
+                dot
+                class="mt-2 position-absolute ml-4"
+              >
+              </v-badge>
+            </template>
+            <!-- notification body-->
+            <v-card class="mx-auto" elevation="0" max-width="400">
+              <v-toolbar height="40" color="primary" elevation="0" dark>
+                <v-toolbar-title class="layout-title"
+                  >Notifications</v-toolbar-title
+                >
+                <v-spacer></v-spacer>
+                <v-toolbar-title class="text-size-md white--text pl-12 pr-3"
+                  >2 unread Notifications</v-toolbar-title
+                >
+              </v-toolbar>
+
+              <v-list class="py-0">
+                <v-subheader class="bg-color py-5 d-flex justify-center"
+                  >Today</v-subheader
+                >
+
+                <v-list-item link>
+                  <v-list-item-content>
+                    <v-list-item-title class="layout-title-noti"
+                      >Content filtering</v-list-item-title
+                    >
+                    <v-list-item-subtitle class="layout-title-sm">20 min ago</v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+
+                <v-divider></v-divider>
+
+                <v-list-item link>
+                  <v-list-item-content>
+                    <v-list-item-title class="layout-title-noti"
+                      >Password</v-list-item-title
+                    >
+                    <v-list-item-subtitle class="layout-title-sm">45 min ago</v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
+
+              <v-list class="py-0">
+                <v-subheader class="bg-color py-5 d-flex justify-center"
+                  >Old Notifications</v-subheader
+                >
+
+                <v-list-item link>
+                  <v-list-item-content>
+                    <v-list-item-title class="layout-title-noti"
+                      >Content filtering</v-list-item-title
+                    >
+                    <v-list-item-subtitle class="layout-title-sm">yesterday</v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
+              <div class="layout-title-noti bg-color d-flex justify-end pa-5">Mark All Read</div>
+            </v-card>
+          </v-menu>
         </div>
 
         <v-avatar size="31">
-          <v-img src="../../assets/layout/fire.svg"></v-img>
+          <v-img src="https://cdn.vuetifyjs.com/images/lists/2.jpg"></v-img>
         </v-avatar>
       </v-app-bar>
       <!-- drawer -->
@@ -107,6 +173,7 @@ export default {
   data: () => ({
     dialog: false,
     drawer: true,
+    settings: [],
     items: [
       {
         title: "Dashboard",
@@ -177,6 +244,10 @@ export default {
         });
       }, 1000);
     },
+
+    showDropDown() {
+      alert("over");
+    },
   },
 };
 </script>
@@ -208,6 +279,17 @@ export default {
   letter-spacing: 0.5px;
   color: #ffffff;
   opacity: 1;
+}
+
+.layout-title-noti {
+  text-align: left;
+  font: normal normal 16px/20px "Product Sans";
+  letter-spacing: 0.5px;
+}
+
+.layout-title-sm{
+  font-size: 10px;
+  margin-top: 5px;
 }
 
 .layout-title-subtitle {

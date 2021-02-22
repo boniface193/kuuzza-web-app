@@ -12,7 +12,7 @@
       <div class="pa-2"></div>
       <v-row>
         <!-- to show total revenue, item in stock, total commission -->
-        <v-col sm="4">
+        <v-col cols="12" sm="4">
           <card
             card_digit="899.9k"
             card_title="Total Revenue(₦)"
@@ -20,7 +20,7 @@
             img_color="round-img-bg-success"
           />
         </v-col>
-        <v-col sm="4">
+        <v-col cols="12" sm="4">
           <card
             card_digit="1001"
             card_title="Items in Stock"
@@ -29,10 +29,10 @@
             card_sub="-109"
           />
         </v-col>
-        <v-col sm="4">
+        <v-col cols="12" sm="4">
           <card
             card_digit="67000"
-            card_title="Total Commission paid (NGN)"
+            card_title="Available Balance (NGN)"
             card_img="arrow.svg"
             img_color="round-img-bg-secondary"
           />
@@ -94,7 +94,7 @@
         </v-col>
         <v-col class="col-lg-4 col-sm-12">
           <v-row>
-            <v-col sm="12">
+            <v-col cols="12" sm="12">
               <!-- show numbers of customers -->
               <custom
                 green_text="+23"
@@ -106,7 +106,7 @@
               />
             </v-col>
 
-            <v-col sm="12">
+            <v-col cols="12" sm="12">
               <!-- show number of sellers -->
               <custom
                 green_text="+7"
@@ -162,7 +162,6 @@ export default {
       topCustomerList: [
         {
           title: "Emike Lucy",
-          email: "emike@gmail.com",
           indexOfOrder: "No. of Orders",
           number: 10,
           totalSpent: "Total Spent",
@@ -170,7 +169,6 @@ export default {
         },
         {
           title: "Emike Lucy",
-          email: "emike@gmail.com",
           indexOfOrder: "No. of Orders",
           number: 15,
           totalSpent: "Total Spent",
@@ -178,7 +176,6 @@ export default {
         },
         {
           title: "Emike Lucy",
-          email: "emike@gmail.com",
           indexOfOrder: "No. of Orders",
           number: 22,
           totalSpent: "Total Spent",
