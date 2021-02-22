@@ -18,7 +18,7 @@
             <div class="text-right">
               <h3>{{ this.accountDetails.data.name }}</h3>
               <h5>{{ this.accountDetails.data.number }}</h5>
-              <h5>Access bank</h5>
+              <h5>{{ this.accountDetails.data.bank_name }}</h5>
             </div>
           </div>
           <div class="d-flex justify-space-between align-baseline my-5 mb-10">

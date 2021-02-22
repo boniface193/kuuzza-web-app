@@ -17,10 +17,10 @@
               width="100%"
               height="57px"
               caretColor="#5064cc"
-              :placeholder="'zenith bank'"
+              :placeholder="getAccountDetails.bank_name"
               :searchBar="true"
               :items="bankList"
-              :item="'zenith bank'"
+              :item="getAccountDetails.bank_name"
               :inputStatus="bankError"
               @selectedItem="setBank"
             />
@@ -187,6 +187,7 @@ export default {
     getAccountDetails() {
       return {
         accNumber: this.accountDetails.data.number,
+        bank_name: this.accountDetails.data.bank_name,
       };
     },
   },
@@ -232,6 +233,7 @@ export default {
         this.$store
           .dispatch("bankService/validateBankAccount", {
             account_number: this.getAccountDetails.accNumber,
+            bank_name: this.bank.name,
             bank_code: this.bank.code,
           })
           .then((response) => {
@@ -261,18 +263,16 @@ export default {
         this.$store
           .dispatch("bankService/setAccountDetails", {
             account_number: this.getAccountDetails.accNumber,
+            bank_name: this.bank.name,
             bank_code: this.bank.code,
             password: this.password,
           })
           .then(() => {
             this.loading = false;
             this.passwordError = false;
+            this.passwordDialog = false;
             // get lastest profile information
-            this.$store.dispatch("settings/getUserProfile").then(() => {
-              this.$router.push({
-                name: "WithdrawFund",
-              });
-            });
+            location.reload();
           })
           .catch((error) => {
             this.passwordError = true;

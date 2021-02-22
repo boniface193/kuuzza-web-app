@@ -230,6 +230,7 @@ export default {
           .dispatch("bankService/validateBankAccount", {
             account_number: this.accNumber,
             bank_code: this.bank.code,
+            bank_name: this.bank.name,
           })
           .then((response) => {
             this.accountDetails = response.data.data;
@@ -259,17 +260,15 @@ export default {
           .dispatch("bankService/setAccountDetails", {
             account_number: this.accNumber,
             bank_code: this.bank.code,
+            bank_name: this.bank.name,
             password: this.password,
           })
           .then(() => {
             this.loading = false;
             this.passwordError = false;
+            this.passwordDialog = false;
             // get lastest profile information
-            this.$store.dispatch("settings/getUserProfile").then(() => {
-              this.$router.push({
-                name: "WithdrawFund",
-              });
-            });
+            location.reload();
           })
           .catch((error) => {
             this.passwordError = true;
