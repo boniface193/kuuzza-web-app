@@ -18,7 +18,7 @@
               class="input mt-0"
               v-model="productDetails.name"
               type="name"
-              @change="edited = true"
+              @keyup="edited = true"
               :rules="inputRules"
               color="primary"
               placeholder="Infinix Hot 100"
@@ -53,7 +53,7 @@
               class="input mt-0"
               v-model="productDetails.sku"
               :rules="inputRules"
-              @change="edited = true"
+              @keyup="edited = true"
               color="primary"
               placeholder="Enter SKU Number"
               required
@@ -85,7 +85,7 @@
               class="input mt-0"
               :rules="inputRules"
               v-model="productDetails.price"
-              @change="edited = true"
+              @keyup="edited = true"
               type="number"
               min="1"
               color="primary"
@@ -135,7 +135,7 @@
               outlined
               name="input-7-4"
               :rules="inputRules"
-              @change="edited = true"
+              @keyup="edited = true"
               v-model="productDetails.description"
               placeholder="Enter brief description about product"
             ></v-textarea>
