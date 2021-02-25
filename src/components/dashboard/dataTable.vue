@@ -156,7 +156,7 @@
               @click="selectRow"
               class="primary--text mr-2"
             ></v-checkbox>
-            <span>Select all products</span>
+            <span>Select all</span>
           </span>
         </div>
         <div
