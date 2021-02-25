@@ -1,60 +1,64 @@
 <template>
   <div class="pb-10">
-    <!-- page title -->
-    <div class="d-flex justify-space-between align-center">
-      <h1>Inventory</h1>
-      <div class="d-flex align-center">
-        <router-link :to="{ name: 'inventoryHistory' }" class="mr-4"
-          >History</router-link
-        >
-        <!-- calendar -->
-        <calendar @updateDate="setDate" />
+    <div>
+      <!-- page title -->
+      <div class="d-flex justify-space-between align-center">
+        <h1>Inventory</h1>
+        <div class="d-flex align-center">
+          <router-link :to="{ name: 'inventoryHistory' }" class="mr-4"
+            >History</router-link
+          >
+          <!-- calendar -->
+          <calendar @updateDate="setDate" />
+        </div>
       </div>
-    </div>
-    <div class="d-flex justify-space-between align-center mt-8 mb-1 flex-wrap">
-      <div class="select-item mr-8 mb-2">
-        <selectBtn
-          :items="[
-            'Take product offline',
-            'Take product online',
-            'Delete product',
-          ]"
-          :item="'Actions'"
-          :dropDownMenu="true"
-          @selectedItem="setBulkAction"
-        />
-      </div>
-
       <div
-        class="d-flex align-center flex-wrap tool-container justify-space-between"
+        class="d-flex justify-space-between align-center mt-8 mb-1 flex-wrap"
       >
-        <!-- search products-->
-        <div class="search-container mr-md-2">
-          <searchProducts />
+        <div class="select-item mr-8 mb-2">
+          <selectBtn
+            :items="[
+              'Take product offline',
+              'Take product online',
+              'Delete product',
+            ]"
+            :item="'Actions'"
+            :dropDownMenu="true"
+            @selectedItem="setBulkAction"
+          />
         </div>
 
-        <div class="d-flex align-center flex-wrap justify-space-between mb-2">
-          <!-- filter products-->
-          <filterProducts class="mr-2" />
+        <div
+          class="d-flex align-center flex-wrap tool-container justify-space-between"
+        >
+          <!-- search products-->
+          <div class="search-container mr-md-2">
+            <searchProducts />
+          </div>
 
-          <!-- export products -->
-          <exportProducts class="mr-2" />
+          <div class="d-flex align-center flex-wrap justify-space-between mb-2">
+            <!-- filter products-->
+            <filterProducts class="mr-2" />
 
-          <!-- import products -->
-          <router-link :to="{ name: 'productList' }">
-            <importIcon class="mr-2" toolTipText="Import products" />
-          </router-link>
+            <!-- export products -->
+            <exportProducts class="mr-2" />
 
-          <!-- add product btn primary-->
-          <router-link :to="{ name: 'addProduct' }" class="add-btn-primary">
-            <v-btn class="primary py-6 px-4"
-              ><span>+</span> Add New Product</v-btn
-            >
-          </router-link>
-          <!-- add product btn primary-->
-          <router-link :to="{ name: 'addProduct' }" class="add-btn-secondary">
-            <span class="btn">+</span>
-          </router-link>
+            <!-- import products -->
+            <router-link :to="{ name: 'productList' }">
+              <importIcon class="mr-2" toolTipText="Import products" />
+            </router-link>
+
+            <!-- add product btn primary-->
+            <router-link :to="{ name: 'addProduct' }" class="add-btn-primary">
+              <v-btn class="primary py-6 px-4"
+                ><span>+</span> Add New Product</v-btn
+              >
+            </router-link>
+            <!-- add product btn primary-->
+            <router-link :to="{ name: 'addProduct' }" class="add-btn-secondary">
+              <span class="btn">+</span>
+            </router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -448,19 +452,21 @@ export default {
 }
 .add-btn-secondary {
   display: none;
-  .btn{
+  .btn {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 45px;
-    height: 45px;
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
     background: #5064cc;
     position: fixed;
     bottom: 40px;
     right: 20px;
     color: white;
-    font-size: 25px;
+    font-size: 35px;
+    z-index: 10;
+    box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
   }
 }
 @media (max-width: 953px) {

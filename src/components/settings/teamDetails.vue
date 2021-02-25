@@ -8,14 +8,14 @@
           ></router-link
         >
 
-        <div class="d-flex align-center flex-wrap">
+        <!-- <div class="d-flex align-center flex-wrap">
           <v-icon class="primary--text mr-2 mb-5 mb-sm-0">mdi-upload</v-icon>
           <v-icon class="primary--text mr-2 mb-5 mb-sm-0">mdi-sort</v-icon>
           <searchBar
             placeholder="Search representative"
             @search="getSearchValue"
           />
-        </div>
+        </div> -->
       </div>
 
       <!-- table  -->
@@ -216,7 +216,7 @@
   </div>
 </template>
 <script>
-import searchBar from "@/components/dashboard/searchBar.vue";
+//import searchBar from "@/components/dashboard/searchBar.vue";
 import modal from "@/components/dashboard/modal.vue";
 import dataTable from "@/components/dashboard/dataTable.vue";
 import successImage from "@/assets/img/success-img.svg";
@@ -224,7 +224,7 @@ import failedImage from "@/assets/img/failed-img.svg";
 import { mapGetters} from "vuex";
 export default {
   name: "teamDetails",
-  components: { searchBar, modal, dataTable },
+  components: {  modal, dataTable },
   data: function () {
     return {
       statusImage: null,

@@ -9,7 +9,14 @@
           </h3>
         </router-link>
       </div>
-      <progressBar :width="progress" class="mt-8 mb-6" />
+      <progressBar
+        :width="progress"
+        height="8px"
+        bgColor="#EFEFEF"
+        progressColor="#00B944"
+        borderRadius="5px"
+        class="mt-8 mb-6"
+      />
 
       <div>
         <!-- form 1 -->
@@ -72,7 +79,7 @@
             </v-text-field>
           </div>
 
-            <!-- unit price -->
+          <!-- unit price -->
           <div class="mb-3 input-field">
             <p class="mb-1">Unit Price (&#8358;)</p>
             <v-text-field
@@ -88,7 +95,7 @@
             >
             </v-text-field>
           </div>
-          
+
           <!-- quantity -->
           <div class="mb-9 input-field">
             <p class="mb-1">Quantity</p>
@@ -104,41 +111,6 @@
               Quantity cannot be less or equal to 0
             </div>
           </div>
-
-          <!-- service charge -->
-          <!-- <div class="mb-3 input-field">
-            <p class="mb-1 primary--text">Service Charge (5%)</p>
-            <v-text-field
-              class="input mt-0"
-              v-model="calculatedPrices.commission"
-              color="primary"
-              required
-              outlined
-              disabled
-            >
-            </v-text-field>
-          </div> -->
-
-          <!-- total price -->
-          <!-- <div class="d-flex justify-end" style="width: 100%">
-            <div class="mb-3 input-field">
-              <p class="mb-1 primary--text">
-                Total Price
-                <span class="success--text"
-                  >(NB: this would be the price tag on NOVA)</span
-                >
-              </p>
-              <v-text-field
-                class="input mt-0"
-                v-model="calculatedPrices.totalPrice"
-                color="primary"
-                required
-                outlined
-                disabled
-              >
-              </v-text-field>
-            </div>
-          </div> -->
 
           <!-- button container -->
           <div class="d-flex justify-end" style="width: 100%">
@@ -175,14 +147,14 @@
           <div class="mb-9 input-field">
             <p class="mb-1">Upload Product Image</p>
             <imageUploader
-              itemHolder="Select image"
               width="100%"
               height="57px"
               caretColor="#5064cc"
-              @images="setImages"
+              :multiple="false"
+              @images="setImageUrl"
             />
             <div v-if="imageError === true" class="inputError error--text">
-              At Least one image is required
+              An image is required
             </div>
           </div>
 
@@ -257,7 +229,7 @@ export default {
       price: "",
       totalPrice: 0,
       productDescription: "",
-      images: null,
+      imageUrl: null,
       loading: false,
       categories: [
         "Category 1",
@@ -278,23 +250,6 @@ export default {
       categoryError: false,
       imageError: false,
     };
-  },
-  computed: {
-    calculatedPrices() {
-      if (this.price == "") {
-        return {
-          commission: 0,
-          totalPrice: 0,
-        };
-      } else {
-        const commission = Math.round(0.05 * parseInt(this.price, 10));
-        const totalPrice = commission + parseInt(this.price, 10);
-        return {
-          commission: commission,
-          totalPrice: totalPrice,
-        };
-      }
-    },
   },
   methods: {
     // next form
@@ -334,14 +289,6 @@ export default {
         this.quantityError = false;
       }
     },
-    // verify that an image is selected
-    verifyImages() {
-      if (this.images === null || this.images.length === 0) {
-        this.imageError = true;
-      } else {
-        this.imageError = false;
-      }
-    },
     // set category value
     setCategory(params) {
       this.category = params;
@@ -352,9 +299,17 @@ export default {
       this.quantity = params;
       this.verifyQuantity();
     },
-    // set images
-    setImages(params) {
-      this.images = params;
+    verifyImages(){
+      if(this.imageUrl !== null ){
+         this.imageError = false;
+      }else {
+        this.imageError = true;
+        this.$refs.imageUploader.setError();
+      }
+    },
+    // set image url
+    setImageUrl(params) {
+      this.imageUrl = params.imageUrl;
       this.verifyImages();
       this.setProgress();
     },
@@ -384,9 +339,8 @@ export default {
           sku: this.skuNumber,
           quantity: this.quantity,
           price: this.price,
-          commission: this.calculatedPrices.commission,
           description: this.productDescription,
-          image: "https://homepages.cae.wisc.edu/~ece533/images/watch.png",
+          image: this.imageUrl,
         })
         .then(() => {
           this.failedRequest = false;
@@ -395,7 +349,7 @@ export default {
           this.statusImage = successImage;
           this.dialogMessage =
             "Product have successfully been added to your inventory.";
-            this.$store.dispatch("inventory/getfilteredProducts")
+          this.$store.dispatch("inventory/getfilteredProducts");
         })
         .catch((error) => {
           this.failedRequest = true;
