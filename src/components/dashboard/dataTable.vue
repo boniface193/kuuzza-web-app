@@ -18,6 +18,7 @@
                   v-model="selectAll"
                   @click="selectRow"
                   color="white"
+                  class="mr-2"
                 ></v-checkbox>
                 <span>{{
                   header.money === true
@@ -68,7 +69,8 @@
                   v-if="index2 == 0 && select === true"
                   :value="item[`${itemKey}`]"
                   v-model="selected"
-                  @click="emitSelectedRow"
+                  @click="emitSelectedRow()"
+                  class="mr-2"
                 ></v-checkbox>
                 <!-- shows if the content is an image -->
                 <img
@@ -144,6 +146,135 @@
           </tr>
         </tbody>
       </table>
+
+      <!-- table that shows on mobile at screen 650px -->
+      <div class="secondary-table">
+        <div class="px-2" v-show="select === true">
+          <span class="d-flex align-center py-2">
+            <v-checkbox
+              v-model="selectAll"
+              @click="selectRow"
+              class="primary--text mr-2"
+            ></v-checkbox>
+            <span>Select all products</span>
+          </span>
+        </div>
+        <div
+          v-for="item in sortedItems"
+          :key="item[`${itemKey}`]"
+          :class="{
+            selectedRow: selected.includes(item[`${itemKey}`]),
+            statusRow:
+              item[`${statusKey}`] == 'suspended' ||
+              item[`${statusKey}`] == false,
+          }"
+        >
+          <div>
+            <div class="d-flex py-1 px-2 primary justify-end">
+              <span class="custom-checkbox">
+                <v-checkbox
+                  v-if="select === true"
+                  :value="item[`${itemKey}`]"
+                  v-model="selected"
+                  @click="emitSelectedRow()"
+                  class="white"
+                ></v-checkbox>
+              </span>
+            </div>
+            <div
+              class="d-flex align-center justify-space-between row-height px-2"
+              v-for="(header, index2) in headers"
+              :key="index2"
+            >
+              <div
+                style="font-weight: 600; word-break: break-all"
+                class="mr-2 name"
+              >
+                <!-- check if it is money and the currency symbol -->
+                <span>{{
+                  header.money === true
+                    ? `${header.text} (&#8358;)`
+                    : header.text
+                }}</span>
+              </div>
+              <div>
+                <span style="word-break: break-all">
+                  <!-- shows if the content is an image -->
+                  <img
+                    :src="item[header.value]"
+                    v-if="header.image === true"
+                    alt="Product Image"
+                    style="width: 60px; height: 50px"
+                  />
+                  <!-- shows if the content is a text and not an image or link -->
+                  <span v-if="header.image !== true && header.href !== true"
+                    >{{ item[`${header.value}`] }}
+                  </span>
+
+                  <!-- shows if the content is a text and link but not an image -->
+                  <span v-if="header.image !== true && header.href === true">
+                    <router-link
+                      :to="{
+                        name: header.routeName,
+                        params: { id: item[`${itemKey}`] },
+                      }"
+                      class="productLink"
+                      >{{
+                        header.money === true
+                          ? numberWithCommas(item[`${header.value}`])
+                          : item[`${header.value}`]
+                      }}</router-link
+                    >
+                  </span></span
+                >
+              </div>
+            </div>
+            <!-- action row-->
+            <div
+              class="d-flex align-center justify-space-between row-height px-2"
+              v-if="action === true"
+            >
+              <!-- action header -->
+              <span style="font-weight: 600">Action</span>
+              <!-- action btns -->
+              <span class="d-flex align-center">
+                <!-- edit btn -->
+                <span
+                  @click="editRow(item[`${itemKey}`], item.status)"
+                  class="mr-1"
+                >
+                  <editIcon toolTipText="Edit" />
+                </span>
+
+                <!-- remove btn -->
+                <span
+                  @click="offlineRow(item[`${itemKey}`], item[`${statusKey}`])"
+                  class="mr-1"
+                >
+                  <removeIcon
+                    :color="
+                      item[`${statusKey}`] === 'suspended' ||
+                      item[`${statusKey}`] === false
+                        ? 'success'
+                        : 'error'
+                    "
+                    :toolTipText="
+                      item[`${statusKey}`] === 'suspended' ||
+                      item[`${statusKey}`] === false
+                        ? 'Take online'
+                        : 'Take offline'
+                    "
+                  />
+                </span>
+
+                <!-- delete btn -->
+                <span @click="deleteRow(item[`${itemKey}`])" class="mr-1">
+                  <deleteIcon toolTipText="Delete" /> </span
+              ></span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- pagination -->
     <div class="d-flex justify-space-between px-4 align-center flex-wrap">
@@ -209,6 +340,12 @@ export default {
     getCurrentPage() {
       return {
         currentPage: this.page,
+      };
+    },
+    // get selected row
+    getSelectedRow() {
+      return {
+        selectedItem: this.selected,
       };
     },
   },
@@ -279,6 +416,24 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.v-input--selection-controls {
+  margin-top: 0px !important;
+  padding-top: 0px !important;
+}
+
+.v-application {
+  .v-input__slot {
+    margin-bottom: 0px !important;
+  }
+  .v-messages {
+    min-height: 0px !important;
+  }
+}
+.v-application--is-ltr .v-input--selection-controls__input {
+  margin-right: 0px !important;
+}
+</style>
 <style lang="scss" scoped>
 .table {
   width: 100%;
@@ -298,7 +453,7 @@ export default {
           color: #ffffff;
           font-size: 15px;
           text-align: left;
-          padding: 0px 5px 0px 10px;
+          padding: 10px 5px 10px 10px;
           min-width: 250px;
           min-height: 45px;
           max-height: 45px;
@@ -318,7 +473,7 @@ export default {
         }
         .with-checkbox {
           display: flex;
-          align-items: center;
+          align-items: flex-end;
         }
         &:last-child {
           border-right: none;
@@ -336,7 +491,7 @@ export default {
           color: #979797;
           font-weight: normal;
           text-align: left;
-          padding: 0px 5px 0px 10px;
+          padding: 10px 5px 10px 10px;
           min-height: 45px;
           min-width: 250px;
           display: flex;
@@ -358,6 +513,23 @@ export default {
       .selectedRow {
         background: #f9f9f9;
       }
+    }
+  }
+  .secondary-table {
+    display: none;
+    width: 100%;
+    background: #fff;
+    .row-height {
+      min-height: 45px;
+      .name {
+        min-width: 120px;
+      }
+    }
+    .statusRow {
+      background-color: rgb(239, 245, 255);
+    }
+    .selectedRow {
+      background: #f9f9f9;
     }
   }
 }
@@ -409,6 +581,14 @@ export default {
   cursor: pointer;
 }
 @media (max-width: 650px) {
+  .table {
+    .custom-table {
+      display: none;
+    }
+    .secondary-table {
+      display: block;
+    }
+  }
   .pagination {
     max-width: 100%;
   }

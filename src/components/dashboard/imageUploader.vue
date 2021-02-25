@@ -4,7 +4,8 @@
       type="file"
       style="display: none"
       ref="imageInput"
-      accept="image/*"
+      accept="image/x-png,image/jpeg"
+      :multiple="multiple"
       @change="onImagePicked"
     />
 
@@ -17,7 +18,11 @@
       <div
         class="fileUploader-content d-flex align-center justify-space-between"
       >
-        <span class="selected-color">{{ itemHolder }}</span>
+        <span
+          class="selected-color"
+          style="height: 25px; overflow: hidden; word-break: break-all"
+          >{{ imageName }}</span
+        >
         <span
           ><v-icon :color="caretColor" class="caret"
             >mdi-chevron-down</v-icon
@@ -40,8 +45,8 @@
 
         <div class="px-4 px-sm-7">
           <h4 class="secondary--text">Upload Product Image</h4>
-
-          <div class="upload-container">
+          <!-- upload image -->
+          <div class="upload-container" v-if="status === 'upload'">
             <div class="upload-content" @click="pickImage">
               <span class="image-uploader">
                 <img src="@/assets/img/upload.svg" alt="" />
@@ -62,9 +67,33 @@
               class="px-6 upload-btn white--text primary"
               height="45"
               :disabled="numberOfImage == 0"
+              @click="upload()"
             >
               Upload
             </v-btn>
+          </div>
+          <div
+            class="uploading-container"
+            :class="{ 'uploading-completed': status === 'uploaded' }"
+            v-if="status === 'uploading' || status === 'uploaded'"
+          >
+            <span class="white--text" v-if="status === 'uploading'"
+              >Uploading...</span
+            >
+            <span v-if="status === 'uploaded'">
+              <!-- <img class="mr-4" src="@/assets/img/upload.svg" alt="" /> -->
+              <v-icon color="black" class="mr-2">mdi-check</v-icon>
+              <span>Upload Complete</span>
+            </span>
+            <div class="progress-bar" v-if="status === 'uploading'">
+              <progressBar
+                :width="uploadProgress"
+                height="5px"
+                bgColor="transparent"
+                borderRadius="5px"
+                progressColor="#52F1EC"
+              />
+            </div>
           </div>
 
           <h4 class="error--text" v-show="numberOfImage === 0">
@@ -77,21 +106,119 @@
         </div>
       </div>
     </modal>
+
+    <!-- dialog for image selection -->
+    <modal :dialog="imagesDialog" width="650">
+      <div class="white pa-3 pb-5 dialog">
+        <div class="d-flex justify-end">
+          <v-icon class="error--text close-btn" @click="imagesDialog = false"
+            >mdi-close</v-icon
+          >
+        </div>
+
+        <div v-show="!fetchingImages">
+          <!-- description -->
+          <p class="mt-5">Select image from recent uploads</p>
+          <div class="images-container">
+            <div
+              class="image mr-3 mb-3"
+              v-for="(image, index) in recentImages"
+              :key="index"
+              @click="selectImage(image.url)"
+            >
+              <img :src="image.url" alt="" />
+            </div>
+          </div>
+          <!-- pagination -->
+          <div class="d-flex justify-space-between align-center flex-wrap">
+            <div class="d-flex justify-space-between align-center flex-wrap">
+              <p class="mb-2 mr-5">
+                Page {{ pageDetails.parameters.current_page }} of
+                {{ pageDetails.parameters.last_page }}
+              </p>
+            </div>
+            <div class="pagination mb-2">
+              <v-pagination
+                v-model="pageDetails.parameters.current_page"
+                :length="pageDetails.parameters.last_page"
+                @input="getImages"
+                circle
+              ></v-pagination>
+            </div>
+          </div>
+          <!-- btn container -->
+          <div class="d-flex justify-end mt-5">
+            <v-btn class="primary py-2 px-3" @click="pickImageFromUserFile()"
+              >Choose from your file</v-btn
+            >
+          </div>
+        </div>
+        <div class="text-center py-7" v-show="fetchingImages">
+          <v-progress-circular
+            indeterminate
+            color="primary"
+          ></v-progress-circular>
+        </div>
+      </div>
+    </modal>
+
+    <!-- modal for error messages -->
+    <modal :dialog="errorDialog" width="400">
+      <div class="white pa-3 pb-10 text-center dialog">
+        <div class="d-flex justify-end">
+          <v-icon class="error--text close-btn" @click="errorDialog = false"
+            >mdi-close</v-icon
+          >
+        </div>
+
+        <div class="mb-7 mt-5 mx-auto status-img">
+          <v-img :src="statusImage"></v-img>
+        </div>
+
+        <h4>{{ dialogMessage }}</h4>
+      </div>
+    </modal>
   </div>
 </template>
 <script>
 import modal from "@/components/dashboard/modal.vue";
+import progressBar from "@/components/dashboard/progressBar.vue";
+import failedImage from "@/assets/img/failed-img.svg";
+import axios from "@/axios/mediaService.js";
 export default {
   name: "imageUploader",
-  components: { modal },
-  props: ["itemHolder", "width", "height", "caretColor"],
+  components: { modal, progressBar },
+  props: ["width", "height", "caretColor", "multiple"],
   data: function () {
     return {
+      imageName: "Select image",
+      status: "upload",
+      uploadProgress: "0%",
       dialog: false,
+      imagesDialog: false,
       imageNames: [],
+      recentImages: [],
+      fetchingImages: false,
       numberOfImage: 0,
-      inputError: false
+      inputError: false,
+      errorDialog: false,
+      dialogMessage: "",
+      statusImage: null,
     };
+  },
+  computed: {
+    pageDetails() {
+      return {
+        parameters: {
+          current_page: 1,
+          from: 1,
+          last_page: null,
+          per_page: 15,
+          to: 15,
+          total: null,
+        },
+      };
+    },
   },
   methods: {
     cancelModal() {
@@ -99,21 +226,98 @@ export default {
     },
     minimizeModal() {},
     openImageModal() {
+      this.status = "upload";
       this.dialog = true;
     },
+    setError() {
+      this.inputError = true;
+    },
     pickImage() {
+      this.fetchingImages = true;
+      this.dialog = false;
+      this.imagesDialog = true;
+      this.getImages();
+    },
+    pickImageFromUserFile() {
+      this.imagesDialog = false;
+      this.dialog = true;
       this.$refs.imageInput.click();
     },
     onImagePicked(event) {
       const files = event.target.files;
       this.imageNames = files;
       this.numberOfImage = this.imageNames.length;
-      if(this.numberOfImage == 0){
-        this.inputError = true;
-      }else {
-        this.inputError = false;
+    },
+    selectImage(url) {
+      this.imagesDialog = false;
+      this.inputError = false;
+      this.imageName = url;
+      this.$emit("images", { imageUrl: url, error: this.inputError });
+    },
+    upload() {
+      if (this.imageNames !== null) {
+        const formData = new FormData();
+        formData.set("image", this.imageNames[0]);
+        this.imageName = this.imageNames[0].name;
+        this.uploadImage(formData);
       }
-      this.$emit("images", this.imageNames);
+    },
+    uploadImage(data) {
+      this.status = "uploading";
+      axios
+        .post("/media/upload", data, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+          onUploadProgress: (uploadEvent) => {
+            this.uploadProgress = String(
+              Math.round((uploadEvent.loaded / uploadEvent.total) * 100) + "%"
+            );
+          },
+        })
+        .then((response) => {
+          this.status = "uploaded";
+          this.uploadProgress = "0%";
+          this.inputError = false;
+          this.$emit("images", {
+            imageUrl: response.data.data.url,
+            error: this.inputError,
+          });
+        })
+        .catch((error) => {
+          this.status = "upload";
+          console.log(error);
+        });
+    },
+    getImages() {
+      axios
+        .get(`/media?page=${this.pageDetails.parameters.current_page}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        })
+        .then((response) => {
+          this.errorDialog = false;
+          this.recentImages = response.data.data;
+          this.fetchingImages = false;
+          this.pageDetails.parameters = response.data.meta;
+          if (this.recentImages.length === 0) {
+            this.imagesDialog = false;
+            this.dialog = true;
+            this.$refs.imageInput.click();
+          }
+        })
+        .catch((error) => {
+          this.errorDialog = true;
+          this.imagesDialog = false;
+          this.statusImage = failedImage;
+          this.dialog = false;
+          if (error.response) {
+            this.dialogMessage = "Pls try again, something went wrong";
+          } else {
+            this.dialogMessage = "No internet connection!";
+          }
+        });
     },
   },
 };
@@ -162,7 +366,7 @@ export default {
   width: 100%;
   height: 55px;
   border: 1px solid #d3d9de;
-  border-radius: 10px;
+  border-radius: 5px;
   margin: 20px 0px;
   display: flex;
   align-items: center;
@@ -182,6 +386,49 @@ export default {
       }
     }
   }
+}
+.uploading-container {
+  width: 100%;
+  height: 55px;
+  border-radius: 5px;
+  background: #5064cc;
+  margin: 20px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  .progress-bar {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: 5px;
+    overflow: hidden;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+}
+.uploading-completed {
+  background: #52f1ec !important;
+}
+.images-container {
+  display: flex;
+  flex-wrap: wrap;
+  .image {
+    width: 120px;
+    height: 120px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.01);
+    }
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+.pagination {
+  max-width: 250px;
 }
 @media (max-width: 550px) {
   .upload-container {

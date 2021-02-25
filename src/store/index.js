@@ -8,6 +8,7 @@ import sellers from "./modules/sellers";
 import customer from "./modules/customer";
 import settings from "./modules/settings";
 import bankService from "./modules/bankService";
+import mediaService from "./modules/mediaService";
 
 // initial state
 const initialState = {
@@ -18,7 +19,8 @@ const initialState = {
   sellers: sellers.state,
   customer: customer.state,
   settings: settings.state,
-  bankService: bankService.state
+  bankService: bankService.state,
+  mediaService: mediaService.state
 }
 
 //Convert object in string 
@@ -35,7 +37,8 @@ export default new Vuex.Store({
     sellers: sellers,
     customer: customer,
     settings: settings,
-    bankService: bankService
+    bankService: bankService,
+    mediaService: mediaService
   },
   mutations: {
     reset(state) {

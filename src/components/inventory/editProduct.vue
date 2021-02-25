@@ -10,7 +10,10 @@
         </router-link>
       </div>
       <div v-show="!pageLoader">
-        <v-form class="d-flex justify-space-between flex-wrap py-2 px-3">
+        <v-form
+          class="d-flex justify-space-between flex-wrap py-2 px-3"
+          ref="form"
+        >
           <!-- product name -->
           <div class="mb-3 input-field">
             <p class="mb-1">Product Name</p>
@@ -100,14 +103,14 @@
           <div class="mb-9 input-field">
             <p class="mb-1">Upload Product Image</p>
             <imageUploader
-              itemHolder="Select image"
               width="100%"
               height="57px"
               caretColor="#5064cc"
-              @images="setImages"
+              :multiple="false"
+              @images="setImageUrl"
             />
             <div v-if="imageError === true" class="inputError error--text">
-              At Least one image is required
+              An image is required
             </div>
           </div>
 
@@ -195,6 +198,7 @@ export default {
   data: function () {
     return {
       productDetails: {},
+      imageUrl: null,
       failedRequest: false,
       initialProductDetails: {},
       dialog: false,
@@ -234,11 +238,13 @@ export default {
         this.productDetails = response.data.data;
         this.productDetails.quantity = response.data.data.quantity;
         this.productDetails.category = response.data.data.category;
+        this.imageUrl = response.data.image;
         this.initialProductDetails = response.data.data;
       })
       .catch((error) => {
         this.dialog = true;
         this.pageLoader = false;
+        this.successImage = failedImage;
         if (error.response) {
           this.dialogMessage = "Sorry, this data does not Exist";
         } else {
@@ -276,10 +282,33 @@ export default {
         this.quantityError = false;
       }
     },
-    setImages() {},
+    verifyImages() {
+      if (this.imageUrl !== null) {
+        this.imageError = false;
+      } else {
+        this.imageError = true;
+        this.$refs.imageUploader.setError();
+      }
+    },
+    // set image url
+    setImageUrl(params) {
+      this.imageUrl = params.imageUrl;
+      this.edited = true;
+      this.verifyImages();
+    },
 
     updateProduct() {
-      if (this.edited === true) {
+      this.verifyCategory();
+      this.verifyQuantity();
+      this.verifyImages();
+      if (
+        this.edited === true &&
+        this.$refs.form.validate() &&
+        this.quantityError === false &&
+        this.categoryError === false &&
+        this.imageError === false
+
+      ) {
         this.loading = true;
         this.$store
           .dispatch("inventory/updateProduct", {
@@ -288,9 +317,8 @@ export default {
             sku: this.productDetails.skuNumber,
             quantity: this.productDetails.quantity,
             price: this.productDetails.price,
-            commission: this.productDetails.commission,
             description: this.productDetails.description,
-            image: "https://homepages.cae.wisc.edu/~ece533/images/watch.png",
+            image: this.imageUrl,
             ref: this.$route.params.id,
           })
           .then(() => {
