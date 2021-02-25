@@ -466,7 +466,7 @@ export default {
     border-radius: 5px;
     color: white;
     font-size: 35px;
-    z-index: 10;
+    z-index: 5;
     box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
   }
 }
