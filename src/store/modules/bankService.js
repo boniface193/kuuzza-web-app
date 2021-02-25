@@ -62,7 +62,7 @@ const actions = {
     },
     getUserBankDetails(context, data) {
         return new Promise((resolve, reject) => {
-            axios.get(`/bank-accounts/${data.user_id}`, {
+            axios.get(`/bank-accounts/${data.store_id}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("accessToken")}`
                 }

@@ -56,7 +56,7 @@
             </router-link>
             <!-- add product btn primary-->
             <router-link :to="{ name: 'addProduct' }" class="add-btn-secondary">
-              <span class="btn">+</span>
+              <span class="btn">Add New Product</span>
             </router-link>
           </div>
         </div>
@@ -456,16 +456,17 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 55px;
-    height: 55px;
-    border-radius: 50%;
+    padding: 0px 10px;
+    font-size: 16px !important;
+    height: 40px;
     background: #5064cc;
     position: fixed;
     bottom: 40px;
     right: 20px;
+    border-radius: 5px;
     color: white;
     font-size: 35px;
-    z-index: 10;
+    z-index: 5;
     box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
   }
 }
