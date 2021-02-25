@@ -47,7 +47,7 @@
           <h4 class="secondary--text">Upload Product Image</h4>
           <!-- upload image -->
           <div class="upload-container" v-if="status === 'upload'">
-            <div class="upload-content" @click="pickImage">
+            <div class="upload-content" @click="pickImageFromUserFile">
               <span class="image-uploader">
                 <img src="@/assets/img/upload.svg" alt="" />
                 <span color="#979797" v-show="imageNames.length == 0"
@@ -117,8 +117,14 @@
         </div>
 
         <div v-show="!fetchingImages">
-          <!-- description -->
-          <p class="mt-5">Select image from recent uploads</p>
+          <!-- btn container -->
+          <div class="d-flex justify-space-between align-center my-5">
+            <!-- description -->
+            <p class="mt-5 mr-5 pb-0">Select image from recent uploads</p>
+            <v-btn class="primary py-1 px-3" @click="pickImageFromUserFile()"
+              >Upload</v-btn
+            >
+          </div>
           <div class="images-container">
             <div
               class="image mr-3 mb-3"
@@ -145,12 +151,6 @@
                 circle
               ></v-pagination>
             </div>
-          </div>
-          <!-- btn container -->
-          <div class="d-flex justify-end mt-5">
-            <v-btn class="primary py-2 px-3" @click="pickImageFromUserFile()"
-              >Choose from your file</v-btn
-            >
           </div>
         </div>
         <div class="text-center py-7" v-show="fetchingImages">
@@ -227,16 +227,16 @@ export default {
     minimizeModal() {},
     openImageModal() {
       this.status = "upload";
-      this.dialog = true;
+      this.fetchingImages = true;
+      this.imagesDialog = true;
+      this.getImages();
     },
     setError() {
       this.inputError = true;
     },
     pickImage() {
-      this.fetchingImages = true;
       this.dialog = false;
       this.imagesDialog = true;
-      this.getImages();
     },
     pickImageFromUserFile() {
       this.imagesDialog = false;
@@ -258,7 +258,6 @@ export default {
       if (this.imageNames !== null) {
         const formData = new FormData();
         formData.set("image", this.imageNames[0]);
-        this.imageName = this.imageNames[0].name;
         this.uploadImage(formData);
       }
     },
@@ -275,14 +274,14 @@ export default {
             );
           },
         })
-        .then((response) => {
+        .then(() => {
           this.status = "uploaded";
           this.uploadProgress = "0%";
           this.inputError = false;
-          this.$emit("images", {
-            imageUrl: response.data.data.url,
-            error: this.inputError,
-          });
+          setTimeout(() => {
+            this.dialog = false;
+            this.openImageModal();
+          }, 1000);
         })
         .catch((error) => {
           this.status = "upload";

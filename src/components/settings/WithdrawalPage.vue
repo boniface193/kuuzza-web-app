@@ -70,7 +70,7 @@ export default {
     getUserBankDetails() {
       this.$store
         .dispatch("bankService/getUserBankDetails", {
-          user_id: this.userInfo.id,
+          store_id: this.userInfo.store.id,
         })
         .then((response) => {
           this.pageLoader = false;
