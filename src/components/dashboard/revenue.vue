@@ -20,7 +20,7 @@
               </p>
               <h4 class="text-lg-h4">50,000</h4>
               <router-link :to="{ name: 'WithdrawFund' }" >
-                <v-btn class="primary my-3">Withdraw</v-btn>
+                <v-btn class="primary px-5 py-5 my-3">Withdraw funds</v-btn>
               </router-link>
             </div>
           </div>
