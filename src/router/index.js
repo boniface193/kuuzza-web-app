@@ -58,12 +58,13 @@ import allCustomer from "@/components/dashboard/allCustomer.vue";
 import newCustomer from "@/components/dashboard/newCustomer.vue";
 import returningCustomer from "@/components/dashboard/returningCustomer.vue";
 import customerDetails from "@/components/dashboard/customerDetails.vue";
-import balance from "@/views/dashboard/balance.vue";
-import revenue from "@/components/dashboard/revenue.vue";
-import settlements from "@/components/dashboard/settlements.vue";
-import awaitingSettlements from "@/components/dashboard/awaitingSettlements.vue";
-import paymentHistory from "@/components/dashboard/paymentHistory.vue";
 import bestSeller from "@/views/dashboard/bestSeller.vue";
+// balance pages
+import Balance from "@/views/Balance.vue";
+import Revenue from "@/components/balancePages/Revenue.vue";
+import Settlements from "@/components/balancePages/Settlements.vue";
+import AwaitingSettlements from "@/components/balancePages/AwaitingSettlements.vue";
+import PaymentHistory from "@/components/balancePages/PaymentHistory.vue";
 
 Vue.use(VueRouter);
 
@@ -248,27 +249,27 @@ const routes = [
       },
       {
         path: "/balance",
-        component: balance,
+        component: Balance,
         children: [
           {
             path: "",
-            name: "revenue",
-            component: revenue
+            name: "Revenue",
+            component: Revenue
           },
           {
             path: "settlements",
-            name: "settlements",
-            component: settlements
+            name: "Settlements",
+            component: Settlements
           },
           {
-            path: "awaitingSettlements",
-            name: "awaitingSettlements",
-            component: awaitingSettlements
+            path: "awaiting-settlements",
+            name: "AwaitingSettlements",
+            component: AwaitingSettlements
           },
           {
-            path: "paymentHistory",
-            name: "paymentHistory",
-            component: paymentHistory
+            path: "payment-history",
+            name: "PaymentHistory",
+            component: PaymentHistory
           },
         ]
       },

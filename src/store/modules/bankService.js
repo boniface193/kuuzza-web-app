@@ -3,13 +3,11 @@ import axios from "@/axios/bankServices.js";
 //holds the state properties
 const state = {
     bankList: [],
-    //accountDetails: {},
     doNothing: null,
 };
 //returns the state properties
 const getters = {
     bankList: state => state.bankList,
-    //accountDetails: state => state.accountDetails,
 };
 
 //take actions 
@@ -82,7 +80,6 @@ const mutations = {
     // commit nothing
     doNothing: (state) => (state.doNothing = null),
     setBankList: (state, bankList) => (state.bankList = bankList),
-    //setAccountDetails: (state, accountDetails) => (state.accountDetails = accountDetails),
 };
 
 export default {

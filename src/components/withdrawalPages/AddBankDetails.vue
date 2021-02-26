@@ -274,7 +274,13 @@ export default {
             this.passwordError = true;
             this.loading = false;
             if (error.response) {
-              this.passwordErrorMsg = error.response.data.password[0];
+              if (error.response.data.password) {
+                this.passwordErrorMsg = error.response.data.password[0];
+              } else if (error.response.data.account_number) {
+                this.passwordErrorMsg = error.response.data.account_number[0];
+              } else {
+                this.passwordErrorMsg = "Something went wrong, pls try again";
+              }
             } else {
               this.passwordErrorMsg = "No internet Connection!";
             }

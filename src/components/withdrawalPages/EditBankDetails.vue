@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="px-3 bank-container" v-show="!pageLoader">
-
       <div class="mt-5 px-2">
         <h3 class="mb-4">Change account details</h3>
 
@@ -59,7 +58,9 @@
 
           <v-btn
             class="primary py-6 px-4"
-            :disabled="!accountVerified || this.getAccountDetails.accNumber.length !== 10"
+            :disabled="
+              !accountVerified || this.getAccountDetails.accNumber.length !== 10
+            "
             @click="openPasswordModal"
             >Update</v-btn
           >
@@ -227,8 +228,11 @@ export default {
       this.verifyBankSelect();
     },
     validateAccount() {
-      if (this.bank.name !== undefined && this.getAccountDetails.accNumber.length == 10) {
-        this.fetchingAccountDetails = true; 
+      if (
+        this.bank.name !== undefined &&
+        this.getAccountDetails.accNumber.length == 10
+      ) {
+        this.fetchingAccountDetails = true;
         this.accountVerified = false;
         this.$store
           .dispatch("bankService/validateBankAccount", {
@@ -278,7 +282,13 @@ export default {
             this.passwordError = true;
             this.loading = false;
             if (error.response) {
-              this.passwordErrorMsg = error.response.data.password[0];
+              if (error.response.data.password) {
+                this.passwordErrorMsg = error.response.data.password[0];
+              } else if (error.response.data.account_number) {
+                this.passwordErrorMsg = error.response.data.account_number[0];
+              } else {
+                this.passwordErrorMsg = "Something went wrong, pls try again";
+              }
             } else {
               this.passwordErrorMsg = "No internet Connection!";
             }
