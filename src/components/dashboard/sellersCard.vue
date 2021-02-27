@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-lg-12 mx-md-5 mx-sm-5">
+  <div class="px-3 px-sm-12 pt-7 pb-4">
     <v-img
       src="../../assets/download.svg"
       width="16"

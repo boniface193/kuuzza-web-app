@@ -5,7 +5,7 @@
         <!-- Total Revenue column -->
         <v-col class="col-12 col-sm-6 col-md-3">
           <div class="text-center">
-            <p class="text-lg-h6 text-sm-body-2 grey--text">
+            <p class="text-sm-body-2 text-md-body-1 grey--text">
               Total Revenue(NGN)
             </p>
             <h1 class="text-lg-h4">
@@ -25,7 +25,7 @@
         <!-- Available Balance column -->
         <v-col class="col-12 col-sm-6 col-md-3">
           <div class="text-center">
-            <p class="text-lg-h6 text-sm-body-2 grey--text">
+            <p class="text-sm-body-2 text-md-body-1 grey--text">
               Available Balance(NGN)
             </p>
             <h1 class="text-lg-h4">
@@ -49,7 +49,7 @@
         <!-- Total settlements column -->
         <v-col class="col-12 col-sm-6 col-md-3">
           <div class="text-center">
-            <p class="text-lg-h6 text-sm-body-2 grey--text">
+            <p class="text-sm-body-2 text-md-body-1 grey--text">
               Total Settlements(NGN)
             </p>
             <h1 class="text-lg-h4">
@@ -67,10 +67,10 @@
         <!-- Awaiting settlements column -->
         <v-col class="col-12 col-sm-6 col-md-3">
           <div class="text-center">
-            <p class="text-lg-h6 text-sm-body-2 grey--text">
+            <p class="grey--text">
               Awaiting Settlements(NGN)
             </p>
-            <h1 class="text-lg-h4">
+            <h1 class="text-sm-body-2 text-md-body-1 text-lg-h4">
               <span v-show="!fetchingData">{{
                 revenueDetails.awaiting_settlement
               }}</span>

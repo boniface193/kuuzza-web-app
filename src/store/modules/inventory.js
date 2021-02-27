@@ -54,6 +54,7 @@ const state = {
         startDate: curday(),
         endDate: curday(),
     },
+    allowDateFilter: false,
     selectedReferences: [],
     doNothing: null
 };
@@ -143,7 +144,7 @@ const actions = {
         let quantityRange = ((state.filter.maxQuantity) ? `quantity_between=${state.filter.minQuantity},${state.filter.maxQuantity}` : "");
         let inStock = (state.filter.selectedOptions.includes('inStock') ? `in_stock=${true}` : "")
         let outOfStock = (state.filter.selectedOptions.includes('outOfStock') ? `out_of_stock=${true}` : "")
-        let dateRange = (state.dateRange.endDate !== null) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
+        let dateRange = (state.dateRange.endDate !== null && state.allowDateFilter === true) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
 
         return new Promise((resolve, reject) => {
             axios.get(`/products?${page}&${perPage}&${priceRange}&${quantityRange}&${inStock}&${outOfStock}&${dateRange}`,
@@ -299,7 +300,7 @@ const mutations = {
     setInventoryHistoryPageDetails: (state, data) => (state.inventoryHistoryPageDetails = data),
     setSelectedReferences: (state, value) => (state.selectedReferences = value),
     setDateRange: (state, dateRange) => (state.dateRange = dateRange),
-    
+    setAllowDateFilter: (state, status) => (state.allowDateFilter = status),
     setTableLoader: (state, status) => (state.tableLoader = status),
     setSearchProduct: (state, status) => (state.searchProduct = status),
     setSearchValue: (state, value) => (state.searchValue = value),
