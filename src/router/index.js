@@ -10,57 +10,59 @@ import signupTeamMember from "@/components/onboarding/signupTeamMember.vue";
 import Recoverpassword from "@/components/onboarding/Recoverpassword.vue";
 import Forgotpassword from "@/components/onboarding/Forgotpassword.vue";
 import Onboarding from "@/views/onboarding/Onboarding.vue";
-import Dashboard from "@/views/dashboard/Dashboard.vue";
 import emailVerification from "@/components/onboarding/emailVerification.vue";
 import forgotPasswordVerification from "@/components/onboarding/forgotPasswordVerification.vue";
+// dashboard pages
+import Dashboard from "@/views/authPages/Dashboard.vue";
+import Home from "@/views/authPages/Home.vue";
 // inventory pages
-import Inventory from "@/views/Inventory.vue";
+import Inventory from "@/views/authPages/Inventory.vue";
 import inventoryHistory from "@/components/inventory/inventoryHistory.vue";
 import inventoryPage from "@/components/inventory/inventoryPage.vue";
 import addProduct from "@/components/inventory/addProduct.vue";
 import editProduct from "@/components/inventory/editProduct.vue";
 import productDetails from "@/components/inventory/productDetails.vue";
 import productList from "@/components/inventory/productList.vue";
-import Home from "@/views/dashboard/home.vue";
 // settings pages
-import Settings from "../views/Settings.vue";
+import Settings from "../views/authPages/Settings.vue";
 import userDetails from "@/components/settings/userDetails.vue";
 import team from "@/components/settings/team.vue";
 import teamDetails from "@/components/settings/teamDetails.vue";
 import teamInvite from "@/components/settings/teamInvite.vue";
 import editTeamMember from "@/components/settings/editTeamMember.vue";
-import WithdrawalPage from "@/components/settings/WithdrawalPage.vue";
 import storeDetails from "@/components/settings/storeDetails.vue";
 import privacyDetails from "@/components/settings/privacyDetails.vue";
 import logout from "@/components/settings/logout.vue";
-// withdrawal 
+// withdrawal pages
+import WithdrawalPage from "@/components/settings/WithdrawalPage.vue";
 import WithdrawFund from "@/components/withdrawalPages/WithdrawFund.vue";
 import AddBankDetails from "@/components/withdrawalPages/AddBankDetails.vue";
 import EditBankDetails from '@/components/withdrawalPages/EditBankDetails.vue';
-
-import Leaderboard from "@/views/dashboard/leaderboard.vue";
-
+// Leaderboard pages
+import Leaderboard from "@/views/authPages/Leaderboard.vue";
 import leaderStore from "@/components/dashboard/leaderStore.vue";
 import leaderGlobal from "@/components/dashboard/leaderGlobal.vue";
-import Sellers from "@/views/dashboard/seller.vue";
+// seller pages
+import bestSeller from "@/views/authPages/BestSeller.vue";
+import Sellers from "@/views/authPages/Seller.vue";
 import allSeller from "@/components/dashboard/allSeller.vue";
 import newSeller from "@/components/dashboard/newSeller.vue";
 import returningSeller from "@/components/dashboard/returningSeller.vue";
-// orders page
-import Orders from "@/views/Orders.vue";
-import ordersPage from "@/components/order/ordersPage.vue";
-import orderDetails from "@/components/order/orderDetails";
 import sellersCard from "@/components/dashboard/sellersCard.vue";
 import mainSellers from "@/components/dashboard/mainSellers.vue";
-import customers from "@/views/dashboard/customers.vue";
+// orders pages
+import Orders from "@/views/authPages/Orders.vue";
+import ordersPage from "@/components/order/ordersPage.vue";
+import orderDetails from "@/components/order/orderDetails";
+// customer pages
+import customers from "@/views/authPages/Customers.vue";
 import mainCustomer from "@/components/dashboard/customerMain.vue";
 import allCustomer from "@/components/dashboard/allCustomer.vue";
 import newCustomer from "@/components/dashboard/newCustomer.vue";
 import returningCustomer from "@/components/dashboard/returningCustomer.vue";
 import customerDetails from "@/components/dashboard/customerDetails.vue";
-import bestSeller from "@/views/dashboard/bestSeller.vue";
 // balance pages
-import Balance from "@/views/Balance.vue";
+import Balance from "@/views/authPages/Balance.vue";
 import Revenue from "@/components/balancePages/Revenue.vue";
 import Settlements from "@/components/balancePages/Settlements.vue";
 import AwaitingSettlements from "@/components/balancePages/AwaitingSettlements.vue";
@@ -68,7 +70,7 @@ import PaymentHistory from "@/components/balancePages/PaymentHistory.vue";
 
 Vue.use(VueRouter);
 
-// requirement for user to log on to the dashboard
+// requirement for user to log on to the authenticated pages
 const ifAuthenticated = (to, from, next) => {
   store.commit("onboarding/tokenIsPresent");
   if (store.getters["onboarding/tokenIsPresent"] === true) {

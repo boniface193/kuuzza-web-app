@@ -1,14 +1,14 @@
 <template>
   <v-container fluid>
     <!-- to center dashboard content -->
-    <div class="mx-lg-12 mx-md-5 mx-sm-5">
+    <div class="px-3 px-sm-12 pt-7 pb-4">
       <!-- welcome greetings -->
       <calendar class="float-right" @updateDate="dateValue" />
-      <div
-        class="welcome-user text-sm-h6 text-md-h5 text-lg-h4 text-xl-h3 text-h6 font-weight-bold"
+      <h1
+        class=""
       >
         Welcome!
-      </div>
+      </h1>
       <div class="pa-2"></div>
       <v-row>
         <!-- to show total revenue, item in stock, total commission -->

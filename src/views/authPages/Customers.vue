@@ -1,7 +1,7 @@
 <template>
-  <v-container fluid>
+  <div>
     <router-view />
-  </v-container>
+  </div>
 </template>
 <script>
 export default {
@@ -10,4 +10,3 @@ export default {
   },
 };
 </script>
-

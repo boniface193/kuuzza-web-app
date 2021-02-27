@@ -353,6 +353,9 @@ export default {
         startDate: params.startDate.toISOString().split("T")[0],
         endDate: params.endDate.toISOString().split("T")[0],
       });
+      this.$store.commit("inventory/setAllowDateFilter", true)
+      // set page back to page 1
+      this.$store.commit("inventory/setPage", 1);
       this.getfilteredProducts();
     },
     rowSelected(params) {
