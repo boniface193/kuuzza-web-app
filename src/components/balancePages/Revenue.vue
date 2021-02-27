@@ -40,6 +40,10 @@
                 ></v-progress-circular>
               </span>
             </h1>
+            <!-- link to withdrawal page -->
+            <router-link :to="{ name: 'WithdrawFund' }">
+              <v-btn class="primary px-5 py-5 my-5 mx-auto">Withdraw funds</v-btn>
+            </router-link>
           </div>
         </v-col>
         <!-- Total settlements column -->
@@ -58,8 +62,8 @@
                 ></v-progress-circular>
               </span>
             </h1>
-          </div> </v-col
-        >
+          </div>
+        </v-col>
         <!-- Awaiting settlements column -->
         <v-col class="col-12 col-sm-6 col-md-3">
           <div class="text-center">
@@ -152,10 +156,10 @@ export default {
           }
         });
     },
-    reset(){
+    reset() {
       this.fetchingData = true;
       this.getRevenueDetails();
-    }
+    },
   },
 };
 </script>
