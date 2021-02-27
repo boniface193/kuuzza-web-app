@@ -1,58 +1,79 @@
 <template>
   <div class="px-3 px-sm-12 pt-7 pb-4" style="zoom: 110%">
     <!-- page title -->
-    <h1 class="text-sm-h6 text-md-h5 text-lg-h4 text-xl-h3 text-h6 font-weight-bold">Settings</h1>
+    <h1 class="">Settings</h1>
 
     <div class="settings-container mt-7 white">
       <!-- nav section -->
       <div class="settings-nav px-4 py-0 d-flex">
-        <!-- nav link -->
-        <router-link
-          class="nav-item"
-          :class="{ 'nav-item--active': this.$route.name == 'store' }"
-          :to="{ name: 'store' }"
-          >Store</router-link
-        >
-        <!-- nav link -->
-        <router-link
-          class="nav-item"
-          :class="{ 'nav-item--active': this.$route.name == 'user' }"
-          :to="{ name: 'user' }"
-          >User</router-link
-        >
-        <!-- nav link -->
-        <router-link
-          class="nav-item"
-          :class="{
-            'nav-item--active':
-              this.$route.name == 'teamDetails' ||
-              this.$route.name == 'teamInvite' ||
-              this.$route.name == 'editTeamMember'
-          }"
-          :to="{ name: 'teamDetails' }"
-          >Team</router-link
-        >
-        <!-- nav link -->
-        <router-link
-          class="nav-item hide-item"
-          :class="{ 'nav-item--active': this.$route.name == 'AddBankDetails' || this.$route.name == 'WithdrawFund' || this.$route.name == 'EditBankDetails'}"
-          :to="{ name: 'AddBankDetails' }"
-          >Bank Accounts</router-link
-        >
-        <!-- nav link -->
-        <router-link
-          class="nav-item"
-          :class="{ 'nav-item--active': this.$route.name == 'privacy' }"
-          :to="{ name: 'privacy' }"
-          >Privacy & Security</router-link
-        >
-        <!-- nav link -->
-        <router-link
-          class="nav-item hide-item"
-          :class="{ 'nav-item--active': this.$route.name == 'logout' }"
-          :to="{ name: 'logout' }"
-          >Log Out</router-link
-        >
+        <div class="hide-nav">
+          <!-- nav link -->
+          <router-link
+            class="nav-item"
+            :class="{ 'nav-item--active': this.$route.name == 'store' }"
+            :to="{ name: 'store' }"
+            >Store</router-link
+          >
+          <!-- nav link -->
+          <router-link
+            class="nav-item"
+            :class="{ 'nav-item--active': this.$route.name == 'user' }"
+            :to="{ name: 'user' }"
+            >User</router-link
+          >
+          <!-- nav link -->
+          <router-link
+            class="nav-item"
+            :class="{
+              'nav-item--active':
+                this.$route.name == 'teamDetails' ||
+                this.$route.name == 'teamInvite' ||
+                this.$route.name == 'editTeamMember',
+            }"
+            :to="{ name: 'teamDetails' }"
+            >Team</router-link
+          >
+          <!-- nav link -->
+          <router-link
+            class="nav-item hide-item"
+            :class="{
+              'nav-item--active':
+                this.$route.name == 'AddBankDetails' ||
+                this.$route.name == 'WithdrawFund' ||
+                this.$route.name == 'EditBankDetails',
+            }"
+            :to="{ name: 'AddBankDetails' }"
+            >Bank Accounts</router-link
+          >
+          <!-- nav link -->
+          <router-link
+            class="nav-item"
+            :class="{ 'nav-item--active': this.$route.name == 'privacy' }"
+            :to="{ name: 'privacy' }"
+            >Privacy & Security</router-link
+          >
+          <!-- nav link -->
+          <router-link
+            class="nav-item hide-item"
+            :class="{ 'nav-item--active': this.$route.name == 'logout' }"
+            :to="{ name: 'logout' }"
+            >Log Out</router-link
+          >
+        </div>
+        <!-- mobile nav selector -->
+        <div class="mobile-nav py-4" style="width: 200px; height: 70px">
+          <selectBtn
+            :items="[
+              'Store',
+              'User',
+              'Team',
+              'Bank Account',
+              'Privacy & Security',
+            ]"
+            :item="this.$route.name"
+            @selectedItem="navigateToPage"
+          />
+        </div>
       </div>
 
       <router-view />
@@ -60,8 +81,29 @@
   </div>
 </template>
 <script>
+import selectBtn from "@/components/dashboard/selectBtn.vue";
 export default {
   name: "Settings",
+  components: { selectBtn },
+  methods: {
+    navigateToPage(params) {
+      let page;
+      if (params === "Store") {
+        page = "store";
+      } else if (params === "User") {
+        page = "user";
+      } else if (params === "Team") {
+        page = "teamDetails";
+      } else if (params === "Bank Account") {
+        page = "AddBankDetails";
+      } else if (params === "Privacy & Security") {
+        page = "privacy";
+      }
+      this.$router.push({
+        name: page,
+      });
+    },
+  },
 };
 </script>
 
@@ -87,28 +129,20 @@ export default {
       }
     }
   }
+  .mobile-nav {
+    display: none;
+  }
 }
 @media (max-width: 750px) {
   .settings-container {
     .settings-nav {
-      .nav-item {
-        margin: 0px 15px 0px 0px;
-        padding: 7px 3px;
-      }
+      max-height: 75px;
     }
-  }
-}
-@media (max-width: 550px) {
-  .settings-container {
-    .settings-nav {
-      justify-content: space-between !important;
-      .nav-item {
-        margin: 0px;
-        padding: 5px 3px;
-      }
-      .hide-item {
-        display: none;
-      }
+    .hide-nav {
+      display: none;
+    }
+    .mobile-nav {
+      display: block;
     }
   }
 }
