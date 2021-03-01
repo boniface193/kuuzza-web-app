@@ -73,6 +73,21 @@ const actions = {
                     reject(error)
                 });
         })
+    },
+    withdrawFunds(context) {
+        return new Promise((resolve, reject) => {
+            axios.post("/settlements/withdraw", {}, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                }
+            }).then(response => {
+                resolve(response);
+            })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        })
     }
 };
 

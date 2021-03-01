@@ -26,7 +26,13 @@
             <h5>&#8358;100</h5>
           </div>
           <!-- withdrwa btn -->
-          <v-btn class="primary mt-5">Withdraw</v-btn>
+          <v-btn
+            class="primary mt-5"
+            :disabled="withdrawLoader"
+            :loading="withdrawLoader"
+            @click="withdrawFunds()"
+            >Withdraw</v-btn
+          >
           <!-- change account btn -->
           <router-link
             :to="{ name: 'EditBankDetails' }"
@@ -39,16 +45,36 @@
         </div>
       </div>
     </div>
+    <!-- modal for dialog messages -->
+    <modal :dialog="dialog" width="400">
+      <div class="white pa-3 pb-10 text-center dialog">
+        <div class="d-flex justify-end">
+          <v-icon class="error--text close-btn" @click="dialog = false"
+            >mdi-close</v-icon
+          >
+        </div>
+        <div class="mb-7 mt-5 mx-auto status-img">
+          <v-img :src="statusImage"></v-img>
+        </div>
+
+        <h4>{{ dialogMessage }}</h4>
+      </div>
+    </modal>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
+import failedImage from "@/assets/img/failed-img.svg";
+import successImage from "@/assets/img/success-img.svg";
+import modal from "@/components/dashboard/modal.vue";
 export default {
   name: "WithdrawFund",
+  components: { modal },
   props: ["accountDetails"],
   data: function () {
     return {
       pageLoader: false,
+      withdrawLoader: false,
       dialogMessage: "",
       dialog: false,
       statusImage: null,
@@ -62,6 +88,29 @@ export default {
       return {
         accountDetails: this.accountDetails,
       };
+    },
+  },
+  methods: {
+    withdrawFunds() {
+      this.withdrawLoader = true;
+      this.$store
+        .dispatch("balance/withdrawFunds")
+        .then(() => {
+          this.withdrawLoader = false;
+          this.dialog = true;
+          this.statusImage = successImage;
+          this.dialogMessage = "Your request have been received successfully, your account would be credited within 24hrs"
+        })
+        .catch((error) => {
+          this.withdrawLoader = false;
+          this.dialog = true;
+          this.statusImage = failedImage;
+          if (error.response) {
+            this.dialogMessage = error.response.data.message;
+          } else {
+            this.dialogMessage = "No internet Connection!";
+          }
+        });
     },
   },
 };

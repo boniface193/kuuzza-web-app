@@ -300,11 +300,6 @@ export default {
           this.recentImages = response.data.data;
           this.fetchingImages = false;
           this.pageDetails.parameters = response.data.meta;
-          if (this.recentImages.length === 0) {
-            this.imagesDialog = false;
-            this.dialog = true;
-            this.$refs.imageInput.click();
-          }
         })
         .catch((error) => {
           this.errorDialog = true;
