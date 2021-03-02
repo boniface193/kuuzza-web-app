@@ -421,17 +421,17 @@ export default {
   margin-top: 0px !important;
   padding-top: 0px !important;
 }
-
-.v-application {
-  .v-input__slot {
-    margin-bottom: 0px !important;
-  }
-  .v-messages {
-    min-height: 0px !important;
-  }
+.v-input__slot {
+  margin-bottom: 0px !important;
+}
+.v-messages {
+  min-height: 0px !important;
 }
 .v-application--is-ltr .v-input--selection-controls__input {
   margin-right: 0px !important;
+}
+.v-text-field__details{
+    margin-top: 8px !important;
 }
 </style>
 <style lang="scss" scoped>

@@ -41,9 +41,13 @@
               </span>
             </h1>
             <!-- link to withdrawal page -->
-            <router-link :to="{ name: 'WithdrawFund' }">
-              <v-btn class="primary px-5 py-5 my-5 mx-auto">Withdraw funds</v-btn>
-            </router-link>
+            <v-btn
+              class="primary px-5 py-5 my-5 mx-auto"
+              :disabled="withdrawLoader"
+              :loading="withdrawLoader"
+              @click="getUserBankDetails()"
+              >Withdraw funds</v-btn
+            >
           </div>
         </v-col>
         <!-- Total settlements column -->
@@ -67,9 +71,7 @@
         <!-- Awaiting settlements column -->
         <v-col class="col-12 col-sm-6 col-md-3">
           <div class="text-center">
-            <p class="grey--text">
-              Awaiting Settlements(NGN)
-            </p>
+            <p class="grey--text">Awaiting Settlements(NGN)</p>
             <h1 class="text-sm-body-2 text-md-body-1 text-lg-h4">
               <span v-show="!fetchingData">{{
                 revenueDetails.awaiting_settlement
@@ -106,6 +108,7 @@
 <script>
 import modal from "@/components/dashboard/modal.vue";
 import failedImage from "@/assets/img/failed-img.svg";
+import successImage from "@/assets/img/success-img.svg";
 import { mapGetters } from "vuex";
 export default {
   name: "Revenue",
@@ -117,6 +120,7 @@ export default {
       dialog: false,
       dialogMessage: "",
       statusImage: null,
+      withdrawLoader: false,
     };
   },
   created() {
@@ -159,6 +163,57 @@ export default {
     reset() {
       this.fetchingData = true;
       this.getRevenueDetails();
+    },
+    // withdraw funds
+    withdrawFunds() {
+      this.$store
+        .dispatch("balance/withdrawFunds")
+        .then(() => {
+          this.withdrawLoader = false;
+          this.dialog = true;
+          this.statusImage = successImage;
+          this.dialogMessage =
+            "Your request have been received successfully, your account would be credited within 24hrs";
+        })
+        .catch((error) => {
+          this.withdrawLoader = false;
+          this.dialog = true;
+          this.statusImage = failedImage;
+          if (error.response) {
+            this.dialogMessage = error.response.data.message;
+          } else {
+            this.dialogMessage = "No internet Connection!";
+          }
+        });
+    },
+    // get user bank details
+    getUserBankDetails() {
+      this.withdrawLoader = true
+      this.$store
+        .dispatch("bankService/getUserBankDetails", {
+          store_id: this.userInfo.store.id,
+        })
+        .then((response) => {
+          this.accountDetails = response.data;
+          if (this.accountDetails.meta.has_bank_account === true) {
+            this.withdrawFunds();
+          } else {
+            if (this.$route.name !== "AddBankDetails") {
+              this.$router.push({
+                name: "AddBankDetails",
+              });
+            }
+          }
+        })
+        .catch((error) => {
+          this.dialog = true;
+          this.statusImage = failedImage;
+          if (error.response) {
+            this.dialogMessage = error.response.data.message;
+          } else {
+            this.dialogMessage = "No internet Connection!";
+          }
+        });
     },
   },
 };

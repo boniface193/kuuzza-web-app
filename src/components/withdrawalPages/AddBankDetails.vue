@@ -75,22 +75,20 @@
       ></v-progress-circular>
     </div>
     <!-- modal for dialog messages -->
-    <v-layout row justify-center>
-      <v-dialog v-model="dialog" persistent :width="400">
-        <div class="white pa-3 pb-10 text-center dialog">
-          <div class="d-flex justify-end">
-            <v-icon class="error--text close-btn" @click="dialog = false"
-              >mdi-close</v-icon
-            >
-          </div>
-          <div class="mb-7 mt-5 mx-auto status-img">
-            <v-img :src="statusImage"></v-img>
-          </div>
-
-          <h4>{{ dialogMessage }}</h4>
+    <modal :dialog="dialog" width="400">
+      <div class="white pa-3 pb-10 text-center dialog">
+        <div class="d-flex justify-end">
+          <v-icon class="error--text close-btn" @click="dialog = false"
+            >mdi-close</v-icon
+          >
         </div>
-      </v-dialog>
-    </v-layout>
+        <div class="mb-7 mt-5 mx-auto status-img">
+          <v-img :src="statusImage"></v-img>
+        </div>
+
+        <h4>{{ dialogMessage }}</h4>
+      </div>
+    </modal>
     <!-- modal for dialog messages -->
     <modal :dialog="passwordDialog" width="300">
       <div class="white pa-3 pb-2 dialog">
@@ -220,6 +218,7 @@ export default {
     },
     setBank(params) {
       this.bank = params;
+      console.log(this.bank);
       this.verifyBankSelect();
     },
     validateAccount() {
