@@ -65,7 +65,7 @@
 
           <!-- SKU number -->
           <div class="mb-3 input-field remove-appearance">
-            <p class="mb-1">SKU Number</p>
+            <p class="mb-1">SKU Number <span class="primary--text">(Tracking number)</span></p>
             <v-text-field
               class="input mt-0"
               v-model="skuNumber"
@@ -81,7 +81,7 @@
 
           <!-- unit price -->
           <div class="mb-3 input-field">
-            <p class="mb-1">Unit Price (&#8358;)</p>
+            <p class="mb-1">Unit Price (&#8358;) <span class="primary--text">(Inclusive of 7.5% VAT)</span></p>
             <v-text-field
               class="input mt-0"
               v-model="price"
@@ -110,6 +110,22 @@
             <div v-if="quantityError === true" class="inputError error--text">
               Quantity cannot be less or equal to 0
             </div>
+          </div>
+
+           <!-- minimum quantity -->
+          <div class="mb-9 input-field">
+            <p class="mb-1">Minimum Quantity <span class="primary--text">(minimum quantity of item that a customer can order)</span></p>
+            <customNumberInput
+              width="120px"
+              height="57px"
+              caretColor="#5064CC"
+              :minimumNumber="1"
+              :quantity="minQuantity"
+              @quantity="setMinQuantity"
+            />
+            <!-- <div v-if="quantityError === true" class="inputError error--text">
+              Minimum quantity cannot be less than 1
+            </div> -->
           </div>
 
           <!-- button container -->
@@ -226,6 +242,7 @@ export default {
       category: "",
       skuNumber: "",
       quantity: 0,
+      minQuantity: 1,
       price: "",
       totalPrice: 0,
       productDescription: "",
@@ -299,6 +316,9 @@ export default {
       this.quantity = params;
       this.verifyQuantity();
     },
+    setMinQuantity(params) {
+      this.minQuantity = params;
+    },
     verifyImages(){
       if(this.imageUrl !== null ){
          this.imageError = false;
@@ -338,6 +358,7 @@ export default {
           category: this.category,
           sku: this.skuNumber,
           quantity: this.quantity,
+          min_quantity: this.minQuantity,
           price: this.price,
           description: this.productDescription,
           image: this.imageUrl,

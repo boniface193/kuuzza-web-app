@@ -12,7 +12,7 @@
 
       <div class="pl-2 mt-8">
         <!-- Order number -->
-        <h2>Order {{ orderDetails.orderNumber }}</h2>
+        <h2>Order: <span class="primary--text">{{ orderDetails.id }}</span></h2>
 
         <!-- product name -->
         <p class="mt-2 mb-3">

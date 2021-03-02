@@ -27,7 +27,14 @@
 <script>
 export default {
   name: "customNumberInput",
-  props: ["width", "height", "caretColor", "inputStatus", "quantity"],
+  props: [
+    "width",
+    "height",
+    "caretColor",
+    "inputStatus",
+    "quantity",
+    "minimumNumber",
+  ],
   computed: {
     getQuantity() {
       return {
@@ -41,14 +48,18 @@ export default {
       this.emitQuantity();
     },
     decreaseNum() {
-      if (this.getQuantity.quantity > 0) {
+      let minValue = 0
+      if (this.minimumNumber) {
+        minValue = this.minimumNumber;
+      }
+      if (this.getQuantity.quantity > minValue) {
         this.getQuantity.quantity = parseInt(this.getQuantity.quantity, 10) - 1;
         this.emitQuantity();
       }
     },
     emitQuantity() {
       this.$emit("quantity", parseInt(this.getQuantity.quantity, 10));
-    }
+    },
   },
 };
 </script>
