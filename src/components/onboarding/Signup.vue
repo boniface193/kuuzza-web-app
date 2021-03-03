@@ -200,6 +200,13 @@
         @keyup.enter="validate_form(3)"
       ></v-text-field>
 
+      <v-checkbox
+        v-model="acceptTerms"
+        label="By clicking continue, you are agreeing to our terms of service and our
+        disclaimer"
+        class="mt-5"
+      ></v-checkbox>
+
       <!-- button container -->
       <div
         class="pa-0 mt-5 d-flex justify-space-between align-center btn-container"
@@ -216,7 +223,7 @@
           class="primary px-8 py-5 mb-5"
           @click="validate_form(3)"
           :loading="loading"
-          :disabled="loading"
+          :disabled="loading || !acceptTerms"
           >Complete Sign Up</v-btn
         >
       </div>
@@ -246,6 +253,7 @@ export default {
       company_address: "",
       create_password: "",
       confirm_password: "",
+      acceptTerms: false,
       first_nameRules: [
         (v) => !!v || "First Name is required", // verifies first name satisfies the requirement
       ],
@@ -336,7 +344,7 @@ export default {
     validate_form(form_num) {
       this.$refs[`form${form_num}`].validate();
       if (this.$refs[`form${form_num}`].validate()) {
-        if (form_num == 3) {
+        if (form_num == 3 && this.acceptTerms) {
           this.submit();
         } else if (form_num == 1) {
           this.loading2 = true;
