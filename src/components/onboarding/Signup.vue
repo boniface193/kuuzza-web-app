@@ -339,8 +339,10 @@ export default {
     validate_form(form_num) {
       this.$refs[`form${form_num}`].validate();
       if (this.$refs[`form${form_num}`].validate()) {
-        if (form_num == 3 && this.acceptTerms) {
-          this.submit();
+        if (form_num == 3) {
+          if (this.acceptTerms) {
+            this.submit();
+          }
         } else if (form_num == 1) {
           this.loading2 = true;
           this.$store
