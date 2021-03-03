@@ -202,8 +202,8 @@
 
       <v-checkbox
         v-model="acceptTerms"
-        label="By clicking continue, you are agreeing to our terms of service and our
-        disclaimer"
+        label="By clicking continue, you are agreeing to our terms of service and privacy
+        policy"
         class="mt-5"
       ></v-checkbox>
 
@@ -246,11 +246,11 @@ export default {
       email: "",
       phone_number: "",
       company_name: "",
+      company_address: "",
       lat: "",
       lng: "",
       validAddress: false,
       autocomplete: "",
-      company_address: "",
       create_password: "",
       confirm_password: "",
       acceptTerms: false,
@@ -299,11 +299,6 @@ export default {
     ...mapState({
       present_form: (state) => state.onboarding.present_signup_form,
     }),
-    getAddress() {
-      return {
-        company_address: "",
-      };
-    },
   },
   mounted() {
     this.autocomplete = new window.google.maps.places.Autocomplete(
@@ -329,7 +324,7 @@ export default {
       } else {
         //Display details about the valid place
         this.validAddress = true;
-        this.getAddress.company_address = place.name;
+        this.company_address = place.name;
         this.lat = place.geometry.location.lat();
         this.lng = place.geometry.location.lng();
       }
@@ -396,7 +391,7 @@ export default {
           phone_number: this.phone_number,
           company_name: this.company_name,
           company_location: {
-            address: this.getAddress.company_address,
+            address: this.company_address,
             lat: this.lat,
             lng: this.lng,
           },

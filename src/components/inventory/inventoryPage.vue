@@ -15,6 +15,7 @@
       <div
         class="d-flex justify-space-between align-center mt-8 mb-1 flex-wrap"
       >
+        <!-- action btn -->
         <div class="select-item mr-8 mb-2">
           <selectBtn
             :items="[
@@ -36,16 +37,23 @@
             <searchProducts />
           </div>
 
-          <div class="d-flex align-center flex-wrap justify-space-between mb-2">
-            <!-- filter products-->
-            <filterProducts class="mr-2" />
+          <div class="secondary-display d-flex align-center flex-wrap justify-space-between mb-0 mb-sm-2">
+            <div class="d-flex align-center">
+              <!-- filter products-->
+              <filterProducts class="mr-2" />
 
-            <!-- export products -->
-            <exportProducts class="mr-2" />
+              <!-- export products -->
+              <exportProducts class="mr-2" />
 
-            <!-- import products -->
-            <router-link :to="{ name: 'productList' }">
-              <importIcon class="mr-2" toolTipText="Import products" />
+              <!-- import products -->
+              <router-link :to="{ name: 'productList' }">
+                <importIcon class="mr-2" toolTipText="Import products" />
+              </router-link>
+            </div>
+
+            <!-- add product btn primary-->
+            <router-link :to="{ name: 'addProduct' }" class="add-btn-secondary">
+              <span class="btn">Add New Product</span>
             </router-link>
 
             <!-- add product btn primary-->
@@ -53,10 +61,6 @@
               <v-btn class="primary py-6 px-4"
                 ><span>+</span> Add New Product</v-btn
               >
-            </router-link>
-            <!-- add product btn primary-->
-            <router-link :to="{ name: 'addProduct' }" class="add-btn-secondary">
-              <span class="btn">Add New Product</span>
             </router-link>
           </div>
         </div>
@@ -353,7 +357,7 @@ export default {
         startDate: params.startDate.toISOString().split("T")[0],
         endDate: params.endDate.toISOString().split("T")[0],
       });
-      this.$store.commit("inventory/setAllowDateFilter", true)
+      this.$store.commit("inventory/setAllowDateFilter", true);
       // set page back to page 1
       this.$store.commit("inventory/setPage", 1);
       this.getfilteredProducts();
@@ -463,14 +467,9 @@ export default {
     font-size: 16px !important;
     height: 40px;
     background: #5064cc;
-    position: fixed;
-    bottom: 40px;
-    right: 20px;
     border-radius: 5px;
     color: white;
     font-size: 35px;
-    z-index: 5;
-    box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
   }
 }
 @media (max-width: 953px) {
@@ -481,6 +480,9 @@ export default {
 }
 @media (max-width: 550px) {
   .search-container {
+    width: 100%;
+  }
+  .secondary-display{
     width: 100%;
   }
   .add-btn-primary {
