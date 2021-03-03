@@ -155,6 +155,8 @@ const actions = {
                 }).then(response => {
                     context.commit("setProducts", response.data.data);
                     context.commit("setPageDetails", response.data.meta);
+                    document.body.scrollTop = 0; // For Safari
+                    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
                     resolve(response);
                 })
                 .catch(error => {
@@ -176,6 +178,8 @@ const actions = {
                 }).then(response => {
                     context.commit("setProducts", response.data.data);
                     context.commit("setPageDetails", response.data.meta);
+                    document.body.scrollTop = 0; // For Safari
+                    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
                     resolve(response);
                 })
                 .catch(error => {
