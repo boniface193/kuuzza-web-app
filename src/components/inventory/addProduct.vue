@@ -65,7 +65,7 @@
 
           <!-- SKU number -->
           <div class="mb-3 input-field remove-appearance">
-            <p class="mb-1">SKU Number <span class="primary--text">(Tracking number)</span></p>
+            <p class="mb-1">SKU Number <span class="primary--text">(Serial number)</span></p>
             <v-text-field
               class="input mt-0"
               v-model="skuNumber"
@@ -114,7 +114,7 @@
 
            <!-- minimum quantity -->
           <div class="mb-9 input-field">
-            <p class="mb-1">Minimum Quantity <span class="primary--text">(minimum quantity of item that a customer can order)</span></p>
+            <p class="mb-1">Minimum Order Quantity <span class="primary--text">(minimum quantity a customer can order for this product)</span></p>
             <customNumberInput
               width="120px"
               height="57px"
