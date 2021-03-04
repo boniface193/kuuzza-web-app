@@ -13,11 +13,14 @@
       </div>
     </div>
     <v-container>
-      <h3 class="card-digit text-sm-body-1 text-md-h6 text-lg-h5 text-xl-h3 text-body-1">
+      <h3
+        class="card-digit text-sm-body-1 text-md-h6 text-lg-h5 text-xl-h3 text-body-1"
+      >
         {{ card_digit }}
       </h3>
       <h6 class="card-title">{{ card_title }}</h6>
-      <p class="card_sub">{{ card_sub }}</p>
+      <!-- <p class="card_sub card_sub_success" :class="{card_sub_error: card_sub.includes('-')}">{{ card_sub }}</p> -->
+      <p class="card_sub" :class="changeColor">{{ card_sub }}</p>
     </v-container>
   </v-card>
 </template>
@@ -30,6 +33,7 @@ export default {
     "card_title",
     "img_color",
     "card_sub",
+    "changeColor"
   ],
 };
 </script>
@@ -76,7 +80,13 @@ export default {
   margin-bottom: 5px;
   font: normal normal bold 14px/22px "Product Sans";
   letter-spacing: 0px;
-  color: #f70909;
   opacity: 1;
+}
+.card_sub_success {
+  color: #00c508;
+}
+
+.card_sub_error {
+  color: #f70909;
 }
 </style>

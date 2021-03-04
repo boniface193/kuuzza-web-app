@@ -25,8 +25,8 @@
             </div>
           </v-col>
           <v-col cols="12" class="">
-            <div class="green_text">
-              {{ green_text }}
+            <div class="green_text" :class="colorText">
+              {{ filteredText }}
             </div>
           </v-col>
         </v-row>
@@ -38,12 +38,13 @@
 <script>
 export default {
   props: {
-    green_text: String,
+    filteredText: String,
     card_title: String,
     img_color_text: String,
     card_digit: String,
     img_color: String,
     card_img: String,
+    colorText: String,
   },
   data() {
     return {};
@@ -91,7 +92,14 @@ export default {
 .green_text {
   font: normal normal bold 14px/5px "Product Sans";
   letter-spacing: 0px;
-  color: #00b944;
   opacity: 1;
+}
+
+.card_sub_success {
+  color: #00b944;
+}
+
+.card_sub_error {
+  color: #f70909;
 }
 </style>

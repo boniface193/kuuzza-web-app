@@ -1,18 +1,22 @@
 <template>
   <!-- donut chart -->
-  <v-card elevation="0"  class="rounded-lg">
+  <v-card elevation="0" class="rounded-lg">
     <h1 :class="bar_class">{{ bar_title }}</h1>
+
     <v-row>
       <v-col md="10" class="text-center">
-        <div class="px-10">
+        <v-skeleton-loader type="article" v-if="orderStatus">
+        </v-skeleton-loader>
+        <div class="px-10" v-if="!orderStatus">
           <div
             class="rounded-pill pa-125 round-img-bg-warning my-lg-16 my-md-16 mx-lg-5 mx-xl-67"
           >
             <div
               class="text-center mx-lg-15 mx-xl-25 mx-lg-25 mx-md-13 my-lg-16 my-md-16"
             >
-              <span class="donut-text text text-md-subtitle-1 text-lg-h4 text"
-                >250</span
+              <span
+                class="donut-text text text-md-subtitle-1 text-lg-h4 text"
+                >{{ totalOrder }}</span
               >
               <br />
               <span class="donut-sm-text text-lg-subtitle-1 text-md-caption"
@@ -22,16 +26,19 @@
           </div>
           <pie-chart
             :donut="true"
-            :data="data.dataSet"
-            :colors="data.color"
+            :data="data"
+            :colors="color"
             legend="right"
             width="90%"
+            empty="No data"
           ></pie-chart>
         </div>
       </v-col>
       <v-col md="2" class="pl-0">
-        <div class="mt-16 pt-10">
-          <div v-for="datas in data.dataSet" :key="datas">
+        <v-skeleton-loader type="article" v-if="orderStatus">
+        </v-skeleton-loader>
+        <div class="mt-16 pt-10" v-if="!orderStatus">
+          <div v-for="datas in data" :key="datas.id">
             <span :style="{ color: data.color }">{{ datas }}</span>
           </div>
         </div>
@@ -45,16 +52,38 @@ export default {
   props: ["bar_class", "bar_title", "chart"],
   data() {
     return {
+      orderStatus: true,
+      totalOrder: 0,
       data: {
-        dataSet: {
-          "Awaiting processing": 64,
-          Processing: 60,
-          Shipped: 100,
-          Completed: 24,
-        },
-        color: ["#5064CC", "#FFD500", "#52F1EC", "#00B944"],
       },
+      color: ["#5064CC", "#FFD500", "#52F1EC", "#00B944"],
     };
+  },
+
+  async created() {
+    await this.$store
+      .dispatch("dashboard/getOrderStatus")
+      .then((res) => {
+        let dataSet = {
+          "Awaiting processing": res.awaiting_processing,
+          Processing: res.processing,
+          Shipped: res.shipped,
+          Completed: res.completed,
+        };
+        this.data = dataSet;
+        this.totalOrder =
+          res.awaiting_processing +
+          res.processing +
+          res.shipped +
+          res.completed;
+        this.orderStatus = false;
+      })
+      .catch((error) => {
+        if (error.status === 401 || error.status === 403) {
+          localStorage.removeItem("accessToken");
+          window.location.href = "/signin";
+        }
+      });
   },
 };
 </script>
@@ -74,9 +103,7 @@ export default {
 .round-img-bg-warning {
   position: absolute;
 }
-
 .donut-text {
-  // text-align: left;
   font: normal normal bold 40px/0px "Product Sans";
   letter-spacing: 0px;
   color: #2b2b2b;

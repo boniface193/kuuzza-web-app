@@ -1,23 +1,28 @@
 <template>
   <div>
-    <div class="d-flex align-center justify-space-between">
+    <div class="">
       <!-- page title -->
+      <div class="d-flex justify-space-between align-center">
+        <h1
+          class="text-sm-h6 text-md-h5 text-lg-h4 text-xl-h3 text-h6 font-weight-bold"
+        >
+          Orders
+        </h1>
+        <!-- calendar -->
+        <calendar @updateDate="dateValue" />
+      </div>
 
-      <h1
-        class="text-sm-h6 text-md-h5 text-lg-h4 text-xl-h3 text-h6 font-weight-bold"
-      >
-        Orders
-      </h1>
-
-      <div class="d-flex align-center flex-wrap">
+      <div class="d-flex align-center mt-8 mb-1 flex-wrap offset-lg-9">
         <!-- search bar -->
-        <searchBar
-          placeholder="Search orders"
-          @search="getSearchValue"
-          bgColor="white"
-          borderColor="#e2e2e2"
-          class="mr-2 mb-5 mb-sm-0"
-        />
+        <div class="">
+          <searchBar
+            placeholder="Search orders"
+            @search="getSearchValue"
+            bgColor="white"
+            borderColor="#e2e2e2"
+            class="mr-2 mb-5 mb-sm-0"
+          />
+        </div>
         <!-- filter -->
         <basicFilter
           class="mr-2 mb-5 mb-sm-0"
@@ -35,9 +40,6 @@
           class="small-btn primary--text mr-2 mb-5 mb-sm-0"
           ><img src="@/assets/img/upload2.svg" alt=""
         /></span>
-
-        <!-- calendar -->
-        <calendar @updateDate="dateValue" />
       </div>
     </div>
     <!-- this is the loader visible to the user -->
@@ -52,12 +54,11 @@
         class=""
         indeterminate
       ></v-progress-circular>
-      
     </div>
     <!-- loader ends here -->
     <!-- table  -->
     <dataTable
-    v-show="orders.length > 0"
+      v-show="orders.length > 0"
       ref="table"
       :action="false"
       :select="false"

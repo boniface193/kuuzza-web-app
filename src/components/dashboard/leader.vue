@@ -1,41 +1,20 @@
 <template>
-  <v-card elevation="0"  height="100%" class="rounded-lg">
+  <v-card elevation="0" height="100%" class="rounded-lg">
     <v-container>
-      <!-- sumary of the leaders board -->
       <div class="d-flex justify-space-between my-3">
         <h3 class="leader text-truncate mr-2">
           {{ leader }}
         </h3>
-        <router-link :to="{ name: linkToDetails }" class="sell-text text-truncate">
+        <router-link
+          :to="{ name: linkToDetails }"
+          class="sell-text text-truncate"
+        >
           <p>
             {{ sell_text }}
           </p>
         </router-link>
       </div>
-      <div v-for="(item, i) in listItem" :key="i">
-        <v-row class="text">
-          <v-col cols="2" class="text-center">
-            {{ i + 1 }}
-          </v-col>
-          <v-col v-if="item.text" cols="6" class="text-truncate"
-            >{{ item.text }}
-          </v-col>
-          <v-col v-if="item.title" cols="4" class="text-truncate">
-            <span class="large-text"> {{ item.title }}</span>
-          </v-col>
-          <v-col v-if="item.indexOfOrder" cols="3" class="text-truncate">
-            <span class="small-text">{{ item.indexOfOrder }}</span>
-            <div class="mt-2 large-text">{{ item.number }}</div>
-          </v-col>
-          <v-col v-if="item.totalSpent" cols="3">
-            <span class="small-text">{{ item.totalSpent }}</span>
-            <div class="mt-2 large-text">₦{{ item.totalAmountSpent }}</div>
-          </v-col>
-          <v-col v-if="item.count" cols="4">
-            {{ item.count }}
-          </v-col>
-        </v-row>
-      </div>
+      <slot></slot>
     </v-container>
   </v-card>
 </template>
@@ -44,17 +23,17 @@
 export default {
   props: {
     linkToDetails: String,
-    card_title: String,
-    img_color_text: String,
-    card_digit: Number,
-    img_color: String,
-    card_img: String,
+    // card_title: String,
+    // img_color_text: String,
+    // card_digit: Number,
+    // img_color: String,
+    // card_img: String,
     leader: String,
     sell_text: String,
-    listItem: {
-      type: Array,
-      required: true,
-    },
+    // listItem: {
+    //   type: Array,
+    //   required: true,
+    // },
   },
   data() {
     return {};
@@ -71,7 +50,6 @@ export default {
   color: #646464;
   opacity: 1;
 }
-
 
 .sell-text {
   text-align: left;
@@ -137,13 +115,4 @@ export default {
   color: #505050;
   opacity: 1;
 }
-
-.large-text {
-  font: normal normal bold 18px/18px "Product Sans";
-  text-align: left;
-  letter-spacing: 0px;
-  color: #646464;
-  opacity: 1;
-}
-
 </style>

@@ -53,25 +53,20 @@
                   >Today</v-subheader
                 >
 
-                <v-list-item link>
-                  <v-list-item-content>
-                    <v-list-item-title class="layout-title-noti"
-                      >Content filtering</v-list-item-title
-                    >
-                    <v-list-item-subtitle class="layout-title-sm">20 min ago</v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
+                <div v-for="msg in notification" :key="msg.id">
+                  <v-list-item link>
+                    <v-list-item-content>
+                      <v-list-item-title class="layout-title-noti"
+                        >{{msg.msgtitle}}</v-list-item-title
+                      >
+                      <v-list-item-subtitle class="layout-title-sm"
+                        >{{msg.time}}</v-list-item-subtitle
+                      >
+                    </v-list-item-content>
+                  </v-list-item>
 
-                <v-divider></v-divider>
-
-                <v-list-item link>
-                  <v-list-item-content>
-                    <v-list-item-title class="layout-title-noti"
-                      >Password</v-list-item-title
-                    >
-                    <v-list-item-subtitle class="layout-title-sm">45 min ago</v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
+                  <v-divider></v-divider>
+                </div>
               </v-list>
 
               <v-list class="py-0">
@@ -79,16 +74,23 @@
                   >Old Notifications</v-subheader
                 >
 
+                <div v-for="msg in oldNotification " :key="msg.id">
                 <v-list-item link>
                   <v-list-item-content>
                     <v-list-item-title class="layout-title-noti"
-                      >Content filtering</v-list-item-title
+                      >{{msg.msgtitle}}</v-list-item-title
                     >
-                    <v-list-item-subtitle class="layout-title-sm">yesterday</v-list-item-subtitle>
+                    <v-list-item-subtitle class="layout-title-sm"
+                      >{{msg.time}}</v-list-item-subtitle
+                    >
                   </v-list-item-content>
                 </v-list-item>
+                <v-divider></v-divider>
+                </div>
               </v-list>
-              <div class="layout-title-noti bg-color d-flex justify-end pa-5">Mark All Read</div>
+              <div class="layout-title-noti bg-color d-flex justify-end pa-5">
+                Mark All Read
+              </div>
             </v-card>
           </v-menu>
         </div>
@@ -174,6 +176,13 @@ export default {
     dialog: false,
     drawer: true,
     settings: [],
+    notification: [
+      {id: "not001", msgtitle: "N100 Reward given", body: "whats ever", time: "20 min ago"},
+      {id: "not002", msgtitle: "N500 Reward given", body: "whats ever", time: "45 min ago"},
+    ],
+    oldNotification: [
+      {id: "not001", msgtitle: "Reset your password", body: "whats ever", time: "Yesterday"},
+    ],
     items: [
       {
         title: "Dashboard",
@@ -287,7 +296,7 @@ export default {
   letter-spacing: 0.5px;
 }
 
-.layout-title-sm{
+.layout-title-sm {
   font-size: 10px;
   margin-top: 5px;
 }

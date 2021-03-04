@@ -15,11 +15,16 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   props: ["bar_class", "bar_title", "chart"],
   data() {
     return {
       series: [
+        //        {
+        //   name: "Awaiting Settlements(N)- 6M",
+        //   // data: [10],
+        // },
         {
           name: "Total Revenue(N)- 23M",
           data: [230000, 175000, 239000, 160000, 210000, 160000, 180000],
@@ -68,6 +73,43 @@ export default {
         colors: ["#5064CC", "#52F1EC", "#44099F"],
       },
     };
+  },
+
+  computed: {
+    ...mapGetters({ revenue: "dashboard/revenue" }),
+
+    // categories() {
+    //   return;
+    // },
+  },
+
+  created() {
+    console.log("category", this.categories);
+    console.log("update barchart", this.updateBarChart());
+    // this.series.data = "1500"
+    // this.series.forEach((i) => {
+    //   i.data = this.revenue.total_revenue
+    //   console.log(this.revenue.total_revenue)
+    //   // i.name += "Revenue"
+    //   // console.log("i", i)
+    // })
+    // this.series.data = this.revenue.total_revenue
+    // Object.keys(this.revenue).forEach((i) => {
+    //   this.series.name += i
+    // console.log("keys", this.series.name);
+    // })
+
+    // console.log("revenuer", this.revenue)
+  },
+
+  methods: {
+    updateBarChart() {
+
+      this.series.push({ data: this.revenue.total_revenue });
+      // this.$store.dispatch("dashboard/getTotalRevenue").then((res) => {
+      //   console.log("checking revenue", res);
+      // });
+    },
   },
 };
 </script>

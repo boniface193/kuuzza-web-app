@@ -7,7 +7,9 @@
           to="/dashboard"
           style="text-decoration: none; color: #2b2b2b"
         >
-          <h2 class="float-left text-sm-body-1 text-md-h6 text-lg-h5 text-xl-h3 text-body-1 font-weight-bold">
+          <h2
+            class="float-left text-sm-body-1 text-md-h6 text-lg-h5 text-xl-h3 text-body-1 font-weight-bold"
+          >
             <v-icon class="mb-1 mr-3" size="35">mdi-chevron-left</v-icon> Best
             Selling Items
           </h2>
@@ -30,6 +32,7 @@
 <script>
 import dataTable from "@/components/dashboard/dataTable.vue";
 import dateFilter from "@/components/dashboard/calender.vue";
+import { mapGetters } from "vuex";
 export default {
   components: {
     dateFilter,
@@ -63,75 +66,12 @@ export default {
           totalValue: 300000,
           id: "seller01",
         },
-        {
-          name: "Abdulazeez Abdulazeez",
-          role: "Sales Representative",
-          totalPoint: 4999,
-          totalValue: 299999,
-          id: "seller02",
-        },
-        {
-          name: "Ayotunde Lanwo",
-          role: "Sales Representative",
-          totalPoint: 3799,
-          totalValue: 199999,
-        },
-        {
-          name: "Ayotunde Lanwo",
-          role: "Sales Representative",
-          totalPoint: 3999,
-          totalValue: 209000,
-        },
-        {
-          name: "Abdulazeez Abdulazeez",
-          role: "Sales Representative",
-          totalPoint: 2999,
-          totalValue: 203000,
-        },
-        {
-          name: "Ayotunde Lanwo",
-          role: "Super",
-          totalPoint: 1999,
-          totalValue: 100000,
-        },
-        {
-          name: "Ayotunde Lanwo",
-          role: "Super",
-          totalPoint: 5000,
-          totalValue: 190000,
-        },
-        {
-          name: "Abdulazeez Abdulazeez",
-          role: "Sales Representative",
-          totalPoint: 4999,
-          totalValue: 190000,
-        },
-        {
-          name: "Ayotunde Lanwo",
-          role: "Super",
-          totalPoint: 3999,
-          totalValue: 180000,
-        },
-        {
-          name: "Ayotunde Lanwo",
-          role: "Sales Representative",
-          totalPoint: 2999,
-          totalValue: 200000,
-        },
-        {
-          name: "Abdulazeez Abdulazeez",
-          role: "Sales Representative",
-          totalPoint: 3999,
-          totalValue: 14300,
-        },
-        {
-          name: "Ayotunde Lanwo",
-          role: "Sales Representative",
-          totalPoint: 2000,
-          totalValue: 198000,
-        },
       ],
     };
+  },
+
+  computed: {
+    ...mapGetters({ bestSelling: "dashboard/bestSellingItem" }),
   },
 };
 </script>
