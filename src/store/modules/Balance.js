@@ -23,6 +23,10 @@ const state = {
         data: [],
         meta: {}
     },
+    paymentHistory: {
+        data: [],
+        meta: {}
+    },
     dateRange: {
         startDate: curday(),
         endDate: curday(),
@@ -31,23 +35,25 @@ const state = {
 //returns the state properties
 const getters = {
     settlements: state => state.settlements,
-    awaitingSettlements: state => state.awaitingSettlements
+    awaitingSettlements: state => state.awaitingSettlements,
+    paymentHistory: state => state.paymentHistory
 };
 
 //take actions 
 const actions = {
     getSettlements(context, data) {
+        let dateRange = (state.dateRange.endDate !== null) ? `date_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
         return new Promise((resolve, reject) => {
-            axios.get(`${data.storeId}/settlements?status=${data.status}`, {
+            axios.get(`${data.storeId}/settlements?status=${data.status}&${dateRange}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                 },
             })
                 .then((response) => {
-                    if(data.status === "settled"){
+                    if (data.status === "settled") {
                         context.commit("setSettlements", response.data)
                     }
-                    if(data.status === "pending"){
+                    if (data.status === "pending") {
                         context.commit("setAwaitingSettlements", response.data)
                     }
                     resolve(response)
@@ -88,6 +94,24 @@ const actions = {
                     reject(error);
                 })
         })
+    },
+    getPaymentHistory(context, data) {
+        let dateRange = (state.dateRange.endDate !== null) ? `date_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
+        return new Promise((resolve, reject) => {
+            axios.get(`/payouts/${data.storeId}/history?${dateRange}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                },
+            })
+                .then((response) => {
+                    context.commit("setPaymentHistory", response.data)
+                    resolve(response)
+                })
+                .catch((error) => {
+                    context.commit("doNothing");
+                    reject(error)
+                });
+        })
     }
 };
 
@@ -97,6 +121,7 @@ const mutations = {
     doNothing: (state) => (state.doNothing = null),
     setSettlements: (state, list) => (state.settlement = list),
     setAwaitingSettlements: (state, list) => (state.awaitingSettlements = list),
+    setPaymentHistory: (state, list) => (state.paymentHistory = list),
     setDateRange: (state, dateRange) => (state.dateRange = dateRange),
 };
 
