@@ -138,6 +138,8 @@ const actions = {
     },
     // filter products 
     getfilteredProducts(context) {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
         let page = ((state.page) ? `page=${state.page}` : "");
         let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
         let priceRange = ((state.filter.maxPrice) ? `price_between=${state.filter.minPrice},${state.filter.maxPrice}` : "");
@@ -155,8 +157,6 @@ const actions = {
                 }).then(response => {
                     context.commit("setProducts", response.data.data);
                     context.commit("setPageDetails", response.data.meta);
-                    document.body.scrollTop = 0; // For Safari
-                    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
                     resolve(response);
                 })
                 .catch(error => {
@@ -166,6 +166,8 @@ const actions = {
     },
     // search products
     searchProducts(context) {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
         let page = ((state.page) ? `page=${state.page}` : "");
         let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
         let route = (state.searchValue !== "") ? `/search?q=${state.searchValue}&${page}&${perPage}` : ""
@@ -178,8 +180,6 @@ const actions = {
                 }).then(response => {
                     context.commit("setProducts", response.data.data);
                     context.commit("setPageDetails", response.data.meta);
-                    document.body.scrollTop = 0; // For Safari
-                    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
                     resolve(response);
                 })
                 .catch(error => {
