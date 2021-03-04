@@ -385,7 +385,9 @@ export default {
       this.$store.dispatch("dashboard/getStockDateFilter");
       this.$store.dispatch("dashboard/getCustomerFilter");
       this.$store.dispatch("dashboard/getSellerFilter");
-      this.$store.dispatch("dashboard/getTotalRevenue");
+      this.$store.dispatch("dashboard/getTotalRevenue", { id: this.userInfo.store.id });
+      let singDate = moment(value.startDate).format("L").split("/")
+      console.log(singDate[1])
     },
   },
 };

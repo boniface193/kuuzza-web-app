@@ -12,7 +12,11 @@ const state = {
     dashboardSeller: [],
     customerItem: [],
     stockItem: [],
-    dashboardRevenue: [],
+    dashboardRevenue: {
+        total_revenue: 0,
+        awaiting_settlement: 0,
+        settled: 0
+    },
     dateRange: {
         startDate: moment(new Date()).format("L"),
         endDate: moment(new Date()).format("L"),

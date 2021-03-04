@@ -8,7 +8,7 @@
         type="bar"
         height="337"
         :options="chartOptions"
-        :series="series"
+        :series="getAllRevenue.series"
       ></apexchart>
     </v-container>
   </v-card>
@@ -20,24 +20,6 @@ export default {
   props: ["bar_class", "bar_title", "chart"],
   data() {
     return {
-      series: [
-        //        {
-        //   name: "Awaiting Settlements(N)- 6M",
-        //   // data: [10],
-        // },
-        {
-          name: "Total Revenue(N)- 23M",
-          data: [230000, 175000, 239000, 160000, 210000, 160000, 180000],
-        },
-        {
-          name: "Settlements(N)- 19M",
-          data: [145000, 120000, 160000, 55000, 95000, 90000, 80000],
-        },
-        {
-          name: "Awaiting Settlements(N)- 6M",
-          data: [95000, 51000, 70000, 95000, 125000, 95000, 52000],
-        },
-      ],
       chartOptions: {
         chart: {
           type: "bar",
@@ -62,7 +44,7 @@ export default {
           colors: ["transparent"],
         },
         xaxis: {
-          categories: ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"],
+          categories: [],
         },
         fill: {
           opacity: 1,
@@ -78,37 +60,40 @@ export default {
   computed: {
     ...mapGetters({ revenue: "dashboard/revenue" }),
 
-    // categories() {
-    //   return;
-    // },
+    getAllRevenue() {
+      let totalRevenue = this.revenue.total_revenue
+      let awaiting =  this.revenue.awaiting_settlement 
+      let settled = this.revenue.settled
+      return {
+        series: [
+        {
+          name: "Total Revenue(N)", 
+          data: [totalRevenue]
+        }, 
+        {
+         name: "Awaiting Settlements(N)", 
+         data: [awaiting]
+        }, 
+        {
+          name: "Settlements", 
+          data: [settled]
+        },
+        ] ,
+
+        
+          }
+    },
   },
 
   created() {
     console.log("category", this.categories);
     console.log("update barchart", this.updateBarChart());
-    // this.series.data = "1500"
-    // this.series.forEach((i) => {
-    //   i.data = this.revenue.total_revenue
-    //   console.log(this.revenue.total_revenue)
-    //   // i.name += "Revenue"
-    //   // console.log("i", i)
-    // })
-    // this.series.data = this.revenue.total_revenue
-    // Object.keys(this.revenue).forEach((i) => {
-    //   this.series.name += i
-    // console.log("keys", this.series.name);
-    // })
-
-    // console.log("revenuer", this.revenue)
   },
 
   methods: {
     updateBarChart() {
 
-      this.series.push({ data: this.revenue.total_revenue });
-      // this.$store.dispatch("dashboard/getTotalRevenue").then((res) => {
-      //   console.log("checking revenue", res);
-      // });
+  
     },
   },
 };
