@@ -137,7 +137,7 @@ export default {
         },
         {
           text: "Price",
-          value: "product_price_label",
+          value: "store_price",
           width: "160px",
           money: true,
         },
