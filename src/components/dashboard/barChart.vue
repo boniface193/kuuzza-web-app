@@ -44,7 +44,7 @@ export default {
           colors: ["transparent"],
         },
         xaxis: {
-          categories: [],
+          categories: ["sun", "mon", "tue", "wed", "thurs"],
         },
         fill: {
           opacity: 1,
@@ -61,27 +61,25 @@ export default {
     ...mapGetters({ revenue: "dashboard/revenue" }),
 
     getAllRevenue() {
-      let totalRevenue = this.revenue.total_revenue
-      let awaiting =  this.revenue.awaiting_settlement 
-      let settled = this.revenue.settled
+      let totalRevenue = this.revenue.total_revenue;
+      let awaiting = this.revenue.awaiting_settlement;
+      let settled = this.revenue.settled;
       return {
         series: [
-        {
-          name: "Total Revenue(N)", 
-          data: [parseFloat(totalRevenue)]
-        }, 
-        {
-         name: "Awaiting Settlements(N)", 
-         data: [parseFloat(awaiting)]
-        }, 
-        {
-          name: "Settlements", 
-          data: [parseFloat(settled)]
-        },
-        ] ,
-
-        
-          }
+          {
+            name: "Total Revenue(N)",
+            data: [parseInt(totalRevenue, 10)],
+          },
+          {
+            name: "Awaiting Settlements(N)",
+            data: [parseInt(awaiting, 10)],
+          },
+          {
+            name: "Settlements",
+            data: [parseInt(settled, 10)],
+          },
+        ],
+      };
     },
   },
 
@@ -91,10 +89,7 @@ export default {
   },
 
   methods: {
-    updateBarChart() {
-
-  
-    },
+    updateBarChart() {},
   },
 };
 </script>
