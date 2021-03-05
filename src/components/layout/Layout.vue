@@ -209,26 +209,26 @@ export default {
         icon: "mdi-credit-card",
         routes: "/balance",
       },
-      {
-        title: "Customers",
-        icon: "mdi-human-queue",
-        routes: "/customers",
-      },
-      {
-        title: "Sellers",
-        icon: "mdi-account-supervisor",
-        routes: "/seller",
-      },
+      // {
+      //   title: "Customers",
+      //   icon: "mdi-human-queue",
+      //   routes: "/customers",
+      // },
+      // {
+      //   title: "Sellers",
+      //   icon: "mdi-account-supervisor",
+      //   routes: "/seller",
+      // },
       {
         title: "Settings",
         icon: "mdi-cog",
         routes: "/settings",
       },
-      {
-        title: "Integrations",
-        icon: "mdi-arrow-right",
-        routes: "/integrations",
-      },
+      // {
+      //   title: "Integrations",
+      //   icon: "mdi-arrow-right",
+      //   routes: "/integrations",
+      // },
     ],
   }),
   created() {
