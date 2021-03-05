@@ -7,7 +7,9 @@
           to="/dashboard"
           style="text-decoration: none; color: #2b2b2b"
         >
-          <h2 class="float-left text-sm-body-1 text-md-h6 text-lg-h5 text-xl-h3 text-body-1 font-weight-bold">
+          <h2
+            class="float-left text-sm-body-1 text-md-h6 text-lg-h5 text-xl-h3 text-body-1 font-weight-bold"
+          >
             <v-icon class="mb-1 mr-3" size="35">mdi-chevron-left</v-icon> Best
             Selling Items
           </h2>
@@ -15,14 +17,28 @@
         <dateFilter />
       </div>
       <div>
+
+        <div
+      v-if="isLoading"
+      style="position: absolute; margin: 15% 50%; text-align: center"
+    >
+      <!-- this image time loader is calculated by the loader to triger the load time -->
+      <v-progress-circular
+        color="primary"
+        class=""
+        indeterminate
+      ></v-progress-circular>
+    </div>
         <!-- table  -->
         <dataTable
+        v-if="!isLoading"
           :headers="headers"
-          :items="items"
+          :items="bestSellingItem"
           :select="true"
           itemKey="id"
         />
       </div>
+      <p v-if="bestSellingItem.length == 0" class="text-center mt-8">No Item Found</p>
     </div>
     <router-view />
   </v-container>
@@ -30,6 +46,7 @@
 <script>
 import dataTable from "@/components/dashboard/dataTable.vue";
 import dateFilter from "@/components/dashboard/calender.vue";
+import { mapGetters } from "vuex";
 export default {
   components: {
     dateFilter,
@@ -37,101 +54,46 @@ export default {
   },
   data() {
     return {
+      bestSellingItem: [],
+      isLoading: true,
       headers: [
         {
           text: "Rank",
           sortable: true,
-          value: "1",
+          value: "",
           width: "25%",
         },
         {
           text: "Product Name",
-          value: "name",
+          value: "product_name",
           href: true,
           routeName: "seller",
           width: "25%",
+          id: "product_id"
         },
-        { text: "Total Quantity Sold", value: "totalPoint", width: "25%" },
-        { text: "Total Value of Orders(₦)", value: "totalValue", width: "25%" },
-      ],
-
-      items: [
+        { text: "Total Quantity Sold", value: "quantity", width: "25%" },
         {
-          name: "Ayotunde Lanwo",
-          role: "Sales Representative",
-          totalPoint: 4000,
-          totalValue: 300000,
-          id: "seller01",
-        },
-        {
-          name: "Abdulazeez Abdulazeez",
-          role: "Sales Representative",
-          totalPoint: 4999,
-          totalValue: 299999,
-          id: "seller02",
-        },
-        {
-          name: "Ayotunde Lanwo",
-          role: "Sales Representative",
-          totalPoint: 3799,
-          totalValue: 199999,
-        },
-        {
-          name: "Ayotunde Lanwo",
-          role: "Sales Representative",
-          totalPoint: 3999,
-          totalValue: 209000,
-        },
-        {
-          name: "Abdulazeez Abdulazeez",
-          role: "Sales Representative",
-          totalPoint: 2999,
-          totalValue: 203000,
-        },
-        {
-          name: "Ayotunde Lanwo",
-          role: "Super",
-          totalPoint: 1999,
-          totalValue: 100000,
-        },
-        {
-          name: "Ayotunde Lanwo",
-          role: "Super",
-          totalPoint: 5000,
-          totalValue: 190000,
-        },
-        {
-          name: "Abdulazeez Abdulazeez",
-          role: "Sales Representative",
-          totalPoint: 4999,
-          totalValue: 190000,
-        },
-        {
-          name: "Ayotunde Lanwo",
-          role: "Super",
-          totalPoint: 3999,
-          totalValue: 180000,
-        },
-        {
-          name: "Ayotunde Lanwo",
-          role: "Sales Representative",
-          totalPoint: 2999,
-          totalValue: 200000,
-        },
-        {
-          name: "Abdulazeez Abdulazeez",
-          role: "Sales Representative",
-          totalPoint: 3999,
-          totalValue: 14300,
-        },
-        {
-          name: "Ayotunde Lanwo",
-          role: "Sales Representative",
-          totalPoint: 2000,
-          totalValue: 198000,
+          text: "Total Value of Orders(₦)",
+          value: "total_order_value",
+          width: "25%",
         },
       ],
     };
+  },
+
+  computed: {
+    ...mapGetters({ bestSelling: "dashboard/bestSellingItem" }),
+  },
+  created() {
+    if (this.bestSelling.data === undefined) {
+      this.$store.dispatch("dashboard/getBestSelling").then((res) => {
+        this.bestSellingItem = res.data
+        this.isLoading = false
+        console.log(res);
+      });
+    } else {
+      this.bestSellingItem = this.bestSelling.data
+    }
   },
 };
 </script>

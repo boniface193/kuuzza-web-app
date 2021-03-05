@@ -10,11 +10,12 @@ import signupTeamMember from "@/components/onboarding/signupTeamMember.vue";
 import Recoverpassword from "@/components/onboarding/Recoverpassword.vue";
 import Forgotpassword from "@/components/onboarding/Forgotpassword.vue";
 import Onboarding from "@/views/onboarding/Onboarding.vue";
+import Dashboard from "@/views/mainDashboard/Dashboard.vue";
 import emailVerification from "@/components/onboarding/emailVerification.vue";
 import forgotPasswordVerification from "@/components/onboarding/forgotPasswordVerification.vue";
 // dashboard pages
-import Dashboard from "@/views/authPages/Dashboard.vue";
-import Home from "@/views/authPages/Home.vue";
+// import Dashboard from "@/views/authPages/Dashboard.vue";
+// import Home from "@/views/authPages/Home.vue";
 // inventory pages
 import Inventory from "@/views/authPages/Inventory.vue";
 import inventoryHistory from "@/components/inventory/inventoryHistory.vue";
@@ -23,6 +24,7 @@ import addProduct from "@/components/inventory/addProduct.vue";
 import editProduct from "@/components/inventory/editProduct.vue";
 import productDetails from "@/components/inventory/productDetails.vue";
 import productList from "@/components/inventory/productList.vue";
+import Home from "@/views/layout/home.vue";
 // settings pages
 import Settings from "../views/authPages/Settings.vue";
 import userDetails from "@/components/settings/userDetails.vue";
@@ -136,9 +138,9 @@ const ifAccessPasswordRecoveryPage = (to, from, next) => {
 
 // verify that the user is already logged
 const AlreadyLogin = (to, from, next) => {
-  if (to.name === 'signupTeamMember'){
+  if (to.name === 'signupTeamMember') {
     next();
-  }else {
+  } else {
     if (localStorage.getItem("accessToken")) {
       next({ name: 'dashboard' })
     } else {
@@ -171,7 +173,7 @@ const routes = [
     children: [
       {
         path: "",
-        name:"dashboard",
+        name: "dashboard",
         component: Dashboard,
       },
       {
@@ -394,7 +396,7 @@ const routes = [
               {
                 path: "change-account",
                 name: "EditBankDetails",
-                component: EditBankDetails ,
+                component: EditBankDetails,
                 beforeEnter: allowEditBankAccount
               }
             ]

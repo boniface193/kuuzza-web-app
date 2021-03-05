@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Layout from "@/components/dashboard/Layout.vue";
+import Layout from "@/components/layout/Layout.vue";
 
 export default {
   components: {
