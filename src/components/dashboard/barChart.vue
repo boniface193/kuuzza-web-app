@@ -68,15 +68,15 @@ export default {
         series: [
         {
           name: "Total Revenue(N)", 
-          data: [totalRevenue]
+          data: [parseFloat(totalRevenue)]
         }, 
         {
          name: "Awaiting Settlements(N)", 
-         data: [awaiting]
+         data: [parseFloat(awaiting)]
         }, 
         {
           name: "Settlements", 
-          data: [settled]
+          data: [parseFloat(settled)]
         },
         ] ,
 

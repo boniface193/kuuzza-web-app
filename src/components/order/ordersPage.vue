@@ -166,6 +166,7 @@ export default {
     }),
   },
   created() {
+    console.log("order", this.orders)
     this.$store.dispatch("orders/getOrders").then(() => {
       this.isLoading = false;
     });

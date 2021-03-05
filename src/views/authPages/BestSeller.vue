@@ -17,14 +17,28 @@
         <dateFilter />
       </div>
       <div>
+
+        <div
+      v-if="isLoading"
+      style="position: absolute; margin: 15% 50%; text-align: center"
+    >
+      <!-- this image time loader is calculated by the loader to triger the load time -->
+      <v-progress-circular
+        color="primary"
+        class=""
+        indeterminate
+      ></v-progress-circular>
+    </div>
         <!-- table  -->
         <dataTable
+        v-if="!isLoading"
           :headers="headers"
-          :items="items"
+          :items="bestSellingItem"
           :select="true"
           itemKey="id"
         />
       </div>
+      <p v-if="bestSellingItem.length == 0" class="text-center mt-8">No Item Found</p>
     </div>
     <router-view />
   </v-container>
@@ -40,31 +54,28 @@ export default {
   },
   data() {
     return {
+      bestSellingItem: [],
+      isLoading: true,
       headers: [
         {
           text: "Rank",
           sortable: true,
-          value: "1",
+          value: "",
           width: "25%",
         },
         {
           text: "Product Name",
-          value: "name",
+          value: "product_name",
           href: true,
           routeName: "seller",
           width: "25%",
+          id: "product_id"
         },
-        { text: "Total Quantity Sold", value: "totalPoint", width: "25%" },
-        { text: "Total Value of Orders(₦)", value: "totalValue", width: "25%" },
-      ],
-
-      items: [
+        { text: "Total Quantity Sold", value: "quantity", width: "25%" },
         {
-          name: "Ayotunde Lanwo",
-          role: "Sales Representative",
-          totalPoint: 4000,
-          totalValue: 300000,
-          id: "seller01",
+          text: "Total Value of Orders(₦)",
+          value: "total_order_value",
+          width: "25%",
         },
       ],
     };
@@ -72,6 +83,17 @@ export default {
 
   computed: {
     ...mapGetters({ bestSelling: "dashboard/bestSellingItem" }),
+  },
+  created() {
+    if (this.bestSelling.data === undefined) {
+      this.$store.dispatch("dashboard/getBestSelling").then((res) => {
+        this.bestSellingItem = res.data
+        this.isLoading = false
+        console.log(res);
+      });
+    } else {
+      this.bestSellingItem = this.bestSelling.data
+    }
   },
 };
 </script>

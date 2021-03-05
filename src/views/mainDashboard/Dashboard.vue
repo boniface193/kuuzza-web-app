@@ -29,13 +29,13 @@
           <v-skeleton-loader type="article" v-if="stock"> </v-skeleton-loader>
           <card
             v-if="!stock"
-            :card_digit="sales"
+            :card_digit="stockInfo"
             card_title="Items in Stock"
             card_img="delivery-box.svg"
             img_color="round-img-bg-primary"
-            :card_sub="stockInfo"
+            :card_sub="sales"
             :changeColor="
-              stockInfo.includes('-') ? 'card_sub_error' : 'card_sub_success'
+              sales.includes('-') ? 'card_sub_error' : 'card_sub_success'
             "
           />
         </v-col>
