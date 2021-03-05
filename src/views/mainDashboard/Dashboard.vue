@@ -35,7 +35,7 @@
             img_color="round-img-bg-primary"
             :card_sub="sales"
             :changeColor="
-              sales.includes('-') ? 'card_sub_error' : 'card_sub_success'
+              sales ? 'card_sub_error' : 'card_sub_success'
             "
           />
         </v-col>

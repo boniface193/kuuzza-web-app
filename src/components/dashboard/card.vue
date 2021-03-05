@@ -18,7 +18,8 @@
       >
         {{ card_digit }}
       </h3>
-      <h6 class="card-title">{{ card_title }}  {{ card_title.sales ? ", Sold"  : ""}}</h6>
+      <h6 class="card-title">{{ card_title }} </h6>
+      <!-- <h6 class="card-title">{{ card_title }}  {{ card_title.sales ? ", Sold"  : ""}}</h6> -->
       
       <p class="card_sub" :class="changeColor">{{ card_sub }}</p>
     </v-container>
