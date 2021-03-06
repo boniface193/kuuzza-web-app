@@ -12,14 +12,13 @@
 
     <!-- table  -->
     <div v-show="loader !== true">
-    <dataTable
-      :action="false"
-      :actions="actions"
-      :select="true"
-      :headers="tableHeaders"
-      :items="inventoriesHistory"
-      @selectedRow="rowSelected"
-    />
+      <dataTable
+        :action="false"
+        :actions="actions"
+        :headers="tableHeaders"
+        itemKey="product_reference"
+        :items="inventoriesHistory"
+      />
     </div>
 
     <!-- loader -->
@@ -47,20 +46,16 @@ export default {
       tableHeaders: [
         {
           text: "Product Name",
-          sortable: true,
           value: "name",
           width: "300px",
+          href: true,
+          routeName: "productDetails",
         },
-        { text: "Image", value: "image", image: true, width: "150px" },
+        { text: "Image", value: "image", image: true, width: "200px" },
         { text: "SKU", value: "sku", width: "200px" },
-        { text: "Quantity", value: "quantity", width: "100px" },
-        { text: "Status", value: "status", width: "150px" },
+        { text: "Quantity", value: "quantity", width: "200px" },
+        { text: "Status", value: "status", width: "200px" },
         { text: "Time", value: "time", width: "200px" },
-        {
-          text: "Sales Representative",
-          value: "salesRepresentative",
-          width: "250px",
-        },
       ],
     };
   },
