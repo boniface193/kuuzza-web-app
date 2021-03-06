@@ -76,7 +76,7 @@
         :select="true"
         :headers="tableHeaders"
         :items="products"
-        itemKey="id"
+        itemKey="product_reference"
         statusKey="is_online"
         :itemPerPage="pageDetails.per_page || 15"
         :paginationLength="pageDetails.last_page"
