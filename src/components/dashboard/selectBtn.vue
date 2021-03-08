@@ -1,5 +1,10 @@
 <template>
-  <div class="select-btn" tabindex="0" v-on-clickaway="away">
+  <div
+    class="select-btn"
+    tabindex="0"
+    v-on-clickaway="away"
+    :style="{ background: bgColor, 'border-radius': borderRadius, 'border-color': borderColor }"
+  >
     <!-- select -->
     <div class="select" @click="toggleDropdown">
       <div class="select-placeholder d-flex align-center justify-space-between">
@@ -28,12 +33,12 @@ import { mixin as clickaway } from "vue-clickaway";
 export default {
   name: "selectBtn",
   mixins: [clickaway],
-  props: ["items", "item", "dropDownMenu"],
+  props: ["items", "item", "dropDownMenu", "bgColor", "borderRadius", "borderColor"],
   data: function () {
     return {
       selectDropdown: false,
       selectedItem: this.item,
-      selectedDropDownValue: null
+      selectedDropDownValue: null,
     };
   },
   methods: {
@@ -48,8 +53,8 @@ export default {
       if (this.dropDownMenu !== true) {
         this.selectedItem = item;
         this.$emit("selectedItem", this.selectedItem);
-      }else {
-        this.selectedDropDownValue = item
+      } else {
+        this.selectedDropDownValue = item;
         this.$emit("selectedItem", this.selectedDropDownValue);
       }
       this.selectDropdown = false;
@@ -61,12 +66,10 @@ export default {
 .select-btn {
   width: 100%;
   height: 100%;
-  border: 1px solid #e2e2e2;
-  border-radius: 8px;
-  background: #ffffff;
   display: flex;
   align-items: center;
   position: relative;
+  border: 1px solid;
   outline: none;
   &:hover {
     border-color: rgba(0, 0, 0, 0.87);

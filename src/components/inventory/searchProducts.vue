@@ -32,7 +32,7 @@
 import searchBar from "@/components/dashboard/searchBar.vue";
 import modal from "@/components/dashboard/modal.vue";
 import failedImage from "@/assets/img/failed-img.svg";
-import { mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
 export default {
   name: "searchProducts",
   components: { searchBar, modal },
@@ -48,14 +48,19 @@ export default {
       tableLoader: (state) => state.inventory.tableLoader,
       searchValue: (state) => state.inventory.searchValue,
     }),
+    ...mapGetters({
+      verifiedStore: "settings/verifiedStore",
+    }),
   },
   methods: {
     // set search value
     setSearchValue(params) {
-      this.$store.commit("inventory/setSearchValue", params);
-      this.$store.commit("inventory/setSearchProduct", true);
-      this.$store.commit("inventory/setPage", 1);
-      this.searchProducts();
+      if (this.verifiedStore === true) {
+        this.$store.commit("inventory/setSearchValue", params);
+        this.$store.commit("inventory/setSearchProduct", true);
+        this.$store.commit("inventory/setPage", 1);
+        this.searchProducts();
+      }
     },
     // search products
     searchProducts() {

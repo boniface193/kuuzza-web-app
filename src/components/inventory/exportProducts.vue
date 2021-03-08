@@ -27,6 +27,7 @@ import exportIcon from "@/components/icons/exportIcon.vue";
 import modal from "@/components/dashboard/modal.vue";
 import failedImage from "@/assets/img/failed-img.svg";
 import successImage from "@/assets/img/success-img.svg";
+import { mapGetters } from "vuex";
 export default {
   name: "exportProducts",
   components: { exportIcon, modal },
@@ -37,29 +38,36 @@ export default {
       statusImage: null,
     };
   },
+  computed: {
+    ...mapGetters({
+      verifiedStore: "settings/verifiedStore",
+    }),
+  },
   methods: {
     // export products
     exportProducts() {
-      this.dialog = true;
-      this.statusImage = successImage;
-      this.dialogMessage = "Exporting Product...";
-      this.$store
-        .dispatch("inventory/exportProducts")
-        .then(() => {
-          this.dialog = true;
-          this.statusImage = successImage;
-          this.dialogMessage =
-            "Products successfully exported, An email would be sent to you shortly!";
-        })
-        .catch((error) => {
-          this.statusImage = failedImage;
-          this.dialog = true;
-          if (error.response) {
-            this.dialogMessage = "Something went wrong, pls try again!";
-          } else {
-            this.dialogMessage = "No internet Connection!";
-          }
-        });
+      if (this.verifiedStore === true) {
+        this.dialog = true;
+        this.statusImage = successImage;
+        this.dialogMessage = "Exporting Product...";
+        this.$store
+          .dispatch("inventory/exportProducts")
+          .then(() => {
+            this.dialog = true;
+            this.statusImage = successImage;
+            this.dialogMessage =
+              "Products successfully exported, An email would be sent to you shortly!";
+          })
+          .catch((error) => {
+            this.statusImage = failedImage;
+            this.dialog = true;
+            if (error.response) {
+              this.dialogMessage = "Something went wrong, pls try again!";
+            } else {
+              this.dialogMessage = "No internet Connection!";
+            }
+          });
+      }
     },
   },
 };

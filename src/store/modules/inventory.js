@@ -87,6 +87,7 @@ const actions = {
                 })
         })
     },
+    // update products on inventory
     updateProduct(context, data) {
         return new Promise((resolve, reject) => {
             axios.put(`/products/${data.ref}`, data, {
