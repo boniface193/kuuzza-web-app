@@ -36,7 +36,7 @@
             img_color="round-img-bg-primary"
             :card_sub="sales"
             changeColor="card_sub_error"
-            label="Sold"
+            label="( Sold )"
           />
         </v-col>
         <v-col cols="12" sm="4">

@@ -19,7 +19,9 @@
         {{ card_digit }}
       </h3>
       <h6 class="card-title">{{ card_title }}</h6>
-      <p class="card_sub" :class="changeColor">{{ card_sub }} <span class="card-title">{{label}}</span></p>
+      <p class="card_sub" :class="changeColor">{{ card_sub }} <span style="  color: #979797;
+  font-family: 'Product Sans Light';
+  font-size: 10px;">{{label}}</span></p>
     </v-container>
   </v-card>
 </template>
