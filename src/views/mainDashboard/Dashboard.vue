@@ -7,7 +7,8 @@
       <div
         class="welcome-user text-sm-h6 text-md-h5 text-lg-h4 text-xl-h3 text-h6 font-weight-bold"
       >
-        {{ userInfo.name }}!
+        <div class="mb-2" v-show="userInfo.name">Welcome,</div>
+        <span class="text-h6">{{ userInfo.name }} <span v-show="userInfo.name">!</span></span>
       </div>
       <v-snackbar v-model="snackbar" top :color="errorColor">
         {{ error }}
@@ -34,9 +35,8 @@
             card_img="delivery-box.svg"
             img_color="round-img-bg-primary"
             :card_sub="sales"
-            :changeColor="
-              sales ? 'card_sub_error' : 'card_sub_success'
-            "
+            changeColor="card_sub_error"
+            label="Sold"
           />
         </v-col>
         <v-col cols="12" sm="4">
@@ -64,7 +64,7 @@
 
       <v-row>
         <!-- donut chart -->
-        <v-col md="8" class="d-none d-md-block">
+        <v-col class="d-none d-md-block" :cols="leaderboard <= 1 || bestSelling <= 1 ? 8 : 12">
           <donut
             class="py-5 px-5 my-3"
             bar_class="chart-heading text-capitalize"
@@ -72,21 +72,39 @@
           />
         </v-col>
 
-        <v-col md="4">
+        <v-col md="4" v-show="leaderboard <= 1 || bestSelling <= 1">
           <v-row>
-            <v-col md="12">
+            <v-col md="12" v-show="leaderboard <= 1">
+              <v-skeleton-loader type="article" v-if="!leaderboard.data">
+              </v-skeleton-loader>
               <leader
+                v-if="leaderboard.data"
                 linkToDetails="leaderboard"
                 leader="Leaderboard"
                 sell_text="See all"
                 listItem="listItem"
-              />
+              >
+              <div>
+              <v-row class="text" v-for="items in leaderboard.data" :key="items.seller_id" >
+                <v-col cols="2" class="text-center">
+                  {{leaderboard.rank[items.seller_id]}}
+                </v-col>
+                <v-col cols="7" class="text-truncate">
+                  <span class="large-text"> {{items.seller_name}}</span>
+                </v-col>
+                <v-col cols="3" class="text-truncate">
+                  <div class="mt-2 large-text">{{items.total_points}}</div>
+                </v-col>
+              </v-row>
+            </div>
+              </leader>
             </v-col>
 
-            <v-col md="12">
-              <v-skeleton-loader type="article" v-if="!bestSelling.data"> </v-skeleton-loader>
+            <v-col md="12" v-show="bestSelling <= 1">
+              <v-skeleton-loader type="article" v-if="!bestSelling.data">
+              </v-skeleton-loader>
               <leader
-              v-if="bestSelling.data"
+                v-if="bestSelling.data"
                 linkToDetails="bestSeller"
                 leader="Best Selling Items"
                 sell_text="See all"
@@ -109,7 +127,10 @@
       <!-- show leaders board summary -->
 
       <v-row>
-        <v-col class="col-lg-8 col-sm-12 d-none d-sm-block">
+        <v-col
+          class="col-lg-8 col-sm-12 d-none d-sm-block"
+          
+        >
           <v-skeleton-loader type="article" v-if="topCust"> </v-skeleton-loader>
           <leader leader="Top Customers" v-if="!topCust">
             <!-- sumary of the leaders board -->
@@ -209,12 +230,6 @@ export default {
 
   data() {
     return {
-      // first leader board summary
-      listItem: [
-        { text: "Emike Lucy", count: 369 },
-        { text: "Ayotunde Lanwo", count: 369 },
-        { text: "Ayotunde Lanwo", count: 369 },
-      ],
       //error report
       snackbar: false,
       error: "",
@@ -242,41 +257,39 @@ export default {
       payment: true,
       // top Customer
       topCust: true,
+      // userInformation
+      userInfo: [],
+      // leaderboard
     };
   },
 
   computed: {
     ...mapGetters({
       bestSelling: "dashboard/bestSellingItem",
-      userInfo: "settings/getUserProfile",
+      userInfoItem: "settings/getUserProfile",
       topCustomer: "dashboard/topCustomer",
       bestSeller: "dashboard/bestSelling",
       dashboardCustomer: "dashboard/dashboardCustomer",
       dashboardStock: "dashboard/dashboardStock",
+      leaderboard: "leaderboard/leaderboard",
     }),
   },
 
-  async created() {
-    // console.log("dashboard - best selling", this.bestSelling);
+  created() {
+    
     this.checkIfUserOnline();
     // endpoint for stock
     if (
       this.dashboardStock.in_stock === undefined ||
       this.dashboardStock.sales === undefined
     ) {
-      await this.$store
+      this.$store
         .dispatch("dashboard/getStock")
         .then((res) => {
           this.stockInfo = res.in_stock;
           this.sales = res.sales;
           this.stock = false;
         })
-        .catch((error) => {
-          if (error.status === 401 || error.status === 403) {
-            localStorage.removeItem("accessToken");
-            window.location.href = "/signin";
-          }
-        });
     } else {
       this.stockInfo = this.dashboardStock.in_stock;
       this.sales = this.dashboardStock.sales;
@@ -288,19 +301,13 @@ export default {
       this.dashboardCustomer.all_customers === undefined ||
       this.dashboardCustomer.filter_customers === undefined
     ) {
-      await this.$store
+      this.$store
         .dispatch("dashboard/getCustomer")
         .then((res) => {
           this.allCustomer = res.all_customers;
           this.filteredCustomer = res.filter_customers;
           this.customer = false;
         })
-        .catch((error) => {
-          if (error.status === 401 || error.status === 403) {
-            localStorage.removeItem("accessToken");
-            window.location.href = "/signin";
-          }
-        });
     } else {
       this.allCustomer = this.dashboardCustomer.all_customers;
       this.filteredCustomer = this.dashboardCustomer.filter_customers;
@@ -312,19 +319,13 @@ export default {
       this.bestSeller.all_sellers === undefined ||
       this.bestSeller.filter_sellers === undefined
     ) {
-      await this.$store
+      this.$store
         .dispatch("dashboard/getSeller")
         .then((res) => {
           this.allSeller = res.all_sellers;
           this.filteredSeller = res.filter_sellers;
           this.seller = false;
         })
-        .catch((error) => {
-          if (error.status === 401 || error.status === 403) {
-            localStorage.removeItem("accessToken");
-            window.location.href = "/signin";
-          }
-        });
     } else {
       this.allSeller = this.bestSeller.all_sellers;
       this.filteredSeller = this.bestSeller.filter_sellers;
@@ -332,16 +333,18 @@ export default {
     }
 
     // best seller
-    await this.$store.dispatch("dashboard/getBestSelling");
+    this.$store.dispatch("dashboard/getBestSelling");
 
     // topCustomer
-    await this.$store.dispatch("dashboard/getTopCustomer").then(() => {
+    this.$store.dispatch("dashboard/getTopCustomer").then(() => {
+      
       this.topCust = false;
     });
 
     // total revenue, payment and available balance
-    if (this.userInfo.store.id === "") {
-      this.$store.dispatch("settings/getUserProfile").then(() => {
+    if (this.userInfoItem.store.id === undefined) {
+      this.$store.dispatch("settings/getUserProfile").then((res) => {
+        this.userInfo = res.data.data
         this.$store
           .dispatch("dashboard/getTotalRevenue", { id: this.userInfo.store.id })
           .then((res) => {
@@ -353,6 +356,7 @@ export default {
           });
       });
     } else {
+      this.userInfo = this.userInfoItem
       this.$store
         .dispatch("dashboard/getTotalRevenue", { id: this.userInfo.store.id })
         .then((res) => {
@@ -363,8 +367,12 @@ export default {
           this.payment = false;
         });
     }
+  // dispatch user infor
+    this.$store.dispatch("settings/getUserProfile")
 
-    // await this.$store.dispatch("dashboard/getLeaderboard");
+  // leaderboard
+  console.log("leaderboard", this.leaderboard)
+    this.$store.dispatch("leaderboard/getLeaderboard")
   },
 
   methods: {
@@ -385,9 +393,11 @@ export default {
       this.$store.dispatch("dashboard/getStockDateFilter");
       this.$store.dispatch("dashboard/getCustomerFilter");
       this.$store.dispatch("dashboard/getSellerFilter");
-      this.$store.dispatch("dashboard/getTotalRevenue", { id: this.userInfo.store.id });
-      let singDate = moment(value.startDate).format("L").split("/")
-      console.log(singDate[1])
+      this.$store.dispatch("dashboard/getTotalRevenue", {
+        id: this.userInfo.store.id,
+      });
+      let singDate = moment(value.startDate).format("L").split("/");
+      console.log(singDate[1]);
     },
   },
 };

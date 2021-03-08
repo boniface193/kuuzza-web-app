@@ -41,9 +41,7 @@ import WithdrawFund from "@/components/withdrawalPages/WithdrawFund.vue";
 import AddBankDetails from "@/components/withdrawalPages/AddBankDetails.vue";
 import EditBankDetails from '@/components/withdrawalPages/EditBankDetails.vue';
 // Leaderboard pages
-import Leaderboard from "@/views/authPages/Leaderboard.vue";
-import leaderStore from "@/components/dashboard/leaderStore.vue";
-import leaderGlobal from "@/components/dashboard/leaderGlobal.vue";
+import Leaderboard from "@/components/leaderboard/Leaderboard.vue";
 // seller pages
 import bestSeller from "@/views/authPages/BestSeller.vue";
 import Sellers from "@/views/authPages/Seller.vue";
@@ -220,19 +218,9 @@ const routes = [
       },
       {
         path: "/leaderboard",
+        name: "leaderboard",
         component: Leaderboard,
-        children: [
-          {
-            path: "",
-            name: "leaderboard",
-            component: leaderStore
-          },
-          {
-            path: "leaderGlobal",
-            name: "leaderGlobal",
-            component: leaderGlobal
-          },
-        ]
+        
       },
       {
         path: "/orders",
