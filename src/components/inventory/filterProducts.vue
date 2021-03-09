@@ -33,7 +33,7 @@
 import basicFilter from "@/components/dashboard/basicFilter.vue";
 import modal from "@/components/dashboard/modal.vue";
 import failedImage from "@/assets/img/failed-img.svg";
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 export default {
   name: "filterProducts",
   components: { basicFilter, modal },
@@ -62,6 +62,9 @@ export default {
     ...mapState({
       tableLoader: (state) => state.inventory.tableLoader,
     }),
+    ...mapGetters({
+      verifiedStore: "settings/verifiedStore",
+    }),
   },
   methods: {
     // get products
@@ -84,37 +87,41 @@ export default {
     },
     // filterTable
     filterTable(params) {
-      // commit values for filter
-      this.$store.commit("inventory/setFilter", {
-        minPrice: params.minPrice,
-        maxPrice: params.maxPrice,
-        minQuantity: params.minQuantity,
-        maxQuantity: params.maxQuantity,
-        selectedOptions: params.selectedOptions,
-      });
+      if (this.verifiedStore === true) {
+        // commit values for filter
+        this.$store.commit("inventory/setFilter", {
+          minPrice: params.minPrice,
+          maxPrice: params.maxPrice,
+          minQuantity: params.minQuantity,
+          maxQuantity: params.maxQuantity,
+          selectedOptions: params.selectedOptions,
+        });
 
-      // set page back to page 1
-      this.$store.commit("inventory/setPage", 1);
+        // set page back to page 1
+        this.$store.commit("inventory/setPage", 1);
 
-      // get products
-      this.getProducts();
+        // get products
+        this.getProducts();
+      }
     },
     // reset filter
     resetFilter() {
-      // commit values for filter
-      this.$store.commit("inventory/setFilter", {
-        minPrice: 0,
-        maxPrice: 0,
-        minQuantity: 0,
-        maxQuantity: 0,
-        selectedOptions: [],
-      });
+      if (this.verifiedStore === true) {
+        // commit values for filter
+        this.$store.commit("inventory/setFilter", {
+          minPrice: 0,
+          maxPrice: 0,
+          minQuantity: 0,
+          maxQuantity: 0,
+          selectedOptions: [],
+        });
 
-      // set page back to page 1
-      this.$store.commit("inventory/setPage", 1);
+        // set page back to page 1
+        this.$store.commit("inventory/setPage", 1);
 
-      // get products
-      this.getProducts();
+        // get products
+        this.getProducts();
+      }
     },
   },
 };

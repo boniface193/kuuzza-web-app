@@ -358,7 +358,7 @@ export default {
           category: this.category,
           sku: this.skuNumber,
           quantity: this.quantity,
-          min_quantity: this.minQuantity,
+          min_order_quantity: this.minQuantity,
           price: this.price,
           description: this.productDescription,
           image: this.imageUrl,

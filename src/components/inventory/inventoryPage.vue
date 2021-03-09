@@ -12,12 +12,17 @@
           <calendar @updateDate="setDate" />
         </div>
       </div>
+
+      <!-- toolbars -->
       <div
         class="d-flex justify-space-between align-center mt-8 mb-1 flex-wrap"
       >
         <!-- action btn -->
         <div class="select-item mr-8 mb-2">
           <selectBtn
+            bgColor="white"
+            borderRadius="8px"
+            borderColor="#e2e2e2"
             :items="[
               'Take product offline',
               'Take product online',
@@ -37,7 +42,9 @@
             <searchProducts />
           </div>
 
-          <div class="secondary-display d-flex align-center flex-wrap justify-space-between mb-0 mb-sm-2">
+          <div
+            class="secondary-display d-flex align-center flex-wrap justify-space-between mb-0 mb-sm-2"
+          >
             <div class="d-flex align-center">
               <!-- filter products-->
               <filterProducts class="mr-2" />
@@ -52,14 +59,24 @@
             </div>
 
             <!-- add product btn primary-->
-            <router-link :to="{ name: 'addProduct' }" class="add-btn-secondary">
-              <span class="btn">Add New Product</span>
+            <router-link
+              :to="{ name: 'addProduct' }" 
+              class="add-btn-secondary"
+              :disabled="!verifiedStore"
+              :event="verifiedStore ? 'click' : ''"
+            >
+              <span class="btn" :class="{'disabled': !verifiedStore}">Add New Product</span>
             </router-link>
 
             <!-- add product btn primary-->
-            <router-link :to="{ name: 'addProduct' }" class="add-btn-primary">
-              <v-btn class="primary py-6 px-4"
-                ><span>+</span> Add New Product</v-btn
+            <router-link
+              :to="{ name: 'addProduct' }"
+              class="add-btn-primary"
+              :disabled="!verifiedStore"
+              :event="verifiedStore ? 'click' : ''"
+            >
+              <v-btn class="primary py-6 px-4" :disabled="!verifiedStore">
+                Add New Product</v-btn
               >
             </router-link>
           </div>
@@ -67,39 +84,12 @@
       </div>
     </div>
 
-    <!-- table  -->
-    <div v-show="products.length > 0 && tableLoader !== true">
-      <dataTable
-        ref="productsTable"
-        :actions="actions"
-        :action="true"
-        :select="true"
-        :headers="tableHeaders"
-        :items="products"
-        itemKey="id"
-        statusKey="is_online"
-        :itemPerPage="pageDetails.per_page || 15"
-        :paginationLength="pageDetails.last_page"
-        :page="pageDetails.current_page"
-        @requestedAction="setRequestedAction"
-        @selectedRow="rowSelected"
-        @itemPerPage="setItemPerPage"
-        @onPageChange="setCurentPage"
-      />
-    </div>
+    <div>
+      <!-- allow user to see table if verified -->
+      <ProductsTable ref="productsTable" v-if="verifiedStore" />
 
-    <!-- no data -->
-    <div
-      class="text-center pt-10 pb-5"
-      v-show="products.length == 0 && !tableLoader"
-    >
-      <p class="mb-0 secondary--text" style="font-size: 20px">
-        No product has been added yet!
-      </p>
-    </div>
-    <!-- loader -->
-    <div class="text-center pt-10 pb-5" v-show="tableLoader">
-      <v-progress-circular indeterminate color="primary"></v-progress-circular>
+      <!-- show the user this form if the store is not verified yet -->
+      <RequiredInformationPage v-if="!verifiedStore" />
     </div>
 
     <!--------------------------- modal for dialog messages ------------------------------>
@@ -118,55 +108,24 @@
         <h4>{{ dialogMessage }}</h4>
       </div>
     </modal>
-
-    <!-- delete product modal component -->
-    <deleteProductModal
-      :deleteDialogBulk="deleteDialogBulk"
-      :deleteDialog="deleteDialog"
-      @closeDeleteDialog="closeDeleteDialog"
-      @closeDeleteDialogBulk="closeDeleteDialogBulk"
-      @clearSelectedRow="clearSelectedRow"
-    />
-
-    <!-- take product offline modal component -->
-    <takeProductOfflineModal
-      :offlineDialogBulk="offlineDialogBulk"
-      :offlineDialog="offlineDialog"
-      @closeOfflineDialog="closeOfflineDialog"
-      @closeOfflineDialogBulk="closeOfflineDialogBulk"
-      @clearSelectedRow="clearSelectedRow"
-    />
-
-    <!-- take product online modal component -->
-    <takeProductOnlineModal
-      :onlineDialogBulk="onlineDialogBulk"
-      :onlineDialog="onlineDialog"
-      @closeOnlineDialog="closeOnlineDialog"
-      @closeOnlineDialogBulk="closeOnlineDialogBulk"
-      @clearSelectedRow="clearSelectedRow"
-    />
   </div>
 </template>
 
 <script>
-import dataTable from "@/components/dashboard/dataTable.vue";
 import modal from "@/components/dashboard/modal.vue";
+import ProductsTable from "@/components/inventory/ProductsTable.vue";
 import searchProducts from "@/components/inventory/searchProducts.vue";
 import filterProducts from "@/components/inventory/filterProducts.vue";
 import selectBtn from "@/components/dashboard/selectBtn.vue";
 import calendar from "@/components/dashboard/calender.vue";
-//import successImage from "@/assets/img/success-img.svg";
+import RequiredInformationPage from "@/components/inventory/RequiredInformationPage.vue";
 import failedImage from "@/assets/img/failed-img.svg";
-import deleteProductModal from "@/components/inventory/deleteProductModal";
-import takeProductOfflineModal from "@/components/inventory/takeProductOfflineModal";
-import takeProductOnlineModal from "@/components/inventory/takeProductOnlineModal";
 import exportProducts from "@/components/inventory/exportProducts.vue";
 import importIcon from "@/components/icons/importIcon.vue";
-import { mapGetters, mapState } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   name: "inventoryPage",
   components: {
-    dataTable,
     modal,
     searchProducts,
     filterProducts,
@@ -174,184 +133,38 @@ export default {
     importIcon,
     selectBtn,
     calendar,
-    deleteProductModal,
-    takeProductOfflineModal,
-    takeProductOnlineModal,
+    ProductsTable,
+    RequiredInformationPage,
   },
   data: function () {
     return {
       items: ["Items in stock", "Items out of stock"],
       item: "Items in stock",
-      inBulk: null,
-      itemPerPage: 15,
-      selectedProduct: "",
       dialog1: false,
-      offlineDialog: false,
-      offlineDialogBulk: false,
-      onlineDialogBulk: false,
-      onlineDialog: false,
-      deleteDialog: false,
-      deleteDialogBulk: false,
       dialogMessage: "",
-      inventoryName: "",
-      selected: "",
-      selectedRow: [],
-      selectedReferences: [],
       statusImage: null,
-      actions: {
-        deleteId: null,
-        editId: null,
-        offlineId: null,
-      },
-      tableHeaders: [
-        {
-          text: "Product Name",
-          sortable: true,
-          value: "name",
-          href: true,
-          routeName: "productDetails",
-          width: "300px",
-        },
-        { text: "Image", value: "image", image: true, width: "150px" },
-        { text: "Category", value: "category", width: "200px" },
-        { text: "SKU", value: "sku", width: "200px" },
-        { text: "Price", value: "price", width: "160px", money: true },
-        { text: "Quantity", value: "quantity", width: "100px" },
-      ],
     };
   },
   created() {
-    if (this.$store.getters["inventory/products"].length == 0) {
+    if (
+      this.$store.getters["inventory/products"].length == 0 &&
+      this.$store.getters["settings/verifiedStore"] == true
+    ) {
       this.getProducts();
     }
   },
   computed: {
     ...mapGetters({
-      products: "inventory/products",
       searchProduct: "inventory/searchProduct",
-    }),
-    ...mapState({
-      pageDetails: (state) => state.inventory.pageDetails,
-      tableLoader: (state) => state.inventory.tableLoader,
+      verifiedStore: "settings/verifiedStore",
     }),
   },
   methods: {
     // take bulk action
     setBulkAction(params) {
-      if (this.selectedRow.length !== 0) {
-        this.selectedReferences = this.selectedRow;
-        this.$store.commit(
-          "inventory/setSelectedReferences",
-          this.selectedReferences
-        );
-        if (params === "Take product offline") {
-          this.offlineDialogBulk = true;
-        } else if (params === "Take product online") {
-          this.onlineDialogBulk = true;
-        } else if (params === "Delete product") {
-          this.deleteDialogBulk = true;
-        }
-      }
+      this.$refs.productsTable.setBulkAction(params);
     },
-    clearSelectedRow() {
-      this.$refs.productsTable.clearRow();
-    },
-    // set the selected actions paramter and the neccessary calls
-    setRequestedAction(params) {
-      this.actions = params;
-      //checks if edit action is triggered for a member
-      if (this.actions.editId !== null) {
-        this.$router.push({
-          name: "editProduct",
-          params: {
-            id: this.actions.editId,
-          },
-        });
-      } //checks if delete action is triggered for a member
-      else if (this.actions.deleteId !== null) {
-        this.selectedReferences = [];
-        this.selectedReferences.push(this.actions.deleteId);
-        this.$store.commit(
-          "inventory/setSelectedReferences",
-          this.selectedReferences
-        );
-        this.deleteDialog = true;
-      } //checks if offline action is triggered for a member
-      else if (this.actions.offlineId !== null) {
-        this.selectedReferences = [];
-        this.selectedReferences.push(this.actions.offlineId);
-        this.$store.commit(
-          "inventory/setSelectedReferences",
-          this.selectedReferences
-        );
-        if (this.actions.itemStatus === true) {
-          this.offlineDialog = true;
-        } else {
-          this.onlineDialog = true;
-        }
-      }
-    },
-    // close modal for taking product offline
-    closeOfflineDialog() {
-      this.offlineDialog = false;
-      this.actions.offlineId = null;
-      this.selectedReferences = [];
-      this.$store.commit(
-        "inventory/setSelectedReferences",
-        this.selectedReferences
-      );
-    },
-    // close modal for taking products offline in bulk
-    closeOfflineDialogBulk() {
-      this.offlineDialogBulk = false;
-      this.selectedReferences = [];
-      this.$store.commit(
-        "inventory/setSelectedReferences",
-        this.selectedReferences
-      );
-    },
-    // close modal for taking product online
-    closeOnlineDialog() {
-      this.onlineDialog = false;
-      this.actions.offlineId = null;
-      this.selectedReferences = [];
-      this.$store.commit(
-        "inventory/setSelectedReferences",
-        this.selectedReferences
-      );
-    },
-    // close modal for taking products online in bulk
-    closeOnlineDialogBulk() {
-      this.onlineDialogBulk = false;
-      this.selectedReferences = [];
-      this.$store.commit(
-        "inventory/setSelectedReferences",
-        this.selectedReferences
-      );
-    },
-    // close modal for deleting product
-    closeDeleteDialog() {
-      this.deleteDialog = false;
-      this.actions.deleteId = null;
-      this.selectedReferences = [];
-      this.$store.commit(
-        "inventory/setSelectedReferences",
-        this.selectedReferences
-      );
-    },
-    // close modal for deleting products in bulk
-    closeDeleteDialogBulk() {
-      this.deleteDialogBulk = false;
-      this.selectedReferences = [];
-      this.$store.commit(
-        "inventory/setSelectedReferences",
-        this.selectedReferences
-      );
-    },
-    // close the dialog that shows up when you want to delete a row
-    closeDialog1() {
-      this.dialog1 = false;
-    },
+    // filter base on date
     setDate(params) {
       this.$store.commit("inventory/setDateRange", {
         startDate: params.startDate.toISOString().split("T")[0],
@@ -361,9 +174,6 @@ export default {
       // set page back to page 1
       this.$store.commit("inventory/setPage", 1);
       this.getfilteredProducts();
-    },
-    rowSelected(params) {
-      this.selectedRow = params;
     },
     // get products from inventory
     getProducts() {
@@ -457,8 +267,12 @@ export default {
     width: 100%;
   }
 }
+.add-btn-primary {
+  text-decoration: none;
+}
 .add-btn-secondary {
   display: none;
+  text-decoration: none;
   .btn {
     display: flex;
     justify-content: center;
@@ -471,6 +285,10 @@ export default {
     color: white;
     font-size: 35px;
   }
+  .disabled {
+    background-color: rgba(0, 0, 0, 0.12) !important;
+    color: rgba(0, 0, 0, 0.26) !important;
+  }
 }
 @media (max-width: 953px) {
   .tool-container {
@@ -482,7 +300,7 @@ export default {
   .search-container {
     width: 100%;
   }
-  .secondary-display{
+  .secondary-display {
     width: 100%;
   }
   .add-btn-primary {

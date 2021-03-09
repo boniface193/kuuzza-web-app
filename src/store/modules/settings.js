@@ -2,6 +2,7 @@ import axios from "@/axios";
 
 //holds the state properties
 const state = {
+    verifiedStore: false,
     profile: {
         store: {
             location: {}
@@ -25,6 +26,7 @@ const state = {
 //returns the state properties
 const getters = {
     getUserProfile: state => state.profile,
+    verifiedStore: state => state.verifiedStore,
     loader: state => state.loader,
     teamMembers: state => state.teamMembers,
     pageDetails: state => state.pageDetails
