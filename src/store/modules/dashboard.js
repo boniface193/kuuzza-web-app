@@ -3,7 +3,6 @@ import instock from "../../axios/inventory"
 import orderStatus from "../../axios/order"
 import payment from "../../axios/bankServices"
 import moment from "moment"
-import leaderboard from "../../axios/gamification"
 //holds the state properties
 const state = {
     dashboardOrder: [],
@@ -30,7 +29,7 @@ const getters = {
     bestSelling: state => state.dashboardSeller,
     dashboardCustomer: state => state.customerItem,
     dashboardStock: state => state.stockItem,
-    revenue: state => state.dashboardRevenue
+    revenue: state => state.dashboardRevenue,
 };
 
 //fetch data 
@@ -158,7 +157,6 @@ const actions = {
                 }
             }).then((res) => {
                 context.commit("setdashboardBestSelling", res.data)
-                // console.log("best seller", res.data)
                 resolve(res.data)
             }).catch((error) => {
                 reject(error.response)
@@ -191,32 +189,12 @@ const actions = {
                 }
             }).then((response) => {
                 context.commit('setRevenue', response.data.data)
-                console.log("revenue", response.data.data)
                 resolve(response.data.data)
             })
                 .catch((error) => {
                     context.commit('error', error)
                     reject(error)
                 })
-        })
-    },
-
-    getLeaderboard(context) {
-        return new Promise((resolve, reject) => {
-            leaderboard.get("/leaderboard/seller", {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            })
-            .then(response => {
-                context.commit("setLeaderboard", response.data)
-                // console.log("leaderboard", response.data)
-                // context.commit("setPageDetails", response.data.meta);
-                resolve(response.data)
-            })
-            .catch(error => {
-                reject(error)
-            })
         })
     },
 };

@@ -9,23 +9,6 @@
     <div class="settings-container mt-7 white">
       <!-- nav section -->
       <div class="settings-nav px-4 py-auto d-flex">
-        <!-- nav link -->
-        <router-link
-          class="nav-item text-sm-subtitle-1 text-caption"
-          :class="{ 'nav-item--active': this.$route.name == 'leaderboard' }"
-          :to="{ name: 'leaderboard' }"
-          >Store</router-link
-        >
-        <!-- nav link -->
-        <router-link
-          class="nav-item text-sm-subtitle-1 text-caption"
-          :class="{
-            'nav-item--active': this.$route.name == 'leaderGlobal',
-          }"
-          :to="{ name: 'leaderGlobal' }"
-          >Nationwide</router-link
-        >
-        <v-spacer></v-spacer>
         <div>
           <searchBar
             class="mt-2 text-caption text-sm-subtitle-2 text-md-subtitle-1"
@@ -34,22 +17,69 @@
           />
         </div>
       </div>
-      <router-view />
     </div>
+    <!-- table -->
+    <v-card elevation="0" class="py-3">
+
+      <div>
+        <!-- table  -->
+        <dataTable :headers="headers" :items="leaderboard" itemKey="id"/>
+      </div>
+         <p v-if="leaderboard.length === 0" class="text-center mt-8">No Item Found</p>
+    </v-card>
   </div>
 </template>
 <script>
 import filterByDate from "@/components/dashboard/calender.vue";
 import searchBar from "@/components/dashboard/searchBar.vue";
+import dataTable from "@/components/dashboard/dataTable.vue";
 export default {
   components: {
     filterByDate,
     searchBar,
+    dataTable,
   },
 
   data() {
-    return {};
+    return {
+      leaderboard: [],
+      headers: [
+        {
+          text: "Rank",
+          sortable: true,
+          value: "seller_id",
+          width: "14%",
+        },
+        {
+          text: "Team Member",
+          value: "seller_name",
+          href: true,
+          routeName: "seller",
+          width: "37%",
+        },
+        { text: "Total Points", value: "total_points", width: "20%" },
+        { text: "Total Value of Orders(₦)", value: "total_order_value", width: "29%" },
+      ],
+    };
   },
+
+  computed: {
+    // ...mapGetters({leaderboard: "leaderboard/leaderboard"})
+  },
+
+  created(){
+    console.log("leaderboard - ", this.leaderboard)
+    this.$store.dispatch("leaderboard/getLeaderboard").then((e) => {
+      this.leaderboard = e.data
+    })
+  },
+
+  methods: {
+    getSearchValue(){
+
+    }
+  }
+
 };
 </script>
 

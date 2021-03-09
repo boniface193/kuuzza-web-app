@@ -10,6 +10,7 @@ import settings from "./modules/settings";
 import bankService from "./modules/bankService";
 import mediaService from "./modules/mediaService";
 import balance from "./modules/Balance";
+import leaderboard from "./modules/leaderboard"
 
 // initial state
 const initialState = {
@@ -22,7 +23,8 @@ const initialState = {
   settings: settings.state,
   bankService: bankService.state,
   mediaService: mediaService.state,
-  balance: balance.state
+  balance: balance.state,
+  leaderboard: leaderboard.state,
 }
 
 //Convert object in string 
@@ -42,6 +44,7 @@ export default new Vuex.Store({
     bankService: bankService,
     mediaService: mediaService,
     balance: balance,
+    leaderboard: leaderboard,
   },
   mutations: {
     reset(state) {
