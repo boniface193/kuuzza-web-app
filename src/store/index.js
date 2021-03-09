@@ -11,6 +11,7 @@ import bankService from "./modules/bankService";
 import mediaService from "./modules/mediaService";
 import balance from "./modules/Balance";
 import leaderboard from "./modules/leaderboard"
+import totalRevenue from "./modules/totalRevenue"
 
 // initial state
 const initialState = {
@@ -25,6 +26,7 @@ const initialState = {
   mediaService: mediaService.state,
   balance: balance.state,
   leaderboard: leaderboard.state,
+  totalRevenue: totalRevenue.state,
 }
 
 //Convert object in string 
@@ -45,6 +47,7 @@ export default new Vuex.Store({
     mediaService: mediaService,
     balance: balance,
     leaderboard: leaderboard,
+    totalRevenue: totalRevenue,
   },
   mutations: {
     reset(state) {

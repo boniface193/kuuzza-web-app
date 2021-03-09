@@ -7,7 +7,7 @@
         width="100%"
         type="bar"
         height="337"
-        :options="chartOptions"
+        :options="reformBarChart.chartOptions"
         :series="getAllRevenue.series"
       ></apexchart>
     </v-container>
@@ -20,7 +20,41 @@ export default {
   props: ["bar_class", "bar_title", "chart"],
   data() {
     return {
-      chartOptions: {
+      userInfo: {},
+    };
+  },
+
+  computed: {
+    ...mapGetters({ revenue: "totalRevenue/revenue", dateXaxis: "totalRevenue/getDate" }),
+
+    getAllRevenue() {
+      let totalRevenue = this.revenue.total_revenue;
+      let awaiting = this.revenue.awaiting_settlement;
+      let settled = this.revenue.settled;
+      return {
+        series: [
+          {
+            name: "Total Revenue(N)",
+            data: [parseInt(totalRevenue, 10)],
+          },
+          {
+            name: "Awaiting Settlements(N)",
+            data: [parseInt(awaiting, 10)],
+          },
+          {
+            name: "Settlements",
+            data: [parseInt(settled, 10)],
+          },
+        ],
+      };
+    },
+
+    reformBarChart(){
+      let startDate = this.dateXaxis.startDate;
+      let endDate = this.dateXaxis.endDate;
+      let bothDate = startDate + ' - ' + endDate
+      return {
+        chartOptions: {
         chart: {
           type: "bar",
           height: 350,
@@ -44,7 +78,7 @@ export default {
           colors: ["transparent"],
         },
         xaxis: {
-          categories: ["sun", "mon", "tue", "wed", "thurs"],
+          categories: [bothDate],
         },
         fill: {
           opacity: 1,
@@ -54,42 +88,17 @@ export default {
         },
         colors: ["#5064CC", "#52F1EC", "#44099F"],
       },
-    };
-  },
-
-  computed: {
-    ...mapGetters({ revenue: "dashboard/revenue" }),
-
-    getAllRevenue() {
-      let totalRevenue = this.revenue.total_revenue;
-      let awaiting = this.revenue.awaiting_settlement;
-      let settled = this.revenue.settled;
-      return {
-        series: [
-          {
-            name: "Total Revenue(N)",
-            data: [parseInt(totalRevenue, 10)],
-          },
-          {
-            name: "Awaiting Settlements(N)",
-            data: [parseInt(awaiting, 10)],
-          },
-          {
-            name: "Settlements",
-            data: [parseInt(settled, 10)],
-          },
-        ],
-      };
-    },
+      }
+    }
   },
 
   created() {
-    console.log("category", this.categories);
-    console.log("update barchart", this.updateBarChart());
-  },
-
-  methods: {
-    updateBarChart() {},
+    this.$store.dispatch("settings/getUserProfile").then((res) => {
+      this.userInfo = res.data.data.store.id;
+      this.$store.dispatch("totalRevenue/getTotalRevenue", {
+        id: this.userInfo,
+      });
+    });
   },
 };
 </script>

@@ -3,6 +3,7 @@
     <!-- page title -->
     <filter-By-Date
       class="float-right text-caption text-sm-subtitle-2 text-md-subtitle-1"
+      @updateDate="dateValue"
     />
     <h1>Leaderboard</h1>
 
@@ -20,12 +21,25 @@
     </div>
     <!-- table -->
     <v-card elevation="0" class="py-3">
-
       <div>
         <!-- table  -->
-        <dataTable :headers="headers" :items="leaderboard" itemKey="id"/>
+        <dataTable :headers="headers" :items="leaderboard" itemKey="id" />
       </div>
-         <p v-if="leaderboard.length === 0" class="text-center mt-8">No Item Found</p>
+      <!-- card item -->
+      <div v-if="isLoading" class="text-center my-8">
+        <!-- this image time loader is calculated by the loader to triger the load time -->
+        <v-progress-circular
+          color="#029B97"
+          class="text-center"
+          indeterminate
+          size="20"
+          width="2"
+        ></v-progress-circular>
+      </div>
+      <!-- loader ends here -->
+      <p v-if="leaderboard.length === 0" class="text-center mt-8">
+        No Item Found
+      </p>
     </v-card>
   </div>
 </template>
@@ -33,6 +47,7 @@
 import filterByDate from "@/components/dashboard/calender.vue";
 import searchBar from "@/components/dashboard/searchBar.vue";
 import dataTable from "@/components/dashboard/dataTable.vue";
+import moment from "moment";
 export default {
   components: {
     filterByDate,
@@ -43,6 +58,7 @@ export default {
   data() {
     return {
       leaderboard: [],
+      isLoading: true,
       headers: [
         {
           text: "Rank",
@@ -58,7 +74,11 @@ export default {
           width: "37%",
         },
         { text: "Total Points", value: "total_points", width: "20%" },
-        { text: "Total Value of Orders(₦)", value: "total_order_value", width: "29%" },
+        {
+          text: "Total Value of Orders(₦)",
+          value: "total_order_value",
+          width: "29%",
+        },
       ],
     };
   },
@@ -67,19 +87,36 @@ export default {
     // ...mapGetters({leaderboard: "leaderboard/leaderboard"})
   },
 
-  created(){
-    console.log("leaderboard - ", this.leaderboard)
+  created() {
+    console.log("leaderboard - ", this.leaderboard);
     this.$store.dispatch("leaderboard/getLeaderboard").then((e) => {
-      this.leaderboard = e.data
-    })
+      this.leaderboard = e.data;
+      this.isLoading = false;
+    });
   },
 
   methods: {
-    getSearchValue(){
+    getSearchValue(params) {
+      this.$store.commit("leaderboard/getSearchValue", params);
+      this.$store.commit("leaderboard/setSearchOrder", true);
+      this.getLeaderboard();
+    },
 
-    }
-  }
+    dateValue(params) {
+      this.$store.commit("leaderboard/filterRange", {
+        startDate: moment(params.startDate).format("L"),
+        endDate: moment(params.endDate).format("L"),
+      });
+      this.getLeaderboard();
+    },
 
+    getLeaderboard() {
+      this.$store.dispatch("leaderboard/searchLeaderboard").then((res) => {
+        this.leaderboard = res.data;
+        this.isLoading = false;
+      });
+    },
+  },
 };
 </script>
 
