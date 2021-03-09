@@ -1,7 +1,6 @@
 // orderstatus base url
 import instock from "../../axios/inventory"
 import orderStatus from "../../axios/order"
-import payment from "../../axios/bankServices"
 import moment from "moment"
 //holds the state properties
 const state = {
@@ -11,11 +10,6 @@ const state = {
     dashboardSeller: [],
     customerItem: [],
     stockItem: [],
-    dashboardRevenue: {
-        total_revenue: 0,
-        awaiting_settlement: 0,
-        settled: 0
-    },
     dateRange: {
         startDate: moment(new Date()).format("L"),
         endDate: moment(new Date()).format("L"),
@@ -29,27 +23,11 @@ const getters = {
     bestSelling: state => state.dashboardSeller,
     dashboardCustomer: state => state.customerItem,
     dashboardStock: state => state.stockItem,
-    revenue: state => state.dashboardRevenue,
 };
 
 //fetch data 
 const actions = {
-    getStock(context) {
-        return new Promise((resolve, reject) => {
-            instock.get('/products/metrics', {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            }).then((res) => {
-                context.commit("setStock", res.data.data)
-                resolve(res.data.data)
 
-            }).catch((error) => {
-                reject(error.response)
-            })
-        })
-
-    },
 
     getStockDateFilter(context) {
         let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== null) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
@@ -178,25 +156,6 @@ const actions = {
             })
         })
     },
-
-    getTotalRevenue(context, data) {
-        let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== null) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
-
-        return new Promise((resolve, reject) => {
-            payment.get(`/metrics/${data.id}/total-revenue?${dateRange}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            }).then((response) => {
-                context.commit('setRevenue', response.data.data)
-                resolve(response.data.data)
-            })
-                .catch((error) => {
-                    context.commit('error', error)
-                    reject(error)
-                })
-        })
-    },
 };
 
 
@@ -220,9 +179,6 @@ const mutations = {
     },
     setStock: (state, data) => {
         state.stockItem = data
-    },
-    setRevenue: (state, data) => {
-        state.dashboardRevenue = data
     },
     filterRange: (state, data) => {
         state.dateRange = data

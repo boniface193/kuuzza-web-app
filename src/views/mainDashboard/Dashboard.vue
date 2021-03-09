@@ -8,51 +8,68 @@
         class="welcome-user text-sm-h6 text-md-h5 text-lg-h4 text-xl-h3 text-h6 font-weight-bold"
       >
         <div class="mb-2">Welcome,</div>
-        <span class="text-h6">Lanwo</span>
+        <span class="text-h6"
+          >{{ userInfo.name }} <span v-show="userInfo.name">!</span></span
+        >
       </div>
       <v-snackbar v-model="snackbar" top :color="errorColor">
         {{ error }}
       </v-snackbar>
       <div class="pa-2"></div>
       <v-row>
-        <!-- to show total revenue, item in stock, total commission -->
+        <!-------------- to show total revenue ------------------->
         <v-col cols="12" sm="4">
-          <!-- <v-skeleton-loader type="article" v-if="payment"> </v-skeleton-loader> -->
-
-          <!-- v-if="!payment" -->
+          <v-skeleton-loader
+            type="article"
+            v-show="!totalRevenue.total_revenue_label"
+          >
+          </v-skeleton-loader>
           <card
-            card_digit="145,450"
+            v-show="totalRevenue.total_revenue_label"
+            :card_digit="totalRevenue.total_revenue_label"
             card_title="Total Revenue(₦)"
             card_img="money.svg"
             img_color="round-img-bg-success"
           />
         </v-col>
+        <!----------------- to show total revenue ------------------->
+
+        <!------------------- item in stock -------------------------->
         <v-col cols="12" sm="4">
-          <!-- <v-skeleton-loader type="article" > </v-skeleton-loader> -->
+          <v-skeleton-loader type="article" v-show="!instock.sales"> </v-skeleton-loader>
           <card
-            card_digit="stockInfo"
+          v-show="instock.sales"
+            :card_digit="instock.in_stock"
             card_title="Items in Stock"
             card_img="delivery-box.svg"
             img_color="round-img-bg-primary"
-            card_sub="sales"
+            :card_sub="instock.sales"
             changeColor="card_sub_error"
             label="( Sold )"
           />
         </v-col>
+        <!------------------- item in stock -------------------------->
+
+        <!------------------- Available balance -------------------------->
         <v-col cols="12" sm="4">
-          <!-- <v-skeleton-loader type="article" v-if="payment"> </v-skeleton-loader> -->
-          <!-- v-if="!payment" -->
+          <v-skeleton-loader
+            type="article"
+            v-show="!totalRevenue.available_balance_label"
+          >
+          </v-skeleton-loader>
           <card
-            card_digit="availableBalance"
+            v-show="totalRevenue.available_balance_label"
+            :card_digit="totalRevenue.available_balance_label"
             card_title="Available Balance (NGN)"
             card_img="arrow.svg"
             img_color="round-img-bg-secondary"
           />
         </v-col>
+        <!------------------- Available balance -------------------------->
       </v-row>
 
       <v-row>
-        <!-- show area-chart -->
+        <!--------------------- show area-chart --------------------------->
         <v-col cols="12" class="d-none d-md-block">
           <bar
             class="rounded-lg"
@@ -60,10 +77,11 @@
             bar_title="revenue(₦)"
           />
         </v-col>
+       <!------------------- show area-chart -------------------------->
       </v-row>
 
       <v-row>
-        <!-- donut chart -->
+        <!--------------------- donut chart ------------------------------>
         <v-col class="d-none d-md-block" md="8">
           <donut
             class="py-5 px-5 my-3"
@@ -71,6 +89,8 @@
             bar_title="Order Status"
           />
         </v-col>
+        <!--------------------- donut chart ------------------------------>
+
 
         <v-col md="4">
           <v-row>
@@ -199,8 +219,7 @@ import custom from "@/components/dashboard/custom.vue";
 import donut from "@/components/dashboard/donut.vue";
 import calendar from "@/components/dashboard/calender.vue";
 import moment from "moment";
-// import { mapGetters } from "vuex";
-
+import { mapGetters } from "vuex";
 export default {
   components: {
     card,
@@ -247,18 +266,21 @@ export default {
   },
 
   computed: {
-    // ...mapGetters({
-    //   // bestSelling: "dashboard/bestSellingItem",
-    //   // userInfo: "settings/getUserProfile",
-    //   // topCustomer: "dashboard/topCustomer",
-    //   // bestSeller: "dashboard/bestSelling",
-    //   // dashboardCustomer: "dashboard/dashboardCustomer",
-    //   // dashboardStock: "dashboard/dashboardStock",
-    //   // leaderboard: "leaderboard/leaderboard",
-    // }),
+    ...mapGetters({
+      //   // bestSelling: "dashboard/bestSellingItem",
+      userInfo: "settings/getUserProfile",
+      totalRevenue: "totalRevenue/revenue",
+      instock: "instockDashboard/stockItem",
+      //   // topCustomer: "dashboard/topCustomer",
+      //   // bestSeller: "dashboard/bestSelling",
+      //   // dashboardCustomer: "dashboard/dashboardCustomer",
+      //   // dashboardStock: "dashboard/dashboardStock",
+      //   // leaderboard: "leaderboard/leaderboard",
+    }),
   },
 
   created() {
+    console.log("instock", this.instock);
     this.checkIfUserOnline();
     // endpoint for stock
     // if (
@@ -348,8 +370,10 @@ export default {
     //   });
     // }
 
-    // dispatch user infor
-    //   this.$store.dispatch("settings/getUserProfile")
+    // dispatch user information
+    this.$store.dispatch("settings/getUserProfile");
+    // dispatch instock
+    this.$store.dispatch("instockDashboard/getStock");
 
     // // leaderboard
     //   this.$store.dispatch("leaderboard/getLeaderboard")
@@ -380,14 +404,6 @@ export default {
           id: this.userInfo,
         });
       });
-      // this.$store.dispatch("dashboard/getStockDateFilter");
-      // this.$store.dispatch("dashboard/getCustomerFilter");
-      // this.$store.dispatch("dashboard/getSellerFilter");
-      // this.$store.dispatch("dashboard/getTotalRevenue", {
-      //   id: this.userInfo.store.id,
-      // });
-      // let singDate = moment(value.startDate).format("L").split("/");
-      // console.log(singDate[1]);
     },
   },
 };

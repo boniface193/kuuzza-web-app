@@ -10,9 +10,9 @@ import settings from "./modules/settings";
 import bankService from "./modules/bankService";
 import mediaService from "./modules/mediaService";
 import balance from "./modules/Balance";
-import leaderboard from "./modules/leaderboard"
-import totalRevenue from "./modules/totalRevenue"
-
+import leaderboard from "./modules/leaderboard";
+import totalRevenue from "./modules/totalRevenue";
+import instockDashboard from "./modules/instockDashboard"
 // initial state
 const initialState = {
   onboarding: onboarding.state,
@@ -27,6 +27,7 @@ const initialState = {
   balance: balance.state,
   leaderboard: leaderboard.state,
   totalRevenue: totalRevenue.state,
+  instockDashboard: instockDashboard,
 }
 
 //Convert object in string 
@@ -48,6 +49,7 @@ export default new Vuex.Store({
     balance: balance,
     leaderboard: leaderboard,
     totalRevenue: totalRevenue,
+    instockDashboard: instockDashboard,
   },
   mutations: {
     reset(state) {
