@@ -9,7 +9,7 @@
       >
         <div class="mb-2">Welcome,</div>
         <span class="text-h6"
-          >{{ userInfo.name }} <span v-show="userInfo.name">!</span></span
+          >{{ userInfor.name }} <span v-show="userInfor.name">!</span></span
         >
       </div>
       <v-snackbar v-model="snackbar" top :color="errorColor">
@@ -36,9 +36,9 @@
 
         <!------------------- item in stock -------------------------->
         <v-col cols="12" sm="4">
-          <v-skeleton-loader type="article" v-show="!instock.sales"> </v-skeleton-loader>
+          <v-skeleton-loader type="article" v-show="stock"> </v-skeleton-loader>
           <card
-          v-show="instock.sales"
+          v-show="!stock"
             :card_digit="instock.in_stock"
             card_title="Items in Stock"
             card_img="delivery-box.svg"
@@ -94,29 +94,34 @@
 
         <v-col md="4">
           <v-row>
+            <!--------------------- leaderboard ------------------------------>
             <v-col md="12">
-              <!-- <v-skeleton-loader type="article">
-              </v-skeleton-loader> -->
+              <v-skeleton-loader type="article" v-show="leader">
+              </v-skeleton-loader>
               <leader
+              v-show="!leader"
                 linkToDetails="leaderboard"
                 leader="Leaderboard"
                 sell_text="See all"
                 listItem="listItem"
               >
-                <div>
+                <div v-for="item in leaderboard.data" :key="item.seller_id" class="text">
                   <v-row class="text">
-                    <v-col cols="2" class="text-center"> 1 </v-col>
-                    <v-col cols="7" class="text-truncate">
-                      <span class="large-text"> Lanwo</span>
+                    <v-col cols="2" class="text-center"> {{leaderboard.ranks[item.seller_id]}} </v-col>
+                    <v-col cols="8" class="text-truncate">
+                       {{item.seller_name}}
                     </v-col>
-                    <v-col cols="3" class="text-truncate">
-                      <div class="mt-2 large-text">452</div>
+                    <v-col cols="2" class="text-truncate">
+                      {{item.total_points}}
                     </v-col>
                   </v-row>
                 </div>
+              
               </leader>
             </v-col>
+            <!--------------------- leaderboard ------------------------------>
 
+            <!--------------------- Best Selling ------------------------------>
             <v-col md="12">
               <!-- <v-skeleton-loader type="article">
               </v-skeleton-loader> -->
@@ -125,10 +130,10 @@
                 leader="Best Selling Items"
                 sell_text="See all"
               >
-                <div>
+                <div v-for="items in bestSeller.data" :key="items.product_id">
                   <v-row class="text">
-                    <v-col cols="2" class="text-center"> 4 </v-col>
-                    <v-col cols="6" class="text-truncate">Lanwo </v-col>
+                    <v-col cols="2" class="text-center"> {{bestSeller.ranks[items.product_id]}} </v-col>
+                    <v-col cols="6" class="text-truncate">{{items.product_name}} </v-col>
                   </v-row>
                 </div>
               </leader>
@@ -136,7 +141,7 @@
           </v-row>
         </v-col>
       </v-row>
-      <!-- show leaders board summary -->
+      <!--------------------- Best Selling ------------------------------>
 
       <v-row>
         <v-col class="col-lg-8 col-sm-12 d-none d-sm-block">
@@ -232,55 +237,30 @@ export default {
 
   data() {
     return {
+      // get user profile
+      userInfo: "",
       //error report
       snackbar: false,
       error: "",
       errorColor: "",
-      // stock n sale
-      stockInfo: "",
-      sales: "",
+      // loader
       stock: true,
-      // customer
-      allCustomer: "",
-      filteredCustomer: "",
-      customer: true,
-      // seller
-      allSeller: "",
-      filteredSeller: "",
-      seller: true,
-      // best selling
-      ProductRank: "",
-      productName: "",
-      // total payment
-      // totalRevenue: "",
-      // settled: "",
-      // awaitingSettlement: "",
-      // availableBalance: "",
-      payment: true,
-      // top Customer
-      topCust: true,
-      // userInformation
-      // userInfo: {},
-      // leaderboard
+      leader: true,
     };
   },
 
   computed: {
     ...mapGetters({
-      //   // bestSelling: "dashboard/bestSellingItem",
-      userInfo: "settings/getUserProfile",
+      userInfor: "settings/getUserProfile",
       totalRevenue: "totalRevenue/revenue",
       instock: "instockDashboard/stockItem",
-      //   // topCustomer: "dashboard/topCustomer",
-      //   // bestSeller: "dashboard/bestSelling",
-      //   // dashboardCustomer: "dashboard/dashboardCustomer",
-      //   // dashboardStock: "dashboard/dashboardStock",
-      //   // leaderboard: "leaderboard/leaderboard",
+      leaderboard: "leaderboard/leaderboard",
+      bestSeller: "bestSellingDashboard/bestSelling",
     }),
   },
 
   created() {
-    console.log("instock", this.instock);
+    console.log("bestseller ", this.bestSeller);
     this.checkIfUserOnline();
     // endpoint for stock
     // if (
@@ -373,13 +353,19 @@ export default {
     // dispatch user information
     this.$store.dispatch("settings/getUserProfile");
     // dispatch instock
-    this.$store.dispatch("instockDashboard/getStock");
+    this.$store.dispatch("instockDashboard/getStock").then(() => {
+      this.stock = false
+    });
+    // dispatch leaderboard
+    this.$store.dispatch("leaderboard/getLeaderboard").then(() => {
+      this.leader = false
+    })
+    this.$store.dispatch("bestSellingDashboard/getBestSelling")
 
-    // // leaderboard
-    //   this.$store.dispatch("leaderboard/getLeaderboard")
   },
 
   methods: {
+    /********* check if there is network ***********/
     checkIfUserOnline() {
       let ifConnected = window.navigator.onLine;
       if (!ifConnected) {
@@ -388,23 +374,47 @@ export default {
         this.errorColor = "error";
       }
     },
+   /********* check if there is network ***********/
 
+  /********* date filter ***********/
     dateValue(value) {
-      this.$store.commit("dashboard/filterRange", {
-        startDate: moment(value.startDate).format("L"),
-        endDate: moment(value.endDate).format("L"),
-      });
+
+      /********* total Revenue ***********/
       this.$store.commit("totalRevenue/filterRange", {
         startDate: moment(value.startDate).format("L"),
         endDate: moment(value.endDate).format("L"),
       });
+      /********* dispatch total revenue for date filter ***********/
       this.$store.dispatch("settings/getUserProfile").then((res) => {
         this.userInfo = res.data.data.store.id;
         this.$store.dispatch("totalRevenue/getTotalRevenue", {
           id: this.userInfo,
         });
       });
+
+     /********* instock ***********/
+      this.$store.commit("instockDashboard/filterRange", {
+        startDate: moment(value.startDate).format("L"),
+        endDate: moment(value.endDate).format("L"),
+      });
+      /********* dispatch instock for date filter ***********/
+      this.$store.dispatch("instockDashboard/getStockDateFilter").then(() => {
+        this.stock = false
+      });
+
+     /********* instock ***********/
+      this.$store.commit("leaderboard/filterRange", {
+        startDate: moment(value.startDate).format("L"),
+        endDate: moment(value.endDate).format("L"),
+      });
+      /********* dispatch instock for date filter ***********/
+      this.$store.dispatch("leaderboard/searchLeaderboard").then((e) => {
+        this.leader = false
+        console.log(e)
+      });
     },
+  /********* date filter ***********/
+
   },
 };
 </script>
@@ -429,6 +439,12 @@ export default {
   text-align: left;
   letter-spacing: 0px;
   color: #505050;
+  opacity: 1;
+}
+.text {
+  font-family: Poppins sans-serif "Product Sans";
+  font: normal normal normal 14px/9px Sans-Serif;
+  color: #646464;
   opacity: 1;
 }
 </style>

@@ -53,25 +53,6 @@ const actions = {
                 })
         })
     },
-
-    // filterLeaderboard(context) {
-    //     let route = (state.searchValue !== "") ? `/search?query=${state.searchValue}` : "";        
-    //     return new Promise((resolve, reject) => {
-    //         axios.get(`/leaderboard${route}`, {
-    //             headers: {
-    //                 Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-    //             }
-    //         })
-    //             .then(response => {
-    //                 context.commit("setLeaderboard", response.data)
-    //                 // context.commit("setPageDetails", response.data.meta);
-    //                 resolve(response.data)
-    //             })
-    //             .catch(error => {
-    //                 reject(error)
-    //             })
-    //     })
-    // },
 };
 
 const mutations = {

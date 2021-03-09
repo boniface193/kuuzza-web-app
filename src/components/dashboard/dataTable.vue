@@ -564,7 +564,7 @@ export default {
     }
   }
   &::before {
-    content: "\f107";
+    content: "";
     font-family: FontAwesome;
     font-size: 22px;
     display: block;

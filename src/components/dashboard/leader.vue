@@ -23,17 +23,8 @@
 export default {
   props: {
     linkToDetails: String,
-    // card_title: String,
-    // img_color_text: String,
-    // card_digit: Number,
-    // img_color: String,
-    // card_img: String,
     leader: String,
     sell_text: String,
-    // listItem: {
-    //   type: Array,
-    //   required: true,
-    // },
   },
   data() {
     return {};
@@ -43,13 +34,6 @@ export default {
 
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css2?family=Kumbh&family=Montserrat&family=Poppins&family=Roboto&family=Product+Sans&display=swap");
-
-.text {
-  font-family: Poppins sans-serif "Product Sans";
-  font: normal normal normal 14px/9px Sans-Serif;
-  color: #646464;
-  opacity: 1;
-}
 
 .sell-text {
   text-align: left;

@@ -62,7 +62,7 @@ export default {
 
   async created() {
     await this.$store
-      .dispatch("dashboard/getOrderStatus")
+      .dispatch("orderStatus/getOrderStatus")
       .then((res) => {
         let dataSet = {
           "Awaiting processing": res.awaiting_processing,
@@ -78,12 +78,6 @@ export default {
           res.completed;
         this.orderStatus = false;
       })
-      .catch((error) => {
-        if (error.status === 401 || error.status === 403) {
-          localStorage.removeItem("accessToken");
-          window.location.href = "/signin";
-        }
-      });
   },
 };
 </script>

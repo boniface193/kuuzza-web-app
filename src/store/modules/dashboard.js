@@ -1,11 +1,9 @@
 // orderstatus base url
-import instock from "../../axios/inventory"
 import orderStatus from "../../axios/order"
 import moment from "moment"
 //holds the state properties
 const state = {
     dashboardOrder: [],
-    dashboardBestSelling: [],
     topCustomerItem: [],
     dashboardSeller: [],
     customerItem: [],
@@ -28,23 +26,6 @@ const getters = {
 //fetch data 
 const actions = {
 
-
-    getStockDateFilter(context) {
-        let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== null) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
-
-        return new Promise((resolve, reject) => {
-            instock.get(`/products/metrics?${dateRange}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            }).then((res) => {
-                context.commit("setStock", res.data.data)
-                resolve(res.data.data)
-            }).catch((error) => {
-                reject(error.response)
-            })
-        })
-    },
 
     getOrderStatus(context) {
         return new Promise((resolve, reject) => {
@@ -127,20 +108,7 @@ const actions = {
         })
     },
 
-    getBestSelling(context) {
-        return new Promise((resolve, reject) => {
-            orderStatus.get('/metrics/best-selling', {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            }).then((res) => {
-                context.commit("setdashboardBestSelling", res.data)
-                resolve(res.data)
-            }).catch((error) => {
-                reject(error.response)
-            })
-        })
-    },
+
 
     getTopCustomer(context) {
         return new Promise((resolve, reject) => {

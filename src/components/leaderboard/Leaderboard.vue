@@ -63,7 +63,7 @@ export default {
         {
           text: "Rank",
           sortable: true,
-          value: "seller_id",
+          value: "",
           width: "14%",
         },
         {
@@ -83,15 +83,20 @@ export default {
     };
   },
 
-  computed: {
-    // ...mapGetters({leaderboard: "leaderboard/leaderboard"})
-  },
-
   created() {
-    console.log("leaderboard - ", this.leaderboard);
     this.$store.dispatch("leaderboard/getLeaderboard").then((e) => {
       this.leaderboard = e.data;
       this.isLoading = false;
+
+      e.data.forEach((i) => {
+        // let valueName = e.ranks[i.seller_id];
+        this.headers[0].value = e.ranks;
+        console.log(this.headers[0].value = i) 
+        // e.ranks[i.seller_id];
+        // this.headers.forEach((e) => {
+          console.log(this.headers);
+        // });
+      });
     });
   },
 

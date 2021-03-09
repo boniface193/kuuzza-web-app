@@ -1,30 +1,20 @@
 // orderstatus base url
-import axios from "../../axios/inventory"
-import moment from "moment"
+import axios from "../../axios/order"
 //holds the state properties
 const state = {
-    instock: [],
-    dateRange: {
-        startDate: moment(new Date()).format("L"),
-        endDate: moment(new Date()).format("L"),
-    },
-};
-
-//returns the state properties
-const getters = {
-    stockItem: state => state.instock
+    dashboardOrder: [],
 };
 
 //fetch data 
 const actions = {
-    getStock(context) {
+    getOrderStatus(context) {
         return new Promise((resolve, reject) => {
-            axios.get('/products/metrics', {
+            axios.get('/metrics', {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("accessToken")}`
                 }
             }).then((res) => {
-                context.commit("setStock", res.data.data)
+                context.commit("setdashboardOrder", res.data.data)
                 resolve(res.data.data)
 
             }).catch((error) => {
@@ -35,15 +25,10 @@ const actions = {
     },
 };
 
-
-
 //updates the different state properties
 const mutations = {
-    setStock: (state, data) => {
-        state.instock = data
-    },
-    filterRange: (state, data) => {
-        state.dateRange = data
+    setdashboardOrder: (state, data) => {
+        state.dashboardOrder = data
     }
 };
 
@@ -52,7 +37,6 @@ export default {
     //export all the listed properties
     namespaced: true,
     state,
-    getters,
     actions,
     mutations
 };  

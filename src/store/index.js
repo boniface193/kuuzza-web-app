@@ -12,7 +12,9 @@ import mediaService from "./modules/mediaService";
 import balance from "./modules/Balance";
 import leaderboard from "./modules/leaderboard";
 import totalRevenue from "./modules/totalRevenue";
-import instockDashboard from "./modules/instockDashboard"
+import instockDashboard from "./modules/instockDashboard";
+import orderStatus from "./modules/orderStatus";
+import bestSellingDashboard from "./modules/bestSellingDashboard"
 // initial state
 const initialState = {
   onboarding: onboarding.state,
@@ -28,6 +30,8 @@ const initialState = {
   leaderboard: leaderboard.state,
   totalRevenue: totalRevenue.state,
   instockDashboard: instockDashboard,
+  orderStatus: orderStatus,
+  bestSellingDashboard: bestSellingDashboard,
 }
 
 //Convert object in string 
@@ -50,6 +54,8 @@ export default new Vuex.Store({
     leaderboard: leaderboard,
     totalRevenue: totalRevenue,
     instockDashboard: instockDashboard,
+    orderStatus: orderStatus,
+    bestSellingDashboard: bestSellingDashboard,
   },
   mutations: {
     reset(state) {
