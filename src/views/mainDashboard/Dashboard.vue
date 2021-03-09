@@ -123,9 +123,10 @@
 
             <!--------------------- Best Selling ------------------------------>
             <v-col md="12">
-              <!-- <v-skeleton-loader type="article">
-              </v-skeleton-loader> -->
+              <v-skeleton-loader type="article" v-show="bestSelling">
+              </v-skeleton-loader>
               <leader
+              v-show="!bestSelling"
                 linkToDetails="bestSeller"
                 leader="Best Selling Items"
                 sell_text="See all"
@@ -144,29 +145,29 @@
       <!--------------------- Best Selling ------------------------------>
 
       <v-row>
+      <!--------------------- Top customer ------------------------------>
         <v-col class="col-lg-8 col-sm-12 d-none d-sm-block">
           <!-- <v-skeleton-loader type="article"> </v-skeleton-loader> -->
           <leader leader="Top Customers">
-            <!-- sumary of the leaders board -->
-            <!-- Top customer -->
-            <div>
+            <div v-for="(items, index) in topCustomer" :key="items.id"> 
               <v-row class="text">
-                <v-col cols="2" class="text-center"> 1 </v-col>
+                <v-col cols="2" class="text-center"> {{index + 1}} </v-col>
                 <v-col cols="4" class="text-truncate">
-                  <span class="large-text"> Lanwo</span>
+                  <span class="large-text"> {{items.name}}</span>
                 </v-col>
                 <v-col cols="3" class="text-truncate">
                   <span class="small-text">No. of Orders</span>
-                  <div class="mt-2 large-text">4</div>
+                  <div class="mt-2 large-text">{{items.total_order}}</div>
                 </v-col>
                 <v-col cols="3">
                   <span class="small-text">Total Spent</span>
-                  <div class="mt-2 large-text">₦45,000</div>
+                  <div class="mt-2 large-text">₦{{items.total_order_value}}</div>
                 </v-col>
               </v-row>
             </div>
           </leader>
         </v-col>
+        <!--------------------- Top customer ------------------------------>
         <v-col class="col-lg-4 col-sm-12">
           <v-row>
             <v-col cols="12" sm="12">
@@ -246,6 +247,7 @@ export default {
       // loader
       stock: true,
       leader: true,
+      bestSelling: true,
     };
   },
 
@@ -256,29 +258,13 @@ export default {
       instock: "instockDashboard/stockItem",
       leaderboard: "leaderboard/leaderboard",
       bestSeller: "bestSellingDashboard/bestSelling",
+      topCustomer: "topCustomer/topCustomer"
     }),
   },
 
   created() {
-    console.log("bestseller ", this.bestSeller);
+    console.log("topCustomer ", this.topCustomer);
     this.checkIfUserOnline();
-    // endpoint for stock
-    // if (
-    //   this.dashboardStock.in_stock === undefined ||
-    //   this.dashboardStock.sales === undefined
-    // ) {
-    //   this.$store
-    //     .dispatch("dashboard/getStock")
-    //     .then((res) => {
-    //       this.stockInfo = res.in_stock;
-    //       this.sales = res.sales;
-    //       this.stock = false;
-    //     })
-    // } else {
-    //   this.stockInfo = this.dashboardStock.in_stock;
-    //   this.sales = this.dashboardStock.sales;
-    //   this.stock = false;
-    // }
 
     // endpoint for customer
     // if (
@@ -316,40 +302,6 @@ export default {
     //   this.seller = false;
     // }
 
-    // best seller
-    // this.$store.dispatch("dashboard/getBestSelling");
-
-    // topCustomer
-    // this.$store.dispatch("dashboard/getTopCustomer").then(() => {
-
-    //   this.topCust = false;
-    // });
-
-    // total revenue, payment and available balance
-    // if (this.userInfoItem.store.id === undefined) {
-    // this.$store.dispatch("settings/getUserProfile").then((res) => {
-    //   this.userInfo = res.data.data
-    // this.$store.dispatch("dashboard/getTotalRevenue", { id: this.userInfo.store.id })
-    //   .then((res) => {
-    //     this.totalRevenue = res.total_revenue_label;
-    //     this.availableBalance = res.available_balance_label;
-    //     this.payment = false;
-    //     console.log("resp", res)
-
-    //   });
-    // });
-    // } else {
-    // this.userInfo = this.userInfoItem
-    // this.$store
-    //   .dispatch("dashboard/getTotalRevenue", { id: this.userInfo.store.id })
-    //   .then((res) => {
-    //     this.totalRevenue = res.total_revenue_label;
-    //     this.availableBalance = res.available_balance_label;
-    //     this.payment = false;
-    // console.log("userInfo", res)
-    //   });
-    // }
-
     // dispatch user information
     this.$store.dispatch("settings/getUserProfile");
     // dispatch instock
@@ -360,7 +312,11 @@ export default {
     this.$store.dispatch("leaderboard/getLeaderboard").then(() => {
       this.leader = false
     })
-    this.$store.dispatch("bestSellingDashboard/getBestSelling")
+    this.$store.dispatch("bestSellingDashboard/getBestSelling").then(() => {
+      this.bestSelling = false
+    })
+    // Top customer
+    this.$store.dispatch("topCustomer/getTopCustomer")
 
   },
 
@@ -408,8 +364,18 @@ export default {
         endDate: moment(value.endDate).format("L"),
       });
       /********* dispatch instock for date filter ***********/
-      this.$store.dispatch("leaderboard/searchLeaderboard").then((e) => {
+      this.$store.dispatch("leaderboard/searchLeaderboard").then(() => {
         this.leader = false
+      });
+
+     /********* best selling ***********/
+      this.$store.commit("bestSellingDashboard/filterRange", {
+        startDate: moment(value.startDate).format("L"),
+        endDate: moment(value.endDate).format("L"),
+      });
+      /********* dispatch best selling for date filter ***********/
+      this.$store.dispatch("bestSellingDashboard/getSellerFilter").then((e) => {
+        this.bestSelling = false
         console.log(e)
       });
     },

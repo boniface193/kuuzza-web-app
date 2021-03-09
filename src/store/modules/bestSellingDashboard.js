@@ -36,13 +36,13 @@ const actions = {
         let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== null) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
 
         return new Promise((resolve, reject) => {
-            axios.get(`/metrics/sellers?${dateRange}`, {
+            axios.get(`/metrics/best-selling?${dateRange}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("accessToken")}`
                 }
             }).then((res) => {
-                context.commit("setBestSelling", res.data.data)
-                resolve(res.data.data)
+                context.commit("setBestSelling", res.data)
+                resolve(res.data)
             }).catch((error) => {
                 reject(error.response)
             })

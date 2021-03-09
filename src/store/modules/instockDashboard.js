@@ -33,6 +33,22 @@ const actions = {
         })
 
     },
+
+    getStockDateFilter(context){
+        let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== null) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
+        return new Promise((resolve, reject) => {
+            axios.get(`/products/metrics?${dateRange}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                }
+            }).then((res) => {
+                context.commit("setStock", res.data.data)
+                resolve(res.data.data)
+            }).catch((error) => {
+                reject(error.response)
+            })
+        })
+    }
 };
 
 
