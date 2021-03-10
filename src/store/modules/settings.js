@@ -226,6 +226,7 @@ const mutations = {
     setTeamMembers: (state, data) => (state.teamMembers = data),
     setPageDetails: (state, data) => (state.pageDetails = data),
     setCurrentPage: (state, currentPage) => { state.pageDetails.current_page = currentPage },
+    setVerifiedStore: (state, status) => {state.verifiedStore = status}, 
     doNothing: (state) => (state.doNothing = null)
 };
 
