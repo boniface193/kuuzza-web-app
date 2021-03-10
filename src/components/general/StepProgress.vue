@@ -44,8 +44,7 @@ div.step-progress__step span {
   opacity: 1;
 }
 .step-progress__step-icon{
-  color: #52F1EC;
-  font-size: 30px;
+  display: none;
 }
 .step-progress__step-label {
   position: absolute;

@@ -147,8 +147,7 @@ export default {
   },
   created() {
     if (
-      this.$store.getters["inventory/products"].length == 0 &&
-      this.$store.getters["settings/verifiedStore"] == true
+      this.$store.getters["inventory/products"].length == 0
     ) {
       this.getProducts();
     }
@@ -191,20 +190,6 @@ export default {
           }
           this.$store.commit("inventory/setTableLoader", false);
         });
-    },
-    // set item per page
-    setItemPerPage(params) {
-      this.$store.commit("inventory/setItemPerPage", params);
-      this.searchProduct === true
-        ? this.getSearchProduct()
-        : this.getfilteredProducts();
-    },
-    // set current page
-    setCurentPage(params) {
-      this.$store.commit("inventory/setPage", params);
-      this.searchProducts === true
-        ? this.getSearchProduct()
-        : this.getfilteredProducts();
     },
     // request for page with the request informations
     getfilteredProducts() {

@@ -123,6 +123,20 @@ export default {
     }),
   },
   methods: {
+    // set item per page
+    setItemPerPage(params) {
+      this.$store.commit("inventory/setItemPerPage", params);
+      this.searchProduct === true
+        ? this.getSearchProduct()
+        : this.getfilteredProducts();
+    },
+    // set current page
+    setCurentPage(params) {
+      this.$store.commit("inventory/setPage", params);
+      this.searchProducts === true
+        ? this.getSearchProduct()
+        : this.getfilteredProducts();
+    },
     // take bulk action
     setBulkAction(params) {
       if (this.selectedRow.length !== 0) {

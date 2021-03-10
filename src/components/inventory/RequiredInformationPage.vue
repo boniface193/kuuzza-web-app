@@ -325,19 +325,70 @@
         </div>
       </v-form>
     </div>
+
+
+    <!-- modal for dialog messages -->
+    <modal :dialog="dialog" width="400">
+      <div class="white pa-3 px-5 dialog">
+        <div class="d-flex justify-end">
+          <v-icon class="error--text close-btn" @click="dialog = false"
+            >mdi-close</v-icon
+          >
+        </div>
+        <p class="mt-7 mb-5">An OTP has been sent to your mobile number for verification</p> 
+        <v-form>
+          <div class="mt-0 mb-2">
+            <v-otp-input
+              ref="otpInput1"
+              separator=""
+              :num-inputs="5"
+              :should-auto-focus="true"
+              input-type="number"
+              @on-complete="handleOnComplete"
+              @on-change="handleOnChange"
+            />
+          </div>
+
+          <!-- error message -->
+          <p class="error--text" v-show="otpError == true">
+            {{ otpErrorMessage }}
+          </p>
+
+          <!-- button container -->
+          <div class="pa-0 mt-5" style="width: 100%">
+            <p>
+              Didn't receive the code?
+              <a style="text-decoration: none"
+                >Resend Code</a
+              >
+            </p>
+            <v-btn
+              class="primary px-8 py-5 mb-5"
+              @click="SubmitOTP()"
+              >Verify</v-btn
+            >
+          </div>
+        </v-form>
+      </div>
+    </modal>
   </div>
 </template>
 <script>
 import StepProgress from "@/components/general/StepProgress.vue";
 import selectBtn from "@/components/dashboard/selectBtn.vue";
+import modal from "@/components/dashboard/modal.vue";
+import OtpInput from "@/components/onboarding/verifyInput";
 export default {
   name: "RequiredInformationPage",
   components: {
     StepProgress,
     "select-btn": selectBtn,
+    modal,
+    "v-otp-input": OtpInput,
   },
   data: function () {
     return {
+      dialog: false,
       lineThickness: 4,
       activeThickness: 4,
       passiveThickness: 4,
@@ -364,6 +415,10 @@ export default {
       phoneNumber: "",
       accountErrorStatus: false,
       IDErrorStatus: false,
+      verify: false,
+      otp: "",
+      otpErrorMessage: "",
+      otpError: false,
       inputRules: [(v) => !!v || "This field is required"],
       addressRules: [
         //verifies pick up address satisfies the requirement
@@ -460,7 +515,7 @@ export default {
       } else if (formNum == 4) {
         this.$refs.form4.validate();
         if (this.$refs.form4.validate()) {
-          console.log(111);
+          this.dialog = true;
         }
       }
     },
@@ -468,6 +523,23 @@ export default {
       this.presentForm = "form" + (formNum - 1);
       this.currentStep = this.currentStep - 1;
     },
+     // check if code changes
+    handleOnChange(value) {
+      this.otp = value;
+      if (this.otp.length != 5) {
+        this.verify = false;
+      }
+    },
+    // checks if code is complete
+    handleOnComplete(value) {
+      this.verify = true;
+      this.otp = value;
+      this.otpError = false;
+    },
+    SubmitOTP(){
+      this.dialog = false;
+      this.$store.commit("settings/setVerifiedStore", true);
+    }
   },
 };
 </script>
