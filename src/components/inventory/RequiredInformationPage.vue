@@ -117,11 +117,14 @@
               :rules="inputRules"
               color="primary"
               placeholder="ID Number"
+              @keyup.enter="goNextForm(1)"
               required
               outlined
             >
             </v-text-field>
           </div>
+          <!-- do not remove -->
+          <v-text-field style="display:none"></v-text-field>
         </v-form>
 
         <div class="btn-container d-flex justify-end">

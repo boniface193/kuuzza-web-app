@@ -191,30 +191,6 @@ export default {
           this.$store.commit("inventory/setTableLoader", false);
         });
     },
-    // request for page with the request informations
-    getfilteredProducts() {
-      this.$store.dispatch("inventory/getfilteredProducts").catch((error) => {
-        this.statusImage = failedImage;
-        if (error.response) {
-          this.dialogMessage = "Something went wrong, pls try again!";
-        } else {
-          this.dialogMessage = "No internet Connection!";
-        }
-        this.dialog1 = true;
-      });
-    },
-    // search products
-    getSearchProduct() {
-      this.$store.dispatch("inventory/searchProducts").catch((error) => {
-        this.statusImage = failedImage;
-        if (error.response) {
-          this.dialogMessage = "Something went wrong, pls try again!";
-        } else {
-          this.dialogMessage = "No internet Connection!";
-        }
-        this.dialog1 = true;
-      });
-    },
   },
 };
 </script>

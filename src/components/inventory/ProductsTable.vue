@@ -69,6 +69,7 @@ import dataTable from "@/components/dashboard/dataTable.vue";
 import deleteProductModal from "@/components/inventory/deleteProductModal";
 import takeProductOfflineModal from "@/components/inventory/takeProductOfflineModal";
 import takeProductOnlineModal from "@/components/inventory/takeProductOnlineModal";
+import failedImage from "@/assets/img/failed-img.svg";
 import { mapGetters, mapState } from "vuex";
 export default {
   name: "ProductsTable",
@@ -251,6 +252,30 @@ export default {
     },
     rowSelected(params) {
       this.selectedRow = params;
+    },
+    // request for page with the request informations
+    getfilteredProducts() {
+      this.$store.dispatch("inventory/getfilteredProducts").catch((error) => {
+        this.statusImage = failedImage;
+        if (error.response) {
+          this.dialogMessage = "Something went wrong, pls try again!";
+        } else {
+          this.dialogMessage = "No internet Connection!";
+        }
+        this.dialog1 = true;
+      });
+    },
+    // search products
+    getSearchProduct() {
+      this.$store.dispatch("inventory/searchProducts").catch((error) => {
+        this.statusImage = failedImage;
+        if (error.response) {
+          this.dialogMessage = "Something went wrong, pls try again!";
+        } else {
+          this.dialogMessage = "No internet Connection!";
+        }
+        this.dialog1 = true;
+      });
     },
   },
 };

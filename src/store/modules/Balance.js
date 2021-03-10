@@ -1,5 +1,27 @@
 import axios from "@/axios/bankServices.js";
 
+// set the number of item you want to show on table
+const setItemPerPage = (itemPerPage, per_page, from_page) => {
+    let page = null;
+    if (itemPerPage > per_page) {
+        let range = Math.round(
+            (from_page - 1) / per_page
+        );
+        if (range < 0.5) {
+            page = range + 1;
+            return page;
+        } else {
+            page = range;
+            return page;
+        }
+    } else {
+        page = Math.round(
+            (from_page - 1) / itemPerPage + 1
+        );
+        return page
+    }
+}
+
 // get todays date
 const curday = () => {
     const today = new Date();
@@ -21,7 +43,10 @@ const state = {
     },
     awaitingSettlements: {
         data: [],
-        meta: {}
+        meta: {
+            current_page: 1,
+            per_page: 15,
+        }
     },
     paymentHistory: {
         data: [],
@@ -43,8 +68,10 @@ const getters = {
 const actions = {
     getSettlements(context, data) {
         let dateRange = (state.dateRange.endDate !== null) ? `date_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
+        let page = ((state.awaitingSettlements.meta.current_page) ? `page=${state.awaitingSettlements.meta.current_page}` : "");
+        let perPage = ((state.awaitingSettlements.meta.per_page) ? `per_page=${state.awaitingSettlements.meta.per_page}` : "");
         return new Promise((resolve, reject) => {
-            axios.get(`${data.storeId}/settlements?status=${data.status}&${dateRange}`, {
+            axios.get(`${data.storeId}/settlements?status=${data.status}&${dateRange}&${page}&${perPage}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                 },
@@ -54,7 +81,19 @@ const actions = {
                         context.commit("setSettlements", response.data)
                     }
                     if (data.status === "pending") {
-                        context.commit("setAwaitingSettlements", response.data)
+                        let newDataFormat = []
+                        response.data.data.forEach(item => {
+                            let newData = {}
+                            newData.amount = item.amount;
+                            newData.order_id = item.order_id;
+                            newData.product_name = item.meta.product_name;
+                            newData.due_date = (item.due_date == null) ? "pending" : item.due_date;
+                            newDataFormat.push(newData);
+                        });
+                        let awaitingSettlements = {}
+                        awaitingSettlements.data = newDataFormat
+                        awaitingSettlements.meta = response.data.meta
+                        context.commit("setAwaitingSettlements", awaitingSettlements);
                     }
                     resolve(response)
                 })
@@ -123,6 +162,13 @@ const mutations = {
     setAwaitingSettlements: (state, list) => (state.awaitingSettlements = list),
     setPaymentHistory: (state, list) => (state.paymentHistory = list),
     setDateRange: (state, dateRange) => (state.dateRange = dateRange),
+    setItemPerPage: (state, itemPerPage) => {
+        let page = setItemPerPage(itemPerPage, state.awaitingSettlements.meta.per_page, state.awaitingSettlements.meta.from);
+        state.awaitingSettlements.meta.current_page = page;
+        state.awaitingSettlements.meta.per_page = itemPerPage;
+        console.log(state.awaitingSettlements.meta.per_page)
+    },
+    setPage: (state, page) => (state.awaitingSettlements.meta.current_page = page),
 };
 
 export default {
@@ -132,4 +178,4 @@ export default {
     getters,
     actions,
     mutations
-};  
+};

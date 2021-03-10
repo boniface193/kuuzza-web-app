@@ -6,10 +6,10 @@
         ref="settlementsTable"
         :headers="awaitingSettlementsHeader"
         :items="awaitingSettlements.data"
-        itemKey="id"
-        :itemPerPage="15"
-        :paginationLength="1"
-        :page="1"
+        itemKey="order_id"
+        :itemPerPage="pageDetails.per_page || 15"
+        :paginationLength="pageDetails.total"
+        :page="pageDetails.current_page"
         @itemPerPage="setItemPerPage"
         @onPageChange="setCurentPage"
       />
@@ -66,14 +66,12 @@ export default {
       awaitingSettlementsHeader: [
         {
           text: "Product Name",
-          value: "name",
-          href: true,
-          routeName: "productDetails",
+          value: "product_name",
           width: "400px",
         },
-        { text: "Order ID", value: "order_id", width: "300px" },
+        { text: "Order ID", value: "order_id", width: "300px", href: true,  routeName: "OrderDetails"},
         { text: "Amount", value: "amount", width: "250px", money: true},
-        { text: "Due Date", value: "settlement_date", width: "250px" },
+        { text: "Due Date", value: "due_date", width: "250px" },
       ],
     };
   },
@@ -92,7 +90,7 @@ export default {
       awaitingSettlements: "balance/awaitingSettlements",
     }),
     ...mapState({
-      pageDetails: (state) => state.awaitingSettlements.meta,
+      pageDetails: (state) => state.balance.awaitingSettlements.meta,
     }),
   },
   methods: {
@@ -115,8 +113,16 @@ export default {
           }
         });
     },
-    setItemPerPage() {},
-    setCurentPage() {},
+    // set item per page
+    setItemPerPage(params) {
+      this.$store.commit("balance/setItemPerPage", params);
+      this.getAwaitingSettlements();
+    },
+    // set current page
+    setCurentPage(params) {
+      this.$store.commit("balance/setPage", params);
+      this.getAwaitingSettlements();
+    },
      reset(){
       this.fetchingData = true;
       this.getAwaitingSettlements();
