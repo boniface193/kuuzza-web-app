@@ -286,6 +286,9 @@
             <selectBtn
               :items="[5, 10, 15, 30, 50]"
               :item="itemPerPage"
+              bgColor="transparent"
+              borderRadius="5px"
+              borderColor="slategrey"
               @selectedItem="setItemPerPage"
             />
           </div>
@@ -430,8 +433,8 @@ export default {
 .v-application--is-ltr .v-input--selection-controls__input {
   margin-right: 0px !important;
 }
-.v-text-field__details{
-    margin-top: 8px !important;
+.v-text-field__details {
+  margin-top: 8px !important;
 }
 </style>
 <style lang="scss" scoped>
@@ -537,43 +540,8 @@ export default {
   max-width: 300px;
 }
 .select-item {
-  width: 75px;
-  position: relative;
-  select {
-    width: 75px;
-    height: 30px;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    outline: none;
-    border: 1px solid #7070704d;
-    border-radius: 5px;
-    padding: 0px 12px;
-    background: #ffffff;
-    &:hover {
-      border-color: rgba(0, 0, 0, 0.87);
-    }
-    &:focus {
-      border: 2px solid #5064cc;
-    }
-    option {
-      color: #5064cc;
-      &:hover {
-        background-color: #5064cc26 !important;
-      }
-    }
-  }
-  &::before {
-    content: "";
-    font-family: FontAwesome;
-    font-size: 22px;
-    display: block;
-    color: #5064cc; /*change in this line color*/
-    position: absolute;
-    right: 12px;
-    top: calc(16% - 6px);
-    pointer-events: none;
-  }
+  width: 80px;
+  height: 30px;
 }
 .productLink {
   color: #5064cc;
