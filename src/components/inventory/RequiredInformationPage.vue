@@ -188,29 +188,7 @@
               ></v-radio>
             </v-radio-group>
           </div>
-          <!-- radio quetsion -->
-          <div class="mb-3">
-            <p class="mb-1 question">
-              Can a customer get a refund in the event of a return?
-            </p>
-            <v-radio-group
-              v-model="allowRefundProducts"
-              class="mt-1"
-              :rules="radioRules"
-              required
-            >
-              <v-radio
-                class="primary--text mb-2"
-                label="Yes"
-                value="Yes"
-              ></v-radio>
-              <v-radio
-                class="primary--text mb-1"
-                label="No"
-                value="No"
-              ></v-radio>
-            </v-radio-group>
-          </div>
+          <!-- max days it takes to accept return of product -->
           <div class="mb-3">
             <p class="max-day-container">
               <span class="question mr-2"
@@ -404,7 +382,6 @@ export default {
       productQualification: "",
       allowReturnProducts: "",
       allowReplaceProducts: "",
-      allowRefundProducts: "",
       maxDays: "",
       pickUpLocation: "",
       autocomplete: "",
