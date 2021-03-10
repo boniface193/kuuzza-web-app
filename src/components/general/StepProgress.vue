@@ -43,7 +43,10 @@ div.step-progress__step span {
   text-align: center;
   opacity: 1;
 }
-
+.step-progress__step-icon{
+  color: #52F1EC;
+  font-size: 30px;
+}
 .step-progress__step-label {
   position: absolute;
   top: calc(100% + 25px);
@@ -68,5 +71,10 @@ div.step-progress__step span {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0px;
+}
+@media (max-width: 600px){
+  .step-progress__step-label {
+    display: none;
+  }
 }
 </style>

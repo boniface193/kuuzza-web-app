@@ -1,30 +1,43 @@
 <template>
-  <div
-    class="select-btn"
-    tabindex="0"
-    v-on-clickaway="away"
-    :style="{ background: bgColor, 'border-radius': borderRadius, 'border-color': borderColor }"
-  >
-    <!-- select -->
-    <div class="select" @click="toggleDropdown">
-      <div class="select-placeholder d-flex align-center justify-space-between">
-        <span>{{ selectedItem }}</span>
-        <span><v-icon class="primary--text">mdi-chevron-down</v-icon></span>
+  <div style="height: 100%">
+    <div
+      class="select-btn"
+      :class="{ errorStatus: inputStatus === true }"
+      tabindex="0"
+      v-on-clickaway="away"
+      :style="{
+        background: bgColor,
+        'border-radius': borderRadius,
+        'border-color': borderColor,
+      }"
+    >
+      <!-- select -->
+      <div class="select" @click="toggleDropdown">
+        <div
+          class="select-placeholder d-flex align-center justify-space-between"
+        >
+          <span>{{ selectedItem }}</span>
+          <span><v-icon class="primary--text">mdi-chevron-down</v-icon></span>
+        </div>
+      </div>
+      <!-- select dropdown -->
+      <div
+        class="select-dropdown"
+        :class="{ 'select-dropdown--active': selectDropdown }"
+      >
+        <p
+          class="py-2 mb-0 dropdown-item"
+          v-for="(item, index) in items"
+          :key="index"
+          @click="setSelectedItem(item)"
+        >
+          {{ item }}
+        </p>
       </div>
     </div>
-    <!-- select dropdown -->
-    <div
-      class="select-dropdown"
-      :class="{ 'select-dropdown--active': selectDropdown }"
-    >
-      <p
-        class="py-2 mb-0 dropdown-item"
-        v-for="(item, index) in items"
-        :key="index"
-        @click="setSelectedItem(item)"
-      >
-        {{ item }}
-      </p>
+    <!-- error message -->
+    <div v-show="inputStatus == true" class="error--text" :class="{inputError: inputStatus === true}">
+      {{ errorMsg }}
     </div>
   </div>
 </template>
@@ -33,7 +46,16 @@ import { mixin as clickaway } from "vue-clickaway";
 export default {
   name: "selectBtn",
   mixins: [clickaway],
-  props: ["items", "item", "dropDownMenu", "bgColor", "borderRadius", "borderColor"],
+  props: [
+    "items",
+    "item",
+    "dropDownMenu",
+    "bgColor",
+    "borderRadius",
+    "borderColor",
+    "inputStatus",
+    "errorMsg",
+  ],
   data: function () {
     return {
       selectDropdown: false,
@@ -72,7 +94,7 @@ export default {
   border: 1px solid;
   outline: none;
   &:hover {
-    border-color: rgba(0, 0, 0, 0.87);
+    border-color: rgba(0, 0, 0, 0.87) !important;
   }
   cursor: pointer;
   .select {
@@ -105,10 +127,24 @@ export default {
     }
   }
   &:focus {
-    border: 2px solid #5064cc;
+    border: 2px solid #5064cc !important;
     .select-dropdown--active {
       display: block;
     }
   }
+}
+.errorStatus {
+  border-color: #e62222 !important;
+  &:hover {
+    border-color: #e62222 !important;
+  }
+}
+.inputError {
+  line-height: 12px;
+  word-break: break-word;
+  word-wrap: break-word;
+  font-size: 12px;
+  padding-left: 12px;
+  margin-top: 8px;
 }
 </style>
