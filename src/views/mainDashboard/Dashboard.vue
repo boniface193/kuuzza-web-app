@@ -105,13 +105,13 @@
                 listItem="listItem"
               >
                 <div
-                  v-for="item in leaderboard.data"
+                  v-for="item in leaderboard"
                   :key="item.seller_id"
                   class="text"
                 >
                   <v-row class="text">
                     <v-col cols="2" class="text-center">
-                      {{ leaderboard.ranks[item.seller_id] }}
+                      {{ leaderRank[item.seller_id] }}
                     </v-col>
                     <v-col cols="8" class="text-truncate">
                       {{ item.seller_name }}
@@ -135,10 +135,10 @@
                 leader="Best Selling Items"
                 sell_text="See all"
               >
-                <div v-for="items in bestSeller.data" :key="items.product_id">
+                <div v-for="items in bestSeller" :key="items.product_id">
                   <v-row class="text">
                     <v-col cols="2" class="text-center">
-                      {{ bestSeller.ranks[items.product_id] }}
+                      {{ sellerRank[items.product_id] }}
                     </v-col>
                     <v-col cols="6" class="text-truncate"
                       >{{ items.product_name }}
@@ -272,6 +272,12 @@ export default {
       allSellerToString: "",
       filteredSellerToString: "",
       seller: true,
+      // leaderboard
+      leaderboard: [],
+      leaderRank: {},
+      // best selling
+      bestSeller: [],
+      sellerRank: {},
     };
   },
 
@@ -280,8 +286,6 @@ export default {
       userInfor: "settings/getUserProfile",
       totalRevenue: "totalRevenue/revenue",
       instock: "instockDashboard/stockItem",
-      leaderboard: "leaderboard/leaderboard",
-      bestSeller: "bestSellingDashboard/bestSelling",
       topCustomer: "topCustomer/topCustomer",
     }),
   },
@@ -297,10 +301,21 @@ export default {
       this.stock = false;
     });
     // dispatch leaderboard
-    this.$store.dispatch("leaderboard/getLeaderboard").then(() => {
+    this.$store.dispatch("leaderboard/getLeaderboard").then((e) => {
+      let leader = e.data
+      let Rank = e.ranks
+
+      this.leaderboard = leader.slice(0, 4)
+      this.leaderRank = Rank
       this.leader = false;
     });
-    this.$store.dispatch("bestSellingDashboard/getBestSelling").then(() => {
+    // best selling
+    this.$store.dispatch("bestSellingDashboard/getBestSelling").then((e) => {
+      let seller = e.data
+      let Rank = e.ranks
+
+      this.bestSeller = seller.slice(0, 3);
+      this.sellerRank = Rank
       this.bestSelling = false;
     });
     // Top customer
@@ -364,13 +379,18 @@ export default {
         this.stock = false;
       });
 
-      /********* instock ***********/
+      /********* leaderboard ***********/
       this.$store.commit("leaderboard/filterRange", {
         startDate: moment(value.startDate).format("L"),
         endDate: moment(value.endDate).format("L"),
       });
       /********* dispatch instock for date filter ***********/
-      this.$store.dispatch("leaderboard/searchLeaderboard").then(() => {
+      this.$store.dispatch("leaderboard/searchLeaderboard").then((e) => {
+              let leader = e.data
+      let Rank = e.ranks
+
+      this.leaderboard = leader.slice(0, 4)
+      this.leaderRank = Rank
         this.leader = false;
       });
 
@@ -380,7 +400,12 @@ export default {
         endDate: moment(value.endDate).format("L"),
       });
       /********* dispatch best selling for date filter ***********/
-      this.$store.dispatch("bestSellingDashboard/getSellerFilter").then(() => {
+      this.$store.dispatch("bestSellingDashboard/getSellerFilter").then((e) => {
+              let seller = e.data
+      let Rank = e.ranks
+
+      this.bestSeller = seller.slice(0, 3);
+      this.sellerRank = Rank
         this.bestSelling = false;
       });
 
