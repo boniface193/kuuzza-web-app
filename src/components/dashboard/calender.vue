@@ -70,6 +70,9 @@ export default {
           new Date(today.getFullYear(), 0, 1),
           new Date(today.getFullYear(), 11, 31),
         ],
+        "All": [
+          new Date(today.getFullYear(), 0, 0), new Date()
+        ],
       },
       dateRange: {
         startDate: Date.now(),

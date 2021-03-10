@@ -16,6 +16,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import moment from "moment";
 export default {
   props: ["bar_class", "bar_title", "chart"],
   data() {
@@ -25,12 +26,16 @@ export default {
   },
 
   computed: {
-    ...mapGetters({ revenue: "totalRevenue/revenue", dateXaxis: "totalRevenue/getDate" }),
+    ...mapGetters({
+      revenue: "totalRevenue/revenue",
+      dateXaxis: "totalRevenue/getDate",
+    }),
 
     getAllRevenue() {
       let totalRevenue = this.revenue.total_revenue;
       let awaiting = this.revenue.awaiting_settlement;
       let settled = this.revenue.settled;
+
       return {
         series: [
           {
@@ -49,47 +54,48 @@ export default {
       };
     },
 
-    reformBarChart(){
+    reformBarChart() {
       let startDate = this.dateXaxis.startDate;
       let endDate = this.dateXaxis.endDate;
-      let bothDate = startDate + ' - ' + endDate
+      let bothDate =
+        moment(startDate).calendar() + " - " + moment(endDate).calendar();
       return {
         chartOptions: {
-        chart: {
-          type: "bar",
-          height: 350,
-          toolbar: {
+          chart: {
+            type: "bar",
+            height: 350,
+            toolbar: {
+              show: false,
+            },
+          },
+          plotOptions: {
+            bar: {
+              horizontal: false,
+              columnWidth: "55%",
+              endingShape: "flat",
+            },
+          },
+          dataLabels: {
+            enabled: false,
+          },
+          stroke: {
             show: false,
+            width: 2,
+            colors: ["transparent"],
           },
-        },
-        plotOptions: {
-          bar: {
-            horizontal: false,
-            columnWidth: "55%",
-            endingShape: "flat",
+          xaxis: {
+            categories: [bothDate],
           },
+          fill: {
+            opacity: 1,
+          },
+          legend: {
+            position: "top",
+          },
+          colors: ["#5064CC", "#52F1EC", "#44099F"],
         },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          show: false,
-          width: 2,
-          colors: ["transparent"],
-        },
-        xaxis: {
-          categories: [bothDate],
-        },
-        fill: {
-          opacity: 1,
-        },
-        legend: {
-          position: "top",
-        },
-        colors: ["#5064CC", "#52F1EC", "#44099F"],
-      },
-      }
-    }
+      };
+    },
   },
 
   created() {
