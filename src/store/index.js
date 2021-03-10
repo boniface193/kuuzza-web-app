@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import onboarding from "./modules/onboarding";
-import dashboard from "./modules/dashboard";
 import inventory from "./modules/inventory";
 import orders from "./modules/orders";
 import sellers from "./modules/sellers";
@@ -15,11 +14,12 @@ import totalRevenue from "./modules/totalRevenue";
 import instockDashboard from "./modules/instockDashboard";
 import orderStatus from "./modules/orderStatus";
 import bestSellingDashboard from "./modules/bestSellingDashboard";
-import topCustomer from "./modules/topCustomer"
+import topCustomer from "./modules/topCustomer";
+import customerDashboard from "./modules/customerDashboard";
+import sellerDashboard from "./modules/sellerDashboard"
 // initial state
 const initialState = {
   onboarding: onboarding.state,
-  dashboard: dashboard.state,
   inventory: inventory.state,
   orders: orders.state,
   sellers: sellers.state,
@@ -34,6 +34,8 @@ const initialState = {
   orderStatus: orderStatus,
   bestSellingDashboard: bestSellingDashboard,
   topCustomer: topCustomer,
+  customerDashboard: customerDashboard,
+  sellerDashboard: sellerDashboard,
 }
 
 //Convert object in string 
@@ -44,7 +46,6 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   modules: {
     onboarding: onboarding,
-    dashboard: dashboard,
     inventory: inventory,
     orders: orders,
     sellers: sellers,
@@ -59,6 +60,8 @@ export default new Vuex.Store({
     orderStatus: orderStatus,
     bestSellingDashboard: bestSellingDashboard,
     topCustomer: topCustomer,
+    customerDashboard: customerDashboard,
+    sellerDashboard: sellerDashboard,
   },
   mutations: {
     reset(state) {

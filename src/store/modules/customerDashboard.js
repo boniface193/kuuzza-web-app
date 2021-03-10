@@ -1,9 +1,9 @@
 // orderstatus base url
-import orderStatus from "../../axios/order"
+import axios from "../../axios/order"
 import moment from "moment"
 //holds the state properties
 const state = {
-    topCustomerItem: [],
+    customerItem: [],
     dateRange: {
         startDate: moment(new Date()).format("L"),
         endDate: moment(new Date()).format("L"),
@@ -12,19 +12,20 @@ const state = {
 
 //returns the state properties
 const getters = {
-    topCustomer: state => state.topCustomerItem,
+    dashboardCustomer: state => state.customerItem,
 };
 
 //fetch data 
 const actions = {
-    getTopCustomer(context) {
+
+    getCustomer(context) {
         return new Promise((resolve, reject) => {
-            orderStatus.get('/metrics/top-customers', {
+            axios.get('/metrics/customers', {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("accessToken")}`
                 }
             }).then((res) => {
-                context.commit("setTopCustomer", res.data.data)
+                context.commit("setCustomer", res.data.data)
                 resolve(res.data.data)
             }).catch((error) => {
                 reject(error.response)
@@ -32,29 +33,31 @@ const actions = {
         })
     },
 
-    getFilterTopCustomer(context) {
+    getCustomerFilter(context) {
         let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== null) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
+
         return new Promise((resolve, reject) => {
-            orderStatus.get(`/metrics/top-customers?${dateRange}`, {
+            axios.get(`/metrics/customers?${dateRange}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("accessToken")}`
                 }
             }).then((res) => {
-                context.commit("setTopCustomer", res.data.data)
+                context.commit("setCustomer", res.data.data)
                 resolve(res.data.data)
             }).catch((error) => {
                 reject(error.response)
             })
         })
     },
+
 };
 
 
 
 //updates the different state properties
 const mutations = {
-    setTopCustomer: (state, data) => {
-        state.topCustomerItem = data
+    setCustomer: (state, data) => {
+        state.customerItem = data
     },
     filterRange: (state, data) => {
         state.dateRange = data

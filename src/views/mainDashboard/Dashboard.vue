@@ -38,7 +38,7 @@
         <v-col cols="12" sm="4">
           <v-skeleton-loader type="article" v-show="stock"> </v-skeleton-loader>
           <card
-          v-show="!stock"
+            v-show="!stock"
             :card_digit="instock.in_stock"
             card_title="Items in Stock"
             card_img="delivery-box.svg"
@@ -77,7 +77,7 @@
             bar_title="revenue(₦)"
           />
         </v-col>
-       <!------------------- show area-chart -------------------------->
+        <!------------------- show area-chart -------------------------->
       </v-row>
 
       <v-row>
@@ -91,7 +91,6 @@
         </v-col>
         <!--------------------- donut chart ------------------------------>
 
-
         <v-col md="4">
           <v-row>
             <!--------------------- leaderboard ------------------------------>
@@ -99,24 +98,29 @@
               <v-skeleton-loader type="article" v-show="leader">
               </v-skeleton-loader>
               <leader
-              v-show="!leader"
+                v-show="!leader"
                 linkToDetails="leaderboard"
                 leader="Leaderboard"
                 sell_text="See all"
                 listItem="listItem"
               >
-                <div v-for="item in leaderboard.data" :key="item.seller_id" class="text">
+                <div
+                  v-for="item in leaderboard.data"
+                  :key="item.seller_id"
+                  class="text"
+                >
                   <v-row class="text">
-                    <v-col cols="2" class="text-center"> {{leaderboard.ranks[item.seller_id]}} </v-col>
+                    <v-col cols="2" class="text-center">
+                      {{ leaderboard.ranks[item.seller_id] }}
+                    </v-col>
                     <v-col cols="8" class="text-truncate">
-                       {{item.seller_name}}
+                      {{ item.seller_name }}
                     </v-col>
                     <v-col cols="2" class="text-truncate">
-                      {{item.total_points}}
+                      {{ item.total_points }}
                     </v-col>
                   </v-row>
                 </div>
-              
               </leader>
             </v-col>
             <!--------------------- leaderboard ------------------------------>
@@ -126,15 +130,19 @@
               <v-skeleton-loader type="article" v-show="bestSelling">
               </v-skeleton-loader>
               <leader
-              v-show="!bestSelling"
+                v-show="!bestSelling"
                 linkToDetails="bestSeller"
                 leader="Best Selling Items"
                 sell_text="See all"
               >
                 <div v-for="items in bestSeller.data" :key="items.product_id">
                   <v-row class="text">
-                    <v-col cols="2" class="text-center"> {{bestSeller.ranks[items.product_id]}} </v-col>
-                    <v-col cols="6" class="text-truncate">{{items.product_name}} </v-col>
+                    <v-col cols="2" class="text-center">
+                      {{ bestSeller.ranks[items.product_id] }}
+                    </v-col>
+                    <v-col cols="6" class="text-truncate"
+                      >{{ items.product_name }}
+                    </v-col>
                   </v-row>
                 </div>
               </leader>
@@ -145,23 +153,26 @@
       <!--------------------- Best Selling ------------------------------>
 
       <v-row>
-      <!--------------------- Top customer ------------------------------>
+        <!--------------------- Top customer ------------------------------>
         <v-col class="col-lg-8 col-sm-12 d-none d-sm-block">
-          <!-- <v-skeleton-loader type="article"> </v-skeleton-loader> -->
-          <leader leader="Top Customers">
-            <div v-for="(items, index) in topCustomer" :key="items.id"> 
+          <v-skeleton-loader type="article" v-show="topCust">
+          </v-skeleton-loader>
+          <leader leader="Top Customers" v-show="!topCust">
+            <div v-for="(items, index) in topCustomer" :key="items.id">
               <v-row class="text">
-                <v-col cols="2" class="text-center"> {{index + 1}} </v-col>
+                <v-col cols="2" class="text-center"> {{ index + 1 }} </v-col>
                 <v-col cols="4" class="text-truncate">
-                  <span class="large-text"> {{items.name}}</span>
+                  <span class="large-text"> {{ items.name }}</span>
                 </v-col>
                 <v-col cols="3" class="text-truncate">
                   <span class="small-text">No. of Orders</span>
-                  <div class="mt-2 large-text">{{items.total_order}}</div>
+                  <div class="mt-2 large-text">{{ items.total_order }}</div>
                 </v-col>
                 <v-col cols="3">
                   <span class="small-text">Total Spent</span>
-                  <div class="mt-2 large-text">₦{{items.total_order_value}}</div>
+                  <div class="mt-2 large-text">
+                    ₦{{ items.total_order_value }}
+                  </div>
                 </v-col>
               </v-row>
             </div>
@@ -170,45 +181,49 @@
         <!--------------------- Top customer ------------------------------>
         <v-col class="col-lg-4 col-sm-12">
           <v-row>
+            <!--------------------- customer ------------------------------>
             <v-col cols="12" sm="12">
-              <!-- <v-skeleton-loader type="article">
-              </v-skeleton-loader> -->
-              <!-- show numbers of customers -->
+              <v-skeleton-loader type="article" v-show="customer">
+              </v-skeleton-loader>
               <custom
-                filteredText="filteredCustomer.toString()"
+                v-show="!customer"
+                :filteredText="allCustomerToString"
                 img_color_text="round-img-bg-warning-text"
-                card_digit="allCustomer.toString()"
+                :card_digit="filteredCustomerToString"
                 card_title="Customers"
                 card_img="mdi-account-supervisor"
                 img_color="round-img-bg-warning"
-                colorText="
-                  filteredCustomer.toString().includes('-') ||
-                  filteredCustomer === 0
+                :colorText="
+                  filteredCustomerToString.includes('-') ||
+                  filteredCustomerToString === 0
                     ? 'card_sub_error'
                     : 'card_sub_success'
                 "
               />
             </v-col>
+            <!--------------------- customer ------------------------------>
 
+            <!--------------------- seller ------------------------------>
             <v-col cols="12" sm="12">
-              <!-- <v-skeleton-loader type="article">
-              </v-skeleton-loader> -->
-              <!-- show number of sellers -->
+              <v-skeleton-loader type="article" v-show="seller">
+              </v-skeleton-loader>
               <custom
-                filteredText="filteredSeller.toString()"
+                v-show="!seller"
+                :filteredText="allSellerToString"
                 img_color_text="round-img-bg-info-text"
-                card_digit="allSeller.toString()"
+                :card_digit="filteredSellerToString"
                 card_title="Sellers"
                 card_img="mdi-account-supervisor"
                 img_color="round-img-bg-info"
-                colorText="
-                  filteredSeller.toString().includes('-') ||
-                  filteredSeller === 0
+                :colorText="
+                  filteredSellerToString.includes('-') ||
+                  filteredSellerToString === 0
                     ? 'card_sub_error'
                     : 'card_sub_success'
                 "
               />
             </v-col>
+            <!--------------------- seller ------------------------------>
           </v-row>
         </v-col>
       </v-row>
@@ -248,6 +263,15 @@ export default {
       stock: true,
       leader: true,
       bestSelling: true,
+      topCust: true,
+      // convert customers values to string
+      allCustomerToString: "",
+      filteredCustomerToString: "",
+      customer: true,
+      // convert sellers values to string
+      allSellerToString: "",
+      filteredSellerToString: "",
+      seller: true,
     };
   },
 
@@ -258,66 +282,49 @@ export default {
       instock: "instockDashboard/stockItem",
       leaderboard: "leaderboard/leaderboard",
       bestSeller: "bestSellingDashboard/bestSelling",
-      topCustomer: "topCustomer/topCustomer"
+      topCustomer: "topCustomer/topCustomer",
     }),
   },
 
   created() {
-    console.log("topCustomer ", this.topCustomer);
+    // check if the user is connected
     this.checkIfUserOnline();
-
-    // endpoint for customer
-    // if (
-    //   this.dashboardCustomer.all_customers === undefined ||
-    //   this.dashboardCustomer.filter_customers === undefined
-    // ) {
-    //   this.$store
-    //     .dispatch("dashboard/getCustomer")
-    //     .then((res) => {
-    //       this.allCustomer = res.all_customers;
-    //       this.filteredCustomer = res.filter_customers;
-    //       this.customer = false;
-    //     })
-    // } else {
-    //   this.allCustomer = this.dashboardCustomer.all_customers;
-    //   this.filteredCustomer = this.dashboardCustomer.filter_customers;
-    //   this.customer = false;
-    // }
-
-    // endpoint for seller
-    // if (
-    //   this.bestSeller.all_sellers === undefined ||
-    //   this.bestSeller.filter_sellers === undefined
-    // ) {
-    //   this.$store
-    //     .dispatch("dashboard/getSeller")
-    //     .then((res) => {
-    //       this.allSeller = res.all_sellers;
-    //       this.filteredSeller = res.filter_sellers;
-    //       this.seller = false;
-    //     })
-    // } else {
-    //   this.allSeller = this.bestSeller.all_sellers;
-    //   this.filteredSeller = this.bestSeller.filter_sellers;
-    //   this.seller = false;
-    // }
 
     // dispatch user information
     this.$store.dispatch("settings/getUserProfile");
     // dispatch instock
     this.$store.dispatch("instockDashboard/getStock").then(() => {
-      this.stock = false
+      this.stock = false;
     });
     // dispatch leaderboard
     this.$store.dispatch("leaderboard/getLeaderboard").then(() => {
-      this.leader = false
-    })
+      this.leader = false;
+    });
     this.$store.dispatch("bestSellingDashboard/getBestSelling").then(() => {
-      this.bestSelling = false
-    })
+      this.bestSelling = false;
+    });
     // Top customer
-    this.$store.dispatch("topCustomer/getTopCustomer")
+    this.$store.dispatch("topCustomer/getTopCustomer").then(() => {
+      this.topCust = false;
+    });
+    // customer
+    this.$store.dispatch("customerDashboard/getCustomer").then((res) => {
+      let filtered = res.filter_customers;
+      let all = res.all_customers;
 
+      this.filteredCustomerToString = filtered.toString();
+      this.allCustomerToString = all.toString();
+      this.customer = false;
+    });
+    // seller
+    this.$store.dispatch("sellerDashboard/getSeller").then((res) => {
+      let filtered = res.filter_sellers;
+      let all = res.all_sellers;
+
+      this.filteredSellerToString = filtered.toString();
+      this.allSellerToString = all.toString();
+      this.seller = false;
+    });
   },
 
   methods: {
@@ -330,11 +337,10 @@ export default {
         this.errorColor = "error";
       }
     },
-   /********* check if there is network ***********/
+    /********* check if there is network ***********/
 
-  /********* date filter ***********/
+    /********* date filter ***********/
     dateValue(value) {
-
       /********* total Revenue ***********/
       this.$store.commit("totalRevenue/filterRange", {
         startDate: moment(value.startDate).format("L"),
@@ -348,39 +354,79 @@ export default {
         });
       });
 
-     /********* instock ***********/
+      /********* instock ***********/
       this.$store.commit("instockDashboard/filterRange", {
         startDate: moment(value.startDate).format("L"),
         endDate: moment(value.endDate).format("L"),
       });
       /********* dispatch instock for date filter ***********/
       this.$store.dispatch("instockDashboard/getStockDateFilter").then(() => {
-        this.stock = false
+        this.stock = false;
       });
 
-     /********* instock ***********/
+      /********* instock ***********/
       this.$store.commit("leaderboard/filterRange", {
         startDate: moment(value.startDate).format("L"),
         endDate: moment(value.endDate).format("L"),
       });
       /********* dispatch instock for date filter ***********/
       this.$store.dispatch("leaderboard/searchLeaderboard").then(() => {
-        this.leader = false
+        this.leader = false;
       });
 
-     /********* best selling ***********/
+      /********* best selling ***********/
       this.$store.commit("bestSellingDashboard/filterRange", {
         startDate: moment(value.startDate).format("L"),
         endDate: moment(value.endDate).format("L"),
       });
       /********* dispatch best selling for date filter ***********/
-      this.$store.dispatch("bestSellingDashboard/getSellerFilter").then((e) => {
-        this.bestSelling = false
-        console.log(e)
+      this.$store.dispatch("bestSellingDashboard/getSellerFilter").then(() => {
+        this.bestSelling = false;
+      });
+
+      /********* top customer ***********/
+      this.$store.commit("topCustomer/filterRange", {
+        startDate: moment(value.startDate).format("L"),
+        endDate: moment(value.endDate).format("L"),
+      });
+      /********* dispatch top customer for date filter ***********/
+      this.$store.dispatch("topCustomer/getFilterTopCustomer").then(() => {
+        this.topCust = false;
+      });
+
+      /********* customer ***********/
+      this.$store.commit("customerDashboard/filterRange", {
+        startDate: moment(value.startDate).format("L"),
+        endDate: moment(value.endDate).format("L"),
+      });
+      /********* dispatch customer for date filter ***********/
+      this.$store
+        .dispatch("customerDashboard/getCustomerFilter")
+        .then((res) => {
+          let filtered = res.filter_customers;
+          let all = res.all_customers;
+
+          this.filteredCustomerToString = filtered.toString();
+          this.allCustomerToString = all.toString();
+          this.customer = false;
+        });
+
+      /********* seller ***********/
+      this.$store.commit("sellerDashboard/filterRange", {
+        startDate: moment(value.startDate).format("L"),
+        endDate: moment(value.endDate).format("L"),
+      });
+      /********* dispatch seller for date filter ***********/
+      this.$store.dispatch("sellerDashboard/getSellerFilter").then((res) => {
+        let filtered = res.filter_sellers;
+        let all = res.all_sellers;
+
+        this.filteredSellerToString = filtered.toString();
+        this.allSellerToString = all.toString();
+        this.seller = false;
       });
     },
-  /********* date filter ***********/
-
+    /********* date filter ***********/
   },
 };
 </script>
