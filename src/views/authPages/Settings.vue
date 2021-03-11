@@ -63,6 +63,9 @@
         <!-- mobile nav selector -->
         <div class="mobile-nav py-4" style="width: 200px; height: 70px">
           <selectBtn
+            bgColor="white"
+            borderRadius="8px"
+            borderColor="#e2e2e2"
             :items="[
               'Store',
               'User',

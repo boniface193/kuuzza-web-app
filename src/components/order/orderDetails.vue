@@ -62,7 +62,7 @@
       </div>
     </v-col>
     <v-col class="col-12 col-md-6 white d-flex align-center text-center">
-      <img src="@/assets/img/infinix.png" style="width: 80%; margin: auto" />
+      <img :src="orderDetails.product_image_url" style="width: 80%; margin: auto" />
     </v-col>
   </v-row>
 </template>

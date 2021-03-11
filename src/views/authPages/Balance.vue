@@ -1,7 +1,7 @@
 <template>
   <div class="px-3 px-sm-12 pt-7 pb-4" style="zoom: 110%">
     <div class="d-flex align-center justify-space-between">
-       <!-- page title -->
+      <!-- page title -->
       <h1 class="">Balance</h1>
       <!-- calendar -->
       <calendar @updateDate="setDate" />
@@ -47,6 +47,9 @@
         <!-- mobile nav selector -->
         <div class="py-4 mobile-nav" style="width: 220px; height: 70px">
           <selectBtn
+            bgColor="white"
+            borderRadius="8px"
+            borderColor="#e2e2e2"
             :items="[
               'Revenue',
               'Settlements',
@@ -59,7 +62,7 @@
         </div>
       </div>
       <!-- sub pages view-->
-      <router-view ref="views"/>
+      <router-view ref="views" />
     </div>
   </div>
 </template>
@@ -70,7 +73,7 @@ export default {
   name: "Balance",
   components: { selectBtn, calendar },
   methods: {
-   navigateToPage(params) {
+    navigateToPage(params) {
       let page;
       if (params === "Revenue") {
         page = "Revenue";
@@ -80,7 +83,7 @@ export default {
         page = "AwaitingSettlements";
       } else if (params === "Payment History") {
         page = "PaymentHistory";
-      } 
+      }
       this.$router.push({
         name: page,
       });
