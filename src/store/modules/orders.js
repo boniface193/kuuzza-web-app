@@ -25,6 +25,7 @@ const setItemPerPage = (itemPerPage, per_page, from_page) => {
 //holds the state properties
 const state = {
     orders: [],
+    orderDetails: {},
     searchOrder: false,
     searchValue: "",
     page: 1,
@@ -53,6 +54,9 @@ const getters = {
     },
     searchOrder(state) {
         return state.searchOrder
+    },
+    orderDetail(state) {
+        return state.orderDetails
     }
 };
 
@@ -100,7 +104,7 @@ const actions = {
                 .catch(error => {
                     reject(error);
                 })
-        })
+            })
     },
 
     getOrdersDetail(context, data) {
@@ -110,15 +114,16 @@ const actions = {
                     Authorization: `Bearer ${localStorage.getItem("accessToken")}`
                 }
             }).then(response => {
+                context.commit('setDetails', response.data.data)
                 resolve(response.data.data);
             })
-                .catch(error => {
-                    context.commit("doNothing");
-                    reject(error);
-                })
+            .catch(error => {
+                context.commit("doNothing");
+                reject(error);
+            })
         })
     },
-
+    
     searchOrders(context) {
         let page = ((state.page) ? `page=${state.page}` : "");
         let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
@@ -165,6 +170,9 @@ const actions = {
 const mutations = {
     setOrders(state, data) {
         state.orders = data
+    },
+    setDetails(state, data) {
+        state.orderDetails = data
     },
     filterOrders(state, filter) {
         state.filter = filter
