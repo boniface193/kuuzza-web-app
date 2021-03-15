@@ -172,7 +172,7 @@ export default {
       this.onlineDialogLoader = true;
       this.$store
         .dispatch("inventory/takeProductsOnline", {
-          refs: this.selectedReferences,
+          ids: this.selectedReferences,
         })
         .then((response) => {
           this.statusImage = successImage;

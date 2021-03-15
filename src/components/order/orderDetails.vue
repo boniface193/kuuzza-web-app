@@ -77,13 +77,11 @@
               }}<br />
             </p>
 
-                      <!-- Product Variant -->
+            <!-- Product Variant -->
             <p class="mt-8 mb-3">
               <span class="item-title">Variant: </span>
             </p>
-            <p class="secondary--text">
-              variant goes here
-            </p>
+            <p class="secondary--text">variant goes here</p>
 
             <hr class="secondary--text" style="width: 300px" />
 
@@ -99,10 +97,7 @@
 
         <v-col cols="12" md="6" sm="6" class="d-none d-sm-block">
           <div v-show="!orderDetailsDelay" class="white">
-            <img
-              :src="orderDetails.product_image_url"
-              style="width: 100%;"
-            />
+            <img :src="orderDetails.product_image_url" style="width: 100%" />
           </div>
         </v-col>
       </v-row>

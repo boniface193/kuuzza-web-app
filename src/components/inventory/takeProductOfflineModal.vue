@@ -172,7 +172,7 @@ export default {
       this.offlineDialogLoader = true;
       this.$store
         .dispatch("inventory/takeProductsOffline", {
-          refs: this.selectedReferences,
+          ids: this.selectedReferences,
         })
         .then((response) => {
           this.statusImage = successImage;

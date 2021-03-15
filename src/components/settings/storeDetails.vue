@@ -1,6 +1,6 @@
 <template>
   <div class="px-4 pt-7 my-2 pb-16">
-    <div v-show="!loader" class="store-width">
+    <div class="store-width">
       <!-- store name field -->
       <div class="mb-5 settings-input">
         <p class="mb-1 secondary--text">Store Name</p>
@@ -116,10 +116,6 @@
       </div>
     </div>
 
-    <div class="loader-body text-center pt-10" v-show="loader">
-      <v-progress-circular indeterminate color="primary"></v-progress-circular>
-    </div>
-
     <!-- modal for dialog messages -->
     <modal :dialog="dialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
@@ -142,7 +138,6 @@
 import modal from "@/components/dashboard/modal.vue";
 import successImage from "@/assets/img/success-img.svg";
 import failedImage from "@/assets/img/failed-img.svg";
-import { mapGetters } from "vuex";
 export default {
   name: "storeDetails",
   components: { modal },
@@ -178,9 +173,6 @@ export default {
     this.autocomplete.addListener("place_changed", this.onPlaceChanged);
   },
   computed: {
-    ...mapGetters({
-      loader: "settings/loader",
-    }),
     computedInfo() {
       // gets user profile informations
       let userProfile = this.$store.getters["settings/getUserProfile"];
