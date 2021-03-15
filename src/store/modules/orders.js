@@ -66,9 +66,9 @@ const actions = {
                 }
             })
                 .then(response => {
-
-                    context.commit("setOrders", response.data.data)
+                    context.commit("setOrders", response.data.data);
                     context.commit("setPageDetails", response.data.meta);
+                    console.log(response.data.data)
                     resolve(response.data.data)
                 })
                 .catch(error => {
@@ -110,8 +110,7 @@ const actions = {
                     Authorization: `Bearer ${localStorage.getItem("accessToken")}`
                 }
             }).then(response => {
-                resolve(response);
-                console.log(resolve)
+                resolve(response.data.data);
             })
                 .catch(error => {
                     context.commit("doNothing");

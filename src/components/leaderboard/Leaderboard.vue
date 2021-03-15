@@ -23,7 +23,13 @@
     <v-card elevation="0" class="py-3">
       <div>
         <!-- table  -->
-        <dataTable :headers="headers" :items="leaderboard" itemKey="id" />
+        <dataTable
+        v-show="!isLoading"
+          :headers="headers"
+          :items="leaderboard"
+          itemKey="id"
+          :itemPerPage="pageDetails.per_page || 15"
+        />
       </div>
       <!-- card item -->
       <div v-if="isLoading" class="text-center my-8">
@@ -37,7 +43,7 @@
         ></v-progress-circular>
       </div>
       <!-- loader ends here -->
-      <p v-if="leaderboard.length === 0" class="text-center mt-8">
+      <p v-show="leaderboard >= 0" class="text-center mt-8">
         No Item Found
       </p>
     </v-card>
@@ -46,8 +52,10 @@
 <script>
 import filterByDate from "@/components/dashboard/calender.vue";
 import searchBar from "@/components/dashboard/searchBar.vue";
-import dataTable from "@/components/dashboard/dataTable.vue";
+import dataTable from "@/components/leaderboard/dataTable.vue";
 import moment from "moment";
+import { mapState } from "vuex";
+
 export default {
   components: {
     filterByDate,
@@ -59,23 +67,26 @@ export default {
     return {
       leaderboard: [],
       isLoading: true,
+      itemPerPage: 15,
+      // show on a larger screen
       headers: [
         {
           text: "Rank",
           sortable: true,
-          value: "",
-          width: "14%",
+          value: "rank",
+          width: "16%",
         },
         {
-          text: "Team Member",
+          text: "Sellers",
           value: "seller_name",
-          href: true,
-          routeName: "seller",
-          width: "37%",
+          // href: true,
+          // routeName: "seller",
+          width: "35%",
+          // id: "seller_id"
         },
-        { text: "Total Points", value: "total_points", width: "20%" },
+        { text: "Points", value: "total_points", width: "20%" },
         {
-          text: "Total Value of Orders(₦)",
+          text: " Orders(₦)",
           value: "total_order_value",
           width: "29%",
         },
@@ -83,20 +94,19 @@ export default {
     };
   },
 
-  created() {
-    this.$store.dispatch("leaderboard/getLeaderboard").then((e) => {
-      this.leaderboard = e.data;
-      this.isLoading = false;
+  computed: {
+    ...mapState({
+      pageDetails: (state) => state.leaderboard.pageDetails,
+    }),
+  },
 
-      e.data.forEach((i) => {
-        // let valueName = e.ranks[i.seller_id];
-        this.headers[0].value = e.ranks;
-        console.log(this.headers[0].value = i) 
-        // e.ranks[i.seller_id];
-        // this.headers.forEach((e) => {
-          console.log(this.headers);
-        // });
-      });
+  created() {
+    // dispatch leaderboard
+    this.$store.dispatch("leaderboard/getLeaderboard").then((e) => {
+      let leader = e.data
+
+      this.leaderboard = leader
+      this.isLoading = false;
     });
   },
 
@@ -116,9 +126,11 @@ export default {
     },
 
     getLeaderboard() {
-      this.$store.dispatch("leaderboard/searchLeaderboard").then((res) => {
-        this.leaderboard = res.data;
-        this.isLoading = false;
+      this.$store.dispatch("leaderboard/searchLeaderboard").then((e) => {
+      let leader = e.data
+
+      this.leaderboard = leader
+      this.isLoading = false;
       });
     },
   },

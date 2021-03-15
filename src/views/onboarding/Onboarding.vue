@@ -1,18 +1,15 @@
 <template>
   <div style="margin: auto; max-width: 1500px">
     <!-- this is the loader visible to the user -->
-  <div v-if="isLoading">
-  <!-- this image time loader is calculated by the loader to triger the load time -->
-  <v-img
-      src="@/assets/img/Image2.svg"
-      width="5px"
-      height="5px"
-      @load="onLoad"
-    ></v-img>
-    <v-progress-circular
-      color="primary"
-      indeterminate
-    ></v-progress-circular>
+    <div v-if="isLoading">
+      <!-- this image time loader is calculated by the loader to triger the load time -->
+      <v-img
+        src="@/assets/img/Image2.svg"
+        width="5px"
+        height="5px"
+        @load="onLoad"
+      ></v-img>
+      <v-progress-circular color="primary" indeterminate></v-progress-circular>
     </div>
     <!-- loader ends here -->
     <v-main v-else>
@@ -143,10 +140,10 @@ import { mapState } from "vuex";
 export default {
   name: "Signup",
   // get state properties from vuex store
-  data(){
+  data() {
     return {
       isLoading: true,
-    }
+    };
   },
   computed: {
     ...mapState({
@@ -154,12 +151,11 @@ export default {
     }),
   },
 
- methods: {
-  onLoad() {
-    this.isLoading ? this.isLoading = false : this.isLoading = true
-    
-  },  
-}
+  methods: {
+    onLoad() {
+      this.isLoading ? (this.isLoading = false) : (this.isLoading = true);
+    },
+  },
 };
 </script>
 

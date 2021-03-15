@@ -22,7 +22,7 @@
         <!-- product SKU -->
         <p class="mt-2 mb-3">
           <span class="item-title">SKU: </span
-          ><span class="secondary--text">{{ orderDetails.sku }}</span>
+          ><span class="secondary--text">{{ orderDetails.product_sku }}</span>
         </p>
         <!-- payment status -->
         <p class="mt-2 mb-3">
@@ -37,10 +37,10 @@
 
         <!-- Seller Details -->
         <p class="mt-8 mb-3">
-          <span class="item-title">Seller Details: </span>
+          <span class="item-title">Seller Name: </span>
         </p>
         <p class="secondary--text">
-          {{orderDetails.seller_name}}<br />emikemba@gmail.com<br />08012383928
+          {{orderDetails.seller_name}}
         </p>
 
         <!-- Customer Details -->
@@ -48,7 +48,7 @@
           <span class="item-title">Customer Details: </span>
         </p>
         <p class="secondary--text">
-          {{orderDetails.customer_name}}<br />emikemba@gmail.com<br />08012383928<br />
+          {{orderDetails.customer.name}}<br />{{orderDetails.customer.email}}<br />{{orderDetails.customer.phone}}<br />
         </p>
         <hr class="secondary--text" style="width: 300px" />
 
@@ -57,12 +57,12 @@
           <span class="item-title">Delivery Address: </span>
         </p>
         <p class="secondary--text">
-            {{orderDetails.delivery_address}}
+            {{orderDetails.delivery_location.address}}
         </p>
       </div>
     </v-col>
     <v-col class="col-12 col-md-6 white d-flex align-center text-center">
-      <img :src="orderDetails.product_image_url" style="width: 80%; margin: auto" />
+      <img src="https://nova-static-assets.s3.eu-west-1.amazonaws.com/images/6048d8df478d7.jpg" style="width: 100%; margin: auto" />
     </v-col>
   </v-row>
 </template>
@@ -76,7 +76,7 @@ export default {
   },
   created(){
     this.$store.dispatch("orders/getOrdersDetail", {id: this.$route.params.id}).then(response => {
-      this.orderDetails = response.data.data
+      this.orderDetails = response
     }).catch((e) => {
       console.log(e)
     })

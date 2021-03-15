@@ -70,7 +70,7 @@ export default {
           new Date(today.getFullYear(), 0, 1),
           new Date(today.getFullYear(), 11, 31),
         ],
-        "All": [
+        "All Time": [
           new Date(today.getFullYear(), 0, 0), new Date()
         ],
       },

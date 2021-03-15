@@ -1,9 +1,35 @@
 import axios from "../../axios/gamification"
 import moment from "moment"
+
+// set the number of item you want to show on table
+const setItemPerPage = (itemPerPage, per_page, from_page) => {
+    let page = null;
+    if (itemPerPage > per_page) {
+        let range = Math.round(
+            (from_page - 1) / per_page
+        );
+        if (range < 0.5) {
+            page = range + 1;
+            return page;
+        } else {
+            page = range;
+            return page;
+        }
+    } else {
+        page = Math.round(
+            (from_page - 1) / itemPerPage + 1
+        );
+        return page
+    }
+};
+
 const state = {
     leaderboardItem: [],
     searchOrder: false,
     searchValue: "",
+    page: 1,
+    itemPerPage: 15,
+    pageDetails: {},
     dateRange: {
         startDate: moment(new Date()).format("L"),
         endDate: moment(new Date()).format("L"),
@@ -11,7 +37,7 @@ const state = {
 };
 
 const getters = {
-    leaderboard: state => state. leaderboardItem
+    leaderboard: state => state.leaderboardItem
 };
 
 const actions = {
@@ -24,7 +50,8 @@ const actions = {
             })
                 .then(response => {
                     context.commit("setLeaderboard", response.data)
-                    // context.commit("setPageDetails", response.data.meta);
+                    context.commit("setPageDetails", response.data.meta);
+                    console.log("leaderboard", response.data)
                     resolve(response.data)
                 })
                 .catch(error => {
@@ -34,18 +61,20 @@ const actions = {
     },
 
     searchLeaderboard(context) {
+        let page = ((state.page) ? `page=${state.page}` : "");
+        let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
         let route = (state.searchValue !== "") ? `/search?query=${state.searchValue}` : "";
         let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== null) ? `/filter?created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
         let params = route || dateRange;
         return new Promise((resolve, reject) => {
-            axios.get(`/leaderboard${params}`, {
+            axios.get(`/leaderboard${params}&${page}&${perPage}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("accessToken")}`
                 }
             })
                 .then(response => {
                     context.commit("setLeaderboard", response.data)
-                    // context.commit("setPageDetails", response.data.meta);
+                    context.commit("setPageDetails", response.data.meta);
                     resolve(response.data)
                 })
                 .catch(error => {
@@ -67,6 +96,17 @@ const mutations = {
     },
     filterRange(state, dateRange) {
         state.dateRange = dateRange
+    },
+    setPageDetails(state, data) {
+        state.pageDetails = data
+    },
+    setItemPerPage(state, itemPerPage) {
+        state.itemPerPage = itemPerPage;
+        let page = setItemPerPage(itemPerPage, state.pageDetails.per_page, state.pageDetails.from);
+        state.page = page;
+    },
+    setPage(state, page) {
+        state.page = page
     },
 };
 

@@ -136,18 +136,24 @@ export default {
           routeName: "OrderDetails",
         },
         {
-          text: "Price",
+          text: "Unit Price",
           value: "store_price",
           width: "160px",
           money: true,
         },
-        { text: "Seller", value: "seller_name", width: "200px", href: true },
         {
-          text: "Customer",
+          text: "Quantity",
           value: "customer_name",
           width: "200px",
           href: true,
         },
+        {
+          text: "Total (₦)",
+          value: "total_price_label",
+          width: "200px",
+          href: true,
+        },
+          { text: "Seller", value: "seller_name", width: "200px", href: true },
         { text: "Time", value: "created_at", width: "200px" },
         { text: "Payment", value: "payment_status_label", width: "150px" },
         { text: "Delivery", value: "delivery_status_label", width: "170px" },
@@ -166,7 +172,6 @@ export default {
     }),
   },
   created() {
-    console.log("order", this.orders)
     this.$store.dispatch("orders/getOrders").then(() => {
       this.isLoading = false;
     });
