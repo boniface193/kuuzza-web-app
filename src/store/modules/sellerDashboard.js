@@ -1,12 +1,11 @@
 // orderstatus base url
 import axios from "../../axios/order"
-import moment from "moment"
 //holds the state properties
 const state = {
     sellerItem: [],
     dateRange: {
-        startDate: moment(new Date()).format("L"),
-        endDate: moment(new Date()).format("L"),
+        startDate: '',
+        endDate: '',
     },
 };
 

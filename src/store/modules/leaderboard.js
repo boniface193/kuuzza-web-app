@@ -1,5 +1,4 @@
 import axios from "../../axios/gamification"
-import moment from "moment"
 
 // set the number of item you want to show on table
 const setItemPerPage = (itemPerPage, per_page, from_page) => {
@@ -31,8 +30,8 @@ const state = {
     itemPerPage: 15,
     pageDetails: {},
     dateRange: {
-        startDate: moment(new Date()).format("L"),
-        endDate: moment(new Date()).format("L"),
+        startDate: '',
+        endDate: '',
     },
 };
 

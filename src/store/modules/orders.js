@@ -41,8 +41,8 @@ const state = {
         selectedOptions: [],
     },
     dateRange: {
-        startDate: new Date().toISOString().split("T")[0],
-        endDate: new Date().toISOString().split("T")[0],
+        startDate: '',
+        endDate: '',
     },
     selectedReferences: [],
     doNothing: null,

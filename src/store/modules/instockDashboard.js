@@ -1,12 +1,11 @@
 // orderstatus base url
 import axios from "../../axios/inventory"
-import moment from "moment"
 //holds the state properties
 const state = {
     instock: [],
     dateRange: {
-        startDate: moment(new Date()).format("L"),
-        endDate: moment(new Date()).format("L"),
+        startDate: '',
+        endDate: '',
     },
 };
 

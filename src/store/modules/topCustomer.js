@@ -1,12 +1,11 @@
 // orderstatus base url
 import orderStatus from "../../axios/order"
-import moment from "moment"
 //holds the state properties
 const state = {
     topCustomerItem: [],
     dateRange: {
-        startDate: moment(new Date()).format("L"),
-        endDate: moment(new Date()).format("L"),
+        startDate: '',
+        endDate: '',
     },
 };
 

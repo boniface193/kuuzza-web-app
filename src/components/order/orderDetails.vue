@@ -76,6 +76,15 @@
                 customer.phone
               }}<br />
             </p>
+
+                      <!-- Product Variant -->
+            <p class="mt-8 mb-3">
+              <span class="item-title">Variant: </span>
+            </p>
+            <p class="secondary--text">
+              variant goes here
+            </p>
+
             <hr class="secondary--text" style="width: 300px" />
 
             <!-- Delivery address -->
