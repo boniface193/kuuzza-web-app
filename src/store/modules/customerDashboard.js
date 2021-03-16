@@ -33,7 +33,7 @@ const actions = {
     },
 
     getCustomerFilter(context) {
-        let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== null) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
+        let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== '') ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
 
         return new Promise((resolve, reject) => {
             axios.get(`/metrics/customers?${dateRange}`, {
