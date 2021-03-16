@@ -15,7 +15,6 @@ import Dashboard from "@/views/mainDashboard/Dashboard.vue";
 import Home from "@/views/layout/home.vue";
 import emailVerification from "@/components/onboarding/emailVerification.vue";
 import forgotPasswordVerification from "@/components/onboarding/forgotPasswordVerification.vue";
-
 // inventory pages
 import Inventory from "@/views/authPages/Inventory.vue";
 import inventoryHistory from "@/components/inventory/inventoryHistory.vue";
@@ -73,7 +72,7 @@ Vue.use(VueRouter);
 const ifAuthenticated = (to, from, next) => {
   store.commit("onboarding/tokenIsPresent");
   if (store.getters["onboarding/tokenIsPresent"] === true) {
-    store.dispatch("onboarding/getUserProfile").then((response) => {
+    store.dispatch("onboarding/getUserProfile").then(response => {
       const profile = response.data.data;
       if (profile.email_verified) {
         if (profile.status) {
@@ -82,14 +81,18 @@ const ifAuthenticated = (to, from, next) => {
             next()
             return
           } else {
-            localStorage.removeItem("accessToken");
-            next({ name: 'Signin' });
+            store.commit("reset");
+            store.commit("onboarding/removeToken");
+            next({ name: "Signin" })
           }
         } else {
-          store.commit("onboarding/loggedIn", false);
+          store.commit("reset");
+          store.commit("onboarding/removeToken");
           next({ name: "SuspensionPage" })
         }
       } else {
+        store.commit("reset");
+        store.commit("onboarding/removeToken");
         next({
           name: 'emailVerification', params: {
             email: profile.email,
@@ -97,9 +100,10 @@ const ifAuthenticated = (to, from, next) => {
         });
       }
     }).catch((error) => {
-      if (error.response) {
-        localStorage.removeItem("accessToken");
-        next({ name: "Signin" })
+      if (error.response.status == 401) {
+        store.commit("reset");
+        store.commit("onboarding/removeToken");
+        next({ name: "Signin" });
       }
     })
   } else {
@@ -138,7 +142,8 @@ const AlreadyLogin = (to, from, next) => {
   if (to.name === 'signupTeamMember') {
     next();
   } else {
-    if (localStorage.getItem("accessToken")) {
+    store.commit("onboarding/tokenIsPresent");
+    if (store.getters["onboarding/tokenIsPresent"] === true) {
       next({ name: 'dashboard' })
     } else {
       next();
@@ -219,7 +224,7 @@ const routes = [
         path: "/leaderboard",
         name: "leaderboard",
         component: Leaderboard,
-        
+
       },
       {
         path: "/orders",

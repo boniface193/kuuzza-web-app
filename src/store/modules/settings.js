@@ -49,7 +49,7 @@ const actions = {
                 context.commit("setUserProfile", response.data.data)
                 state.loader = false
                 resolve(response)
-            }).catch((error) => {
+            }).catch(error => {
                 reject(error)
             })
         })
@@ -113,7 +113,6 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
-                    console.log(error.response)
                     context.commit("doNothing")
                     reject(error);
                 })
@@ -212,7 +211,6 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
-                    console.log(error.response)
                     context.commit("doNothing");
                     reject(error);
                 })

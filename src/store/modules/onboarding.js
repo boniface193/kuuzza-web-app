@@ -133,6 +133,18 @@ const actions = {
                 })
         })
     },
+     // resend opt verify forgot password 
+     resendverifyForgotPasswordOTP(context, data) {
+        return new Promise((resolve, reject) => {
+            axios.post("passwords/reset", data).then(response => {
+                resolve(response);
+            })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        })
+    },
     // recover password
     recoverPassword: (context, data) => {
         return new Promise((resolve, reject) => {
