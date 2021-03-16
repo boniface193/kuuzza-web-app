@@ -143,7 +143,7 @@ export default {
         },
         {
           text: "Quantity",
-          value: "customer_name",
+          value: "total_items",
           width: "200px",
           href: true,
         },

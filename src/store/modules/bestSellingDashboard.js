@@ -24,7 +24,6 @@ const actions = {
                 }
             }).then((res) => {
                 context.commit("setBestSelling", res.data)
-                console.log("bestselling", res.data)
                 resolve(res.data)
             }).catch((error) => {
                 reject(error.response)
