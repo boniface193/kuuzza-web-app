@@ -16,7 +16,7 @@
         :action="false"
         :actions="actions"
         :headers="tableHeaders"
-        itemKey="product_reference"
+        itemKey="product_id"
         :items="inventoriesHistory"
       />
     </div>

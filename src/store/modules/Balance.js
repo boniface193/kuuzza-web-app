@@ -166,7 +166,7 @@ const mutations = {
         let page = setItemPerPage(itemPerPage, state.awaitingSettlements.meta.per_page, state.awaitingSettlements.meta.from);
         state.awaitingSettlements.meta.current_page = page;
         state.awaitingSettlements.meta.per_page = itemPerPage;
-        console.log(state.awaitingSettlements.meta.per_page)
+        console.log(state.awaitingSettlements.meta.per_page);
     },
     setPage: (state, page) => (state.awaitingSettlements.meta.current_page = page),
 };

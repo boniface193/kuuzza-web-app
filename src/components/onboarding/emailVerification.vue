@@ -29,7 +29,16 @@
       <div class="pa-0 mt-10" style="width: 100%">
         <p>
           Didn't receive the code?
-          <a style="text-decoration: none" @click="resendOTP">Resend Code</a>
+          <a style="text-decoration: none" @click="resendOTP">
+            <span v-show="!resendOTPLoader">Resend Code</span>
+            <v-progress-circular
+              indeterminate
+              color="primary"
+              size="20"
+              class="ml-5"
+              v-show="resendOTPLoader"
+            ></v-progress-circular>
+          </a>
         </p>
         <v-btn
           class="primary px-8 py-5 mb-5"
@@ -88,6 +97,7 @@ export default {
       message: "",
       resendOtpSuccess: false,
       dashboardBtn: true,
+      resendOTPLoader: false,
     };
   },
   methods: {
@@ -112,18 +122,18 @@ export default {
           .dispatch("onboarding/verifyEmail", {
             otp: this.code,
             email: this.$route.params.email,
-            type: "vendor"
+            type: "vendor",
           })
           .then((response) => {
             this.loading = false;
             if (response.data.message === "Email verified successfully.") {
-              if(localStorage.getItem("accessToken")){
-                 this.dialog = true;
-              }else {
-                this.dashboardBtn = false
+              if (localStorage.getItem("accessToken")) {
+                this.dialog = true;
+              } else {
+                this.dashboardBtn = false;
                 this.dialog = true;
               }
-            } 
+            }
           })
           .catch((error) => {
             this.loading = false;
@@ -142,23 +152,27 @@ export default {
     },
     // resend OTP
     resendOTP() {
+      this.resendOTPLoader = true;
       this.$store
         .dispatch("onboarding/resendEmailOTP", {
           email: this.$route.params.email,
+          type: "vendor",
         })
         .then((response) => {
           if (response.data.message === "An OTP has been sent to your email.") {
             this.resendOtpSuccess = true;
+            this.resendOTPLoader = false;
             setTimeout(() => {
               this.resendOtpSuccess = false;
             }, 3000);
-          } 
+          }
         })
         .catch((error) => {
           this.errorMessage = true;
-          if(error.response) {
-             this.message = error.response.errors.email[0];
-          }else {
+          this.resendOTPLoader = false;
+          if (error.response) {
+            this.message = error.response.errors.email[0];
+          } else {
             this.message = "No internet Connection!";
           }
         });
@@ -175,7 +189,7 @@ export default {
     // destroy token
     denialAccess() {
       this.$store.commit("onboarding/setToken", null);
-      localStorage.removeItem('accessToken')
+      localStorage.removeItem("accessToken");
       this.$router.push({ name: "Signin" });
     },
   },

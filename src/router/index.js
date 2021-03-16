@@ -92,7 +92,7 @@ const ifAuthenticated = (to, from, next) => {
         }
       } else {
         next({
-          name: 'Emailverification', params: {
+          name: 'emailVerification', params: {
             email: profile.email,
           },
         });

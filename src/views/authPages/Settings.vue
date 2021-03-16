@@ -79,15 +79,29 @@
         </div>
       </div>
 
-      <router-view />
+
+      <router-view v-show="!loader"/>
+
+      <div class="loader-body text-center pt-10" v-show="loader">
+        <v-progress-circular
+          indeterminate
+          color="primary"
+        ></v-progress-circular>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import selectBtn from "@/components/dashboard/selectBtn.vue";
+import { mapGetters } from "vuex";
 export default {
   name: "Settings",
   components: { selectBtn },
+  computed: {
+     ...mapGetters({
+      loader: "settings/loader",
+    }),
+  },
   methods: {
     navigateToPage(params) {
       let page;

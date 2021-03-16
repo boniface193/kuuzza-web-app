@@ -181,7 +181,7 @@ export default {
       this.deleteDialogLoader = true;
       this.$store
         .dispatch("inventory/deleteProducts", {
-          refs: this.selectedReferences,
+          ids: this.selectedReferences,
         })
         .then(() => {
           this.statusImage = successImage;
