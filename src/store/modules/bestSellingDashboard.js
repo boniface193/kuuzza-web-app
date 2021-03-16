@@ -1,12 +1,11 @@
 // orderstatus base url
 import axios from "../../axios/order"
-import moment from "moment"
 //holds the state properties
 const state = {
     bestSellingItems: [],
     dateRange: {
-        startDate: moment(new Date()).format("L"),
-        endDate: moment(new Date()).format("L"),
+        startDate: '',
+        endDate: '',
     },
 };
 
@@ -25,6 +24,7 @@ const actions = {
                 }
             }).then((res) => {
                 context.commit("setBestSelling", res.data)
+                console.log("bestselling", res.data)
                 resolve(res.data)
             }).catch((error) => {
                 reject(error.response)

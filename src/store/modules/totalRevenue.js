@@ -1,6 +1,6 @@
 // orderstatus base url
 import axios from "../../axios/bankServices"
-import moment from "moment"
+// import moment from "moment"
 //holds the state properties
 const state = {
     dashboardRevenue: {
@@ -9,8 +9,8 @@ const state = {
         settled: 0
     },
     dateRange: {
-        startDate: moment(new Date()).format("L"),
-        endDate: moment(new Date()).format("L"),
+        startDate: '',
+        endDate: '',
     },
 };
 

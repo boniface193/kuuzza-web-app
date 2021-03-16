@@ -31,14 +31,14 @@
     </div>
         <!-- table  -->
         <dataTable
-        v-if="!isLoading"
+          v-if="!isLoading"
           :headers="headers"
-          :items="bestSellingItem"
+          :items="bestSeller"
           :select="true"
           itemKey="id"
         />
       </div>
-      <p v-if="bestSellingItem.length == 0" class="text-center mt-8">No Item Found</p>
+      <p v-show="bestSeller >= 0" class="text-center mt-8">No Item Found</p>
     </div>
     <router-view />
   </v-container>
@@ -46,7 +46,6 @@
 <script>
 import dataTable from "@/components/dashboard/dataTable.vue";
 import dateFilter from "@/components/dashboard/calender.vue";
-import { mapGetters } from "vuex";
 export default {
   components: {
     dateFilter,
@@ -54,8 +53,8 @@ export default {
   },
   data() {
     return {
-      bestSellingItem: [],
       isLoading: true,
+      bestSeller: [],
       headers: [
         {
           text: "Rank",
@@ -81,19 +80,16 @@ export default {
     };
   },
 
-  computed: {
-    ...mapGetters({ bestSelling: "dashboard/bestSellingItem" }),
-  },
   created() {
-    if (this.bestSelling.data === undefined) {
-      this.$store.dispatch("dashboard/getBestSelling").then((res) => {
-        this.bestSellingItem = res.data
-        this.isLoading = false
-        console.log(res);
-      });
-    } else {
-      this.bestSellingItem = this.bestSelling.data
-    }
+    // best selling
+    this.$store.dispatch("bestSellingDashboard/getBestSelling").then((e) => {
+      let seller = e.data
+      let Rank = e.ranks
+
+      this.bestSeller = seller;
+      this.sellerRank = Rank
+      this.isLoading = false;
+    });   
   },
 };
 </script>

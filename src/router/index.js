@@ -10,12 +10,12 @@ import signupTeamMember from "@/components/onboarding/signupTeamMember.vue";
 import Recoverpassword from "@/components/onboarding/Recoverpassword.vue";
 import Forgotpassword from "@/components/onboarding/Forgotpassword.vue";
 import Onboarding from "@/views/onboarding/Onboarding.vue";
+// dashboard page
 import Dashboard from "@/views/mainDashboard/Dashboard.vue";
+import Home from "@/views/layout/home.vue";
 import emailVerification from "@/components/onboarding/emailVerification.vue";
 import forgotPasswordVerification from "@/components/onboarding/forgotPasswordVerification.vue";
-// dashboard pages
-// import Dashboard from "@/views/authPages/Dashboard.vue";
-// import Home from "@/views/authPages/Home.vue";
+
 // inventory pages
 import Inventory from "@/views/authPages/Inventory.vue";
 import inventoryHistory from "@/components/inventory/inventoryHistory.vue";
@@ -24,7 +24,6 @@ import addProduct from "@/components/inventory/addProduct.vue";
 import editProduct from "@/components/inventory/editProduct.vue";
 import productDetails from "@/components/inventory/productDetails.vue";
 import productList from "@/components/inventory/productList.vue";
-import Home from "@/views/layout/home.vue";
 // settings pages
 import Settings from "../views/authPages/Settings.vue";
 import userDetails from "@/components/settings/userDetails.vue";

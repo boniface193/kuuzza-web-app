@@ -25,6 +25,7 @@ const setItemPerPage = (itemPerPage, per_page, from_page) => {
 //holds the state properties
 const state = {
     orders: [],
+    orderDetails: {},
     searchOrder: false,
     searchValue: "",
     page: 1,
@@ -40,8 +41,8 @@ const state = {
         selectedOptions: [],
     },
     dateRange: {
-        startDate: new Date().toISOString().split("T")[0],
-        endDate: new Date().toISOString().split("T")[0],
+        startDate: '',
+        endDate: '',
     },
     selectedReferences: [],
     doNothing: null,
@@ -53,6 +54,9 @@ const getters = {
     },
     searchOrder(state) {
         return state.searchOrder
+    },
+    orderDetail(state) {
+        return state.orderDetails
     }
 };
 
@@ -66,9 +70,9 @@ const actions = {
                 }
             })
                 .then(response => {
-
-                    context.commit("setOrders", response.data.data)
+                    context.commit("setOrders", response.data.data);
                     context.commit("setPageDetails", response.data.meta);
+                    console.log(response.data.data)
                     resolve(response.data.data)
                 })
                 .catch(error => {
@@ -100,7 +104,7 @@ const actions = {
                 .catch(error => {
                     reject(error);
                 })
-        })
+            })
     },
 
     getOrdersDetail(context, data) {
@@ -110,16 +114,16 @@ const actions = {
                     Authorization: `Bearer ${localStorage.getItem("accessToken")}`
                 }
             }).then(response => {
-                resolve(response);
-                console.log(resolve)
+                context.commit('setDetails', response.data.data)
+                resolve(response.data.data);
             })
-                .catch(error => {
-                    context.commit("doNothing");
-                    reject(error);
-                })
+            .catch(error => {
+                context.commit("doNothing");
+                reject(error);
+            })
         })
     },
-
+    
     searchOrders(context) {
         let page = ((state.page) ? `page=${state.page}` : "");
         let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
@@ -166,6 +170,9 @@ const actions = {
 const mutations = {
     setOrders(state, data) {
         state.orders = data
+    },
+    setDetails(state, data) {
+        state.orderDetails = data
     },
     filterOrders(state, filter) {
         state.filter = filter

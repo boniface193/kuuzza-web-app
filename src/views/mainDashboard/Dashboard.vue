@@ -111,7 +111,7 @@
                 >
                   <v-row class="text">
                     <v-col cols="2" class="text-center">
-                      {{ leaderRank[item.seller_id] }}
+                      {{ item.rank }}
                     </v-col>
                     <v-col cols="8" class="text-truncate">
                       {{ item.seller_name }}
@@ -302,20 +302,18 @@ export default {
     });
     // dispatch leaderboard
     this.$store.dispatch("leaderboard/getLeaderboard").then((e) => {
-      let leader = e.data
-      let Rank = e.ranks
+      let leader = e.data;
 
-      this.leaderboard = leader.slice(0, 4)
-      this.leaderRank = Rank
+      this.leaderboard = leader.slice(0, 4);
       this.leader = false;
     });
     // best selling
     this.$store.dispatch("bestSellingDashboard/getBestSelling").then((e) => {
-      let seller = e.data
-      let Rank = e.ranks
+      let seller = e.data;
+      let Rank = e.ranks;
 
       this.bestSeller = seller.slice(0, 3);
-      this.sellerRank = Rank
+      this.sellerRank = Rank;
       this.bestSelling = false;
     });
     // Top customer
@@ -386,11 +384,9 @@ export default {
       });
       /********* dispatch instock for date filter ***********/
       this.$store.dispatch("leaderboard/searchLeaderboard").then((e) => {
-              let leader = e.data
-      let Rank = e.ranks
+        let leader = e.data;
 
-      this.leaderboard = leader.slice(0, 4)
-      this.leaderRank = Rank
+        this.leaderboard = leader.slice(0, 4);
         this.leader = false;
       });
 
@@ -401,11 +397,11 @@ export default {
       });
       /********* dispatch best selling for date filter ***********/
       this.$store.dispatch("bestSellingDashboard/getSellerFilter").then((e) => {
-              let seller = e.data
-      let Rank = e.ranks
+        let seller = e.data;
+        let Rank = e.ranks;
 
-      this.bestSeller = seller.slice(0, 3);
-      this.sellerRank = Rank
+        this.bestSeller = seller.slice(0, 3);
+        this.sellerRank = Rank;
         this.bestSelling = false;
       });
 
