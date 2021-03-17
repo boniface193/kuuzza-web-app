@@ -1,5 +1,5 @@
 <template>
-  <div class="px-3 px-sm-12 pt-7 pb-4">
+  <div class="px-3 px-sm-12 pt-13 pb-4">
     <!-- page title -->
     <filter-By-Date
       class="float-right text-caption text-sm-subtitle-2 text-md-subtitle-1"

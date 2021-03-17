@@ -241,7 +241,7 @@ export default {
     padding: 0px 10px;
     font-size: 16px !important;
     height: 40px;
-    background: #5064cc;
+    background: var(--v-primary-base);
     border-radius: 5px;
     color: white;
     font-size: 35px;

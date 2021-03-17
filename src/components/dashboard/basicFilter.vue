@@ -22,7 +22,7 @@
             @click="toggleFilterItem('priceFilter')"
           >
             Price (&#8358;)
-            <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
+            <span><v-icon class="primary--text">mdi-chevron-right</v-icon></span>
           </div>
           <div class="py-2 px-4">
             <multipleRange
@@ -40,7 +40,7 @@
             @click="toggleFilterItem('commissionFilter')"
           >
             Commission (&#8358;)
-            <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
+            <span><v-icon class="primary--text">mdi-chevron-right</v-icon></span>
           </div>
           <div class="py-2 px-4">
             <multipleRange
@@ -58,7 +58,7 @@
             @click="toggleFilterItem('quantityFilter')"
           >
             Quantity
-            <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
+            <span><v-icon class="primary--text">mdi-chevron-right</v-icon></span>
           </div>
           <div class="py-2 px-4">
             <multipleRange
@@ -76,7 +76,7 @@
             @click="toggleFilterItem('categoryFilter')"
           >
             Category
-            <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
+            <span><v-icon class="primary--text">mdi-chevron-right</v-icon></span>
           </div>
           <div class="py-2 px-4">
             <v-checkbox
@@ -96,7 +96,7 @@
             @click="toggleFilterItem('stockFilter')"
           >
             Stock
-            <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
+            <span><v-icon class="primary--text">mdi-chevron-right</v-icon></span>
           </div>
           <div class="py-2 px-4">
             <v-checkbox
@@ -120,7 +120,7 @@
             @click="toggleFilterItem('paymentFilter')"
           >
             Payment
-            <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
+            <span><v-icon class="primary--text">mdi-chevron-right</v-icon></span>
           </div>
           <div class="py-2 px-4">
             <v-checkbox
@@ -144,7 +144,7 @@
             @click="toggleFilterItem('deliveryFilter')"
           >
             Delivery
-            <span><v-icon color="#5064cc">mdi-chevron-right</v-icon></span>
+            <span><v-icon class="primary--text">mdi-chevron-right</v-icon></span>
           </div>
           <div class="py-2 px-4">
             <v-checkbox
@@ -285,7 +285,7 @@ export default {
     margin-top: 10px;
     .header {
       height: 40px;
-      background: #5064cc;
+      background: var(--v-primary-base);
       width: 100%;
       border-top-right-radius: 8px;
       border-top-left-radius: 8px;

@@ -1,5 +1,5 @@
 <template>
-  <div class="px-3 px-sm-12 pt-7 pb-4" style="zoom: 110%">
+  <div class="px-3 px-sm-12 pt-12 pb-4" style="zoom: 110%">
     <!-- page title -->
     <h1>Settings</h1>
 
@@ -140,8 +140,8 @@ export default {
       margin-bottom: -2px;
       text-decoration: none;
       &--active {
-        color: #5064cc;
-        border-color: #5064cc;
+        color: var(--v-primary-base);
+        border-color: var(--v-primary-base);
         font-weight: bold;
       }
     }

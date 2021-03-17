@@ -56,12 +56,12 @@
                 <div v-for="msg in notification" :key="msg.id">
                   <v-list-item link>
                     <v-list-item-content>
-                      <v-list-item-title class="layout-title-noti"
-                        >{{msg.msgtitle}}</v-list-item-title
-                      >
-                      <v-list-item-subtitle class="layout-title-sm"
-                        >{{msg.time}}</v-list-item-subtitle
-                      >
+                      <v-list-item-title class="layout-title-noti">{{
+                        msg.msgtitle
+                      }}</v-list-item-title>
+                      <v-list-item-subtitle class="layout-title-sm">{{
+                        msg.time
+                      }}</v-list-item-subtitle>
                     </v-list-item-content>
                   </v-list-item>
 
@@ -74,18 +74,18 @@
                   >Old Notifications</v-subheader
                 >
 
-                <div v-for="msg in oldNotification " :key="msg.id">
-                <v-list-item link>
-                  <v-list-item-content>
-                    <v-list-item-title class="layout-title-noti"
-                      >{{msg.msgtitle}}</v-list-item-title
-                    >
-                    <v-list-item-subtitle class="layout-title-sm"
-                      >{{msg.time}}</v-list-item-subtitle
-                    >
-                  </v-list-item-content>
-                </v-list-item>
-                <v-divider></v-divider>
+                <div v-for="msg in oldNotification" :key="msg.id">
+                  <v-list-item link>
+                    <v-list-item-content>
+                      <v-list-item-title class="layout-title-noti">{{
+                        msg.msgtitle
+                      }}</v-list-item-title>
+                      <v-list-item-subtitle class="layout-title-sm">{{
+                        msg.time
+                      }}</v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-divider></v-divider>
                 </div>
               </v-list>
               <div class="layout-title-noti bg-color d-flex justify-end pa-5">
@@ -102,21 +102,16 @@
       <!-- drawer -->
       <v-navigation-drawer
         app
-        color="primary"
+        color="secondary-background"
         width="250"
         dark
+        class="px-3"
         v-model="drawer"
       >
-        <v-container class="mx-5">
-          <div class="d-flex nova-logo">
-            N<span
-              ><v-img
-                src="../../assets/layout/fire.svg"
-                width="16px"
-              ></v-img></span
-            >VA
-          </div>
-        </v-container>
+        <div class="kuuzza-logo d-flex align-center pt-6 pb-4 mx-7">
+          <img src="@/assets/img/secondary-logo.png" alt="" />
+        </div>
+
         <v-list class="pa-0" nav tile>
           <v-list-item class="my-5">
             <v-list-item-content class="mx-5">
@@ -144,7 +139,7 @@
                   :class="{ activeColor: item.routes }"
                 >
                   <v-icon class="float-left" size="20">{{ item.icon }}</v-icon>
-                  <div class="ml-12 pt-1 white--text">
+                  <div class="ml-10 pt-1 white--text">
                     {{ item.title }}
                   </div>
                 </v-list-item-title>
@@ -154,7 +149,7 @@
         </v-list>
         <div class="ml-3 mt-8">
           <span class="white--text text-size-md" @click="logout"
-            ><v-icon class="ml-4 mr-8" size="20">mdi-logout</v-icon>Log
+            ><v-icon class="ml-4 mr-6" size="20">mdi-logout</v-icon>Log
             Out</span
           >
         </div>
@@ -177,11 +172,26 @@ export default {
     drawer: true,
     settings: [],
     notification: [
-      {id: "not001", msgtitle: "N100 Reward given", body: "whats ever", time: "20 min ago"},
-      {id: "not002", msgtitle: "N500 Reward given", body: "whats ever", time: "45 min ago"},
+      {
+        id: "not001",
+        msgtitle: "N100 Reward given",
+        body: "whats ever",
+        time: "20 min ago",
+      },
+      {
+        id: "not002",
+        msgtitle: "N500 Reward given",
+        body: "whats ever",
+        time: "45 min ago",
+      },
     ],
     oldNotification: [
-      {id: "not001", msgtitle: "Reset your password", body: "whats ever", time: "Yesterday"},
+      {
+        id: "not001",
+        msgtitle: "Reset your password",
+        body: "whats ever",
+        time: "Yesterday",
+      },
     ],
     items: [
       {
@@ -274,12 +284,11 @@ export default {
   }
 }
 
-.nova-logo {
-  text-align: left;
-  font: normal normal 500 17px/25px "Poppins";
-  letter-spacing: 0.84px;
-  color: #ffffff;
-  opacity: 1;
+.kuuzza-logo {
+  width: 120px;
+  img {
+    width: 100%;
+  }
 }
 
 .layout-title {
@@ -308,11 +317,12 @@ export default {
   opacity: 1;
 }
 a.v-item--active.v-list-item--active.v-list-item.v-list-item--link.theme--dark {
-  background-color: #323e7e;
-  border-left: 4px solid #52f1ec;
+  background-color: var(--v-primary-base);
+  padding-left: 20px;
   font: normal normal bolder 16px/19px "Product Sans";
   letter-spacing: 0px;
   color: #ffffff;
+  border-radius: 5px !important;
 }
 
 .v-list-item--link::before {
@@ -322,7 +332,7 @@ a.v-item--active.v-list-item--active.v-list-item.v-list-item--link.theme--dark {
 }
 
 .activeColor {
-  color: #52f1ec;
+  color: white;
 }
 
 .text-size-md {

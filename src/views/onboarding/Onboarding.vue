@@ -16,13 +16,15 @@
       <v-row class="onboarding-container">
         <v-col class="pl-7 pr-7 pt-15 pl-sm-15 pr-sm-0 pb-5 col-12 col-md-6">
           <!-- app logo -->
-          <router-link to="/" class="d-flex dark--text app-logo">
-            N<v-img src="@/assets/img/fire.svg" max-width="35"></v-img>VA
+          <router-link to="/" class="d-flex dark--text">
+            <div class="kuuzza-logo d-flex align-center">
+              <img src="@/assets/img/primary-logo.png" alt="" />
+            </div>
           </router-link>
 
           <!-- display this introductory message if the condition is meet -->
           <h1
-            class="primary--text mt-5 mb-0"
+            class="mt-5 mb-0"
             v-show="
               ((present_form == 'form1' || present_form == 'form2') &&
                 this.$route.name == 'Signup') ||
@@ -34,31 +36,25 @@
 
           <!-- display this introductory message if the condition is meet -->
           <h1
-            class="primary--text mt-5 mb-0"
+            class="mt-5 mb-0"
             v-show="present_form == 'form3' && this.$route.name == 'Signup'"
           >
             Create your password!
           </h1>
 
           <!-- display this introductory message if the condition is meet -->
-          <h1
-            class="primary--text mt-5 mb-0"
-            v-show="this.$route.name == 'Signin'"
-          >
+          <h1 class="mt-5 mb-0" v-show="this.$route.name == 'Signin'">
             Welcome back!
           </h1>
 
           <!-- display this introductory message if the condition is meet -->
-          <h1
-            class="primary--text mt-5 mb-0"
-            v-show="this.$route.name == 'Recoverpassword'"
-          >
+          <h1 class="mt-5 mb-0" v-show="this.$route.name == 'Recoverpassword'">
             Recover password!
           </h1>
 
           <!-- display this introductory message if the condition is meet -->
           <h1
-            class="primary--text mt-5 mb-0"
+            class="mt-5 mb-0"
             v-show="
               this.$route.name == 'Forgotpassword' ||
               this.$route.name == 'forgotPasswordVerification'
@@ -69,7 +65,7 @@
 
           <!-- display this introductory message if the condition is meet -->
           <h1
-            class="primary--text mt-5 mb-0"
+            class="mt-5 mb-0"
             v-show="this.$route.name == 'emailVerification'"
           >
             Verify your email address
@@ -163,6 +159,12 @@ export default {
 .onboarding-container {
   flex-wrap: nowrap !important;
   overflow: hidden i !important;
+  .kuuzza-logo {
+    width: 160px;
+    img {
+      width: 100%;
+    }
+  }
   .onboarding-input {
     width: 60% !important;
     flex: none !important;
@@ -221,6 +223,9 @@ export default {
 }
 @media (max-width: 550px) {
   .onboarding-container {
+    .kuuzza-logo {
+      width: 130px;
+    }
     .onboarding-input,
     .name-input {
       width: 100% !important;

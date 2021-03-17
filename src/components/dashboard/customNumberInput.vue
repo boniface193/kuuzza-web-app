@@ -71,7 +71,7 @@ export default {
   align-items: center;
   border-radius: 8px;
   &:focus-within {
-    border: 2px solid #5064cc !important;
+    border: 2px solid var(--v-primary-base) !important;
   }
   &:hover {
     border-color: rgba(0, 0, 0, 0.87);
@@ -87,7 +87,7 @@ export default {
     outline: none;
   }
   .numberControl {
-    background: #5064cc26;
+    background: var(--v-light-background-base);;
     width: -webkit-fill-available;
     max-width: 32px;
     height: 100%;

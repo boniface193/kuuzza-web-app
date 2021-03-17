@@ -448,7 +448,7 @@ export default {
     .custom-thead,
     .custom-tbody {
       tr {
-        background: #5064cc;
+        background: var(--v-primary-base);;
         display: flex;
         align-items: center;
         min-height: 45px;
@@ -544,7 +544,7 @@ export default {
   height: 30px;
 }
 .productLink {
-  color: #5064cc;
+  color: var(--v-primary-base);
   text-decoration: underline;
   cursor: pointer;
 }
