@@ -1,5 +1,8 @@
 <template>
   <div>
+    <v-alert type="success" v-show="resendOtpSuccess"
+      >OPT has been sent successfully!</v-alert
+    >
     <p class="mt-5 mb-0">
       Kindly enter the code sent to
       <span style="font-weight: bold">{{ $route.params.email }}</span>
@@ -26,7 +29,16 @@
       <div class="pa-0 mt-10" style="width: 100%">
         <p>
           Didn't receive the code?
-          <a style="text-decoration: none">Resend Code</a>
+          <a style="text-decoration: none" @click="resendOTP">
+            <span v-show="!resendOTPLoader">Resend Code</span>
+            <v-progress-circular
+              indeterminate
+              color="primary"
+              size="20"
+              class="ml-5"
+              v-show="resendOTPLoader"
+            ></v-progress-circular>
+          </a>
         </p>
         <v-btn
           class="primary px-8 py-5 mb-5"
@@ -53,6 +65,8 @@ export default {
       code: null,
       errorMessage: false,
       message: "",
+      resendOtpSuccess: false,
+      resendOTPLoader: false,
     };
   },
   methods: {
@@ -77,14 +91,17 @@ export default {
           .dispatch("onboarding/verifyForgotPassword", {
             otp: this.code,
             email: this.$route.params.email,
-            type: "vendor"
+            type: "vendor",
           })
           .then((response) => {
             this.loading = false;
             if (response.data.message === "OTP verified successfully.") {
               this.$router.push({
                 name: "Recoverpassword",
-                params: { otp: response.data.otp, email: this.$route.params.email},
+                params: {
+                  otp: response.data.otp,
+                  email: this.$route.params.email,
+                },
               });
             }
           })
@@ -102,6 +119,33 @@ export default {
         this.message =
           "Please Enter the 5 digits code sent to your email adddress";
       }
+    },
+    // resend OTP
+    resendOTP() {
+      this.resendOTPLoader = true;
+      this.$store
+        .dispatch("onboarding/resendverifyForgotPasswordOTP", {
+          email: this.$route.params.email,
+          type: "vendor",
+        })
+        .then((response) => {
+          if (response.data.message === "An OTP has been sent to your email.") {
+            this.resendOtpSuccess = true;
+            this.resendOTPLoader = false;
+            setTimeout(() => {
+              this.resendOtpSuccess = false;
+            }, 3000);
+          }
+        })
+        .catch((error) => {
+          this.errorMessage = true;
+          this.resendOTPLoader = false;
+          if (error.response) {
+            this.message = error.response.errors.email[0];
+          } else {
+            this.message = "No internet Connection!";
+          }
+        });
     },
   },
 };
