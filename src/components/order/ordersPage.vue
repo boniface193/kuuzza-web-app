@@ -72,7 +72,7 @@
       @onPageChange="setCurentPage"
       @selectedRow="rowSelected"
     />
-    <p v-if="orders.length == 0" class="text-center mt-8">No Item Found</p>
+    <p class="text-center mt-8">{{errorMsg}}</p>
     <!--------------------------- modal for dialog messages ------------------------------>
     <modal :dialog="isAlert" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
@@ -172,8 +172,11 @@ export default {
     }),
   },
   created() {
-    this.$store.dispatch("orders/getOrders").then(() => {
+    this.$store.dispatch("orders/getOrders").then((res) => {
       this.isLoading = false;
+      if (res.length == 0) {
+        this.errorMsg = "No Item Found"
+      }
     });
     this.$store.dispatch("orders/filterGetOrders");
   },

@@ -43,8 +43,8 @@
         ></v-progress-circular>
       </div>
       <!-- loader ends here -->
-      <p v-show="leaderboard >= 0" class="text-center mt-8">
-        No Item Found
+      <p class="text-center mt-8">
+        {{errorMsg}}
       </p>
     </v-card>
   </div>
@@ -68,6 +68,7 @@ export default {
       leaderboard: [],
       isLoading: true,
       itemPerPage: 15,
+      errorMsg: '',
       // show on a larger screen
       headers: [
         {
@@ -107,6 +108,9 @@ export default {
 
       this.leaderboard = leader
       this.isLoading = false;
+      if (e.length == 0) {
+        this.errorMsg = 'No Item Found'
+      }
     });
   },
 
