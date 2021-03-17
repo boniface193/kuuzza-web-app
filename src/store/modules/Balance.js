@@ -23,16 +23,16 @@ const setItemPerPage = (itemPerPage, per_page, from_page) => {
 }
 
 // get todays date
-const curday = () => {
-    const today = new Date();
-    let dd = today.getDate();
-    let mm = today.getMonth() + 1; //As January is 0.
-    let yyyy = today.getFullYear();
+// const curday = () => {
+//     const today = new Date();
+//     let dd = today.getDate();
+//     let mm = today.getMonth() + 1; //As January is 0.
+//     let yyyy = today.getFullYear();
 
-    if (dd < 10) dd = '0' + dd;
-    if (mm < 10) mm = '0' + mm;
-    return (dd + '-' + mm + '-' + yyyy);
-};
+//     if (dd < 10) dd = '0' + dd;
+//     if (mm < 10) mm = '0' + mm;
+//     return (dd + '-' + mm + '-' + yyyy);
+// };
 
 //holds the state properties
 const state = {
@@ -53,8 +53,8 @@ const state = {
         meta: {}
     },
     dateRange: {
-        startDate: curday(),
-        endDate: curday(),
+        startDate: '',
+        endDate: '',
     },
 };
 //returns the state properties
@@ -67,7 +67,7 @@ const getters = {
 //take actions 
 const actions = {
     getSettlements(context, data) {
-        let dateRange = (state.dateRange.endDate !== null) ? `date_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
+        let dateRange = (state.dateRange.endDate !== '') ? `date_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
         let page = ((state.awaitingSettlements.meta.current_page) ? `page=${state.awaitingSettlements.meta.current_page}` : "");
         let perPage = ((state.awaitingSettlements.meta.per_page) ? `per_page=${state.awaitingSettlements.meta.per_page}` : "");
         return new Promise((resolve, reject) => {

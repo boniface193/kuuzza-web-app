@@ -84,7 +84,7 @@ const actions = {
     filterGetOrders(context) {
         let page = ((state.page) ? `page=${state.page}` : "");
         let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
-        let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== null) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
+        let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== '') ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
         let priceRange = ((state.filter.maxPrice) ? `price_between=${state.filter.minPrice},${state.filter.maxPrice}` : "");
         let paid = ((state.filter.selectedOptions.includes('paid')) ? `paid=${true}` : "");
         let unpaid = ((state.filter.selectedOptions.includes('unpaid')) ? `unpaid=${true}` : "");

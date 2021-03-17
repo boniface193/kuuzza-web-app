@@ -50,7 +50,6 @@ const actions = {
                 .then(response => {
                     context.commit("setLeaderboard", response.data)
                     context.commit("setPageDetails", response.data.meta);
-                    console.log("leaderboard", response.data)
                     resolve(response.data)
                 })
                 .catch(error => {
@@ -63,7 +62,7 @@ const actions = {
         let page = ((state.page) ? `page=${state.page}` : "");
         let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
         let route = (state.searchValue !== "") ? `/search?query=${state.searchValue}` : "";
-        let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== null) ? `/filter?created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
+        let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== '') ? `/filter?created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
         let params = route || dateRange;
         return new Promise((resolve, reject) => {
             axios.get(`/leaderboard${params}&${page}&${perPage}`, {

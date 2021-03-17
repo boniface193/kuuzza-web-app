@@ -21,16 +21,16 @@ const setItemPerPage = (itemPerPage, per_page, from_page) => {
         return page
     }
 }
-const curday = ()=> {
-    const today = new Date();
-    let dd = today.getDate();
-    let mm = today.getMonth()+1; //As January is 0.
-    let yyyy = today.getFullYear();
+// const curday = ()=> {
+//     const today = new Date();
+//     let dd = today.getDate();
+//     let mm = today.getMonth()+1; //As January is 0.
+//     let yyyy = today.getFullYear();
     
-    if(dd<10) dd='0'+dd;
-    if(mm<10) mm='0'+mm;
-    return (dd+'-'+mm+'-'+yyyy);
-};
+//     if(dd<10) dd='0'+dd;
+//     if(mm<10) mm='0'+mm;
+//     return (dd+'-'+mm+'-'+yyyy);
+// };
 
 //holds the state properties
 const state = {
@@ -51,8 +51,8 @@ const state = {
         selectedOptions: [],
     },
     dateRange: {
-        startDate: curday(),
-        endDate: curday(),
+        startDate: '',
+        endDate: '',
     },
     allowDateFilter: false,
     selectedReferences: [],
@@ -147,7 +147,7 @@ const actions = {
         let quantityRange = ((state.filter.maxQuantity) ? `quantity_between=${state.filter.minQuantity},${state.filter.maxQuantity}` : "");
         let inStock = (state.filter.selectedOptions.includes('inStock') ? `in_stock=${true}` : "")
         let outOfStock = (state.filter.selectedOptions.includes('outOfStock') ? `out_of_stock=${true}` : "")
-        let dateRange = (state.dateRange.endDate !== null && state.allowDateFilter === true) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
+        let dateRange = (state.dateRange.endDate !== '' && state.allowDateFilter === true) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
 
         return new Promise((resolve, reject) => {
             axios.get(`/products?${page}&${perPage}&${priceRange}&${quantityRange}&${inStock}&${outOfStock}&${dateRange}`,

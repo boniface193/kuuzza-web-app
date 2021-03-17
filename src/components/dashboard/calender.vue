@@ -75,8 +75,8 @@ export default {
         ],
       },
       dateRange: {
-        startDate: Date.now(),
-        endDate: Date.now(),
+        startDate: new Date(today.getFullYear(), 0, 0),
+        endDate: new Date(),
       },
     };
   },
