@@ -112,7 +112,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .verify-input {
-  border: 1px solid #5064cc;
+  border: 1px solid #FFA500;
   outline: none;
   width: 49px;
   height: 49px;

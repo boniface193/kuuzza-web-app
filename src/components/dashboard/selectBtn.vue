@@ -121,13 +121,13 @@ export default {
       cursor: pointer;
       padding: 0px 12px;
       &:hover {
-        color: #5064cc;
+        color: var(--v-primary-base);
         background: #5064cc26;
       }
     }
   }
   &:focus {
-    border: 2px solid #5064cc !important;
+    border: 2px solid var(--v-primary-base) !important;
     .select-dropdown--active {
       display: block;
     }

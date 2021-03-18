@@ -13,7 +13,7 @@
         :width="progress"
         height="8px"
         bgColor="#EFEFEF"
-        progressColor="#00B944"
+        progressColor="#FFA500"
         borderRadius="5px"
         class="mt-8 mb-6"
       />
@@ -50,7 +50,7 @@
             <customSelect
               width="100%"
               height="57px"
-              caretColor="#5064cc"
+              caretColor="#029B97"
               placeholder="Select Category"
               :searchBar="true"
               :items="categories"
@@ -102,7 +102,7 @@
             <customNumberInput
               width="120px"
               height="57px"
-              caretColor="#5064CC"
+              caretColor="#029B97"
               :quantity="quantity"
               @quantity="setQuantity"
               :inputStatus="quantityError"
@@ -118,7 +118,7 @@
             <customNumberInput
               width="120px"
               height="57px"
-              caretColor="#5064CC"
+              caretColor="#029B97"
               :minimumNumber="1"
               :quantity="minQuantity"
               @quantity="setMinQuantity"
@@ -178,8 +178,7 @@
           <div class="d-flex justify-space-between" style="width: 100%">
             <!-- return button -->
             <v-btn
-              class="primary--text px-8 py-4 mb-5"
-              style="background: #5064cc26"
+              class="primary--text light-background px-8 py-4 mb-5"
               @click="prevForm(2)"
               >Return</v-btn
             >
@@ -217,7 +216,7 @@
 import progressBar from "@/components/dashboard/progressBar.vue";
 import customSelect from "@/components/dashboard/customSelect.vue";
 import customNumberInput from "@/components/dashboard/customNumberInput.vue";
-import imageUploader from "@/components/dashboard/imageUploader.vue";
+import imageUploader from "@/components/general/imageUploader.vue";
 import modal from "@/components/dashboard/modal.vue";
 import successImage from "@/assets/img/success-img.svg";
 import failedImage from "@/assets/img/failed-img.svg";

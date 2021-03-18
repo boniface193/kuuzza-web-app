@@ -176,14 +176,14 @@ export default {
         margin-bottom: 0px;
         cursor: pointer;
         &:hover {
-          color: #5064cc;
+          color: var(--v-primary-base);
           background: #5064cc26;
         }
       }
     }
   }
   &:focus {
-    border: 2px solid #5064cc;
+    border: 2px solid var(--v-primary-base);
   }
 }
 

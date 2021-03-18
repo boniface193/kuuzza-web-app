@@ -373,7 +373,7 @@ export default {
       lineThickness: 4,
       activeThickness: 4,
       passiveThickness: 4,
-      activeColor: "#5064CC",
+      activeColor: "#029B97",
       passiveColor: "#ddd",
       currentStep: 0,
       presentForm: "form1",

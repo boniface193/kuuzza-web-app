@@ -340,7 +340,7 @@ export default {
     bottom: 25px;
     right: 0;
     cursor: pointer;
-    color: #5064cc;
+    color: var(--v-primary-base);
     background: white;
     padding: 5px 0px 0px 5px;
   }

@@ -140,8 +140,8 @@ export default {
       margin-bottom: -2px;
       text-decoration: none;
       &--active {
-        color: #5064cc;
-        border-color: #5064cc;
+        color: var(--v-primary-base);
+        border-color: var(--v-primary-base);
         font-weight: bold;
       }
     }

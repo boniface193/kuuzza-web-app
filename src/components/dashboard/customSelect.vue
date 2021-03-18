@@ -134,7 +134,7 @@ export default {
     left: 0;
     margin-top: 5px;
     .search-container {
-      background: rgba(80, 100, 204, 0.15);
+      background: var(--v-light-background-base);
       padding: 12px 0px;
       border-top-left-radius: 10px;
       border-top-right-radius: 10px;
@@ -175,14 +175,14 @@ export default {
         margin-bottom: 0px;
         cursor: pointer;
         &:hover {
-          color: #5064cc;
-          background: #5064cc26;
+          color: var(--v-primary-base);
+          background: var(--v-light-background-base);
         }
       }
     }
   }
   &:focus {
-    border: 2px solid #5064cc;
+    border: 2px solid var(--v-primary-base);
   }
 }
 

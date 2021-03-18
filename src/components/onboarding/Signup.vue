@@ -153,8 +153,7 @@
         class="pa-0 mt-5 d-flex justify-space-between align-center btn-container"
       >
         <v-btn
-          class="primary--text mb-5 mb-0 px-1 py-2"
-          style="background: #5064cc26"
+          class="primary--text light-background mb-5 mb-0 px-1 py-2"
           @click="previousForm(2)"
         >
           Back</v-btn
@@ -212,8 +211,7 @@
         class="pa-0 mt-5 d-flex justify-space-between align-center btn-container"
       >
         <v-btn
-          class="primary--text mb-5 mb-0 px-1 py-2"
-          style="background: #5064cc26"
+          class="primary--text light-background mb-5 mb-0 px-1 py-2"
           :disabled="loading"
           @click="previousForm(3)"
         >

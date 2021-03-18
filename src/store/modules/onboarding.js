@@ -133,8 +133,8 @@ const actions = {
                 })
         })
     },
-     // resend opt verify forgot password 
-     resendverifyForgotPasswordOTP(context, data) {
+    // resend opt verify forgot password 
+    resendverifyForgotPasswordOTP(context, data) {
         return new Promise((resolve, reject) => {
             axios.post("passwords/reset", data).then(response => {
                 resolve(response);
@@ -217,4 +217,4 @@ export default {
     getters,
     actions,
     mutations,
-};  
+};

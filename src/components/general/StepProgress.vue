@@ -54,7 +54,7 @@ div.step-progress__step span {
   white-space: nowrap;
   font-size: 15px;
   font-weight: normal;
-  color: #5064CC !important;
+  color: var(--v-primary-base) !important;
   transition: 0.3s ease;
 }
 

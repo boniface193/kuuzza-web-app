@@ -82,8 +82,8 @@
             >
             <span v-if="status === 'uploaded'">
               <!-- <img class="mr-4" src="@/assets/img/upload.svg" alt="" /> -->
-              <v-icon color="black" class="mr-2">mdi-check</v-icon>
-              <span>Upload Complete</span>
+              <v-icon class="white--text mr-2">mdi-check</v-icon>
+              <span class="white--text">Upload Complete</span>
             </span>
             <div class="progress-bar" v-if="status === 'uploading'">
               <progressBar
@@ -91,7 +91,7 @@
                 height="5px"
                 bgColor="transparent"
                 borderRadius="5px"
-                progressColor="#52F1EC"
+                progressColor="#FFA500"
               />
             </div>
           </div>
@@ -99,7 +99,7 @@
           <h4 class="error--text" v-show="numberOfImage === 0">
             No image selected yet!
           </h4>
-          <h4 class="success--text" v-show="numberOfImage !== 0">
+          <h4 class="primary--text" v-show="numberOfImage !== 0">
             {{ numberOfImage }}
             {{ numberOfImage > 1 ? "images" : "image" }} selected
           </h4>
@@ -385,7 +385,7 @@ export default {
   width: 100%;
   height: 55px;
   border-radius: 5px;
-  background: #5064cc;
+  background: var(--v-primary-base);
   margin: 20px 0px;
   display: flex;
   align-items: center;
@@ -402,7 +402,7 @@ export default {
   }
 }
 .uploading-completed {
-  background: #52f1ec !important;
+  background: var(--v-accent-base) !important;
 }
 .images-container {
   display: flex;

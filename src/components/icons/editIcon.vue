@@ -26,7 +26,7 @@ export default {
     background-color: rgb(239, 245, 255);
   }
   .tooltiptext {
-    color: #5064cc;
+    color: var(--v-primary-base);
     background-color: rgb(239, 245, 255);
     width: 70px;
     text-align: center;

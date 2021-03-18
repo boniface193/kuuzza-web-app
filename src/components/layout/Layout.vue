@@ -102,9 +102,10 @@
       <!-- drawer -->
       <v-navigation-drawer
         app
-        color="primary"
+        color="secondary-background"
         width="250"
         dark
+        class="px-3"
         v-model="drawer"
       >
         <v-container class="mx-5">
@@ -144,7 +145,7 @@
                   :class="{ activeColor: item.routes }"
                 >
                   <v-icon class="float-left" size="20">{{ item.icon }}</v-icon>
-                  <div class="ml-12 pt-1 white--text">
+                  <div class="ml-10 pt-1 white--text">
                     {{ item.title }}
                   </div>
                 </v-list-item-title>
@@ -154,7 +155,7 @@
         </v-list>
         <div class="ml-3 mt-8">
           <span class="white--text text-size-md" @click="logout"
-            ><v-icon class="ml-4 mr-8" size="20">mdi-logout</v-icon>Log
+            ><v-icon class="ml-4 mr-6" size="20">mdi-logout</v-icon>Log
             Out</span
           >
         </div>
@@ -308,11 +309,12 @@ export default {
   opacity: 1;
 }
 a.v-item--active.v-list-item--active.v-list-item.v-list-item--link.theme--dark {
-  background-color: #323e7e;
-  border-left: 4px solid #52f1ec;
+  background-color: var(--v-primary-base);
+  padding-left: 20px;
   font: normal normal bolder 16px/19px "Product Sans";
   letter-spacing: 0px;
   color: #ffffff;
+  border-radius: 5px !important;
 }
 
 .v-list-item--link::before {
@@ -322,7 +324,7 @@ a.v-item--active.v-list-item--active.v-list-item.v-list-item--link.theme--dark {
 }
 
 .activeColor {
-  color: #52f1ec;
+  color: white;
 }
 
 .text-size-md {

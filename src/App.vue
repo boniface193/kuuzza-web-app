@@ -34,7 +34,7 @@ body {
     align-items: center;
     justify-content: center;
     .v-btn__loader {
-      color: #5064cc;
+      color: var(--v-primary-base);
     }
   }
 }
@@ -54,11 +54,11 @@ body {
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #5064cc;
+  background-color: var(--v-primary-base);
   outline: 1px solid slategrey;
 }
 
 :root {
-  scrollbar-color: #5064cc rgb(210, 210, 210) !important;
+  scrollbar-color: var(--v-primary-base) rgb(210, 210, 210) !important;
 }
 </style>
