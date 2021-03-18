@@ -74,7 +74,7 @@
         <v-col class="col-12 col-sm-6 col-md-3">
           <div class="text-center">
             <p class="grey--text">Awaiting Settlements(NGN)</p>
-            <h1 class="text-sm-body-2 text-md-body-1 text-lg-h4">
+            <h1 class="text-lg-h4">
               <span v-show="!fetchingData">{{
                 revenueDetails.awaiting_settlement_label
               }}</span>

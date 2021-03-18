@@ -11,7 +11,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get('/metrics', {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 }
             }).then((res) => {
                 context.commit("setdashboardOrder", res.data.data)

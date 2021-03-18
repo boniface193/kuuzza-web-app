@@ -17,7 +17,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get("/banks", {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 }
             }).then(response => {
                 resolve(response);
@@ -32,7 +32,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.post("/banks/verify-account", data, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 }
             }).then(response => {
                 resolve(response);
@@ -47,7 +47,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.post("/bank-accounts", data, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 }
             }).then(response => {
                 resolve(response);
@@ -62,7 +62,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get(`/bank-accounts/${data.store_id}`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 }
             }).then(response => {
                 resolve(response);

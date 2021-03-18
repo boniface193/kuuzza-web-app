@@ -56,7 +56,7 @@ export default {
       totalOrder: 0,
       data: {
       },
-      color: ["#5064CC", "#FFD500", "#52F1EC", "#00B944"],
+      color: ["#029B97", "#FFA500", "#1C3737", "#00B944"],
     };
   },
 

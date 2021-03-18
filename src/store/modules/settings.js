@@ -26,7 +26,7 @@ const state = {
 //returns the state properties
 const getters = {
     getUserProfile: state => state.profile,
-    verifiedStore: state => state.verifiedStore,
+    verifiedStore: state => state.profile.phone_number_verified,
     loader: state => state.loader,
     teamMembers: state => state.teamMembers,
     pageDetails: state => state.pageDetails
@@ -39,11 +39,10 @@ const actions = {
 
     getUserProfile(context) {
         return new Promise((resolve, reject) => {
-
             state.loader = true;
             axios.get("profile", {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 }
             }).then(response => {
                 context.commit("setUserProfile", response.data.data)
@@ -59,7 +58,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.post("profile", data, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 }
             }).then(response => {
                 context.commit("setUserProfile", response.data.data)
@@ -75,7 +74,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.post("store", data, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 }
             }).then(response => {
                 context.commit("setUserProfile", response.data.data)
@@ -91,7 +90,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.post("security/password", data, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 }
             }).then(response => {
                 resolve(response);
@@ -107,7 +106,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.post("users/invite", data, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 }
             }).then(response => {
                 resolve(response);
@@ -123,7 +122,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get(`users?page=${data.page}&per_page=${data.itemPerPage}`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 }
             }).then(response => {
                 context.commit("setTeamMembers", response.data.data);
@@ -141,7 +140,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get(`users/${data.id}`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 }
             }).then(response => {
                 resolve(response);
@@ -157,7 +156,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.delete(`users/${data.id}`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 }
             }).then(response => {
                 resolve(response);
@@ -173,7 +172,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.post(`users/${data.id}/suspend`, {}, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 }
             }).then(response => {
                 resolve(response);
@@ -189,7 +188,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.post(`users/${data.id}/unsuspend`, {}, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 }
             }).then(response => {
                 resolve(response);
@@ -205,7 +204,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.put(`users/${data.id}`, data, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 }
             }).then(response => {
                 resolve(response);
@@ -224,7 +223,7 @@ const mutations = {
     setTeamMembers: (state, data) => (state.teamMembers = data),
     setPageDetails: (state, data) => (state.pageDetails = data),
     setCurrentPage: (state, currentPage) => { state.pageDetails.current_page = currentPage },
-    setVerifiedStore: (state, status) => {state.verifiedStore = status}, 
+    setVerifiedStore: (state, status) => {state.profile.phone_number_verified = status}, 
     doNothing: (state) => (state.doNothing = null)
 };
 

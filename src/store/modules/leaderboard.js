@@ -44,7 +44,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get("/leaderboard", {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 }
             })
                 .then(response => {
@@ -67,7 +67,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get(`/leaderboard${params}&${page}&${perPage}`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 }
             })
                 .then(response => {

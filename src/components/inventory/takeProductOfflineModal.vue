@@ -56,8 +56,7 @@
             >Yes, take offline</v-btn
           >
           <v-btn
-            color="#F6F7FD"
-            class="primary--text py-5 px-7"
+            class="primary--text light-background py-5 px-7"
             @click="closeOfflineDialog"
             :disabled="offlineDialogLoader"
             >No, keep online</v-btn
@@ -100,8 +99,7 @@
             >Yes, take offline</v-btn
           >
           <v-btn
-            color="#F6F7FD"
-            class="primary--text py-5 px-7"
+            class="primary--text light-background py-5 px-7"
             @click="closeOfflineDialogBulk"
             :disabled="offlineDialogBulkLoader"
             >No, keep online</v-btn
