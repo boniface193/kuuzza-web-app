@@ -135,7 +135,7 @@ export default {
     left: 0;
     margin-top: 5px;
     .search-container {
-      background: rgba(80, 100, 204, 0.15);
+      background: var(--v-light-background-base);
       padding: 12px 0px;
       border-top-left-radius: 10px;
       border-top-right-radius: 10px;
@@ -177,7 +177,7 @@ export default {
         cursor: pointer;
         &:hover {
           color: var(--v-primary-base);
-          background: #5064cc26;
+          background: var(--v-light-background-base);
         }
       }
     }

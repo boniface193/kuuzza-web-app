@@ -105,6 +105,10 @@ export default {
         id: this.userInfo,
       });
     });
+
+    this.getAllRevenue.series.forEach((i) => {
+      console.log(i);
+    });
   },
 };
 </script>
