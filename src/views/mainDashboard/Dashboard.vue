@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <!-- to center dashboard content -->
-    <div class="mx-lg-12 mx-md-5 mx-sm-5">
+    <div class="mx-lg-12 mx-md-5 mx-sm-5 pt-13">
       <!-- welcome greetings -->
       <calendar class="float-right" @updateDate="dateValue" />
       <div

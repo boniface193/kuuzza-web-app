@@ -1,5 +1,5 @@
 <template>
-  <div class="px-3 px-sm-12 pt-7 pb-4" style="zoom: 110%">
+  <div class="px-3 px-sm-12 pt-12 pb-4" style="zoom: 110%">
     <!-- page title -->
     <h1>Settings</h1>
 
