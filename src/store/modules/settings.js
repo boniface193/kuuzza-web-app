@@ -26,7 +26,7 @@ const state = {
 //returns the state properties
 const getters = {
     getUserProfile: state => state.profile,
-    verifiedStore: state => state.verifiedStore,
+    verifiedStore: state => state.profile.phone_number_verified,
     loader: state => state.loader,
     teamMembers: state => state.teamMembers,
     pageDetails: state => state.pageDetails
@@ -39,7 +39,6 @@ const actions = {
 
     getUserProfile(context) {
         return new Promise((resolve, reject) => {
-
             state.loader = true;
             axios.get("profile", {
                 headers: {
@@ -224,7 +223,7 @@ const mutations = {
     setTeamMembers: (state, data) => (state.teamMembers = data),
     setPageDetails: (state, data) => (state.pageDetails = data),
     setCurrentPage: (state, currentPage) => { state.pageDetails.current_page = currentPage },
-    setVerifiedStore: (state, status) => {state.verifiedStore = status}, 
+    setVerifiedStore: (state, status) => {state.profile.phone_number_verified = status}, 
     doNothing: (state) => (state.doNothing = null)
 };
 

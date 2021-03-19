@@ -28,13 +28,13 @@
               >
               <span class="sort-icons">
                 <v-icon
-                  color="#52F1EC"
+                  class="white--text"
                   v-show="header.sortable != false"
                   @click="sortAscending(header.value)"
                   >mdi-menu-up
                 </v-icon>
                 <v-icon
-                  color="#52F1EC"
+                  class="white--text"
                   v-show="header.sortable != false"
                   @click="sortDecending(header.value)"
                   >mdi-menu-down
@@ -448,7 +448,7 @@ export default {
     .custom-thead,
     .custom-tbody {
       tr {
-        background: var(--v-primary-base);;
+        background: var(--v-primary-base);
         display: flex;
         align-items: center;
         min-height: 45px;

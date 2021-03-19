@@ -50,13 +50,13 @@ export default {
 }
 
 .round-img-bg-primary {
-  background: #5064cc 0% 0% no-repeat padding-box;
+  background: var(--v-primary-base) 0% 0% no-repeat padding-box;
   opacity: 0.15;
   position: absolute;
 }
 
 .round-img-bg-secondary {
-  background: #44099f 0% 0% no-repeat padding-box;
+  background: var(--v-accent-base) 0% 0% no-repeat padding-box;
   opacity: 0.15;
   position: absolute;
 }

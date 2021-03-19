@@ -92,7 +92,7 @@ export default {
           legend: {
             position: "top",
           },
-          colors: ["#5064CC", "#52F1EC", "#44099F"],
+          colors: ["#029B97", "#FFA500", "#1C3737"],
         },
       };
     },

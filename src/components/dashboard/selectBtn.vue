@@ -122,7 +122,7 @@ export default {
       padding: 0px 12px;
       &:hover {
         color: var(--v-primary-base);
-        background: #5064cc26;
+        background: var(--v-light-background-base);
       }
     }
   }

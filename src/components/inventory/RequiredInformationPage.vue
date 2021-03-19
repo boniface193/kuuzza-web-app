@@ -124,7 +124,7 @@
             </v-text-field>
           </div>
           <!-- do not remove -->
-          <v-text-field style="display:none"></v-text-field>
+          <v-text-field style="display: none"></v-text-field>
         </v-form>
 
         <div class="btn-container d-flex justify-end">
@@ -307,7 +307,6 @@
       </v-form>
     </div>
 
-
     <!-- modal for dialog messages -->
     <modal :dialog="dialog" width="400">
       <div class="white pa-3 px-5 dialog">
@@ -316,7 +315,9 @@
             >mdi-close</v-icon
           >
         </div>
-        <p class="mt-7 mb-5">An OTP has been sent to your mobile number for verification</p> 
+        <p class="mt-7 mb-5">
+          An OTP has been sent to your mobile number for verification
+        </p>
         <v-form>
           <div class="mt-0 mb-2">
             <v-otp-input
@@ -339,13 +340,9 @@
           <div class="pa-0 mt-5" style="width: 100%">
             <p>
               Didn't receive the code?
-              <a style="text-decoration: none"
-                >Resend Code</a
-              >
+              <a style="text-decoration: none">Resend Code</a>
             </p>
-            <v-btn
-              class="primary px-8 py-5 mb-5"
-              @click="SubmitOTP()"
+            <v-btn class="primary px-16 py-5 mb-5 mx-auto" @click="SubmitOTP()"
               >Verify</v-btn
             >
           </div>
@@ -373,7 +370,7 @@ export default {
       lineThickness: 4,
       activeThickness: 4,
       passiveThickness: 4,
-      activeColor: "#029B97",
+      activeColor: "#FFA500",
       passiveColor: "#ddd",
       currentStep: 0,
       presentForm: "form1",
@@ -420,9 +417,8 @@ export default {
         bounds: new window.google.maps.LatLngBounds(
           new window.google.maps.LatLng(6.5244, 3.3792)
         ),
-        types: ["establishment"],
         componentRestrictions: { country: ["NG"] },
-        fields: ["place_id", "geometry", "name"],
+        fields: ["geometry", "name", "formatted_address"],
       }
     );
 
@@ -448,7 +444,7 @@ export default {
       } else {
         //Display details about the valid place
         this.validAddress = true;
-        this.pickUpLocation = place.name;
+        this.pickUpLocation = place.name + " " + place.formatted_address;
         this.lat = place.geometry.location.lat();
         this.lng = place.geometry.location.lng();
       }
@@ -503,7 +499,7 @@ export default {
       this.presentForm = "form" + (formNum - 1);
       this.currentStep = this.currentStep - 1;
     },
-     // check if code changes
+    // check if code changes
     handleOnChange(value) {
       this.otp = value;
       if (this.otp.length != 5) {
@@ -516,10 +512,10 @@ export default {
       this.otp = value;
       this.otpError = false;
     },
-    SubmitOTP(){
+    SubmitOTP() {
       this.dialog = false;
       this.$store.commit("settings/setVerifiedStore", true);
-    }
+    },
   },
 };
 </script>

@@ -57,8 +57,7 @@
             }}</v-btn
           >
           <v-btn
-            color="#F6F7FD"
-            class="primary--text py-5"
+            class="primary--text light-background py-5"
             @click="closeDeleteDialog"
             :disabled="deleteDialogLoader"
             >No, keep
@@ -107,8 +106,7 @@
             }}</v-btn
           >
           <v-btn
-            color="#F6F7FD"
-            class="primary--text py-5"
+            class="primary--text light-background py-5"
             @click="closeDeleteDialogBulk"
             :disabled="deleteDialogBulkLoader"
             >No, keep

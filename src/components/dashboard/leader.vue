@@ -40,7 +40,7 @@ export default {
   font-family: Poppins sans-serif "Product Sans";
   font: normal normal bold 17px/1px Sans-Serif;
   letter-spacing: 0px;
-  color: #5064cc;
+  color: var(--v-primary-base);
   opacity: 1;
   line-height: 1.2;
   text-decoration: none;
