@@ -74,7 +74,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.post("/products", data, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 }
             })
                 .then(response => {
@@ -92,7 +92,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.put(`/products/${data.ref}`, data, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 }
             })
                 .then(response => {
@@ -109,7 +109,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get("/products", {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 }
             }).then(response => {
                 context.commit("setProducts", response.data.data);
@@ -126,7 +126,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get(`/products/${data.id}`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 }
             }).then(response => {
                 resolve(response);
@@ -153,7 +153,7 @@ const actions = {
             axios.get(`/products?${page}&${perPage}&${priceRange}&${quantityRange}&${inStock}&${outOfStock}&${dateRange}`,
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                        Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                     }
                 }).then(response => {
                     context.commit("setProducts", response.data.data);
@@ -176,7 +176,7 @@ const actions = {
             axios.get(`/products${route}`,
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                        Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                     }
                 }).then(response => {
                     context.commit("setProducts", response.data.data);
@@ -194,7 +194,7 @@ const actions = {
             axios.post(`/products/offline`, data,
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                        Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                     }
                 }).then(response => {
                     resolve(response);
@@ -211,7 +211,7 @@ const actions = {
             axios.post(`/products/online`, data,
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                        Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                     }
                 }).then(response => {
                     resolve(response);
@@ -227,7 +227,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.delete(`/products`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 }, data
             },
             ).then(response => {
@@ -245,7 +245,7 @@ const actions = {
             axios.get("/inventory-history",
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                        Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                     }
                 }).then(response => {
                     context.commit("setInventoryHistory", response.data.data);
@@ -266,7 +266,7 @@ const actions = {
             },
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                        Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                     }
                 }).then(response => {
                     resolve(response);
@@ -282,7 +282,7 @@ const actions = {
             axios.post(`/products/import`, data,
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                        Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                     }
                 }).then(response => {
                     resolve(response);

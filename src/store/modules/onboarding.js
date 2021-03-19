@@ -19,7 +19,7 @@ const checkIfTokenIsPresent = () => {
 
 // check if token is expired
 const checkIftokenExpired = () => {
-    if (localStorage.getItem('accessToken')) {
+    if (localStorage.getItem('vendorToken')) {
         const expiration = decodeToken(state.token).exp
         return expiration >= new Date() || false;
     } else {
@@ -30,7 +30,7 @@ const checkIftokenExpired = () => {
 //holds the state properties
 const state = {
     present_signup_form: 'form1',
-    token: localStorage.getItem('accessToken') || null,
+    token: localStorage.getItem('vendorToken') || null,
     tokenIsPresent: false,
     tokenExpired: true,
     doNothing: null,
@@ -49,7 +49,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get("profile", {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`
                 }
             }).then(response => {
                 resolve(response)
@@ -189,13 +189,13 @@ const mutations = {
     present_signup_form: (state, form) => (state.present_signup_form = form),
     //set token
     setToken: (state, token) => {
-        localStorage.setItem('accessToken', token)
-        state.token = localStorage.getItem('accessToken') || null
+        localStorage.setItem('vendorToken', token)
+        state.token = localStorage.getItem('vendorToken') || null
     },
     // remove token
     removeToken: () => {
-        localStorage.removeItem('accessToken');
-        state.token = localStorage.getItem('accessToken') || null
+        localStorage.removeItem('vendorToken');
+        state.token = localStorage.getItem('vendorToken') || null
     },
     tokenIsPresent: (state) => {
         const tokenIsPresent = checkIfTokenIsPresent();

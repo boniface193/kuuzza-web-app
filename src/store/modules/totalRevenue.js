@@ -28,7 +28,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get(`/metrics/${data.id}/total-revenue?${dateRange}`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 }
             }).then((response) => {
                 context.commit('setRevenue', response.data.data)

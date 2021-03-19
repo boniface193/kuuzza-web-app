@@ -266,7 +266,7 @@ export default {
       axios
         .post("/media/upload", data, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
           },
           onUploadProgress: (uploadEvent) => {
             this.uploadProgress = String(
@@ -292,7 +292,7 @@ export default {
       axios
         .get(`/media?page=${this.pageDetails.parameters.current_page}`, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
           },
         })
         .then((response) => {
