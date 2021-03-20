@@ -13,6 +13,7 @@ import Onboarding from "@/views/onboarding/Onboarding.vue";
 // dashboard page
 import Dashboard from "@/views/mainDashboard/Dashboard.vue";
 import Home from "@/views/layout/home.vue";
+import allNotification from "@/views/authPages/allNotification.vue"
 import emailVerification from "@/components/onboarding/emailVerification.vue";
 import forgotPasswordVerification from "@/components/onboarding/forgotPasswordVerification.vue";
 // inventory pages
@@ -182,6 +183,11 @@ const routes = [
         path: "bestSeller",
         name: "bestSeller",
         component: bestSeller
+      },
+      {
+        path: "allNotification",
+        name: "allNotification",
+        component: allNotification
       },
       {
         path: "/inventory",

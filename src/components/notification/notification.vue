@@ -8,7 +8,12 @@
           >{{ filterNotificationLength }} unread Notifications</v-toolbar-title
         >
       </v-toolbar>
-      <div class="bg-color py-5 d-flex justify-center" v-if="filterNotificationLength == 0">No Notification</div>
+      <div
+        class="bg-color py-5 d-flex justify-center"
+        v-if="filterNotificationLength == 0"
+      >
+        No Notification
+      </div>
       <v-list class="py-0">
         <v-subheader
           class="bg-color py-5 d-flex justify-center"
@@ -55,9 +60,14 @@
       </v-list>
       <div class="bg-color">
         <div class="d-flex justify-end">
-          <div class="text-size-md bg-color d-flex justify-end pa-5 onhover">
-            View All
-          </div>
+          <router-link
+            :to="{ name: 'allNotification' }"
+            style="text-decoration: none; color: #000000"
+          >
+            <div class="text-size-md bg-color d-flex justify-end pa-5 onhover">
+              View All
+            </div>
+          </router-link>
           <div class="text-size-md bg-color d-flex justify-end pa-5 onhover">
             Mark All Read
           </div>
@@ -148,17 +158,6 @@ export default {
         this.filteredArray = data.find((item) => item.date === id);
         this.showDialog = true;
       });
-    },
-
-    unread() {
-      // this.getNotified.data.forEach((i) => {
-      //   let unreadNotification = i.read.length
-      //   if (unreadNotification === false) {
-      //     console.log("falsy value", unreadNotification)
-      //   }
-      //   // console.log("foreach", unreadNotification.length);
-      //   this.filterNotificationLength = unreadNotification;
-      // });
     },
   },
 };
