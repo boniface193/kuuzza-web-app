@@ -16,7 +16,8 @@ import orderStatus from "./modules/orderStatus";
 import bestSellingDashboard from "./modules/bestSellingDashboard";
 import topCustomer from "./modules/topCustomer";
 import customerDashboard from "./modules/customerDashboard";
-import sellerDashboard from "./modules/sellerDashboard"
+import sellerDashboard from "./modules/sellerDashboard";
+import notification from "./modules/notification";
 // initial state
 const initialState = {
   onboarding: onboarding.state,
@@ -36,6 +37,7 @@ const initialState = {
   topCustomer: topCustomer,
   customerDashboard: customerDashboard,
   sellerDashboard: sellerDashboard,
+  notification: notification,
 }
 
 //Convert object in string 
@@ -62,6 +64,7 @@ export default new Vuex.Store({
     topCustomer: topCustomer,
     customerDashboard: customerDashboard,
     sellerDashboard: sellerDashboard,
+    notification: notification,
   },
   mutations: {
     reset(state) {

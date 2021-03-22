@@ -23,8 +23,8 @@
       </div>
       <!-- loader ends here -->
       <v-row>
-        <v-col cols="12" md="6" sm="6">
-          <div class="pl-2 mt-8" v-show="!orderDetailsDelay">
+        <v-col cols="12" md="6" sm="6" style="padding-top:0px !important">
+          <div class="pl-2 pt-0" v-show="!orderDetailsDelay">
             <!-- Order number -->
             <h2>
               Order: <span class="primary--text">{{ orderDetails.id }}</span>

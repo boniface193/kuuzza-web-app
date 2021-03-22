@@ -103,7 +103,7 @@ const actions = {
         })
     },
     getRevenueDetails(context, data) {
-        let dateRange = (state.dateRange.endDate !== null) ? `date_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
+        let dateRange = (state.dateRange.endDate !== '') ? `date_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
         return new Promise((resolve, reject) => {
             axios.get(`/metrics/${data.storeId}/total-revenue?${dateRange}`, {
                 headers: {
@@ -135,7 +135,7 @@ const actions = {
         })
     },
     getPaymentHistory(context, data) {
-        let dateRange = (state.dateRange.endDate !== null) ? `date_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
+        let dateRange = (state.dateRange.endDate !== '') ? `date_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
         return new Promise((resolve, reject) => {
             axios.get(`/payouts/${data.storeId}/history?${dateRange}`, {
                 headers: {

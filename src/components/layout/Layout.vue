@@ -20,7 +20,7 @@
         <!-- notification -->
         <div class="d-flex mr-6" style="cursor: pointer">
           <!-- notification dropdown -->
-          <v-menu open-on-hover top>
+          <v-menu open-on-click top>
             <!-- activator -->
             <template v-slot:activator="{ on, attrs }">
               <!-- icon -->
@@ -29,6 +29,7 @@
               >
               <!-- signal -->
               <v-badge
+                v-show="showNot"
                 color="primary"
                 bordered
                 dot
@@ -37,61 +38,7 @@
               </v-badge>
             </template>
             <!-- notification body-->
-            <v-card class="mx-auto" elevation="0" max-width="400">
-              <v-toolbar height="40" color="primary" elevation="0" dark>
-                <v-toolbar-title class="layout-title"
-                  >Notifications</v-toolbar-title
-                >
-                <v-spacer></v-spacer>
-                <v-toolbar-title class="text-size-md white--text pl-12 pr-3"
-                  >2 unread Notifications</v-toolbar-title
-                >
-              </v-toolbar>
-
-              <v-list class="py-0">
-                <v-subheader class="bg-color py-5 d-flex justify-center"
-                  >Today</v-subheader
-                >
-
-                <div v-for="msg in notification" :key="msg.id">
-                  <v-list-item link>
-                    <v-list-item-content>
-                      <v-list-item-title class="layout-title-noti">{{
-                        msg.msgtitle
-                      }}</v-list-item-title>
-                      <v-list-item-subtitle class="layout-title-sm">{{
-                        msg.time
-                      }}</v-list-item-subtitle>
-                    </v-list-item-content>
-                  </v-list-item>
-
-                  <v-divider></v-divider>
-                </div>
-              </v-list>
-
-              <v-list class="py-0">
-                <v-subheader class="bg-color py-5 d-flex justify-center"
-                  >Old Notifications</v-subheader
-                >
-
-                <div v-for="msg in oldNotification" :key="msg.id">
-                  <v-list-item link>
-                    <v-list-item-content>
-                      <v-list-item-title class="layout-title-noti">{{
-                        msg.msgtitle
-                      }}</v-list-item-title>
-                      <v-list-item-subtitle class="layout-title-sm">{{
-                        msg.time
-                      }}</v-list-item-subtitle>
-                    </v-list-item-content>
-                  </v-list-item>
-                  <v-divider></v-divider>
-                </div>
-              </v-list>
-              <div class="layout-title-noti bg-color d-flex justify-end pa-5">
-                Mark All Read
-              </div>
-            </v-card>
+            <Notification />
           </v-menu>
         </div>
 
@@ -100,6 +47,7 @@
         </v-avatar>
       </v-app-bar>
       <!-- drawer -->
+
       <v-navigation-drawer
         app
         color="secondary-background"
@@ -164,35 +112,15 @@
 
 <script>
 import modal from "@/components/dashboard/modal.vue";
+import Notification from "@/components/notification/notification.vue";
 import { mapState } from "vuex";
 export default {
-  components: { modal },
+  components: { modal, Notification },
   data: () => ({
     dialog: false,
     drawer: true,
     settings: [],
-    notification: [
-      {
-        id: "not001",
-        msgtitle: "N100 Reward given",
-        body: "whats ever",
-        time: "20 min ago",
-      },
-      {
-        id: "not002",
-        msgtitle: "N500 Reward given",
-        body: "whats ever",
-        time: "45 min ago",
-      },
-    ],
-    oldNotification: [
-      {
-        id: "not001",
-        msgtitle: "Reset your password",
-        body: "whats ever",
-        time: "Yesterday",
-      },
-    ],
+    showNot: null,
     items: [
       {
         title: "Dashboard",
@@ -245,6 +173,8 @@ export default {
     if (this.$store.getters["settings/getUserProfile"].name === "") {
       this.$store.dispatch("settings/getUserProfile");
     }
+
+    this.showNotification();
   },
   computed: {
     ...mapState({
@@ -262,6 +192,18 @@ export default {
           name: "Signin",
         });
       }, 1000);
+    },
+
+    showNotification() {
+      this.$store.dispatch("notification/getNotification").then((e) => {
+        e.data.forEach((i) => {
+          if (i.read === true) {
+            this.showNot = true;
+          } else {
+            this.showNot = false;
+          }
+        });
+      });
     },
 
     showDropDown() {
@@ -297,17 +239,6 @@ export default {
   letter-spacing: 0.5px;
   color: #ffffff;
   opacity: 1;
-}
-
-.layout-title-noti {
-  text-align: left;
-  font: normal normal 16px/20px "Product Sans";
-  letter-spacing: 0.5px;
-}
-
-.layout-title-sm {
-  font-size: 10px;
-  margin-top: 5px;
 }
 
 .layout-title-subtitle {
