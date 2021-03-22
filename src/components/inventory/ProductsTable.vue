@@ -62,6 +62,23 @@
       @closeOnlineDialogBulk="closeOnlineDialogBulk"
       @clearSelectedRow="clearSelectedRow"
     />
+
+    <!--------------------------- modal for dialog messages ------------------------------>
+    <modal :dialog="dialog" width="400">
+      <div class="white pa-3 pb-10 text-center dialog">
+        <div class="d-flex justify-end">
+          <v-icon class="error--text close-btn" @click="dialog = false"
+            >mdi-close</v-icon
+          >
+        </div>
+
+        <div class="mb-7 mt-5 mx-auto status-img">
+          <v-img :src="statusImage"></v-img>
+        </div>
+
+        <h4>{{ dialogMessage }}</h4>
+      </div>
+    </modal>
   </div>
 </template>
 <script>
@@ -70,6 +87,7 @@ import deleteProductModal from "@/components/inventory/deleteProductModal";
 import takeProductOfflineModal from "@/components/inventory/takeProductOfflineModal";
 import takeProductOnlineModal from "@/components/inventory/takeProductOnlineModal";
 import failedImage from "@/assets/img/failed-img.svg";
+import modal from "@/components/dashboard/modal.vue";
 import { mapGetters, mapState } from "vuex";
 export default {
   name: "ProductsTable",
@@ -78,9 +96,12 @@ export default {
     deleteProductModal,
     takeProductOfflineModal,
     takeProductOnlineModal,
+    modal
   },
   data: function () {
     return {
+      dialog: false,
+      dialogMessage: "",
       offlineDialog: false,
       offlineDialogBulk: false,
       onlineDialogBulk: false,
@@ -262,7 +283,7 @@ export default {
         } else {
           this.dialogMessage = "No internet Connection!";
         }
-        this.dialog1 = true;
+        this.dialog = true;
       });
     },
     // search products
@@ -280,3 +301,11 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.status-img {
+  width: 140px;
+  .v-image {
+    width: 100%;
+  }
+}
+</style>

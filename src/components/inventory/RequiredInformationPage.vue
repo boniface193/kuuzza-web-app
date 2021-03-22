@@ -224,9 +224,8 @@
         <!-- btn container -->
         <div class="btn-container d-flex justify-space-between">
           <v-btn
-            class="primary--text py-6 px-8"
+            class="primary--text light-background py-6 px-8"
             @click="goPrevForm(2)"
-            style="background: #5064cc26"
           >
             Back
           </v-btn>
@@ -263,9 +262,8 @@
         <!-- btn container -->
         <div class="btn-container d-flex justify-space-between">
           <v-btn
-            class="primary--text py-6 px-8"
+            class="primary--text light-background py-6 px-8"
             @click="goPrevForm(3)"
-            style="background: #5064cc26"
           >
             Back
           </v-btn>
@@ -294,9 +292,8 @@
         <!-- btn container -->
         <div class="btn-container d-flex justify-space-between">
           <v-btn
-            class="primary--text py-6 px-8"
+            class="primary--text light-background py-6 px-8"
             @click="goPrevForm(4)"
-            style="background: #5064cc26"
           >
             Back
           </v-btn>
