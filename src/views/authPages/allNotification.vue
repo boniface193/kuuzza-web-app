@@ -10,8 +10,8 @@
           <h2
             class="float-left text-sm-body-1 text-md-h6 text-lg-h5 text-xl-h3 text-body-1 font-weight-bold"
           >
-            <v-icon class="mb-1 mr-3" size="35">mdi-chevron-left</v-icon> All
-            Notification
+            <v-icon class="mb-1 mr-3" size="35">mdi-chevron-left</v-icon>
+            Dashboard
           </h2>
         </router-link>
       </div>
@@ -31,14 +31,14 @@
       <p class="text-center mt-8">{{ msg }}</p>
 
       <v-expansion-panels>
-        <v-expansion-panel v-for="item in notification" :key="item.date">
+        <v-expansion-panel v-for="item in notification" :key="item.id">
           <v-expansion-panel-header>
             <div>
               <v-badge
                 class="flaot-left mr-4 mb-1"
                 color="#FFA500"
                 dot
-                v-show="item.read"
+                v-show="item.read == false"
               >
               </v-badge
               >{{ item.title }}
