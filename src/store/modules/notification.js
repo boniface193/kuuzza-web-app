@@ -32,7 +32,6 @@ const actions = {
                 }
             }).then((res) => {
                 context.commit('setNotification', res.data.data)
-                console.log(res.data)
                 resolve(res.data.data)
             }).catch((error) => {
                 reject(error)

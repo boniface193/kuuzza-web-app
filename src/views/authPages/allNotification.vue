@@ -31,7 +31,11 @@
       <p class="text-center mt-8">{{ msg }}</p>
 
       <v-expansion-panels>
-        <v-expansion-panel v-for="item in notification" :key="item.id">
+        <v-expansion-panel
+          v-for="item in notification"
+          :key="item.id"
+          @click="markSigleMsg(item.id)"
+        >
           <v-expansion-panel-header>
             <div>
               <v-badge
@@ -66,6 +70,7 @@
   </v-container>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
   components: {},
   data() {
@@ -76,7 +81,12 @@ export default {
     };
   },
 
+  computed: {
+    ...mapGetters({ getNotified: "notification/getNotified" }),
+  },
+
   created() {
+    console.log("get Notified", this.getNotified);
     this.$store.dispatch("notification/getNotification").then((e) => {
       if (e.data.length == 0) {
         this.msg = "No Notification";
@@ -84,6 +94,15 @@ export default {
       this.notification = e.data;
       this.isLoading = false;
     });
+  },
+
+  methods: {
+    markSigleMsg(params) {
+      this.$store.dispatch("notification/markReadForSigle", params);
+      this.$store.dispatch("notification/getNotification").then((res) => {
+        this.notification = res.data;
+      });
+    },
   },
 };
 </script>

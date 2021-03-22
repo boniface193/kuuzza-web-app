@@ -168,12 +168,12 @@ export default {
         let checkIfNewNotification = moment(i.date).calendar();
         if (checkIfNewNotification.includes("Today")) {
           this.newNotification = e.data
-            .slice(0, 3)
+            .slice(0, 2)
             .filter((item) => moment(item.date).calendar().includes("Today"));
           this.showNotificationStatusToday = true;
         } else {
           this.oldNotification = e.data
-            .slice(0, 3)
+            .slice(0, 2)
             .filter((item) =>
               moment(item.date).calendar().indexOf("Today", -1)
             );
@@ -197,12 +197,35 @@ export default {
     },
 
     markSigleMsg(params) {
-      this.$store.commit("notification/setSingleNotification", params);
-      this.$store
-        .dispatch("notification/markReadForSigle", params)
-        .then((res) => {
-          console.log(res);
-        });
+      this.$store.dispatch("notification/markReadForSigle", params);
+      this.$store.dispatch("notification/getNotification").then((e) => {
+         e.data.forEach((i) => {
+        // check for the lenght of unread notification
+        if (i.read === false) {
+          let checkForLength = e.data.filter((item) => item.read === false)
+            .length;
+          this.filterNotificationLength = checkForLength;
+        }
+        // check if is an old notification
+        let checkIfNewNotification = moment(i.date).calendar();
+        if (checkIfNewNotification.includes("Today")) {
+          this.newNotification = e.data
+            .slice(0, 3)
+            .filter((item) => moment(item.date).calendar().includes("Today"));
+          this.showNotificationStatusToday = true;
+        } else {
+          this.oldNotification = e.data
+            .slice(0, 3)
+            .filter((item) =>
+              moment(item.date).calendar().indexOf("Today", -1)
+            );
+          this.showNotificationStatusOld = true;
+          if (i.read) {
+            this.showNotificationStatusOld = false;
+          }
+        }
+      });
+      })
     },
 
     showError() {
