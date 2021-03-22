@@ -174,6 +174,18 @@ export default {
       this.$store.commit("inventory/setPage", 1);
       this.getfilteredProducts();
     },
+    // request for page with the request informations
+    getfilteredProducts() {
+      this.$store.dispatch("inventory/getfilteredProducts").catch((error) => {
+        this.statusImage = failedImage;
+        if (error.response) {
+          this.dialogMessage = "Something went wrong, pls try again!";
+        } else {
+          this.dialogMessage = "No internet Connection!";
+        }
+        this.dialog = true;
+      });
+    },
     // get products from inventory
     getProducts() {
       this.$store.commit("inventory/setTableLoader", true);

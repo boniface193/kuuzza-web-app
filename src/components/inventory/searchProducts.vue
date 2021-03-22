@@ -1,7 +1,6 @@
 <template>
   <div>
     <!-- search bar -->
-
     <searchBar
       placeholder="Search inventory"
       @search="setSearchValue"

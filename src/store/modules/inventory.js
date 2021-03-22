@@ -26,7 +26,7 @@ const setItemPerPage = (itemPerPage, per_page, from_page) => {
 //     let dd = today.getDate();
 //     let mm = today.getMonth()+1; //As January is 0.
 //     let yyyy = today.getFullYear();
-    
+
 //     if(dd<10) dd='0'+dd;
 //     if(mm<10) mm='0'+mm;
 //     return (dd+'-'+mm+'-'+yyyy);
@@ -34,10 +34,19 @@ const setItemPerPage = (itemPerPage, per_page, from_page) => {
 
 //holds the state properties
 const state = {
-    tableLoader: false,
-    products: [],
+    // history states parameters
     inventoryHistory: [],
     inventoryHistoryPageDetails: {},
+    historyPage: 1,
+    historyItemPerPage: 15,
+    historyDateRange: {
+        startDate: null,
+        endDate: null,
+    },
+    allowHistoryDateFilter: false,
+    // main inventory states parameter
+    tableLoader: false,
+    products: [],
     searchProduct: false,
     searchValue: "",
     page: 1,
@@ -51,8 +60,8 @@ const state = {
         selectedOptions: [],
     },
     dateRange: {
-        startDate: '',
-        endDate: '',
+        startDate: null,
+        endDate: null,
     },
     allowDateFilter: false,
     selectedReferences: [],
@@ -147,7 +156,7 @@ const actions = {
         let quantityRange = ((state.filter.maxQuantity) ? `quantity_between=${state.filter.minQuantity},${state.filter.maxQuantity}` : "");
         let inStock = (state.filter.selectedOptions.includes('inStock') ? `in_stock=${true}` : "")
         let outOfStock = (state.filter.selectedOptions.includes('outOfStock') ? `out_of_stock=${true}` : "")
-        let dateRange = (state.dateRange.endDate !== '' && state.allowDateFilter === true) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
+        let dateRange = (state.dateRange.endDate !== null && state.allowDateFilter === true) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
 
         return new Promise((resolve, reject) => {
             axios.get(`/products?${page}&${perPage}&${priceRange}&${quantityRange}&${inStock}&${outOfStock}&${dateRange}`,
@@ -172,7 +181,7 @@ const actions = {
         let page = ((state.page) ? `page=${state.page}` : "");
         let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
         let route = (state.searchValue !== "") ? `/search?q=${state.searchValue}&${page}&${perPage}` : ""
-        return new Promise((resolve, reject) => {   
+        return new Promise((resolve, reject) => {
             axios.get(`/products${route}`,
                 {
                     headers: {
@@ -257,6 +266,29 @@ const actions = {
                 })
         })
     },
+    // filtered history
+    getFilteredInventoryHistory(context) {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        let page = ((state.historyPage) ? `page=${state.historyPage}` : "");
+        let perPage = ((state.historyItemPerPage) ? `per_page=${state.historyItemPerPage}` : "");
+        let dateRange = (state.historyDateRange.endDate !== null && state.allowHistoryDateFilter === true) ? `created_between=${state.historyDateRange.startDate},${state.historyDateRange.endDate}` : ""
+        return new Promise((resolve, reject) => {
+            axios.get(`/inventory-history?${page}&${perPage}&${dateRange}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
+                    }
+                }).then(response => {
+                    context.commit("setInventoryHistory", response.data.data);
+                    context.commit("setInventoryHistoryPageDetails", response.data.meta);
+                    resolve(response);
+                })
+                .catch(error => {
+                    reject(error);
+                })
+        })
+    },
     // export product
     exportProducts() {
         return new Promise((resolve, reject) => {
@@ -301,8 +333,6 @@ const mutations = {
     addProduct: (state, data) => {
         state.products.push(data)
     },
-    setInventoryHistory: (state, data) => (state.inventoryHistory = data),
-    setInventoryHistoryPageDetails: (state, data) => (state.inventoryHistoryPageDetails = data),
     setSelectedReferences: (state, value) => (state.selectedReferences = value),
     setDateRange: (state, dateRange) => (state.dateRange = dateRange),
     setAllowDateFilter: (state, status) => (state.allowDateFilter = status),
@@ -317,6 +347,17 @@ const mutations = {
     },
     setPage: (state, page) => (state.page = page),
     setFilter: (state, filter) => (state.filter = filter),
+
+    setInventoryHistory: (state, data) => (state.inventoryHistory = data),
+    setInventoryHistoryPageDetails: (state, data) => (state.inventoryHistoryPageDetails = data),
+    setHistoryDateRange: (state, dateRange) => (state.historyDateRange = dateRange),
+    setHistoryItemPerPage: (state, itemPerPage) => {
+        state.historyItemPerPage = itemPerPage;
+        let page = setItemPerPage(itemPerPage, state.inventoryHistoryPageDetails.per_page, state.inventoryHistoryPageDetails.from);
+        state.historyPage = page;
+    },
+    setHistoryPage: (state, page) => (state.historyPage = page),
+    setAllowHistoryDateFilter: (state, status) => (state.allowHistoryDateFilter = status),
     doNothing: (state) => (state.doNothing = null),
 };
 
@@ -328,4 +369,4 @@ export default {
     getters,
     actions,
     mutations
-};  
+};
