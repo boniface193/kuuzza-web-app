@@ -46,7 +46,7 @@ const getters = {
 //fetch data 
 const actions = {
     // get user profile details
-    getUserProfile() {
+    getUserProfile(context) {
         return new Promise((resolve, reject) => {
             axios.get("profile", {
                 headers: {
@@ -55,6 +55,9 @@ const actions = {
             }).then(response => {
                 resolve(response)
             }).catch((error) => {
+                if (error.response.status == 401) {
+                    context.commit("onboarding/setTokenAuthorizeStatus");
+                }
                 reject(error)
             })
         })

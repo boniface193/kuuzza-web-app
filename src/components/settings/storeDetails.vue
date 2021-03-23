@@ -29,7 +29,7 @@
           @click="editInfo('storeName')"
           >Done</span
         >
-        <!-- loader --> 
+        <!-- loader -->
         <span class="edit-btn" v-show="nameLoader">
           <v-progress-circular
             indeterminate
@@ -37,7 +37,6 @@
             :size="25"
           ></v-progress-circular>
         </span>
-
       </div>
       <!-- store location field -->
       <div class="mb-5 settings-input">
@@ -68,7 +67,7 @@
           @click="editInfo('storeLocation')"
           >Done</span
         >
-        <!-- loader --> 
+        <!-- loader -->
         <span class="edit-btn" v-show="locationLoader">
           <v-progress-circular
             indeterminate
@@ -105,7 +104,7 @@
           @click="editInfo('storeNum')"
           >Done</span
         >
-        <!-- loader --> 
+        <!-- loader -->
         <span class="edit-btn" v-show="phoneNumLoader">
           <v-progress-circular
             indeterminate
@@ -115,6 +114,73 @@
         </span>
       </div>
     </div>
+
+    <!-- modal for dialog messages -->
+    <modal :dialog="dialog2" width="400">
+      <div class="white pa-3 px-5 dialog">
+        <div class="d-flex justify-end">
+          <v-icon class="error--text close-btn" @click="dialog2 = false"
+            >mdi-close</v-icon
+          >
+        </div>
+        <!-- otp resend alert -->
+        <v-alert type="success" v-show="resendOtpSuccess"
+          >An OPT has been sent successfully!</v-alert
+        >
+        <div class="text-center mb-5 mt-5">
+          <h3>Verify your phone Number</h3>
+        </div>
+        <p class="mt-5 mb-5">
+          An OTP has been sent to your mobile number for verification
+        </p>
+        <v-form>
+          <div class="mt-0 mb-2">
+            <v-otp-input
+              ref="otpInput1"
+              separator=""
+              :num-inputs="5"
+              :should-auto-focus="true"
+              input-type="number"
+              @on-complete="handleOnComplete"
+              @on-change="handleOnChange"
+            />
+          </div>
+
+          <!-- error message -->
+          <p
+            class="error--text"
+            style="font-size: 14px"
+            v-show="otpError == true"
+          >
+            {{ otpErrorMessage }}
+          </p>
+
+          <!-- button container -->
+          <div class="pa-0 mt-5" style="width: 100%">
+            <p>
+              Didn't receive the code?
+              <a style="text-decoration: none" @click="resendOTP">
+                <span v-show="!resendOTPLoader">Resend Code</span>
+                <v-progress-circular
+                  indeterminate
+                  color="primary"
+                  size="20"
+                  class="ml-5"
+                  v-show="resendOTPLoader"
+                ></v-progress-circular>
+              </a>
+            </p>
+            <v-btn
+              class="primary px-16 py-5 mb-5 mx-auto"
+              :disabled="otpLoader"
+              :loading="otpLoader"
+              @click="submitOTP()"
+              >Verify</v-btn
+            >
+          </div>
+        </v-form>
+      </div>
+    </modal>
 
     <!-- modal for dialog messages -->
     <modal :dialog="dialog" width="400">
@@ -138,11 +204,20 @@
 import modal from "@/components/dashboard/modal.vue";
 import successImage from "@/assets/img/success-img.svg";
 import failedImage from "@/assets/img/failed-img.svg";
+import OtpInput from "@/components/onboarding/verifyInput";
 export default {
   name: "storeDetails",
-  components: { modal },
+  components: { modal, "v-otp-input": OtpInput },
   data: function () {
     return {
+      dialog2: false,
+      otp: "",
+      otpErrorMessage: "",
+      otpError: false,
+      resendOtpSuccess: false,
+      resendOTPLoader: false,
+      otpLoader: false,
+      verifyOTP: false,
       statusImage: null,
       dialog: false,
       dialogMessage: "",
@@ -201,7 +276,8 @@ export default {
       } else {
         //Display details about the valid place
         //this.validAddress = true;
-        this.computedInfo.currentStoreLocation = place.name + " " + place.formatted_address;
+        this.computedInfo.currentStoreLocation =
+          place.name + " " + place.formatted_address;
         this.lat = place.geometry.location.lat();
         this.lng = place.geometry.location.lng();
       }
@@ -255,10 +331,10 @@ export default {
           this.locationLoader = true;
           this.$store
             .dispatch("settings/editStore", {
-               location: {
+              location: {
                 address: this.computedInfo.currentStoreLocation,
                 lat: this.lat,
-                lng: this.lng
+                lng: this.lng,
               },
             })
             .then(() => {
@@ -295,11 +371,11 @@ export default {
               phone_number: this.computedInfo.currentStoreNum,
             })
             .then(() => {
-              this.dialogMessage = "phone number changed successfully!";
+              // this.dialogMessage = "phone number changed successfully!";
               this.editStoreNum = false;
               this.phoneNumLoader = false;
-              this.statusImage = successImage;
-              this.dialog = true;
+              // this.statusImage = successImage;
+              this.dialog2 = true;
             })
             .catch((error) => {
               if (error.response) {
@@ -315,6 +391,85 @@ export default {
           this.editStoreNum = false;
         }
       }
+    },
+    // check if code changes
+    handleOnChange(value) {
+      this.otp = value;
+      if (this.otp.length != 5) {
+        this.verifyOTP = false;
+      }
+    },
+    // checks if code is complete
+    handleOnComplete(value) {
+      this.verifyOTP = true;
+      this.otp = value;
+      this.otpError = false;
+    },
+     confirmOrder() {
+      this.otp.length > 0 ? this.$refs.otpInput1.clearInput() : "";
+      this.dialog2 = true;
+    },
+    // verify phone number
+    submitOTP() {
+      if (this.verifyOTP) {
+        this.otpLoader = true;
+        this.otpError = false;
+        this.$store
+          .dispatch("settings/verifyPhoneNumber", {
+            otp: this.otp,
+          })
+          .then(() => {
+            this.otpLoader = false;
+            this.statusImage = successImage;
+            this.dialog2 = false;
+            this.dialog = true;
+            this.dialogMessage = "Phone number was changed and verified successfully!";
+          })
+          .catch((error) => {
+            this.otpLoader = false;
+            this.otpError = true;
+            if (error.response) {
+              if (error.response.status == 401) {
+                this.$store.commit("onboarding/setTokenAuthorizeStatus", false);
+              } else {
+                this.otpErrorMessage = error.response.data.errors.otp[0];
+              }
+            } else {
+              this.otpErrorMessage = "No internet Connection!";
+            }
+          });
+      } else {
+        this.otpError = true;
+        this.otpErrorMessage =
+          "Please Enter the 5 digits code sent to your phone number";
+      }
+    },
+    // resend OTP
+    resendOTP() {
+      this.resendOTPLoader = true;
+      this.$store
+        .dispatch("settings/resendPhoneNumberOTP", {})
+        .then(() => {
+          this.resendOtpSuccess = true;
+          this.resendOTPLoader = false;
+          setTimeout(() => {
+            this.resendOtpSuccess = false;
+          }, 3000);
+        })
+        .catch((error) => {
+          this.errorMessage = true;
+          this.resendOTPLoader = false;
+          this.otpError = true;
+          if (error.response) {
+            if (error.response.status == 401) {
+              this.$store.commit("onboarding/setTokenAuthorizeStatus", false);
+            } else {
+              this.otpErrorMessage = error.response.data.message
+            }
+          } else {
+            this.otpErrorMessage = "No internet Connection!";
+          }
+        });
     },
   },
 };
