@@ -140,7 +140,6 @@ const ifAccessPasswordRecoveryPage = (to, from, next) => {
 
 // verify that the user is already logged
 const AlreadyLogin = (to, from, next) => {
-  console.log(11134)
   if (to.name === 'signupTeamMember') {
     next();
   } else {

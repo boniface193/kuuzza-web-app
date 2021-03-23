@@ -350,7 +350,7 @@
         </div>
         <!-- otp resend alert -->
         <v-alert type="success" v-show="resendOtpSuccess"
-          >OPT has been sent successfully!</v-alert
+          >An OPT has been sent successfully!</v-alert
         >
         <div class="text-center mb-5 mt-5">
           <h3>Verify your phone Number</h3>
