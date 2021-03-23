@@ -113,7 +113,7 @@
 <script>
 import modal from "@/components/dashboard/modal.vue";
 import Notification from "@/components/notification/notification.vue";
-import { mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
 export default {
   components: { modal, Notification },
   data: () => ({
@@ -169,18 +169,21 @@ export default {
       // },
     ],
   }),
+  computed: {
+    ...mapState({
+      userName: (state) => state.settings.profile.name,
+    }),
+    ...mapGetters({ getNotified: "notification/getNotified" }),
+  },
+
   created() {
     if (this.$store.getters["settings/getUserProfile"].name === "") {
       this.$store.dispatch("settings/getUserProfile");
     }
 
-    this.showNotification();
+    this.getNotice();
   },
-  computed: {
-    ...mapState({
-      userName: (state) => state.settings.profile.name,
-    }),
-  },
+
   methods: {
     // logout
     logout() {
@@ -194,17 +197,15 @@ export default {
       }, 1000);
     },
 
-    showNotification() {
-      this.$store.dispatch("notification/getNotification").then((e) => {
-        e.data.forEach((i) => {
-          // shows only when read is false
-          if (i.read === false) {
-            this.showNot = true;
-          } else {
-            this.showNot = false;
-          }
-        });
-      });
+    getNotice() {
+      let showing_not = this.getNotified.data.find(
+        (item) => item.read === true
+      );
+      if (showing_not) {
+        this.showNot = true;
+      } else {
+        this.showNot = false;
+      }
     },
   },
 };

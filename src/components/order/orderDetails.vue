@@ -60,22 +60,22 @@
             </p>
 
             <!-- Seller Details -->
-            <p class="mt-8 mb-3">
+            <!-- <p class="mt-8 mb-3">
               <span class="item-title">Seller Name: </span>
             </p>
             <p class="secondary--text">
               {{ orderDetails.seller_name }}
-            </p>
+            </p> -->
 
             <!-- Customer Details -->
-            <p class="mt-8 mb-3">
+            <!-- <p class="mt-8 mb-3">
               <span class="item-title">Customer Details: </span>
             </p>
             <p class="secondary--text">
               {{ customer.name }}<br />{{ customer.email }}<br />{{
                 customer.phone
               }}<br />
-            </p>
+            </p> -->
 
             <!-- Product Variant -->
             <p class="mt-8 mb-3">

@@ -23,12 +23,7 @@
 
         <div v-for="msg in newNotification" :key="msg.id" v-show="!msg.read">
           <v-list-item link>
-            <v-list-item-content
-              @click="
-                viewBodyOfNotification(msg.id);
-                markSigleMsg(msg.id);
-              "
-            >
+            <v-list-item-content @click="viewBodyOfNotification(msg.id)">
               <v-list-item-title class="layout-title-noti">{{
                 msg.title
               }}</v-list-item-title>
@@ -55,12 +50,7 @@
           v-show="msg.read === false"
         >
           <v-list-item link>
-            <v-list-item-content
-              @click="
-                viewBodyOfNotification(msg.id);
-                markSigleMsg(msg.id);
-              "
-            >
+            <v-list-item-content @click="viewBodyOfNotification(msg.id)">
               <v-list-item-title class="layout-title-noti">{{
                 msg.title
               }}</v-list-item-title>
@@ -137,6 +127,7 @@
 <script>
 import Modal from "@/components/dashboard/modal.vue";
 import moment from "moment";
+
 export default {
   components: {
     Modal,
@@ -157,6 +148,33 @@ export default {
 
   created() {
     this.$store.dispatch("notification/getNotification").then((e) => {
+<<<<<<< HEAD
+      // check for the lenght of unread notification
+      let checkForLength = e.data.filter((item) => item.read === false);
+      if (checkForLength) {
+        this.filterNotificationLength = checkForLength.length;
+      }
+
+      // check if is an old notification
+      let checkIfNewNotification = e.data
+        .slice(0, 2)
+        .filter((item) => moment(item.date).calendar().includes("Today"));
+      if (checkIfNewNotification) {
+        this.newNotification = checkIfNewNotification;
+        // show msg of today
+        let showToday = e.data.find((item) => item.read == false);
+        if (showToday) {
+          this.showNotificationStatusToday = true;
+        } else {
+          this.showNotificationStatusToday = false;
+        }
+      } else {
+        let showNotToday = e.data
+          .slice(0, 2)
+          .filter((item) => moment(item.date).calendar().indexOf("Today", -1));
+        if (showNotToday) {
+          this.oldNotification = showNotToday;
+=======
       e.data.forEach((i) => {
         // check for the lenght of unread notification
         if (i.read === false) {
@@ -177,16 +195,17 @@ export default {
             .filter((item) =>
               moment(item.date).calendar().indexOf("Today", -1)
             );
+>>>>>>> 4e6548bfbed5bb0ecc1fdcbfffb9cfd0761f1e92
           this.showNotificationStatusOld = true;
-          if (i.read) {
-            this.showNotificationStatusOld = false;
-          }
+        } else {
+          this.showNotificationStatusOld = false;
         }
-      });
+      }
     });
   },
 
   methods: {
+    // iterate for each on the modal
     viewBodyOfNotification(id) {
       this.$store.dispatch("notification/getNotification").then((e) => {
         let data = e.data;
@@ -194,8 +213,17 @@ export default {
         this.showDialog = true;
         // this.isLoading = false;
       });
-    },
 
+<<<<<<< HEAD
+      // mark selected as read
+      this.$store.dispatch("notification/markReadForSigle", id);
+      this.$store.dispatch("notification/getNotification").then((e) => {
+        // check for the lenght of unread notification
+        let checkForLength = e.data.filter((item) => item.read === false);
+        if (checkForLength) {
+          this.filterNotificationLength = checkForLength.length;
+        }
+=======
     markSigleMsg(params) {
       this.$store.dispatch("notification/markReadForSigle", params);
       this.$store.dispatch("notification/getNotification").then((e) => {
@@ -227,9 +255,35 @@ export default {
       });
       })
     },
+>>>>>>> 4e6548bfbed5bb0ecc1fdcbfffb9cfd0761f1e92
 
-    showError() {
-      // this.isLoading = true
+        // check if is an old notification
+        let checkIfNewNotification = e.data
+          .slice(0, 2)
+          .filter((item) => moment(item.date).calendar().includes("Today"));
+        if (checkIfNewNotification) {
+          this.newNotification = checkIfNewNotification;
+          // show msg of today
+          let showToday = e.data.find((item) => item.read == false);
+          if (showToday) {
+            this.showNotificationStatusToday = true;
+          } else {
+            this.showNotificationStatusToday = false;
+          }
+        } else {
+          let showNotToday = e.data
+            .slice(0, 2)
+            .filter((item) =>
+              moment(item.date).calendar().indexOf("Today", -1)
+            );
+          if (showNotToday) {
+            this.oldNotification = showNotToday;
+            this.showNotificationStatusOld = true;
+          } else {
+            this.showNotificationStatusOld = false;
+          }
+        }
+      });
     },
   },
 };

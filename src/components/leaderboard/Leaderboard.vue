@@ -24,7 +24,7 @@
       <div>
         <!-- table  -->
         <dataTable
-        v-show="!isLoading"
+          v-show="!isLoading"
           :headers="headers"
           :items="leaderboard"
           itemKey="id"
@@ -35,16 +35,14 @@
       <div v-if="isLoading" class="text-center my-8">
         <!-- this image time loader is calculated by the loader to triger the load time -->
         <v-progress-circular
-          color="#029B97"
-          class="text-center"
+          color="primary"
+          class=""
           indeterminate
-          size="20"
-          width="2"
         ></v-progress-circular>
       </div>
       <!-- loader ends here -->
       <p class="text-center mt-8">
-        {{errorMsg}}
+        {{ errorMsg }}
       </p>
     </v-card>
   </div>
@@ -68,7 +66,7 @@ export default {
       leaderboard: [],
       isLoading: true,
       itemPerPage: 15,
-      errorMsg: '',
+      errorMsg: "",
       // show on a larger screen
       headers: [
         {
@@ -104,12 +102,12 @@ export default {
   created() {
     // dispatch leaderboard
     this.$store.dispatch("leaderboard/getLeaderboard").then((e) => {
-      let leader = e.data
+      let leader = e.data;
 
-      this.leaderboard = leader
+      this.leaderboard = leader;
       this.isLoading = false;
       if (e.length == 0) {
-        this.errorMsg = 'No Item Found'
+        this.errorMsg = "No Item Found";
       }
     });
   },
@@ -131,10 +129,10 @@ export default {
 
     getLeaderboard() {
       this.$store.dispatch("leaderboard/searchLeaderboard").then((e) => {
-      let leader = e.data
+        let leader = e.data;
 
-      this.leaderboard = leader
-      this.isLoading = false;
+        this.leaderboard = leader;
+        this.isLoading = false;
       });
     },
   },
