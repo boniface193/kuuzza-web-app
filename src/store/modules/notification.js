@@ -39,21 +39,21 @@ const actions = {
         })
     },
 
-    // markAll(context) {
-    //     return new Promise((resolve, reject) => {
-    //         axios.post('/notification/read/all', {
-    //             headers: {
-    //                 Authorization: `Bearer ${localStorage.getItem("vendorToken")}`
-    //             }
-    //         }).then((res) => {
-    //             context.commit('setNotification', res.data.data)
-    //             console.log(res.data)
-    //             resolve(res.data.data)
-    //         }).catch((error) => {
-    //             reject(error)
-    //         })
-    //     })
-    // }
+    markAll(context) {
+        return new Promise((resolve, reject) => {
+            axios.post('/notification/read/all', {}, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`
+                }
+            }).then((res) => {
+                context.commit('setNotification', res.data.data)
+                console.log(res.data)
+                resolve(res.data.data)
+            }).catch((error) => {
+                reject(error)
+            })
+        })
+    }
 };
 
 const mutations = {

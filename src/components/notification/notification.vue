@@ -72,7 +72,10 @@
               View All
             </div>
           </router-link>
-          <div class="text-size-md bg-color d-flex justify-end pa-5 onhover">
+          <div
+            class="text-size-md bg-color d-flex justify-end pa-5 onhover"
+            @click="markAll"
+          >
             Mark All Read
           </div>
         </div>
@@ -225,6 +228,45 @@ export default {
             this.showNotificationStatusOld = false;
           }
         }
+      });
+    },
+
+    markAll() {
+      this.$store.dispatch("notification/markAll").then(() => {
+        this.$store.dispatch("notification/getNotification").then((e) => {
+          // check for the lenght of unread notification
+          let checkForLength = e.data.filter((item) => item.read === false);
+          if (checkForLength) {
+            this.filterNotificationLength = checkForLength.length;
+          }
+
+          // check if is an old notification
+          let checkIfNewNotification = e.data
+            .slice(0, 2)
+            .filter((item) => moment(item.date).calendar().includes("Today"));
+          if (checkIfNewNotification) {
+            this.newNotification = checkIfNewNotification;
+            // show msg of today
+            let showToday = e.data.find((item) => item.read == false);
+            if (showToday) {
+              this.showNotificationStatusToday = true;
+            } else {
+              this.showNotificationStatusToday = false;
+            }
+          } else {
+            let showNotToday = e.data
+              .slice(0, 2)
+              .filter((item) =>
+                moment(item.date).calendar().indexOf("Today", -1)
+              );
+            if (showNotToday) {
+              this.oldNotification = showNotToday;
+              this.showNotificationStatusOld = true;
+            } else {
+              this.showNotificationStatusOld = false;
+            }
+          }
+        });
       });
     },
   },
