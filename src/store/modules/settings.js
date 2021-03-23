@@ -3,7 +3,6 @@ import axios from "@/axios";
 //holds the state properties
 const state = {
     token: localStorage.getItem('vendorToken') || null,
-    verifiedStore: false,
     profile: {
         store: {
             location: {}
@@ -28,6 +27,7 @@ const state = {
 const getters = {
     getUserProfile: state => state.profile,
     verifiedStore: state => state.profile.store.setup_is_complete,
+    verifiedPhoneNumber: state => state.profile.store.phone_number_verified,
     loader: state => state.loader,
     teamMembers: state => state.teamMembers,
     pageDetails: state => state.pageDetails
@@ -223,7 +223,7 @@ const actions = {
                     Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 }
             }).then(response => {
-                context.commit("setToken", response.data.token);
+                context.commit("setToken", response.data.data.token);
                 resolve(response);
             })
                 .catch(error => {
