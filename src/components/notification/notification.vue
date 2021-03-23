@@ -21,9 +21,14 @@
           >Today</v-subheader
         >
 
-        <div v-for="msg in newNotification" :key="msg.id">
+        <div v-for="msg in newNotification" :key="msg.id" v-show="!msg.read">
           <v-list-item link>
-            <v-list-item-content @click="viewBodyOfNotification(msg.date)">
+            <v-list-item-content
+              @click="
+                viewBodyOfNotification(msg.id);
+                markSigleMsg(msg.id);
+              "
+            >
               <v-list-item-title class="layout-title-noti">{{
                 msg.title
               }}</v-list-item-title>
@@ -44,9 +49,18 @@
           >Old Notifications</v-subheader
         >
 
-        <div v-for="msg in oldNotification" :key="msg.date" v-show="msg.read">
+        <div
+          v-for="msg in oldNotification"
+          :key="msg.id"
+          v-show="msg.read === false"
+        >
           <v-list-item link>
-            <v-list-item-content @click="viewBodyOfNotification(msg.date)">
+            <v-list-item-content
+              @click="
+                viewBodyOfNotification(msg.id);
+                markSigleMsg(msg.id);
+              "
+            >
               <v-list-item-title class="layout-title-noti">{{
                 msg.title
               }}</v-list-item-title>
@@ -74,6 +88,18 @@
         </div>
       </div>
     </v-card>
+
+    <Modal width="50">
+      <v-card>
+        <div class="d-flex justify-center pt-1" style="height: 43px">
+          <!-- this image time loader is calculated by the loader to triger the load time -->
+          <v-progress-circular
+            color="primary"
+            indeterminate
+          ></v-progress-circular>
+        </div>
+      </v-card>
+    </Modal>
 
     <!-- modal -->
     <Modal :dialog="showDialog" width="400">
@@ -125,6 +151,7 @@ export default {
       showNotificationStatusToday: null,
       showNotificationStatusOld: null,
       filteredArray: {},
+      // isLoading: false,
     };
   },
 
@@ -132,19 +159,27 @@ export default {
     this.$store.dispatch("notification/getNotification").then((e) => {
       e.data.forEach((i) => {
         // check for the lenght of unread notification
-        if (i.read) {
-          let checkForLength = e.data.length;
+        if (i.read === false) {
+          let checkForLength = e.data.filter((item) => item.read === false)
+            .length;
           this.filterNotificationLength = checkForLength;
         }
         // check if is an old notification
         let checkIfNewNotification = moment(i.date).calendar();
         if (checkIfNewNotification.includes("Today")) {
-          this.newNotification = e.data.slice(0, 2);
-          this.showNotificationStatus = true;
+          this.newNotification = e.data
+            .slice(0, 2)
+            .filter((item) => moment(item.date).calendar().includes("Today"));
+          this.showNotificationStatusToday = true;
         } else {
-          this.oldNotification = e.data.slice(0, 2);
+          this.oldNotification = e.data
+            .slice(0, 2)
+            .filter((item) =>
+              moment(item.date).calendar().indexOf("Today", -1)
+            );
+          this.showNotificationStatusOld = true;
           if (i.read) {
-            this.showNotificationStatusOld = true;
+            this.showNotificationStatusOld = false;
           }
         }
       });
@@ -155,9 +190,46 @@ export default {
     viewBodyOfNotification(id) {
       this.$store.dispatch("notification/getNotification").then((e) => {
         let data = e.data;
-        this.filteredArray = data.find((item) => item.date === id);
+        this.filteredArray = data.find((item) => item.id === id);
         this.showDialog = true;
+        // this.isLoading = false;
       });
+    },
+
+    markSigleMsg(params) {
+      this.$store.dispatch("notification/markReadForSigle", params);
+      this.$store.dispatch("notification/getNotification").then((e) => {
+         e.data.forEach((i) => {
+        // check for the lenght of unread notification
+        if (i.read === false) {
+          let checkForLength = e.data.filter((item) => item.read === false)
+            .length;
+          this.filterNotificationLength = checkForLength;
+        }
+        // check if is an old notification
+        let checkIfNewNotification = moment(i.date).calendar();
+        if (checkIfNewNotification.includes("Today")) {
+          this.newNotification = e.data
+            .slice(0, 3)
+            .filter((item) => moment(item.date).calendar().includes("Today"));
+          this.showNotificationStatusToday = true;
+        } else {
+          this.oldNotification = e.data
+            .slice(0, 3)
+            .filter((item) =>
+              moment(item.date).calendar().indexOf("Today", -1)
+            );
+          this.showNotificationStatusOld = true;
+          if (i.read) {
+            this.showNotificationStatusOld = false;
+          }
+        }
+      });
+      })
+    },
+
+    showError() {
+      // this.isLoading = true
     },
   },
 };

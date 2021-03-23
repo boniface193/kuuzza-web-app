@@ -1,6 +1,7 @@
 import axios from "../../axios/notification"
 const state = {
-    notification: []
+    notification: [],
+    readSingleNotification: [],
 };
 
 const getters = {
@@ -8,7 +9,7 @@ const getters = {
 };
 
 const actions = {
-    getNotification(context){
+    getNotification(context) {
         return new Promise((resolve, reject) => {
             axios.get('/notification', {
                 headers: {
@@ -21,12 +22,46 @@ const actions = {
                 reject(error)
             })
         })
-    }
+    },
+
+    markReadForSigle(context, data) {
+        return new Promise((resolve, reject) => {
+            axios.post('/notification/read', { "ids": [data] }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`
+                }
+            }).then((res) => {
+                context.commit('setNotification', res.data.data)
+                resolve(res.data.data)
+            }).catch((error) => {
+                reject(error)
+            })
+        })
+    },
+
+    // markAll(context) {
+    //     return new Promise((resolve, reject) => {
+    //         axios.post('/notification/read/all', {
+    //             headers: {
+    //                 Authorization: `Bearer ${localStorage.getItem("vendorToken")}`
+    //             }
+    //         }).then((res) => {
+    //             context.commit('setNotification', res.data.data)
+    //             console.log(res.data)
+    //             resolve(res.data.data)
+    //         }).catch((error) => {
+    //             reject(error)
+    //         })
+    //     })
+    // }
 };
 
 const mutations = {
     setNotification: (state, data) => {
         state.notification = data
+    },
+    setSingleNotification: (state, data) => {
+        state.readSingleNotification = data
     }
 };
 

@@ -197,17 +197,14 @@ export default {
     showNotification() {
       this.$store.dispatch("notification/getNotification").then((e) => {
         e.data.forEach((i) => {
-          if (i.read === true) {
+          // shows only when read is false
+          if (i.read === false) {
             this.showNot = true;
           } else {
             this.showNot = false;
           }
         });
       });
-    },
-
-    showDropDown() {
-      alert("over");
     },
   },
 };
