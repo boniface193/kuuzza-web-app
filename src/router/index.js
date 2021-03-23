@@ -163,6 +163,19 @@ const allowEditBankAccount = (to, from, next) => {
   }
 }
 
+// allow a user to add products 
+const allowAddProducts = (to, from, next) => {
+  if (store.getters["settings/verifiedStore"] === true && store.getters["settings/verifiedPhoneNumber"] === true) {
+    next();
+    return
+  } else {
+    if (from.name !== "inventoryPage") {
+      next({
+        name: "inventoryPage"
+      })
+    }
+  }
+}
 const routes = [
   {
     path: "/",
@@ -206,23 +219,27 @@ const routes = [
           {
             path: "add-product",
             name: "addProduct",
-            component: addProduct
+            component: addProduct,
+            beforeEnter: allowAddProducts
           },
           {
             path: "edit-product/:id",
             name: "editProduct",
-            component: editProduct
+            component: editProduct,
+            beforeEnter: allowAddProducts
           },
           {
             path: ":id",
             name: "productDetails",
             component: productDetails,
-            props: true
+            props: true,
+            beforeEnter: allowAddProducts
           },
           {
             path: "import-product-list",
             name: "productList",
-            component: productList
+            component: productList,
+            beforeEnter: allowAddProducts
           }
         ]
       },

@@ -21,16 +21,6 @@ const setItemPerPage = (itemPerPage, per_page, from_page) => {
         return page
     }
 }
-// const curday = ()=> {
-//     const today = new Date();
-//     let dd = today.getDate();
-//     let mm = today.getMonth()+1; //As January is 0.
-//     let yyyy = today.getFullYear();
-
-//     if(dd<10) dd='0'+dd;
-//     if(mm<10) mm='0'+mm;
-//     return (dd+'-'+mm+'-'+yyyy);
-// };
 
 //holds the state properties
 const state = {
@@ -65,6 +55,7 @@ const state = {
     },
     allowDateFilter: false,
     selectedReferences: [],
+    productCategories: [],
     doNothing: null
 };
 
@@ -74,6 +65,7 @@ const getters = {
     inventoryHistory: state => state.inventoryHistory,
     productsPageDetails: state => state.productsPageDetails,
     searchProduct: state => state.searchProduct,
+    productCategories: state => state.productCategories
 };
 
 //take actions 
@@ -324,6 +316,23 @@ const actions = {
                     reject(error);
                 })
         })
+    },
+     // get product categories
+     getProductCategories(context) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/products/category`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
+                    }
+                }).then(response => {
+                    resolve(response);
+                })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        })
     }
 };
 
@@ -359,6 +368,7 @@ const mutations = {
     setHistoryPage: (state, page) => (state.historyPage = page),
     setAllowHistoryDateFilter: (state, status) => (state.allowHistoryDateFilter = status),
     doNothing: (state) => (state.doNothing = null),
+    setProductCategories: (state, productCategories) => (state.productCategories = productCategories)
 };
 
 

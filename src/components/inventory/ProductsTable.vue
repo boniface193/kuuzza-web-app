@@ -295,7 +295,7 @@ export default {
         } else {
           this.dialogMessage = "No internet Connection!";
         }
-        this.dialog1 = true;
+        this.dialog = true;
       });
     },
   },
