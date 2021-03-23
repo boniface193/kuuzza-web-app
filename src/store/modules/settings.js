@@ -2,6 +2,7 @@ import axios from "@/axios";
 
 //holds the state properties
 const state = {
+    token: localStorage.getItem('vendorToken') || null,
     verifiedStore: false,
     profile: {
         store: {
@@ -26,7 +27,7 @@ const state = {
 //returns the state properties
 const getters = {
     getUserProfile: state => state.profile,
-    verifiedStore: state => state.profile.phone_number_verified,
+    verifiedStore: state => state.profile.store.setup_is_complete,
     loader: state => state.loader,
     teamMembers: state => state.teamMembers,
     pageDetails: state => state.pageDetails
@@ -36,7 +37,6 @@ const getters = {
 const actions = {
 
     // get profile informations
-
     getUserProfile(context) {
         return new Promise((resolve, reject) => {
             state.loader = true;
@@ -214,6 +214,39 @@ const actions = {
                     reject(error);
                 })
         })
+    },
+    // verify phone number 
+    verifyPhoneNumber(context, data) {
+        return new Promise((resolve, reject) => {
+            axios.post(`store/phone-number/verify`, data, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
+                }
+            }).then(response => {
+                context.commit("setToken", response.data.token);
+                resolve(response);
+            })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        })
+    },
+    // verify phone number 
+    resendPhoneNumberOTP(context, data) {
+        return new Promise((resolve, reject) => {
+            axios.post(`store/phone-number/send-otp`, data, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
+                }
+            }).then(response => {
+                resolve(response);
+            })
+                .catch(error => {
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        })
     }
 };
 
@@ -223,7 +256,11 @@ const mutations = {
     setTeamMembers: (state, data) => (state.teamMembers = data),
     setPageDetails: (state, data) => (state.pageDetails = data),
     setCurrentPage: (state, currentPage) => { state.pageDetails.current_page = currentPage },
-    setVerifiedStore: (state, status) => {state.profile.phone_number_verified = status}, 
+    //set token
+    setToken: (state, token) => {
+        localStorage.setItem('vendorToken', token)
+        state.token = localStorage.getItem('vendorToken') || null
+    },
     doNothing: (state) => (state.doNothing = null)
 };
 
@@ -235,4 +272,4 @@ export default {
     getters,
     actions,
     mutations
-};  
+};

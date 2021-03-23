@@ -70,7 +70,7 @@ import PaymentHistory from "@/components/balancePages/PaymentHistory.vue";
 Vue.use(VueRouter);
 
 // requirement for user to log on to the authenticated pages
-const ifAuthenticated = (to, from, next) => {
+ const ifAuthenticated = (to, from, next) => {
   store.commit("onboarding/tokenIsPresent");
   if (store.getters["onboarding/tokenIsPresent"] === true) {
     store.dispatch("onboarding/getUserProfile").then(response => {
@@ -140,6 +140,7 @@ const ifAccessPasswordRecoveryPage = (to, from, next) => {
 
 // verify that the user is already logged
 const AlreadyLogin = (to, from, next) => {
+  console.log(11134)
   if (to.name === 'signupTeamMember') {
     next();
   } else {
@@ -163,6 +164,19 @@ const allowEditBankAccount = (to, from, next) => {
   }
 }
 
+// allow a user to add products 
+const allowAddProducts = (to, from, next) => {
+  if (store.getters["settings/verifiedStore"] === true && store.getters["settings/verifiedPhoneNumber"] === true) {
+    next();
+    return
+  } else {
+    if (from.name !== "inventoryPage") {
+      next({
+        name: "inventoryPage"
+      })
+    }
+  }
+}
 const routes = [
   {
     path: "/",
@@ -182,12 +196,12 @@ const routes = [
       {
         path: "bestSeller",
         name: "bestSeller",
-        component: bestSeller
+        component: bestSeller,
       },
       {
         path: "allNotification",
         name: "allNotification",
-        component: allNotification
+        component: allNotification,
       },
       {
         path: "/inventory",
@@ -196,33 +210,37 @@ const routes = [
           {
             path: "",
             name: "inventoryPage",
-            component: inventoryPage
+            component: inventoryPage,
           },
           {
             path: "history",
             name: "inventoryHistory",
-            component: inventoryHistory
+            component: inventoryHistory,
           },
           {
             path: "add-product",
             name: "addProduct",
-            component: addProduct
+            component: addProduct,
+            beforeEnter: allowAddProducts
           },
           {
             path: "edit-product/:id",
             name: "editProduct",
-            component: editProduct
+            component: editProduct,
+            beforeEnter: allowAddProducts
           },
           {
             path: ":id",
             name: "productDetails",
             component: productDetails,
-            props: true
+            props: true,
+            beforeEnter: allowAddProducts
           },
           {
             path: "import-product-list",
             name: "productList",
-            component: productList
+            component: productList,
+            beforeEnter: allowAddProducts
           }
         ]
       },
@@ -230,7 +248,6 @@ const routes = [
         path: "/leaderboard",
         name: "leaderboard",
         component: Leaderboard,
-
       },
       {
         path: "/orders",
@@ -239,13 +256,13 @@ const routes = [
           {
             path: "",
             name: "Orders",
-            component: ordersPage
+            component: ordersPage,
           },
           {
             path: ":id",
             name: "OrderDetails",
             component: orderDetails,
-            props: true
+            props: true,
           }
         ]
       },
@@ -256,7 +273,7 @@ const routes = [
           {
             path: "",
             name: "Revenue",
-            component: Revenue
+            component: Revenue,
           },
           {
             path: "settlements",
@@ -266,12 +283,12 @@ const routes = [
           {
             path: "awaiting-settlements",
             name: "AwaitingSettlements",
-            component: AwaitingSettlements
+            component: AwaitingSettlements,
           },
           {
             path: "payment-history",
             name: "PaymentHistory",
-            component: PaymentHistory
+            component: PaymentHistory,
           },
         ]
       },
@@ -286,17 +303,17 @@ const routes = [
               {
                 path: "",
                 name: "allCustomer",
-                component: allCustomer
+                component: allCustomer,
               },
               {
                 path: "newCustomer",
                 name: "newCustomer",
-                component: newCustomer
+                component: newCustomer,
               },
               {
                 path: "returningCustomer",
                 name: "returningCustomer",
-                component: returningCustomer
+                component: returningCustomer,
               },
             ]
           },
@@ -304,7 +321,7 @@ const routes = [
             path: ":id",
             name: "customerDetail",
             component: customerDetails,
-            props: true
+            props: true,
           }
         ]
       },
@@ -319,17 +336,17 @@ const routes = [
               {
                 path: "",
                 name: "all",
-                component: allSeller
+                component: allSeller,
               },
               {
                 path: "new",
                 name: "new",
-                component: newSeller
+                component: newSeller,
               },
               {
                 path: "returning",
                 name: "returning",
-                component: returningSeller
+                component: returningSeller,
               },
             ]
           },
@@ -337,7 +354,7 @@ const routes = [
             path: ":id",
             name: "seller",
             component: sellersCard,
-            props: true
+            props: true,
           },
         ]
       },
@@ -348,12 +365,12 @@ const routes = [
           {
             path: "",
             name: "store",
-            component: storeDetails
+            component: storeDetails,
           },
           {
             path: "user",
             name: "user",
-            component: userDetails
+            component: userDetails,
           },
           {
             path: "team",
@@ -362,18 +379,18 @@ const routes = [
               {
                 path: "",
                 name: "teamDetails",
-                component: teamDetails
+                component: teamDetails,
               },
               {
                 path: "invite",
                 name: "teamInvite",
-                component: teamInvite
+                component: teamInvite,
               },
               {
                 path: "edit/:id",
                 name: "editTeamMember",
                 component: editTeamMember,
-                props: true
+                props: true,
               }
             ]
           },
@@ -384,17 +401,17 @@ const routes = [
               {
                 path: "add-account",
                 name: "AddBankDetails",
-                component: AddBankDetails
+                component: AddBankDetails,
               },
               {
                 path: "withdraw-fund",
                 name: "WithdrawFund",
-                component: WithdrawFund
+                component: WithdrawFund,
               },
               {
                 path: "change-account",
                 name: "EditBankDetails",
-                component: EditBankDetails,
+                component: EditBankDetails, 
                 beforeEnter: allowEditBankAccount
               }
             ]
@@ -402,12 +419,12 @@ const routes = [
           {
             path: "privacy",
             name: "privacy",
-            component: privacyDetails
+            component: privacyDetails,
           },
           {
             path: "logout",
             name: "logout",
-            component: logout
+            component: logout,
           }
         ]
       },

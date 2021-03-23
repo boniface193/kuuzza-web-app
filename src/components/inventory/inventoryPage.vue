@@ -60,12 +60,14 @@
 
             <!-- add product btn primary-->
             <router-link
-              :to="{ name: 'addProduct' }" 
+              :to="{ name: 'addProduct' }"
               class="add-btn-secondary"
               :disabled="!verifiedStore"
               :event="verifiedStore ? 'click' : ''"
             >
-              <span class="btn" :class="{'disabled': !verifiedStore}">Add New Product</span>
+              <span class="btn" :class="{ disabled: !verifiedStore }"
+                >Add New Product</span
+              >
             </router-link>
 
             <!-- add product btn primary-->
@@ -93,10 +95,10 @@
     </div>
 
     <!--------------------------- modal for dialog messages ------------------------------>
-    <modal :dialog="dialog1" width="400">
+    <modal :dialog="dialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
         <div class="d-flex justify-end">
-          <v-icon class="error--text close-btn" @click="dialog1 = false"
+          <v-icon class="error--text close-btn" @click="dialog = false"
             >mdi-close</v-icon
           >
         </div>
@@ -140,15 +142,13 @@ export default {
     return {
       items: ["Items in stock", "Items out of stock"],
       item: "Items in stock",
-      dialog1: false,
+      dialog: false,
       dialogMessage: "",
       statusImage: null,
     };
   },
   created() {
-    if (
-      this.$store.getters["inventory/products"].length == 0
-    ) {
+    if (this.$store.getters["inventory/products"].length == 0) {
       this.getProducts();
     }
   },
@@ -179,11 +179,16 @@ export default {
       this.$store.dispatch("inventory/getfilteredProducts").catch((error) => {
         this.statusImage = failedImage;
         if (error.response) {
-          this.dialogMessage = "Something went wrong, pls try again!";
+          if (error.response.status == 401) {
+            this.$store.commit("onboarding/setTokenAuthorizeStatus");
+          } else {
+            this.dialog = true;
+            this.dialogMessage = "Something went wrong, pls try again!";
+          }
         } else {
+          this.dialog = true;
           this.dialogMessage = "No internet Connection!";
         }
-        this.dialog = true;
       });
     },
     // get products from inventory
@@ -194,13 +199,18 @@ export default {
         .then(() => this.$store.commit("inventory/setTableLoader", false))
         .catch((error) => {
           this.statusImage = failedImage;
-          this.dialog1 = true;
-          if (error.response) {
-            this.dialogMessage = "Something went wrong, pls try again!";
-          } else {
-            this.dialogMessage = "No internet connection!";
-          }
           this.$store.commit("inventory/setTableLoader", false);
+          if (error.response) {
+            if (error.response.status == 401) {
+              this.$store.commit("onboarding/setTokenAuthorizeStatus");
+            } else {
+              this.dialog = true;
+              this.dialogMessage = "Something went wrong, pls try again!";
+            }
+          } else {
+            this.dialog = true;
+            this.dialogMessage = "No internet Connection!";
+          }
         });
     },
   },

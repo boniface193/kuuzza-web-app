@@ -171,9 +171,10 @@ export default {
 <style lang="scss">
 .reportrange-text[data-v-00277188] {
   border-radius: 8px !important;
-  .fa {
-    color: #5064cc !important;
-  }
+}
+.daterangepicker td.active, .daterangepicker td.active:hover {
+    background-color:var(--v-primary-base) !important;
+    color: white !important;
 }
 .ranges.col-12.col-md-auto {
   width: 20%;

@@ -33,6 +33,7 @@ const state = {
     token: localStorage.getItem('vendorToken') || null,
     tokenIsPresent: false,
     tokenExpired: true,
+    tokenAuthorize: true,
     doNothing: null,
 };
 
@@ -77,10 +78,10 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.post("auth/login", data).then(response => {
                 context.commit("setToken", response.data.token)
+                context.commit("setTokenAuthorizeStatus", true);
                 resolve(response)
             })
                 .catch(error => {
-                    context.commit("removeToken")
                     reject(error);
                 })
         })
@@ -205,6 +206,7 @@ const mutations = {
         const tokenExpired = checkIftokenExpired();
         state.tokenExpired = tokenExpired;
     },
+    setTokenAuthorizeStatus: (state, status) => (state.tokenAuthorize = status),
     // commit nothing
     doNothing: (state) => (state.doNothing = null)
 
