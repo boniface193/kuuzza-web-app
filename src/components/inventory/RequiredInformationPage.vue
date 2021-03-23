@@ -349,7 +349,7 @@
           >
         </div>
         <!-- otp resend alert -->
-        <v-alert type="success" class="mt-2" v-show="resendOtpSuccess"
+        <v-alert type="success" v-show="resendOtpSuccess"
           >OPT has been sent successfully!</v-alert
         >
         <div class="text-center mb-5 mt-5">
@@ -713,14 +713,24 @@ export default {
             this.dialog2 = true;
             this.dialogMessage = "Store setup completed successfully";
             // get lastest profile information
-            this.$store.dispatch("settings/getUserProfile");
+            this.$store.dispatch("settings/getUserProfile").catch((error) => {
+              if (error.response) {
+                if (error.response.status == 401) {
+                  this.$store.commit("onboarding/setTokenAuthorizeStatus");
+                }
+              }
+            });
           })
           .catch((error) => {
             this.loader = false;
             this.otpLoader = false;
             this.otpError = true;
             if (error.response) {
-              this.otpErrorMessage = error.response.data.errors.otp[0];
+              if (error.response.status == 401) {
+                this.$store.commit("onboarding/setTokenAuthorizeStatus", false);
+              } else {
+                this.otpErrorMessage = error.response.data.errors.otp[0];
+              }
             } else {
               this.otpErrorMessage = "No internet Connection!";
             }
@@ -746,8 +756,13 @@ export default {
         .catch((error) => {
           this.errorMessage = true;
           this.resendOTPLoader = false;
+          this.otpError = true;
           if (error.response) {
-            this.otpErrorMessage = error.response.errors.email[0];
+            if (error.response.status == 401) {
+              this.$store.commit("onboarding/setTokenAuthorizeStatus", false);
+            } else {
+              this.otpErrorMessage = error.response.data.message
+            }
           } else {
             this.otpErrorMessage = "No internet Connection!";
           }
