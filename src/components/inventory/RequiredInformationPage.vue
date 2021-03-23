@@ -1,6 +1,6 @@
 <template>
   <div class="mt-10">
-    <div v-show="!loader">
+    <div v-show="!loader && !verifiedStore">
       <!-- page description -->
       <div>
         <h2 class="text-center mb-0 primary--text" style="font-size: 20px">
@@ -164,17 +164,17 @@
               <v-radio
                 class="primary--text mb-2"
                 label="Yes"
-                value="Yes"
+                value="true"
               ></v-radio>
               <v-radio
                 class="primary--text mb-1"
                 label="No"
-                value="No"
+                value="false"
               ></v-radio>
             </v-radio-group>
           </div>
           <v-form
-            v-show="allowReturnProducts === 'Yes'"
+            v-show="allowReturnProducts === 'true'"
             ref="allowReturnProductForm"
           >
             <!-- input field question -->
@@ -469,7 +469,7 @@ export default {
       IDtype: null,
       businessCategories: [],
       productQualification: "",
-      allowReturnProducts: "",
+      allowReturnProducts: null,
       allowReplaceProducts: "",
       maxDays: "",
       pickUpLocation: "",
@@ -523,6 +523,7 @@ export default {
   computed: {
     ...mapGetters({
       productCategories: "inventory/productCategories",
+      verifiedStore: "settings/verifiedStore",
     }),
   },
   methods: {
@@ -605,10 +606,10 @@ export default {
         }
       } else if (formNum == 2) {
         this.$refs.form2.validate();
-        if (this.allowReturnProducts === "No") {
+        if (this.allowReturnProducts === "false") {
           this.currentStep = this.currentStep + 1;
           this.presentForm = "form" + (formNum + 1);
-        } else if (this.allowReturnProducts === "Yes") {
+        } else if (this.allowReturnProducts === "true") {
           this.$refs.allowReturnProductForm.validate();
           if (this.$refs.allowReturnProductForm.validate()) {
             this.currentStep = this.currentStep + 1;
@@ -649,29 +650,37 @@ export default {
     getInfo() {
       if (this.accountType === "individual") {
         return {
-          account_type: this.accountType,
-          id_type: this.IDtype,
-          id_number: this.idNumber,
+          business_info: {
+            account_type: this.accountType,
+            id_type: this.IDtype,
+            id_number: this.idNumber,
+          },
           location: {
             address: this.pickUpLocation,
             lat: this.lat,
             lng: this.lng,
           },
           phone_number: this.phoneNumber,
-          return_allowed: this.allowReturnProducts,
+          refund_policy: {
+            return_allowed: this.allowReturnProducts
+          },
         };
       } else if (this.accountType === "business") {
         return {
-          account_type: this.accountType,
-          business_name: this.businessName,
-          rc_number: this.rcNumber,
+          business_info: {
+            account_type: this.accountType,
+            business_name: this.businessName,
+            rc_number: this.rcNumber,
+          },
           location: {
             address: this.pickUpLocation,
             lat: this.lat,
             lng: this.lng,
           },
           phone_number: this.phoneNumber,
-          return_allowed: this.allowReturnProducts,
+          refund_policy: {
+            return_allowed: this.allowReturnProducts
+          },
         };
       }
     },
@@ -683,6 +692,7 @@ export default {
         .then(() => {
           this.submitLoader = false;
           this.otp.length > 0 ? this.$refs.otpInput1.clearInput() : "";
+          this.dialog2 = false;
           this.dialog = true;
           this.otpError = false;
         })
@@ -761,7 +771,7 @@ export default {
             if (error.response.status == 401) {
               this.$store.commit("onboarding/setTokenAuthorizeStatus", false);
             } else {
-              this.otpErrorMessage = error.response.data.message
+              this.otpErrorMessage = error.response.data.message;
             }
           } else {
             this.otpErrorMessage = "No internet Connection!";

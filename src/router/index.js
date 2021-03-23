@@ -166,7 +166,8 @@ const allowEditBankAccount = (to, from, next) => {
 
 // allow a user to add products 
 const allowAddProducts = (to, from, next) => {
-  if (store.getters["settings/verifiedStore"] === true && store.getters["settings/verifiedPhoneNumber"] === true) {
+  console.log(222)
+  if (store.getters["settings/verifiedStore"] == true && store.getters["settings/verifiedPhoneNumber"] == true) {
     next();
     return
   } else {
