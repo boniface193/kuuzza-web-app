@@ -184,9 +184,9 @@ export default {
   methods: {
     // logout
     logout() {
+      this.dialog = true;
       this.$store.commit("reset");
       this.$store.commit("onboarding/removeToken");
-      this.dialog = true;
       setTimeout(() => {
         this.$router.push({
           name: "Signin",

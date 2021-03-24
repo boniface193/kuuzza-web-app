@@ -88,10 +88,10 @@
 
     <div>
       <!-- allow user to see table if verified -->
-      <ProductsTable ref="productsTable" v-if="verifiedStore" />
+      <ProductsTable ref="productsTable" v-show="verifiedStore === true" />
 
       <!-- show the user this form if the store is not verified yet -->
-      <RequiredInformationPage v-if="!verifiedStore" />
+      <RequiredInformationPage v-show="verifiedStore === false" />
     </div>
 
     <!--------------------------- modal for dialog messages ------------------------------>

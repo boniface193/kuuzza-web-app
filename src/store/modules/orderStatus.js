@@ -1,5 +1,6 @@
 // orderstatus base url
 import axios from "../../axios/order"
+import store from "@/store";
 //holds the state properties
 const state = {
     dashboardOrder: [],
@@ -18,6 +19,9 @@ const actions = {
                 resolve(res.data.data)
 
             }).catch((error) => {
+                if (error.response.status == 401) {
+                    store.commit("onboarding/setTokenAuthorizeStatus", false);
+                }
                 reject(error.response)
             })
         })

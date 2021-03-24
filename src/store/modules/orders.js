@@ -1,5 +1,5 @@
 import axios from "@/axios/order.js";
-
+import store from "@/store";
 // set the number of item you want to show on table
 const setItemPerPage = (itemPerPage, per_page, from_page) => {
     let page = null;
@@ -76,6 +76,9 @@ const actions = {
                     resolve(response.data.data)
                 })
                 .catch(error => {
+                    if (error.response.status == 401) {
+                        store.commit("onboarding/setTokenAuthorizeStatus", false);
+                    }
                     reject(error)
                 })
         })
@@ -102,6 +105,9 @@ const actions = {
                     resolve(response);
                 })
                 .catch(error => {
+                    if (error.response.status == 401) {
+                        store.commit("onboarding/setTokenAuthorizeStatus", false);
+                    }
                     reject(error);
                 })
             })
@@ -118,6 +124,9 @@ const actions = {
                 resolve(response.data.data);
             })
             .catch(error => {
+                if (error.response.status == 401) {
+                    store.commit("onboarding/setTokenAuthorizeStatus", false);
+                }
                 context.commit("doNothing");
                 reject(error);
             })
@@ -140,6 +149,9 @@ const actions = {
                     resolve(response);
                 })
                 .catch(error => {
+                    if (error.response.status == 401) {
+                        store.commit("onboarding/setTokenAuthorizeStatus", false);
+                    }
                     reject(error);
                 })
         })
@@ -159,6 +171,9 @@ const actions = {
                     resolve(response);
                 })
                 .catch(error => {
+                    if (error.response.status == 401) {
+                        store.commit("onboarding/setTokenAuthorizeStatus", false);
+                    }
                     reject(error);
                 })
         })

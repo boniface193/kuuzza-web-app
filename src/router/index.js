@@ -140,7 +140,6 @@ const ifAccessPasswordRecoveryPage = (to, from, next) => {
 
 // verify that the user is already logged
 const AlreadyLogin = (to, from, next) => {
-  console.log(11134)
   if (to.name === 'signupTeamMember') {
     next();
   } else {
@@ -166,11 +165,11 @@ const allowEditBankAccount = (to, from, next) => {
 
 // allow a user to add products 
 const allowAddProducts = (to, from, next) => {
-  console.log(222)
   if (store.getters["settings/verifiedStore"] == true && store.getters["settings/verifiedPhoneNumber"] == true) {
     next();
     return
   } else {
+    console.log(678)
     if (from.name !== "inventoryPage") {
       next({
         name: "inventoryPage"

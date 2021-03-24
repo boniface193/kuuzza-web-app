@@ -376,16 +376,18 @@ export default {
               this.phoneNumLoader = false;
               // this.statusImage = successImage;
               this.dialog2 = true;
+              this.$store.dispatch("settings/getUserProfile")
             })
             .catch((error) => {
-              if (error.response) {
-                this.dialogMessage = error.response.data.errors.phone_number[0];
-              } else {
-                this.dialogMessage = "No internet connection!";
-              }
               this.phoneNumLoader = false;
               this.statusImage = failedImage;
-              this.dialog = true;
+              if (error.response) {
+                this.dialog = true;
+                this.dialogMessage = error.response.data.errors.phone_number[0];
+              } else {
+                this.dialog = true;
+                this.dialogMessage = "No internet connection!";
+              }
             });
         } else {
           this.editStoreNum = false;
@@ -424,16 +426,13 @@ export default {
             this.dialog2 = false;
             this.dialog = true;
             this.dialogMessage = "Phone number was changed and verified successfully!";
+            this.$store.dispatch("settings/getUserProfile")
           })
           .catch((error) => {
             this.otpLoader = false;
             this.otpError = true;
             if (error.response) {
-              if (error.response.status == 401) {
-                this.$store.commit("onboarding/setTokenAuthorizeStatus", false);
-              } else {
                 this.otpErrorMessage = error.response.data.errors.otp[0];
-              }
             } else {
               this.otpErrorMessage = "No internet Connection!";
             }

@@ -1,5 +1,6 @@
 // orderstatus base url
 import axios from "../../axios/order"
+import store from "@/store";
 //holds the state properties
 const state = {
     bestSellingItems: [],
@@ -26,6 +27,9 @@ const actions = {
                 context.commit("setBestSelling", res.data)
                 resolve(res.data)
             }).catch((error) => {
+                if (error.response.status == 401) {
+                    store.commit("onboarding/setTokenAuthorizeStatus", false);
+                }
                 reject(error.response)
             })
         })
@@ -43,6 +47,9 @@ const actions = {
                 context.commit("setBestSelling", res.data)
                 resolve(res.data)
             }).catch((error) => {
+                if (error.response.status == 401) {
+                    store.commit("onboarding/setTokenAuthorizeStatus", false);
+                }
                 reject(error.response)
             })
         })

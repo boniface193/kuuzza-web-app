@@ -1,4 +1,5 @@
 import axios from "../../axios/notification"
+import store from "@/store";
 const state = {
     notification: [],
     readSingleNotification: [],
@@ -19,6 +20,9 @@ const actions = {
                 context.commit('setNotification', res.data)
                 resolve(res.data)
             }).catch((error) => {
+                if (error.response.status == 401) {
+                    store.commit("onboarding/setTokenAuthorizeStatus", false);
+                }
                 reject(error)
             })
         })
@@ -34,6 +38,9 @@ const actions = {
                 context.commit('setNotification', res.data.data)
                 resolve(res.data.data)
             }).catch((error) => {
+                if (error.response.status == 401) {
+                    store.commit("onboarding/setTokenAuthorizeStatus", false);
+                }
                 reject(error)
             })
         })

@@ -501,7 +501,7 @@ export default {
     };
   },
   created() {
-    if (this.$store.getters["inventory/productCategories"].length == 0) {
+    if (this.$store.getters["inventory/productCategories"].length == 0 && this.$store.getters["settings/verifiedStore"] === false) {
       this.loader = true;
       this.getProductCategories();
     }
