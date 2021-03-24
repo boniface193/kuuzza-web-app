@@ -46,7 +46,7 @@
 
     <div
       v-if="isLoading"
-      style="position: absolute; margin: 15% 50%; text-align: center"
+      style="position: absolute; margin: 10% 45%;"
     >
       <!-- this image time loader is calculated by the loader to triger the load time -->
       <v-progress-circular
