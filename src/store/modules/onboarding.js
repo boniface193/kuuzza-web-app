@@ -177,6 +177,8 @@ const actions = {
     inviteTeamMember: (context, data) => {
         return new Promise((resolve, reject) => {
             axios.post("invites/accept", data).then(response => {
+                context.commit("setToken", response.data.token)
+                context.commit("setTokenAuthorizeStatus", true);
                 resolve(response)
             })
                 .catch(error => {

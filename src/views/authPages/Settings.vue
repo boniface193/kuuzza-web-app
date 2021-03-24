@@ -22,7 +22,7 @@
             >User</router-link
           >
           <!-- nav link -->
-          <router-link
+          <!-- <router-link
             class="nav-item"
             :class="{
               'nav-item--active':
@@ -32,7 +32,7 @@
             }"
             :to="{ name: 'teamDetails' }"
             >Team</router-link
-          >
+          > -->
           <!-- nav link -->
           <router-link
             class="nav-item hide-item"
@@ -109,9 +109,10 @@ export default {
         page = "store";
       } else if (params === "User") {
         page = "user";
-      } else if (params === "Team") {
-        page = "teamDetails";
-      } else if (params === "Bank Account") {
+      } //else if (params === "Team") {
+       // page = "teamDetails";
+      //}
+       else if (params === "Bank Account") {
         page = "AddBankDetails";
       } else if (params === "Privacy & Security") {
         page = "privacy";
