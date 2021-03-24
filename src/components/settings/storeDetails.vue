@@ -81,7 +81,7 @@
         <p class="mb-1 secondary--text">Phone Number</p>
         <v-text-field
           class="input mt-0"
-          :rules="inputRules"
+          :rules="phoneRules"
           type="tel"
           color="primary"
           v-model="computedInfo.currentStoreNum"
@@ -239,6 +239,11 @@ export default {
       lat: "",
       lng: "",
       inputRules: [(v) => !!v || "This field is required"],
+      phoneRules: [
+        //verifies phone number satisfies the requirement
+        (v) => !!v || "This field is required",
+        (v) => v.length > 10 || "Number should 10 digit or more",
+      ],
     };
   },
   mounted() {
