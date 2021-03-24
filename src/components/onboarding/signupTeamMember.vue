@@ -128,7 +128,7 @@
       </div>
     </v-form>
 
-     <!-- modal for dialog messages -->
+    <!-- modal for dialog messages -->
     <modal :dialog="dialog" width="450">
       <div class="white pa-3 pb-10 text-center dialog">
         <div class="d-flex justify-end">
@@ -140,16 +140,16 @@
         <div class="mb-7 mt-5 mx-auto status-img">
           <v-img :src="statusImage"></v-img>
         </div>
-        <p class="my-3">You have successfully accepted you invite.</p>
+        <p class="my-3">You have successfully accepted your invite.</p>
 
-        <!-- <v-btn
+        <v-btn
           class="primary mx-auto py-5 px-8"
           :loading="loading2"
           :disabled="loading2"
           v-if="dashboardBtn"
           @click="grantAccess"
           >Go to Dashboard</v-btn
-        > -->
+        >
       </div>
     </modal>
   </div>
@@ -163,6 +163,7 @@ export default {
   components: { modal },
   data: function () {
     return {
+      dashboardBtn: false,
       statusImage: null,
       dialog: false,
       loading2: false,
@@ -196,10 +197,8 @@ export default {
         //verifies password satisfies the requirement
         (v) => !!v || "Password is required",
         (v) =>
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
-            v
-          ) ||
-          "Password must contain a minimum of 8 character, at least one uppercase, one lowercase, one number and one special character",
+          /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(v) ||
+          "Password must contain a minimum of 8 character, at least one uppercase, one lowercase, one number",
       ],
       confirm_passwordRules: [
         (v) => !!v || "Password is required",
@@ -240,19 +239,17 @@ export default {
           this.loading = false;
           this.dialog = true;
           this.statusImage = successImage;
-          //  if (response.data.message === "Registeration successful.") {
-              
-          //  }
+          this.dashboardBtn = true;
         })
         .catch((error) => {
           this.error = true;
           this.loading = false;
           if (error.response) {
-            if(error.response.data.errors.email[0]){
-               this.errorMessage = error.response.data.errors.email[0];
-            }else if (error.response.data.errors.invite_id[0]){
-              this.errorMessage = error.response.data.errors.invite_id[0]
-            }else {
+            if (error.response.data.errors.email[0]) {
+              this.errorMessage = error.response.data.errors.email[0];
+            } else if (error.response.data.errors.invite_id[0]) {
+              this.errorMessage = error.response.data.errors.invite_id[0];
+            } else {
               this.errorMessage = "Something went wrong, pls try again!";
             }
           } else {
@@ -260,21 +257,21 @@ export default {
           }
         });
     },
-     // close modal
+    // close modal
     cancelModal() {
       this.dialog = false;
-      this.logout();
+      this.denialAccess();
     },
-    logout() {
-      this.$store.commit("reset");
+    //allows user to access the dashboard
+    grantAccess() {
+      this.loading2 = true;
+      this.$router.push({ name: "dashboard" });
+    },
+    // destroy token
+    denialAccess() {
       this.$store.commit("onboarding/removeToken");
-      setTimeout(() => {
-        this.$router.push({
-          name: "Signin",
-        });
-      }, 1000);
+      this.$router.push({ name: "Signin" });
     },
-
   },
 };
 </script>
