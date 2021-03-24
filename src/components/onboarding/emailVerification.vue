@@ -91,6 +91,9 @@ export default {
     "v-otp-input": OtpInput,
     modal,
   },
+  created() {
+    this.setOTPTimer();
+  },
   data: function () {
     return {
       dialog: false,

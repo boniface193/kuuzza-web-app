@@ -719,6 +719,7 @@ export default {
           this.dialog2 = false;
           this.dialog = true;
           this.otpError = false;
+          this.setOTPTimer();
         })
         .catch((error) => {
           this.statusImage = failedImage;

@@ -390,6 +390,7 @@ export default {
               this.phoneNumLoader = false;
               // this.statusImage = successImage;
               this.dialog2 = true;
+              this.setOTPTimer();
               this.$store.dispatch("settings/getUserProfile");
             })
             .catch((error) => {
