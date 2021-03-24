@@ -38,7 +38,7 @@
           itemKey="id"
         />
       </div>
-      <p v-show="bestSeller >= 0" class="text-center mt-8">No Item Found</p>
+      <p class="text-center mt-8">{{msg}}</p>
     </div>
     <router-view />
   </v-container>
@@ -55,6 +55,7 @@ export default {
     return {
       isLoading: true,
       bestSeller: [],
+      msg: "",
       headers: [
         {
           text: "Rank",
@@ -83,6 +84,9 @@ export default {
   created() {
     // best selling
     this.$store.dispatch("bestSellingDashboard/getBestSelling").then((e) => {
+      if(e.data.length < 1) {
+        this.msg = "No Item Found"
+      }
       let seller = e.data
       let Rank = e.ranks
 

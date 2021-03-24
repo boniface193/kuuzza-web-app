@@ -59,6 +59,7 @@
     <!-- table  -->
     <dataTable
       v-show="orders.length > 0"
+      v-if="!isLoading"
       ref="table"
       :action="false"
       :select="false"
@@ -161,15 +162,17 @@ export default {
   computed: {
     // to populate items on the table
     ...mapGetters({
-      orders: "orders/orders",
+      // orders: "orders/orders",
       searchOrder: "orders/searchOrder",
     }),
     ...mapState({
+      orders: (state) => state.orders.orders,
       searchValue: (state) => state.orders.searchValue,
       pageDetails: (state) => state.orders.pageDetails,
     }),
   },
   created() {
+    console.log("order", this.orders)
     this.$store.dispatch("orders/getOrders").then((res) => {
       this.isLoading = false;
       if (res.length == 0) {

@@ -125,7 +125,7 @@
 import modal from "@/components/dashboard/modal.vue";
 import Notification from "@/components/notification/notification.vue";
 import UserLayout from "@/components/layout/userInfo.vue";
-import { mapGetters, mapState } from "vuex";
+import { mapState } from "vuex";
 export default {
   components: { modal, Notification, UserLayout },
   data: () => ({
@@ -185,15 +185,14 @@ export default {
     ...mapState({
       userName: (state) => state.settings.profile.name,
       image: (state) => state.settings.profile.photo,
+      getNotified: (state) => state.notification.notification,
     }),
-    ...mapGetters({ getNotified: "notification/getNotified" }),
   },
 
   created() {
     if (this.$store.getters["settings/getUserProfile"].name === "") {
       this.$store.dispatch("settings/getUserProfile");
     }
-
     this.getNotice();
   },
 
@@ -211,13 +210,15 @@ export default {
     },
 
     getNotice() {
-      let showing_not = this.getNotified.data.find(
-        (item) => item.read === true
-      );
-      if (showing_not) {
-        this.showNot = true;
-      } else {
-        this.showNot = false;
+      if (!this.getNotified === undefined) {
+        let showing_not = this.getNotified.data.find(
+          (item) => item.read === true
+        );
+        if (showing_not) {
+          this.showNot = true;
+        } else {
+          this.showNot = false;
+        }
       }
     },
   },
