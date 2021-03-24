@@ -176,7 +176,7 @@ export default {
     this.$store.dispatch("orders/getOrders").then((res) => {
       this.isLoading = false;
       if (res.length == 0) {
-        this.errorMsg = "No Item Found"
+        this.errorMsg = "No Sales Recorded Yet"
       }
     });
     this.$store.dispatch("orders/filterGetOrders");
