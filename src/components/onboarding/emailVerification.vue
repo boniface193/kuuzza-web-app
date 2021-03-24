@@ -41,7 +41,8 @@
               v-show="resendOTPLoader"
             ></v-progress-circular>
             <span class="primary--text" v-show="showOTPTimer"
-              >You can resend OTP in {{ timer }}.00</span
+              >You can resend OTP in
+              <span class="error--text">{{ timer }}.00</span></span
             >
           </a>
         </p>
@@ -90,6 +91,9 @@ export default {
   components: {
     "v-otp-input": OtpInput,
     modal,
+  },
+  created() {
+    this.setOTPTimer();
   },
   data: function () {
     return {
