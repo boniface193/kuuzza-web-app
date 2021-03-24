@@ -6,7 +6,7 @@ import pageNotFound from "@/components/pageNotFound.vue";
 // onboarding pages
 import Signup from "@/components/onboarding/Signup.vue";
 import Signin from "@/components/onboarding/Signin.vue";
-import signupTeamMember from "@/components/onboarding/signupTeamMember.vue";
+//import signupTeamMember from "@/components/onboarding/signupTeamMember.vue";
 import Recoverpassword from "@/components/onboarding/Recoverpassword.vue";
 import Forgotpassword from "@/components/onboarding/Forgotpassword.vue";
 import Onboarding from "@/views/onboarding/Onboarding.vue";
@@ -27,10 +27,10 @@ import productList from "@/components/inventory/productList.vue";
 // settings pages
 import Settings from "../views/authPages/Settings.vue";
 import userDetails from "@/components/settings/userDetails.vue";
-import team from "@/components/settings/team.vue";
-import teamDetails from "@/components/settings/teamDetails.vue";
-import teamInvite from "@/components/settings/teamInvite.vue";
-import editTeamMember from "@/components/settings/editTeamMember.vue";
+// import team from "@/components/settings/team.vue";
+// import teamDetails from "@/components/settings/teamDetails.vue";
+// import teamInvite from "@/components/settings/teamInvite.vue";
+//import editTeamMember from "@/components/settings/editTeamMember.vue";
 import storeDetails from "@/components/settings/storeDetails.vue";
 import privacyDetails from "@/components/settings/privacyDetails.vue";
 import logout from "@/components/settings/logout.vue";
@@ -371,28 +371,28 @@ const routes = [
             name: "user",
             component: userDetails,
           },
-          {
-            path: "team",
-            component: team,
-            children: [
-              {
-                path: "",
-                name: "teamDetails",
-                component: teamDetails,
-              },
-              {
-                path: "invite",
-                name: "teamInvite",
-                component: teamInvite,
-              },
-              {
-                path: "edit/:id",
-                name: "editTeamMember",
-                component: editTeamMember,
-                props: true,
-              }
-            ]
-          },
+          // {
+          //   path: "team",
+          //   component: team,
+          //   children: [
+          //     {
+          //       path: "",
+          //       name: "teamDetails",
+          //       component: teamDetails,
+          //     },
+          //     {
+          //       path: "invite",
+          //       name: "teamInvite",
+          //       component: teamInvite,
+          //     },
+          //     {
+          //       path: "edit/:id",
+          //       name: "editTeamMember",
+          //       component: editTeamMember,
+          //       props: true,
+          //     }
+          //   ]
+          // },
           {
             path: "",
             component: WithdrawalPage,
@@ -470,12 +470,12 @@ const routes = [
         beforeEnter: ifAccessForgotPasswordVerificationPage,
         props: true,
       },
-      {
-        path: "team-member/:email",
-        name: "signupTeamMember",
-        component: signupTeamMember,
-        props: true,
-      },
+      // {
+      //   path: "team-member/:email",
+      //   name: "signupTeamMember",
+      //   component: signupTeamMember,
+      //   props: true,
+      // },
     ],
   },
   {
