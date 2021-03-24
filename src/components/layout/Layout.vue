@@ -16,7 +16,7 @@
 
         <v-spacer></v-spacer>
         <!-- search icon -->
-        <v-icon color="#C4C4C4" size="21" class="mr-6">mdi-magnify</v-icon>
+        <!-- <v-icon color="#C4C4C4" size="21" class="mr-6">mdi-magnify</v-icon> -->
         <!-- notification -->
         <div class="d-flex mr-6" style="cursor: pointer">
           <!-- notification dropdown -->
@@ -42,9 +42,21 @@
           </v-menu>
         </div>
 
-        <v-avatar size="31">
-          <v-img src="https://cdn.vuetifyjs.com/images/lists/2.jpg"></v-img>
-        </v-avatar>
+        <div class="d-flex mr-6" style="cursor: pointer">
+          <!-- user dropdown -->
+          <v-menu open-on-click bottom>
+            <!-- activator -->
+            <template v-slot:activator="{ on, attrs }">
+              <!-- icon -->
+              <v-avatar size="31" v-bind="attrs" v-on="on">
+                <v-img
+                  src="https://cdn.vuetifyjs.com/images/lists/2.jpg"
+                ></v-img>
+              </v-avatar>
+            </template>
+            <UserLayout />
+          </v-menu>
+        </div>
       </v-app-bar>
       <!-- drawer -->
 
@@ -113,9 +125,10 @@
 <script>
 import modal from "@/components/dashboard/modal.vue";
 import Notification from "@/components/notification/notification.vue";
+import UserLayout from "@/components/layout/userInfo.vue";
 import { mapGetters, mapState } from "vuex";
 export default {
-  components: { modal, Notification },
+  components: { modal, Notification, UserLayout },
   data: () => ({
     dialog: false,
     drawer: true,

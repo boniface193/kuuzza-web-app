@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export default axios.create({
-    baseURL: "https://nova-ids.herokuapp.com"
+    baseURL: "https://identity.kuuzza.com"
 })

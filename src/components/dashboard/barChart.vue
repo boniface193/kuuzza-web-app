@@ -113,7 +113,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 // area-chart heading design
 .chart-heading {
   text-align: left;
@@ -133,5 +133,9 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+span.apexcharts-legend-text {
+  margin-right: 30px !important;
 }
 </style>
