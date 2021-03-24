@@ -61,7 +61,7 @@
           <p class="mb-1 secondary--text">Phone Number</p>
           <v-text-field
             class="input mt-0"
-            :rules="inputRules"
+            :rules="phoneRules"
             v-model="computedInfo.currentPhoneNum"
             type="tel"
             color="primary"
@@ -151,6 +151,11 @@ export default {
       phoneNumLoader: false,
       nameLoader: false,
       inputRules: [(v) => !!v || "This field is required"],
+      phoneRules: [
+        //verifies phone number satisfies the requirement
+        (v) => !!v || "This field is required",
+        (v) => v.length > 10 || "Number should 10 digit or more",
+      ],
     };
   },
   computed: {

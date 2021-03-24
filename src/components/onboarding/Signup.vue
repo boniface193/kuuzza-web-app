@@ -267,6 +267,7 @@ export default {
       phoneRules: [
         //verifies phone number satisfies the requirement
         (v) => !!v || "Phone Number is required",
+        (v) => v.length > 10 || "Number should 10 digit or more",
       ],
       company_nameRules: [
         //verifies comapany name satisfies the requirement
