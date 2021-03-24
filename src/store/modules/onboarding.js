@@ -45,6 +45,23 @@ const getters = {
 
 //fetch data 
 const actions = {
+    // get user profile details
+    getUserProfile(context) {
+        return new Promise((resolve, reject) => {
+            axios.get("profile", {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`
+                }
+            }).then(response => {
+                resolve(response)
+            }).catch((error) => {
+                if (error.response.status == 401) {
+                    context.commit("onboarding/setTokenAuthorizeStatus");
+                }
+                reject(error)
+            })
+        })
+    },
     //creates user account
     register(context, data) {
         return new Promise((resolve, reject) => {

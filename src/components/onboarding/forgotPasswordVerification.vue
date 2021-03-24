@@ -29,8 +29,10 @@
       <div class="pa-0 mt-10" style="width: 100%">
         <p>
           Didn't receive the code?
-          <a style="text-decoration: none" @click="resendOTP">
-            <span v-show="!resendOTPLoader">Resend Code</span>
+          <a style="text-decoration: none">
+            <span v-show="!resendOTPLoader && !showOTPTimer" @click="resendOTP"
+              >Resend Code</span
+            >
             <v-progress-circular
               indeterminate
               color="primary"
@@ -38,6 +40,9 @@
               class="ml-5"
               v-show="resendOTPLoader"
             ></v-progress-circular>
+            <span class="primary--text" v-show="showOTPTimer"
+              >You can resend OTP in {{ timer }}.00</span
+            >
           </a>
         </p>
         <v-btn
@@ -67,7 +72,12 @@ export default {
       message: "",
       resendOtpSuccess: false,
       resendOTPLoader: false,
+      showOTPTimer: true,
+      timer: 60,
     };
+  },
+  created() {
+    this.setOTPTimer();
   },
   methods: {
     // check if code changes
@@ -135,6 +145,7 @@ export default {
             setTimeout(() => {
               this.resendOtpSuccess = false;
             }, 3000);
+            this.setOTPTimer();
           }
         })
         .catch((error) => {
@@ -146,6 +157,18 @@ export default {
             this.message = "No internet Connection!";
           }
         });
+    },
+    setOTPTimer() {
+      this.showOTPTimer = true;
+      let counter = setInterval(() => {
+        if (this.timer === 1) {
+          clearInterval(counter);
+          this.showOTPTimer = false;
+          this.timer = 60;
+        } else {
+          this.timer -= 1;
+        }
+      }, 1000);
     },
   },
 };
