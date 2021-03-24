@@ -86,7 +86,6 @@ export default {
   },
 
   created() {
-    console.log("get Notified", this.getNotified);
     this.$store.dispatch("notification/getNotification").then((e) => {
       if (e.data.length == 0) {
         this.msg = "No Notification";

@@ -16,7 +16,7 @@
 
         <v-spacer></v-spacer>
         <!-- search icon -->
-        <v-icon color="#C4C4C4" size="21" class="mr-6">mdi-magnify</v-icon>
+        <!-- <v-icon color="#C4C4C4" size="21" class="mr-6">mdi-magnify</v-icon> -->
         <!-- notification -->
         <div class="d-flex mr-6" style="cursor: pointer">
           <!-- notification dropdown -->
@@ -42,9 +42,21 @@
           </v-menu>
         </div>
 
-        <v-avatar size="31">
-          <v-img src="https://cdn.vuetifyjs.com/images/lists/2.jpg"></v-img>
-        </v-avatar>
+        <div class="d-flex mr-6" style="cursor: pointer">
+          <!-- user dropdown -->
+          <v-menu open-on-click bottom>
+            <!-- activator -->
+            <template v-slot:activator="{ on, attrs }">
+              <!-- icon -->
+              <v-avatar size="31" v-bind="attrs" v-on="on">
+                <v-img
+                  src="https://cdn.vuetifyjs.com/images/lists/2.jpg"
+                ></v-img>
+              </v-avatar>
+            </template>
+            <UserLayout />
+          </v-menu>
+        </div>
       </v-app-bar>
       <!-- drawer -->
 
@@ -113,9 +125,10 @@
 <script>
 import modal from "@/components/dashboard/modal.vue";
 import Notification from "@/components/notification/notification.vue";
-import { mapState } from "vuex";
+import UserLayout from "@/components/layout/userInfo.vue";
+import { mapGetters, mapState } from "vuex";
 export default {
-  components: { modal, Notification },
+  components: { modal, Notification, UserLayout },
   data: () => ({
     dialog: false,
     drawer: true,
@@ -169,18 +182,21 @@ export default {
       // },
     ],
   }),
+  computed: {
+    ...mapState({
+      userName: (state) => state.settings.profile.name,
+    }),
+    ...mapGetters({ getNotified: "notification/getNotified" }),
+  },
+
   created() {
     if (this.$store.getters["settings/getUserProfile"].name === "") {
       this.$store.dispatch("settings/getUserProfile");
     }
 
-    this.showNotification();
+    this.getNotice();
   },
-  computed: {
-    ...mapState({
-      userName: (state) => state.settings.profile.name,
-    }),
-  },
+
   methods: {
     // logout
     logout() {
@@ -194,17 +210,15 @@ export default {
       }, 1000);
     },
 
-    showNotification() {
-      this.$store.dispatch("notification/getNotification").then((e) => {
-        e.data.forEach((i) => {
-          // shows only when read is false
-          if (i.read === false) {
-            this.showNot = true;
-          } else {
-            this.showNot = false;
-          }
-        });
-      });
+    getNotice() {
+      let showing_not = this.getNotified.data.find(
+        (item) => item.read === true
+      );
+      if (showing_not) {
+        this.showNot = true;
+      } else {
+        this.showNot = false;
+      }
     },
   },
 };

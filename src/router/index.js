@@ -169,7 +169,6 @@ const allowAddProducts = (to, from, next) => {
     next();
     return
   } else {
-    console.log(678)
     if (from.name !== "inventoryPage") {
       next({
         name: "inventoryPage"

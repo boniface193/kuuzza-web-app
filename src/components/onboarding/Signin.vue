@@ -33,7 +33,7 @@
       <!-- button container -->
       <div class="pa-0 mt-5" style="width: 100%">
         <v-btn
-          class="primary px-8 py-5 mb-5"
+          class="primary px-8 mb-5 text-center"
           @click="validate_form"
           :loading="loading"
           :disabled="loading"
@@ -98,7 +98,7 @@ export default {
         .dispatch("onboarding/signIn", {
           email: this.email,
           password: this.password,
-          type: "vendor"
+          type: "vendor",
         })
         .then((response) => {
           if (response.data.message === "Login successful.") {
@@ -118,3 +118,5 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+</style>
