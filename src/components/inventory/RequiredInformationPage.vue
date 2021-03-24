@@ -384,8 +384,12 @@
           <div class="pa-0 mt-5" style="width: 100%">
             <p>
               Didn't receive the code?
-              <a style="text-decoration: none" @click="resendOTP">
-                <span v-show="!resendOTPLoader">Resend Code</span>
+              <a style="text-decoration: none">
+                <span
+                  v-show="!resendOTPLoader && !showOTPTimer"
+                  @click="resendOTP"
+                  >Resend Code</span
+                >
                 <v-progress-circular
                   indeterminate
                   color="primary"
@@ -393,6 +397,9 @@
                   class="ml-5"
                   v-show="resendOTPLoader"
                 ></v-progress-circular>
+                <span class="primary--text" v-show="showOTPTimer"
+                  >You can resend OTP in {{ timer }}.00</span
+                >
               </a>
             </p>
             <v-btn
@@ -486,6 +493,8 @@ export default {
       otp: "",
       otpErrorMessage: "",
       otpError: false,
+      showOTPTimer: true,
+      timer: 60,
       inputRules: [(v) => !!v || "This field is required"],
       addressRules: [
         //verifies pick up address satisfies the requirement
@@ -501,7 +510,10 @@ export default {
     };
   },
   created() {
-    if (this.$store.getters["inventory/productCategories"].length == 0) {
+    if (
+      this.$store.getters["inventory/productCategories"].length == 0 &&
+      this.$store.getters["settings/verifiedStore"] === false
+    ) {
       this.loader = true;
       this.getProductCategories();
     }
@@ -647,6 +659,18 @@ export default {
       this.otp = value;
       this.otpError = false;
     },
+    setOTPTimer() {
+      this.showOTPTimer = true;
+      let counter = setInterval(() => {
+        if (this.timer === 1) {
+          clearInterval(counter);
+          this.showOTPTimer = false;
+          this.timer = 60;
+        } else {
+          this.timer -= 1;
+        }
+      }, 1000);
+    },
     getInfo() {
       if (this.accountType === "individual") {
         return {
@@ -662,7 +686,7 @@ export default {
           },
           phone_number: this.phoneNumber,
           refund_policy: {
-            return_allowed: this.allowReturnProducts
+            return_allowed: this.allowReturnProducts,
           },
         };
       } else if (this.accountType === "business") {
@@ -679,7 +703,7 @@ export default {
           },
           phone_number: this.phoneNumber,
           refund_policy: {
-            return_allowed: this.allowReturnProducts
+            return_allowed: this.allowReturnProducts,
           },
         };
       }
@@ -723,13 +747,7 @@ export default {
             this.dialog2 = true;
             this.dialogMessage = "Store setup completed successfully";
             // get lastest profile information
-            this.$store.dispatch("settings/getUserProfile").catch((error) => {
-              if (error.response) {
-                if (error.response.status == 401) {
-                  this.$store.commit("onboarding/setTokenAuthorizeStatus");
-                }
-              }
-            });
+            this.$store.dispatch("settings/getUserProfile");
           })
           .catch((error) => {
             this.loader = false;
@@ -762,6 +780,7 @@ export default {
           setTimeout(() => {
             this.resendOtpSuccess = false;
           }, 3000);
+          this.setOTPTimer();
         })
         .catch((error) => {
           this.errorMessage = true;

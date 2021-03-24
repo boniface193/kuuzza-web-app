@@ -1,5 +1,5 @@
 import axios from "@/axios";
-
+import store from "@/store";
 //holds the state properties
 const state = {
     token: localStorage.getItem('vendorToken') || null,
@@ -49,6 +49,9 @@ const actions = {
                 state.loader = false
                 resolve(response)
             }).catch(error => {
+                if (error.response.status == 401) {
+                    store.commit("onboarding/setTokenAuthorizeStatus");
+                }
                 reject(error)
             })
         })
@@ -65,6 +68,9 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
+                    if (error.response.status == 401) {
+                        store.commit("onboarding/setTokenAuthorizeStatus", false);
+                    }
                     reject(error);
                 })
         });
@@ -78,9 +84,13 @@ const actions = {
                 }
             }).then(response => {
                 context.commit("setUserProfile", response.data.data)
+                context.commit("setToken", response.data.token);
                 resolve(response);
             })
                 .catch(error => {
+                    if (error.response.status == 401) {
+                        store.commit("onboarding/setTokenAuthorizeStatus", false);
+                    }
                     reject(error);
                 })
         });
@@ -97,6 +107,9 @@ const actions = {
             })
                 .catch(error => {
                     context.commit("doNothing")
+                    if (error.response.status == 401) {
+                        store.commit("onboarding/setTokenAuthorizeStatus", false);
+                    }
                     reject(error);
                 })
         });
@@ -112,6 +125,9 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
+                    if (error.response.status == 401) {
+                        store.commit("onboarding/setTokenAuthorizeStatus", false);
+                    }
                     context.commit("doNothing")
                     reject(error);
                 })
@@ -130,6 +146,9 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
+                    if (error.response.status == 401) {
+                        store.commit("onboarding/setTokenAuthorizeStatus", false);
+                    }
                     reject(error);
                 })
         })
@@ -146,6 +165,9 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
+                    if (error.response.status == 401) {
+                        store.commit("onboarding/setTokenAuthorizeStatus", false);
+                    }
                     context.commit("doNothing");
                     reject(error);
                 })
@@ -162,6 +184,9 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
+                    if (error.response.status == 401) {
+                        store.commit("onboarding/setTokenAuthorizeStatus", false);
+                    }
                     context.commit("doNothing");
                     reject(error);
                 })
@@ -178,6 +203,9 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
+                    if (error.response.status == 401) {
+                        store.commit("onboarding/setTokenAuthorizeStatus", false);
+                    }
                     context.commit("doNothing");
                     reject(error);
                 })
@@ -194,6 +222,9 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
+                    if (error.response.status == 401) {
+                        store.commit("onboarding/setTokenAuthorizeStatus", false);
+                    }
                     context.commit("doNothing");
                     reject(error);
                 })
@@ -210,6 +241,9 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
+                    if (error.response.status == 401) {
+                        store.commit("onboarding/setTokenAuthorizeStatus", false);
+                    }
                     context.commit("doNothing");
                     reject(error);
                 })
@@ -227,7 +261,9 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
-                    context.commit("doNothing");
+                    if (error.response.status == 401) {
+                        store.commit("onboarding/setTokenAuthorizeStatus");
+                    }
                     reject(error);
                 })
         })
@@ -243,6 +279,9 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
+                    if (error.response.status == 401) {
+                        store.commit("onboarding/setTokenAuthorizeStatus", false);
+                    }
                     context.commit("doNothing");
                     reject(error);
                 })

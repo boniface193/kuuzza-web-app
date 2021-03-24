@@ -53,8 +53,8 @@
               caretColor="#029B97"
               placeholder="Select Category"
               :searchBar="true"
-              :items="categories"
-              :item="category"
+              :items="productCategories"
+              item="---Select category---"
               :inputStatus="categoryError"
               @selectedItem="setCategory"
             />
@@ -63,9 +63,49 @@
             </div>
           </div>
 
+          <!-- sub category -->
+          <div class="mb-9 input-field">
+            <p class="mb-1">Sub category</p>
+            <customSelect
+              width="100%"
+              height="57px"
+              caretColor="#029B97"
+              placeholder="Select Category"
+              :searchBar="true"
+              :items="subProductCategories"
+              item="---Select sub category---"
+              :inputStatus="categoryError"
+              @selectedItem="setSubCategory"
+            />
+            <div v-if="categoryError === true" class="inputError error--text">
+              Category is required
+            </div>
+          </div>
+
+          <!-- sub category -->
+          <div class="mb-9 input-field">
+            <p class="mb-1">Sub category</p>
+            <customSelect
+              width="100%"
+              height="57px"
+              caretColor="#029B97"
+              placeholder="Select Category"
+              :searchBar="true"
+              :items="subSubCategories"
+              item="---Select sub sub category---"
+              :inputStatus="categoryError"
+              @selectedItem="setSubSubCategory"
+            />
+            <div v-if="categoryError === true" class="inputError error--text">
+              Category is required
+            </div>
+          </div>
+
           <!-- SKU number -->
           <div class="mb-3 input-field remove-appearance">
-            <p class="mb-1">SKU Number <span class="primary--text">(Serial number)</span></p>
+            <p class="mb-1">
+              SKU Number <span class="primary--text">(Serial number)</span>
+            </p>
             <v-text-field
               class="input mt-0"
               v-model="skuNumber"
@@ -81,7 +121,10 @@
 
           <!-- unit price -->
           <div class="mb-3 input-field">
-            <p class="mb-1">Unit Price (&#8358;) <span class="primary--text">(Inclusive of 7.5% VAT)</span></p>
+            <p class="mb-1">
+              Unit Price (&#8358;)
+              <span class="primary--text">(Inclusive of 7.5% VAT)</span>
+            </p>
             <v-text-field
               class="input mt-0"
               v-model="price"
@@ -112,9 +155,14 @@
             </div>
           </div>
 
-           <!-- minimum quantity -->
+          <!-- minimum quantity -->
           <div class="mb-9 input-field">
-            <p class="mb-1">Minimum Order Quantity <span class="primary--text">(minimum quantity a customer can order for this product)</span></p>
+            <p class="mb-1">
+              Minimum Order Quantity
+              <span class="primary--text"
+                >(minimum quantity a customer can order for this product)</span
+              >
+            </p>
             <customNumberInput
               width="120px"
               height="57px"
@@ -194,6 +242,12 @@
         </v-form>
       </div>
     </div>
+
+    <!-- loader -->
+    <div class="text-center pt-10 pb-5" v-show="loader">
+      <v-progress-circular indeterminate color="primary"></v-progress-circular>
+    </div>
+
     <!-- modal for dialog messages -->
     <modal :dialog="dialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
@@ -214,12 +268,13 @@
 </template>
 <script>
 import progressBar from "@/components/dashboard/progressBar.vue";
-import customSelect from "@/components/dashboard/customSelect.vue";
+import customSelect from "@/components/general/customSelect.vue";
 import customNumberInput from "@/components/dashboard/customNumberInput.vue";
 import imageUploader from "@/components/general/imageUploader.vue";
 import modal from "@/components/dashboard/modal.vue";
 import successImage from "@/assets/img/success-img.svg";
 import failedImage from "@/assets/img/failed-img.svg";
+import { mapGetters } from "vuex";
 export default {
   name: "addProduct",
   components: {
@@ -228,6 +283,12 @@ export default {
     customNumberInput,
     imageUploader,
     modal,
+  },
+  created() {
+    if (this.$store.getters["inventory/productCategories"].length == 0) {
+      this.loader = true;
+      this.getProductCategories();
+    }
   },
   data: function () {
     return {
@@ -239,6 +300,10 @@ export default {
       progress: "30%",
       productName: "",
       category: "",
+      subCategory: "",
+      subSubCategory: "",
+      subProductCategories: [],
+      subSubProductCategories: [],
       skuNumber: "",
       quantity: 0,
       minQuantity: 1,
@@ -247,14 +312,6 @@ export default {
       productDescription: "",
       imageUrl: null,
       loading: false,
-      categories: [
-        "Category 1",
-        "Category 2",
-        "Category 3",
-        "Category 4",
-        "phone and device",
-        "clothe",
-      ],
       inputRules: [(v) => !!v || "This field is required"],
       priceRules: [
         (v) => !!v || "This field is required",
@@ -266,6 +323,11 @@ export default {
       categoryError: false,
       imageError: false,
     };
+  },
+  computed: {
+    ...mapGetters({
+      productCategories: "inventory/productCategories"
+    }),
   },
   methods: {
     // next form
@@ -307,8 +369,18 @@ export default {
     },
     // set category value
     setCategory(params) {
-      this.category = params;
+      this.category = params.name;
       this.verifyCategory();
+      this.subProductCategory = params;
+    },
+    // set sub category value
+    setSubCategory(params) {
+      this.subCategory = params.name;
+      this.verifyCategory();
+      this.subSubProductCategory = params;
+    },
+    setSubSub(params) {
+      this.subSubCategory = params
     },
     // set quantity value
     setQuantity(params) {
@@ -318,10 +390,10 @@ export default {
     setMinQuantity(params) {
       this.minQuantity = params;
     },
-    verifyImages(){
-      if(this.imageUrl !== null ){
-         this.imageError = false;
-      }else {
+    verifyImages() {
+      if (this.imageUrl !== null) {
+        this.imageError = false;
+      } else {
         this.imageError = true;
         this.$refs.imageUploader.setError();
       }
@@ -347,6 +419,28 @@ export default {
       if (this.$refs.form2.validate() && this.imageError === false) {
         this.addProduct();
       }
+    },
+    // get the list of product category
+    getProductCategories() {
+      this.$store
+        .dispatch("inventory/getProductCategories")
+        .then((response) => {
+          this.$store.commit(
+            "inventory/setProductCategories",
+            response.data.data
+          );
+          this.loader = false;
+        })
+        .catch((error) => {
+          this.statusImage = failedImage;
+          this.dialog2 = true;
+          this.loader = false;
+          if (error.response) {
+            this.dialogMessage = "Something went wrong, pls try again!";
+          } else {
+            this.dialogMessage = "No internet Connection!";
+          }
+        });
     },
     // add products
     addProduct() {

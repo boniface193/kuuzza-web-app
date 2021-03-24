@@ -159,8 +159,12 @@
           <div class="pa-0 mt-5" style="width: 100%">
             <p>
               Didn't receive the code?
-              <a style="text-decoration: none" @click="resendOTP">
-                <span v-show="!resendOTPLoader">Resend Code</span>
+              <a style="text-decoration: none">
+                <span
+                  v-show="!resendOTPLoader && !showOTPTimer"
+                  @click="resendOTP"
+                  >Resend Code</span
+                >
                 <v-progress-circular
                   indeterminate
                   color="primary"
@@ -168,6 +172,9 @@
                   class="ml-5"
                   v-show="resendOTPLoader"
                 ></v-progress-circular>
+                <span class="primary--text" v-show="showOTPTimer"
+                  >You can resend OTP in {{ timer }}.00</span
+                >
               </a>
             </p>
             <v-btn
@@ -227,6 +234,8 @@ export default {
       nameLoader: false,
       locationLoader: false,
       phoneNumLoader: false,
+      showOTPTimer: true,
+      timer: 60,
       lat: "",
       lng: "",
       inputRules: [(v) => !!v || "This field is required"],
@@ -376,16 +385,18 @@ export default {
               this.phoneNumLoader = false;
               // this.statusImage = successImage;
               this.dialog2 = true;
+              this.$store.dispatch("settings/getUserProfile");
             })
             .catch((error) => {
-              if (error.response) {
-                this.dialogMessage = error.response.data.errors.phone_number[0];
-              } else {
-                this.dialogMessage = "No internet connection!";
-              }
               this.phoneNumLoader = false;
               this.statusImage = failedImage;
-              this.dialog = true;
+              if (error.response) {
+                this.dialog = true;
+                this.dialogMessage = error.response.data.errors.phone_number[0];
+              } else {
+                this.dialog = true;
+                this.dialogMessage = "No internet connection!";
+              }
             });
         } else {
           this.editStoreNum = false;
@@ -405,9 +416,21 @@ export default {
       this.otp = value;
       this.otpError = false;
     },
-     confirmOrder() {
+    confirmOrder() {
       this.otp.length > 0 ? this.$refs.otpInput1.clearInput() : "";
       this.dialog2 = true;
+    },
+    setOTPTimer() {
+      this.showOTPTimer = true;
+      let counter = setInterval(() => {
+        if (this.timer === 1) {
+          clearInterval(counter);
+          this.showOTPTimer = false;
+          this.timer = 60;
+        } else {
+          this.timer -= 1;
+        }
+      }, 1000);
     },
     // verify phone number
     submitOTP() {
@@ -423,17 +446,15 @@ export default {
             this.statusImage = successImage;
             this.dialog2 = false;
             this.dialog = true;
-            this.dialogMessage = "Phone number was changed and verified successfully!";
+            this.dialogMessage =
+              "Phone number was changed and verified successfully!";
+            this.$store.dispatch("settings/getUserProfile");
           })
           .catch((error) => {
             this.otpLoader = false;
             this.otpError = true;
             if (error.response) {
-              if (error.response.status == 401) {
-                this.$store.commit("onboarding/setTokenAuthorizeStatus", false);
-              } else {
-                this.otpErrorMessage = error.response.data.errors.otp[0];
-              }
+              this.otpErrorMessage = error.response.data.errors.otp[0];
             } else {
               this.otpErrorMessage = "No internet Connection!";
             }
@@ -455,17 +476,14 @@ export default {
           setTimeout(() => {
             this.resendOtpSuccess = false;
           }, 3000);
+          this.setOTPTimer();
         })
         .catch((error) => {
           this.errorMessage = true;
           this.resendOTPLoader = false;
           this.otpError = true;
           if (error.response) {
-            if (error.response.status == 401) {
-              this.$store.commit("onboarding/setTokenAuthorizeStatus", false);
-            } else {
-              this.otpErrorMessage = error.response.data.message
-            }
+            this.otpErrorMessage = error.response.data.message;
           } else {
             this.otpErrorMessage = "No internet Connection!";
           }

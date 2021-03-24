@@ -1,4 +1,5 @@
 import axios from "@/axios/bankServices.js";
+import store from "@/store";
 
 //holds the state properties
 const state = {
@@ -23,6 +24,9 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
+                    if (error.response.status == 401) {
+                        store.commit("onboarding/setTokenAuthorizeStatus", false);
+                    }
                     context.commit("doNothing");
                     reject(error);
                 })
@@ -38,6 +42,9 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
+                    if (error.response.status == 401) {
+                        store.commit("onboarding/setTokenAuthorizeStatus", false);
+                    }
                     context.commit("doNothing");
                     reject(error);
                 })
@@ -53,6 +60,9 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
+                    if (error.response.status == 401) {
+                        store.commit("onboarding/setTokenAuthorizeStatus", false);
+                    }
                     context.commit("doNothing");
                     reject(error);
                 })
@@ -68,6 +78,9 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
+                    if (error.response.status == 401) {
+                        store.commit("onboarding/setTokenAuthorizeStatus", false);
+                    }
                     context.commit("doNothing");
                     reject(error);
                 })

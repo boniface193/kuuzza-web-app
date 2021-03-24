@@ -285,7 +285,9 @@ export default {
         })
         .catch((error) => {
           this.status = "upload";
-          console.log(error);
+          if (error.response.status == 401) {
+            this.$store.commit("onboarding/setTokenAuthorizeStatus", false);
+          }
         });
     },
     getImages() {
@@ -307,7 +309,11 @@ export default {
           this.statusImage = failedImage;
           this.dialog = false;
           if (error.response) {
-            this.dialogMessage = "Pls try again, something went wrong";
+            if (error.response.status == 401) {
+              this.$store.commit("onboarding/setTokenAuthorizeStatus", false);
+            } else {
+              this.dialogMessage = "Pls try again, something went wrong";
+            }
           } else {
             this.dialogMessage = "No internet connection!";
           }

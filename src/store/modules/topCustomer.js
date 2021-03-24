@@ -1,5 +1,6 @@
 // orderstatus base url
-import orderStatus from "../../axios/order"
+import orderStatus from "../../axios/order";
+import store from "@/store";
 //holds the state properties
 const state = {
     topCustomerItem: [],
@@ -26,6 +27,9 @@ const actions = {
                 context.commit("setTopCustomer", res.data.data)
                 resolve(res.data.data)
             }).catch((error) => {
+                if (error.response.status == 401) {
+                    store.commit("onboarding/setTokenAuthorizeStatus", false);
+                }
                 reject(error.response)
             })
         })
@@ -42,6 +46,9 @@ const actions = {
                 context.commit("setTopCustomer", res.data.data)
                 resolve(res.data.data)
             }).catch((error) => {
+                if (error.response.status == 401) {
+                    store.commit("onboarding/setTokenAuthorizeStatus", false);
+                }
                 reject(error.response)
             })
         })

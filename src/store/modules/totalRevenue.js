@@ -1,5 +1,6 @@
 // orderstatus base url
-import axios from "../../axios/bankServices"
+import axios from "../../axios/bankServices";
+import store from "@/store";
 // import moment from "moment"
 //holds the state properties
 const state = {
@@ -35,7 +36,9 @@ const actions = {
                 resolve(response.data.data)
             })
                 .catch((error) => {
-                    context.commit('error', error)
+                    if (error.response.status == 401) {
+                        store.commit("onboarding/setTokenAuthorizeStatus", false);
+                    }
                     reject(error)
                 })
         })

@@ -1,5 +1,6 @@
 // orderstatus base url
-import axios from "../../axios/inventory"
+import axios from "../../axios/inventory";
+import store from "@/store";
 //holds the state properties
 const state = {
     instock: [],
@@ -27,6 +28,9 @@ const actions = {
                 resolve(res.data.data)
 
             }).catch((error) => {
+                if (error.response.status == 401) {
+                    store.commit("onboarding/setTokenAuthorizeStatus", false);
+                }
                 reject(error.response)
             })
         })
@@ -44,6 +48,9 @@ const actions = {
                 context.commit("setStock", res.data.data)
                 resolve(res.data.data)
             }).catch((error) => {
+                if (error.response.status == 401) {
+                    store.commit("onboarding/setTokenAuthorizeStatus", false);
+                }
                 reject(error.response)
             })
         })
