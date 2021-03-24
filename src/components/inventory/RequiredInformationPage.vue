@@ -720,6 +720,7 @@ export default {
           this.dialog2 = false;
           this.dialog = true;
           this.otpError = false;
+          this.timer = 60;
           this.setOTPTimer();
         })
         .catch((error) => {

@@ -391,6 +391,7 @@ export default {
               this.phoneNumLoader = false;
               // this.statusImage = successImage;
               this.dialog2 = true;
+              this.timer = 60;
               this.setOTPTimer();
               this.$store.dispatch("settings/getUserProfile");
             })
