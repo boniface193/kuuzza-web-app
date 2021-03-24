@@ -49,9 +49,8 @@
             <template v-slot:activator="{ on, attrs }">
               <!-- icon -->
               <v-avatar size="31" v-bind="attrs" v-on="on">
-                <v-img
-                  src="https://cdn.vuetifyjs.com/images/lists/2.jpg"
-                ></v-img>
+                <v-img v-if="image" :src="image"></v-img>
+                <v-icon v-else size="31">mdi-account-circle</v-icon>
               </v-avatar>
             </template>
             <UserLayout />
@@ -185,6 +184,7 @@ export default {
   computed: {
     ...mapState({
       userName: (state) => state.settings.profile.name,
+      image: (state) => state.settings.profile.photo,
     }),
     ...mapGetters({ getNotified: "notification/getNotified" }),
   },

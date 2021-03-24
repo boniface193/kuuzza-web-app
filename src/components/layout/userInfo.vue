@@ -3,18 +3,32 @@
     <v-card width="300">
       <div class="text-center py-5">
         <v-avatar size="40" class="rounded-circle mb-4">
-          <v-img src="https://cdn.vuetifyjs.com/images/lists/2.jpg"></v-img>
+          <v-img
+            v-if="userInfor.photo"
+            :src="userInfor.photo"
+          ></v-img>
+          <v-icon v-else size="40">mdi-account-circle</v-icon>
         </v-avatar>
-        <div class="layout-title mb-2">Ayotunde Lanwo</div>
-        <div class="layout-title-subtitle mb-5">ayotundelanwo@gmail.com</div>
-        <v-btn depressed class="layout-title-subtitle mx-6" :to="{name: 'user'}">Manage your Kuuza Account</v-btn>
+        <div class="layout-title mb-2">{{ userInfor.name }}</div>
+        <div class="layout-title-subtitle mb-5">{{ userInfor.email }}</div>
+        <v-btn
+          depressed
+          class="layout-title-subtitle mx-6"
+          :to="{ name: 'user' }"
+          >Manage your Kuuza Account</v-btn
+        >
       </div>
     </v-card>
   </div>
 </template>
 
 <script>
-export default {};
+import { mapGetters } from "vuex";
+export default {
+  computed: {
+    ...mapGetters({ userInfor: "settings/getUserProfile" }),
+  },
+};
 </script>
 
 <style lang="scss" scoped>
