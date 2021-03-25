@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div v-show="!loader">
       <div style="width: 200px">
         <!-- back to Inventory -->
         <router-link :to="{ name: 'inventoryPage' }" class="no-decoration">
@@ -44,10 +44,10 @@
             </v-text-field>
           </div>
 
-          <!-- select category -->
+          <!-- select category  -->
           <div class="mb-9 input-field">
             <p class="mb-1">Category</p>
-            <customSelect
+            <CategorySelector
               width="100%"
               height="57px"
               caretColor="#029B97"
@@ -57,44 +57,6 @@
               item="---Select category---"
               :inputStatus="categoryError"
               @selectedItem="setCategory"
-            />
-            <div v-if="categoryError === true" class="inputError error--text">
-              Category is required
-            </div>
-          </div>
-
-          <!-- sub category -->
-          <div class="mb-9 input-field">
-            <p class="mb-1">Sub category</p>
-            <customSelect
-              width="100%"
-              height="57px"
-              caretColor="#029B97"
-              placeholder="Select Category"
-              :searchBar="true"
-              :items="subProductCategories"
-              item="---Select sub category---"
-              :inputStatus="categoryError"
-              @selectedItem="setSubCategory"
-            />
-            <div v-if="categoryError === true" class="inputError error--text">
-              Category is required
-            </div>
-          </div>
-
-          <!-- sub category -->
-          <div class="mb-9 input-field">
-            <p class="mb-1">Sub category</p>
-            <customSelect
-              width="100%"
-              height="57px"
-              caretColor="#029B97"
-              placeholder="Select Category"
-              :searchBar="true"
-              :items="subSubCategories"
-              item="---Select sub sub category---"
-              :inputStatus="categoryError"
-              @selectedItem="setSubSubCategory"
             />
             <div v-if="categoryError === true" class="inputError error--text">
               Category is required
@@ -268,7 +230,7 @@
 </template>
 <script>
 import progressBar from "@/components/dashboard/progressBar.vue";
-import customSelect from "@/components/general/customSelect.vue";
+import CategorySelector from "@/components/general/CategorySelector.vue";
 import customNumberInput from "@/components/dashboard/customNumberInput.vue";
 import imageUploader from "@/components/general/imageUploader.vue";
 import modal from "@/components/dashboard/modal.vue";
@@ -279,19 +241,14 @@ export default {
   name: "addProduct",
   components: {
     progressBar,
-    customSelect,
+    CategorySelector,
     customNumberInput,
     imageUploader,
     modal,
   },
-  created() {
-    if (this.$store.getters["inventory/productCategories"].length == 0) {
-      this.loader = true;
-      this.getProductCategories();
-    }
-  },
   data: function () {
     return {
+      loader: false,
       failedRequest: false,
       dialog: false,
       dialogMessage: "",
@@ -300,10 +257,6 @@ export default {
       progress: "30%",
       productName: "",
       category: "",
-      subCategory: "",
-      subSubCategory: "",
-      subProductCategories: [],
-      subSubProductCategories: [],
       skuNumber: "",
       quantity: 0,
       minQuantity: 1,
@@ -324,9 +277,15 @@ export default {
       imageError: false,
     };
   },
+  created() {
+    if (this.$store.getters["inventory/productCategories"].length == 0) {
+      this.loader = true;
+      this.getProductCategories();
+    }
+  },
   computed: {
     ...mapGetters({
-      productCategories: "inventory/productCategories"
+      productCategories: "inventory/productCategories",
     }),
   },
   methods: {
@@ -338,8 +297,8 @@ export default {
 
       if (
         this.$refs[`form${formNum}`].validate() &&
-        this.category !== "" &&
-        this.quantity != 0
+        this.categoryError === false  &&
+        this.quantityError === false
       ) {
         this.productForm = `form${formNum + 1}`;
         this.progress = "70%";
@@ -369,18 +328,8 @@ export default {
     },
     // set category value
     setCategory(params) {
-      this.category = params.name;
+      this.category = params;
       this.verifyCategory();
-      this.subProductCategory = params;
-    },
-    // set sub category value
-    setSubCategory(params) {
-      this.subCategory = params.name;
-      this.verifyCategory();
-      this.subSubProductCategory = params;
-    },
-    setSubSub(params) {
-      this.subSubCategory = params
     },
     // set quantity value
     setQuantity(params) {

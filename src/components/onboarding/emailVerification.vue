@@ -213,7 +213,7 @@ export default {
     // destroy token
     denialAccess() {
       this.$store.commit("onboarding/setToken", null);
-      localStorage.removeItem("accessToken");
+      localStorage.removeItem("vendorToken");
       this.$router.push({ name: "Signin" });
     },
   },
