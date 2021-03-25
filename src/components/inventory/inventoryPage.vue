@@ -91,7 +91,7 @@
       <ProductsTable ref="productsTable" v-show="verifiedStore === true" />
 
       <!-- show the user this form if the store is not verified yet -->
-      <RequiredInformationPage v-show="verifiedStore === false" />
+      <RequiredInformationPage v-show="verifiedStore === false || verifiedPhoneNumber === false" />
     </div>
 
     <!--------------------------- modal for dialog messages ------------------------------>
@@ -156,6 +156,7 @@ export default {
     ...mapGetters({
       searchProduct: "inventory/searchProduct",
       verifiedStore: "settings/verifiedStore",
+      verifiedPhoneNumber: "settings/verifiedPhoneNumber",
     }),
   },
   methods: {

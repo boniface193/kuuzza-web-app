@@ -1,6 +1,6 @@
 <template>
   <div class="mt-10">
-    <div v-show="!loader && !verifiedStore">
+    <div v-show="!loader && verifiedStore == false">
       <!-- page description -->
       <div>
         <h2 class="text-center mb-0 primary--text" style="font-size: 20px">
@@ -72,7 +72,7 @@
                 class="mt-0"
                 v-model="rcNumber"
                 type="text"
-                :rules="inputRules"
+                :rules="rcNumberRues"
                 color="primary"
                 placeholder="RC Number"
                 ref="RCnumber"
@@ -204,12 +204,12 @@
                 <v-radio
                   class="primary--text mb-2"
                   label="Yes"
-                  value="Yes"
+                  value="true"
                 ></v-radio>
                 <v-radio
                   class="primary--text mb-1"
                   label="No"
-                  value="No"
+                  value="false"
                 ></v-radio>
               </v-radio-group>
             </div>
@@ -254,7 +254,7 @@
             <v-btn
               class="primary py-6 px-8"
               :disabled="
-                !agreeToInccurShippingFee && allowReturnProducts === 'Yes'
+                !agreeToInccurShippingFee && allowReturnProducts === 'true'
               "
               @click="goNextForm(2)"
             >
@@ -506,17 +506,30 @@ export default {
         (v) => !!v || "Phone Number is required",
         (v) => v.length > 10 || "Number should 10 digit or more",
       ],
+      rcNumberRues: [
+        (v) => !!v || "This field is required",
+        (v) => v.length === 11 || "RC Number should be 11 digits",
+      ],
       daysRules: [(v) => !!v || "Required"],
       radioRules: [(v) => !!v || "Required"],
     };
   },
   created() {
-    if (
-      this.$store.getters["inventory/productCategories"].length == 0 &&
-      this.$store.getters["settings/verifiedStore"] === false
-    ) {
+    if (this.$store.getters["inventory/productCategories"].length == 0) {
       this.loader = true;
       this.getProductCategories();
+    }
+
+    if (
+      this.$store.getters["settings/getUserProfile"].store
+        .phone_number_verified == false &&  this.$store.getters["settings/getUserProfile"].store
+        .setup_is_complete !== false
+    ) {
+      this.otp.length > 0 ? this.$refs.otpInput1.clearInput() : "";
+      this.dialog = true;
+      this.otpError = false;
+      this.timer = 60;
+      this.setOTPTimer();
     }
   },
   mounted() {
@@ -660,6 +673,7 @@ export default {
       this.otp = value;
       this.otpError = false;
     },
+    // set otp timer
     setOTPTimer() {
       this.showOTPTimer = true;
       let counter = setInterval(() => {
@@ -672,56 +686,52 @@ export default {
         }
       }, 1000);
     },
+    // get store info in the structure format
     getInfo() {
-      if (this.accountType === "individual") {
-        return {
-          business_info: {
-            account_type: this.accountType,
-            id_type: this.IDtype,
-            id_number: this.idNumber,
-          },
-          location: {
-            address: this.pickUpLocation,
-            lat: this.lat,
-            lng: this.lng,
-          },
-          phone_number: this.phoneNumber,
-          refund_policy: {
-            return_allowed: this.allowReturnProducts,
-          },
-        };
-      } else if (this.accountType === "business") {
-        return {
-          business_info: {
-            account_type: this.accountType,
-            business_name: this.businessName,
-            rc_number: this.rcNumber,
-          },
-          location: {
-            address: this.pickUpLocation,
-            lat: this.lat,
-            lng: this.lng,
-          },
-          phone_number: this.phoneNumber,
-          refund_policy: {
-            return_allowed: this.allowReturnProducts,
-          },
-        };
+      let storeDetails = {};
+      storeDetails.business_info = {};
+      storeDetails.location = {};
+      storeDetails.refund_policy = {};
+      storeDetails.business_info.account_type = this.accountType;
+      storeDetails.location.address = this.pickUpLocation;
+      storeDetails.location.lat = this.lat;
+      storeDetails.location.lng = this.lng;
+      storeDetails.phone_number = this.phoneNumber;
+      storeDetails.refund_policy.return_allowed = this.allowReturnProducts;
+      if (this.allowReturnProducts == "true") {
+        storeDetails.refund_policy.return_precondition = this.productQualification;
+        storeDetails.refund_policy.product_replacable_on_return = this.allowReplaceProducts;
+        storeDetails.refund_policy.return_window = this.maxDays;
       }
+      if (this.accountType === "individual") {
+        storeDetails.business_info.id_type = this.IDtype;
+        storeDetails.business_info.id_number = this.idNumber;
+      } else if (this.accountType === "business") {
+        storeDetails.business_info.business_name = this.businessName;
+        storeDetails.business_info.rc_number = this.rcNumber;
+      }
+
+      return storeDetails;
     },
     // submit store information
     submitStoreDetails() {
       this.submitLoader = true;
       this.$store
         .dispatch("settings/editStore", this.getInfo())
-        .then(() => {
+        .then((response) => {
           this.submitLoader = false;
-          this.otp.length > 0 ? this.$refs.otpInput1.clearInput() : "";
-          this.dialog2 = false;
-          this.dialog = true;
-          this.otpError = false;
-          this.timer = 60;
-          this.setOTPTimer();
+          if (response.data.data.store.phone_number_verified) {
+            this.statusImage = successImage;
+            this.dialog2 = true;
+            this.dialogMessage = "Store setup completed successfully";
+          } else {
+            this.otp.length > 0 ? this.$refs.otpInput1.clearInput() : "";
+            this.dialog2 = false;
+            this.dialog = true;
+            this.otpError = false;
+            this.timer = 60;
+            this.setOTPTimer();
+          }
         })
         .catch((error) => {
           this.statusImage = failedImage;
