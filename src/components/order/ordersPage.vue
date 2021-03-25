@@ -46,7 +46,7 @@
 
     <div
       v-if="isLoading"
-      style="position: absolute; margin: 15% 50%; text-align: center"
+      style="position: absolute; margin: 10% 45%;"
     >
       <!-- this image time loader is calculated by the loader to triger the load time -->
       <v-progress-circular
@@ -59,6 +59,7 @@
     <!-- table  -->
     <dataTable
       v-show="orders.length > 0"
+      v-if="!isLoading"
       ref="table"
       :action="false"
       :select="false"
@@ -161,19 +162,21 @@ export default {
   computed: {
     // to populate items on the table
     ...mapGetters({
-      orders: "orders/orders",
+      // orders: "orders/orders",
       searchOrder: "orders/searchOrder",
     }),
     ...mapState({
+      orders: (state) => state.orders.orders,
       searchValue: (state) => state.orders.searchValue,
       pageDetails: (state) => state.orders.pageDetails,
     }),
   },
   created() {
+    console.log("order", this.orders)
     this.$store.dispatch("orders/getOrders").then((res) => {
       this.isLoading = false;
       if (res.length == 0) {
-        this.errorMsg = "No Item Found"
+        this.errorMsg = "No Sales Recorded Yet"
       }
     });
     this.$store.dispatch("orders/filterGetOrders");

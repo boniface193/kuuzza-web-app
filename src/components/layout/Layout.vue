@@ -49,9 +49,8 @@
             <template v-slot:activator="{ on, attrs }">
               <!-- icon -->
               <v-avatar size="31" v-bind="attrs" v-on="on">
-                <v-img
-                  src="https://cdn.vuetifyjs.com/images/lists/2.jpg"
-                ></v-img>
+                <v-img v-if="image" :src="image"></v-img>
+                <v-icon v-else size="31">mdi-account-circle</v-icon>
               </v-avatar>
             </template>
             <UserLayout />
@@ -126,7 +125,7 @@
 import modal from "@/components/dashboard/modal.vue";
 import Notification from "@/components/notification/notification.vue";
 import UserLayout from "@/components/layout/userInfo.vue";
-import { mapGetters, mapState } from "vuex";
+import { mapState } from "vuex";
 export default {
   components: { modal, Notification, UserLayout },
   data: () => ({
@@ -185,15 +184,15 @@ export default {
   computed: {
     ...mapState({
       userName: (state) => state.settings.profile.name,
+      image: (state) => state.settings.profile.photo,
+      getNotified: (state) => state.notification.notification,
     }),
-    ...mapGetters({ getNotified: "notification/getNotified" }),
   },
 
   created() {
     if (this.$store.getters["settings/getUserProfile"].name === "") {
       this.$store.dispatch("settings/getUserProfile");
     }
-
     this.getNotice();
   },
 
@@ -211,13 +210,15 @@ export default {
     },
 
     getNotice() {
-      let showing_not = this.getNotified.data.find(
-        (item) => item.read === true
-      );
-      if (showing_not) {
-        this.showNot = true;
-      } else {
-        this.showNot = false;
+      if (!this.getNotified === undefined) {
+        let showing_not = this.getNotified.data.find(
+          (item) => item.read === true
+        );
+        if (showing_not) {
+          this.showNot = true;
+        } else {
+          this.showNot = false;
+        }
       }
     },
   },
