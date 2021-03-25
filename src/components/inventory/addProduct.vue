@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pb-8">
     <div v-show="!loader">
       <div style="width: 200px">
         <!-- back to Inventory -->
@@ -138,6 +138,11 @@
             </div> -->
           </div>
 
+          <!-- variant container -->
+          <div class="mb-9" style="width:100%">
+            <ProductVariant />
+          </div>
+
           <!-- button container -->
           <div class="d-flex justify-end" style="width: 100%">
             <!-- continue button -->
@@ -233,6 +238,7 @@ import progressBar from "@/components/dashboard/progressBar.vue";
 import CategorySelector from "@/components/general/CategorySelector.vue";
 import customNumberInput from "@/components/dashboard/customNumberInput.vue";
 import imageUploader from "@/components/general/imageUploader.vue";
+import ProductVariant from "@/components/inventory/ProductVariant.vue";
 import modal from "@/components/dashboard/modal.vue";
 import successImage from "@/assets/img/success-img.svg";
 import failedImage from "@/assets/img/failed-img.svg";
@@ -245,6 +251,7 @@ export default {
     customNumberInput,
     imageUploader,
     modal,
+    ProductVariant,
   },
   data: function () {
     return {
@@ -297,7 +304,7 @@ export default {
 
       if (
         this.$refs[`form${formNum}`].validate() &&
-        this.categoryError === false  &&
+        this.categoryError === false &&
         this.quantityError === false
       ) {
         this.productForm = `form${formNum + 1}`;
@@ -411,7 +418,7 @@ export default {
           this.dialog = true;
           this.statusImage = successImage;
           this.dialogMessage =
-            "Product have successfully been added to your inventory.";
+            "Product has successfully been added to your inventory.";
           this.$store.dispatch("inventory/getfilteredProducts");
         })
         .catch((error) => {
