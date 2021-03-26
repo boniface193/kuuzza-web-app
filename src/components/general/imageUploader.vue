@@ -44,7 +44,10 @@
         </div>
 
         <div class="px-4 px-sm-7">
-          <h4 class="secondary--text">Upload Product Image</h4>
+          <h4 class="secondary--text mt-5 mb-2">Upload Product Image</h4>
+          <p class="mb-0 error--text" v-show="imageError">
+            {{ imageErrorMsg }}
+          </p>
           <!-- upload image -->
           <div class="upload-container" v-if="status === 'upload'">
             <div class="upload-content" @click="pickImageFromUserFile">
@@ -103,6 +106,9 @@
             {{ numberOfImage }}
             {{ numberOfImage > 1 ? "images" : "image" }} selected
           </h4>
+          <p class="primary--text mb-0">
+            <span class="accent--text">NB:</span> maximum of 20MB is allowed
+          </p>
         </div>
       </div>
     </modal>
@@ -204,6 +210,8 @@ export default {
       errorDialog: false,
       dialogMessage: "",
       statusImage: null,
+      imageErrorMsg: "",
+      imageError: false,
     };
   },
   computed: {
@@ -278,6 +286,7 @@ export default {
           this.status = "uploaded";
           this.uploadProgress = "0%";
           this.inputError = false;
+          this.imageError = false;
           setTimeout(() => {
             this.dialog = false;
             this.openImageModal();
@@ -285,8 +294,14 @@ export default {
         })
         .catch((error) => {
           this.status = "upload";
+          this.imageError = true;
           if (error.response.status == 401) {
             this.$store.commit("onboarding/setTokenAuthorizeStatus", false);
+          }
+          if (error.response) {
+            this.imageErrorMsg = error.response.message;
+          } else {
+            this.imageErrorMsg = "Something went wrong, pls try again.";
           }
         });
     },
@@ -367,7 +382,7 @@ export default {
   height: 55px;
   border: 1px solid #d3d9de;
   border-radius: 5px;
-  margin: 20px 0px;
+  margin: 0px 0px 20px 0px;
   display: flex;
   align-items: center;
   padding: 5px;
@@ -392,7 +407,7 @@ export default {
   height: 55px;
   border-radius: 5px;
   background: var(--v-primary-base);
-  margin: 20px 0px;
+  margin: 0px 0px 20px 0px;
   display: flex;
   align-items: center;
   justify-content: center;

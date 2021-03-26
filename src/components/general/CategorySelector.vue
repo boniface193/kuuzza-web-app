@@ -44,14 +44,15 @@
           v-for="(item, index) in filteredItem"
           :key="index"
           class="category"
+          @click="itemSelected(item.name)"
         >
           {{ item.name }}
 
           <div class="sub-category-container">
             <div class="sub-category" v-for="(subCategory, index2) in item.children" :key="index2">
-              <p class="mb-1">{{ subCategory.name }}</p>
+              <p class="mb-1" @click.stop="itemSelected(subCategory.name)">{{ subCategory.name }}</p>
               <hr class="mb-2" />
-              <p class="item mb-1" @click="itemSelected(subCategory.name)">
+              <p class="item mb-1" @click.stop="itemSelected(subCategory.name)">
                 {{ subCategory.name}}
               </p>
             </div>
@@ -102,7 +103,7 @@ export default {
     itemSelected(item) {
       this.selectedValue = item;
       this.itemHolder = item;
-      this.toggleDropdown();
+      this.dropdown = false;
       this.$emit("selectedItem", item);
     },
   },
@@ -202,6 +203,9 @@ export default {
             padding: 10px;
             width: 33%;
             height: auto;
+            &:hover{
+              color: var(--v-secondary-background-base);
+            }
             .item {
               font-size: 15px;
               color: var(--v-secondary-base);
