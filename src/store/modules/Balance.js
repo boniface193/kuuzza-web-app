@@ -69,8 +69,16 @@ const getters = {
 const actions = {
     getSettlements(context, data) {
         let dateRange = (state.dateRange.endDate !== '') ? `date_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
-        let page = ((state.awaitingSettlements.meta.current_page) ? `page=${state.awaitingSettlements.meta.current_page}` : "");
-        let perPage = ((state.awaitingSettlements.meta.per_page) ? `per_page=${state.awaitingSettlements.meta.per_page}` : "");
+        let page, perPage;
+        if (data.status === "pending") {
+            page = ((state.awaitingSettlements.meta.current_page) ? `page=${state.awaitingSettlements.meta.current_page}` : "");
+            perPage = ((state.awaitingSettlements.meta.per_page) ? `per_page=${state.awaitingSettlements.meta.per_page}` : "");
+        }
+        if (data.status === "settled") {
+            page = ((state.settlements.meta.current_page) ? `page=${state.settlements.meta.current_page}` : "");
+            perPage = ((state.settlements.meta.per_page) ? `per_page=${state.settlements.meta.per_page}` : "");
+        }
+
         return new Promise((resolve, reject) => {
             axios.get(`${data.storeId}/settlements?status=${data.status}&${dateRange}&${page}&${perPage}`, {
                 headers: {
@@ -78,23 +86,23 @@ const actions = {
                 },
             })
                 .then((response) => {
+                    let newDataFormat = []
+                    response.data.data.forEach(item => {
+                        let newData = {}
+                        newData.amount = item.amount;
+                        newData.order_id = item.order_id;
+                        newData.product_name = item.meta.product_name;
+                        newData.due_date = (item.due_date == null) ? "pending" : item.due_date;
+                        newDataFormat.push(newData);
+                    });
+                    let resturctedData = {}
+                    resturctedData.data = newDataFormat
+                    resturctedData.meta = response.data.meta
                     if (data.status === "settled") {
-                        context.commit("setSettlements", response.data)
+                        context.commit("setSettlements", resturctedData)
                     }
                     if (data.status === "pending") {
-                        let newDataFormat = []
-                        response.data.data.forEach(item => {
-                            let newData = {}
-                            newData.amount = item.amount;
-                            newData.order_id = item.order_id;
-                            newData.product_name = item.meta.product_name;
-                            newData.due_date = (item.due_date == null) ? "pending" : item.due_date;
-                            newDataFormat.push(newData);
-                        });
-                        let awaitingSettlements = {}
-                        awaitingSettlements.data = newDataFormat
-                        awaitingSettlements.meta = response.data.meta
-                        context.commit("setAwaitingSettlements", awaitingSettlements);
+                        context.commit("setAwaitingSettlements", resturctedData);
                     }
                     resolve(response)
                 })
@@ -170,16 +178,22 @@ const actions = {
 const mutations = {
     // commit nothing
     doNothing: (state) => (state.doNothing = null),
-    setSettlements: (state, list) => (state.settlement = list),
+    setSettlements: (state, list) => (state.settlements = list),
     setAwaitingSettlements: (state, list) => (state.awaitingSettlements = list),
     setPaymentHistory: (state, list) => (state.paymentHistory = list),
     setDateRange: (state, dateRange) => (state.dateRange = dateRange),
-    setItemPerPage: (state, itemPerPage) => {
+    setItemPerPageAwaitingSettlements: (state, itemPerPage) => {
         let page = setItemPerPage(itemPerPage, state.awaitingSettlements.meta.per_page, state.awaitingSettlements.meta.from);
         state.awaitingSettlements.meta.current_page = page;
         state.awaitingSettlements.meta.per_page = itemPerPage;
     },
-    setPage: (state, page) => (state.awaitingSettlements.meta.current_page = page),
+    setPageAwaitingSettlements: (state, page) => (state.awaitingSettlements.meta.current_page = page),
+    setItemPerPageSettlements: (state, itemPerPage) => {
+        let page = setItemPerPage(itemPerPage, state.settlements.meta.per_page, state.settlements.meta.from);
+        state.settlements.meta.current_page = page;
+        state.settlements.meta.per_page = itemPerPage;
+    },
+    setPageSettlements: (state, page) => (state.settlements.meta.current_page = page),
 };
 
 export default {

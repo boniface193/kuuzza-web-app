@@ -76,7 +76,7 @@
         </div>
 
         <div class="mb-7 mt-5 mx-auto status-img">
-          <v-img src="@/assets/img/success-img.svg"></v-img>
+          <v-img :src="statusImage"></v-img>
         </div>
 
         <h4>{{ dialogMessage }}</h4>
@@ -86,12 +86,15 @@
 </template>
 <script>
 import modal from "@/components/dashboard/modal.vue";
+import successImage from "@/assets/img/success-img.svg";
+import failedImage from "@/assets/img/failed-img.svg";
 export default {
   name: "privacyDetails",
   components: { modal },
   data: function () {
     return {
       loading: false,
+      statusImage: null,
       oldPassword: "",
       newPassword: "",
       confirmPassword: "",
@@ -134,14 +137,15 @@ export default {
           .then(() => {
             this.dialog = true;
             this.loading = false;
+            this.statusImage = successImage;
             this.dialogMessage = "Password changed successfully!";
             this.$refs.form.reset();
           })
           .catch((error) => {
             this.dialog = true;
             this.loading = false;
+            this.statusImage = failedImage;
             if (error.response) {
-              console.log(error.response)
               this.dialogMessage = error.response.data.errors.old_password[0];
             } else {
               this.dialogMessage = "No internet connection!";

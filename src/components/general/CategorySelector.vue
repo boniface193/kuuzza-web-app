@@ -13,7 +13,7 @@
       <span
         class="custom-placeholder"
         :class="{ 'selected-color': selectedValue !== null }"
-        >{{ itemHolder }}</span
+        >{{ itemHolder.itemName }}</span
       >
       <span
         ><v-icon :color="caretColor" class="caret"
@@ -79,7 +79,6 @@ export default {
   ],
   data: function () {
     return {
-      itemHolder: this.item,
       dropdown: false,
       selectedValue: null,
       searchValue: "",
@@ -91,6 +90,11 @@ export default {
         return item.name.toLowerCase().includes(this.searchValue.toLowerCase());
       });
     },
+    itemHolder(){
+      return{
+        itemName: this.item
+      } 
+    }
   },
   methods: {
     toggleDropdown() {
@@ -102,7 +106,7 @@ export default {
     },
     itemSelected(item) {
       this.selectedValue = item;
-      this.itemHolder = item;
+      this.itemHolder.itemName = item;
       this.dropdown = false;
       this.$emit("selectedItem", item);
     },
