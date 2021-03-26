@@ -115,12 +115,12 @@ export default {
     },
     // set item per page
     setItemPerPage(params) {
-      this.$store.commit("balance/setItemPerPage", params);
+      this.$store.commit("balance/setItemPerPageAwaitingSettlements", params);
       this.getAwaitingSettlements();
     },
     // set current page
     setCurentPage(params) {
-      this.$store.commit("balance/setPage", params);
+      this.$store.commit("balance/setPageAwaitingSettlements", params);
       this.getAwaitingSettlements();
     },
      reset(){

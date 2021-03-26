@@ -31,17 +31,18 @@
             </v-text-field>
           </div>
 
-          <!-- select category -->
+          <!-- select category  -->
           <div class="mb-9 input-field">
             <p class="mb-1">Category</p>
-            <customSelect
+            <CategorySelector
               width="100%"
               height="57px"
-              caretColor="#5064cc"
-              :placeholder="productDetails.category"
+              caretColor="#029B97"
+              placeholder="Select Category"
               :searchBar="true"
-              :items="categories"
-              :item="productDetails.category"
+              :items="productCategories"
+              :item="productCategory.category"
+              :inputStatus="categoryError"
               @selectedItem="setCategory"
             />
             <div v-if="categoryError === true" class="inputError error--text">
@@ -186,15 +187,16 @@
 </template>
 <script>
 //import modal from "@/components/dashboard/modal.vue";
-import customSelect from "@/components/dashboard/customSelect.vue";
 import customNumberInput from "@/components/dashboard/customNumberInput.vue";
 import imageUploader from "@/components/general/imageUploader.vue";
+import CategorySelector from "@/components/general/CategorySelector.vue";
 import modal from "@/components/dashboard/modal.vue";
 import successImage from "@/assets/img/success-img.svg";
 import failedImage from "@/assets/img/failed-img.svg";
+import { mapGetters } from "vuex";
 export default {
   name: "editInventory",
-  components: { customSelect, customNumberInput, imageUploader, modal },
+  components: { CategorySelector, customNumberInput, imageUploader, modal },
   data: function () {
     return {
       productDetails: {},
@@ -207,14 +209,6 @@ export default {
       pageLoader: false,
       loading: false,
       edited: false,
-      categories: [
-        "Category 1",
-        "Category 2",
-        "Category 3",
-        "Category 4",
-        "phone and device",
-        "clothe",
-      ],
       inputRules: [(v) => !!v || "This field is required"],
       priceRules: [
         (v) => !!v || "This field is required",
@@ -234,12 +228,17 @@ export default {
         id: this.$route.params.id,
       })
       .then((response) => {
-        this.pageLoader = false;
         this.productDetails = response.data.data;
         this.productDetails.quantity = response.data.data.quantity;
         this.productDetails.category = response.data.data.category;
         this.imageUrl = response.data.image;
         this.initialProductDetails = response.data.data;
+        // get product categories if not available
+        if (this.$store.getters["inventory/productCategories"].length == 0) {
+          this.getProductCategories();
+        } else {
+          this.pageLoader = false;
+        }
       })
       .catch((error) => {
         this.dialog = true;
@@ -251,6 +250,16 @@ export default {
           this.dialogMessage = "No internet Connection!";
         }
       });
+  },
+  computed: {
+    ...mapGetters({
+      productCategories: "inventory/productCategories",
+    }),
+    productCategory(){
+      return {
+        category: this.productDetails.category || ''
+      }
+    }
   },
   methods: {
     setCategory(params) {
@@ -296,7 +305,28 @@ export default {
       this.edited = true;
       this.verifyImages();
     },
-
+    // get the list of product category
+    getProductCategories() {
+      this.$store
+        .dispatch("inventory/getProductCategories")
+        .then((response) => {
+          this.$store.commit(
+            "inventory/setProductCategories",
+            response.data.data
+          );
+          this.pageLoader = false;
+        })
+        .catch((error) => {
+          this.statusImage = failedImage;
+          this.dialog2 = true;
+          this.pageLoader = false;
+          if (error.response) {
+            this.dialogMessage = "Something went wrong, pls try again!";
+          } else {
+            this.dialogMessage = "No internet Connection!";
+          }
+        });
+    },
     updateProduct() {
       this.verifyCategory();
       this.verifyQuantity();
@@ -307,7 +337,6 @@ export default {
         this.quantityError === false &&
         this.categoryError === false &&
         this.imageError === false
-
       ) {
         this.loading = true;
         this.$store

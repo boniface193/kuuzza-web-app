@@ -6,7 +6,7 @@
         ref="settlementsTable"
         :headers="settlementsHeader"
         :items="settlements.data"
-        itemKey="id"
+        itemKey="order_id"
         :itemPerPage="15"
         :paginationLength="1"
         :page="1"
@@ -66,12 +66,16 @@ export default {
       settlementsHeader: [
         {
           text: "Product Name",
-          value: "name",
-          href: true,
-          routeName: "productDetails",
+          value: "product_name",
           width: "400px",
         },
-        { text: "Order ID", value: "order_id", width: "300px" },
+        {
+          text: "Order ID",
+          value: "order_id",
+          width: "300px",
+          href: true,
+          routeName: "OrderDetails",
+        },
         { text: "Amount", value: "amount", width: "250px", money: true },
         { text: "Settlement Date", value: "settlement_date", width: "250px" },
       ],
@@ -115,12 +119,20 @@ export default {
           }
         });
     },
-    setItemPerPage() {},
-    setCurentPage() {},
-     reset(){
+    // set item per page
+    setItemPerPage(params) {
+      this.$store.commit("balance/setItemPerPageSettlements", params);
+      this.getSettlements();
+    },
+    // set current page
+    setCurentPage(params) {
+      this.$store.commit("balance/setPageSettlements", params);
+      this.getSettlements();
+    },
+    reset() {
       this.fetchingData = true;
       this.getSettlements();
-    }
+    },
   },
 };
 </script>
