@@ -70,7 +70,7 @@ import PaymentHistory from "@/components/balancePages/PaymentHistory.vue";
 Vue.use(VueRouter);
 
 // requirement for user to log on to the authenticated pages
- const ifAuthenticated = (to, from, next) => {
+const ifAuthenticated = (to, from, next) => {
   store.commit("onboarding/tokenIsPresent");
   if (store.getters["onboarding/tokenIsPresent"] === true) {
     store.dispatch("onboarding/getUserProfile").then(response => {
@@ -165,15 +165,30 @@ const allowEditBankAccount = (to, from, next) => {
 
 // allow a user to add products 
 const allowAddProducts = (to, from, next) => {
-  if (store.getters["settings/verifiedStore"] == true && store.getters["settings/verifiedPhoneNumber"] == true) {
-    next();
-    return
-  } else {
-    if (from.name !== "inventoryPage") {
-      next({
-        name: "inventoryPage"
-      })
+  if (store.getters["settings/getUserProfile"].name != "") {
+    if (store.getters["settings/verifiedStore"]) {
+      next();
+      return
+    } else {
+      if (from.name !== "inventoryPage") {
+        next({
+          name: "inventoryPage"
+        })
+      }
     }
+  } else {
+    store.dispatch("onboarding/getUserProfile").then(response => {
+      if (response.data.data.store.setup_is_complete) {
+        next();
+        return
+      } else {
+        if (from.name !== "inventoryPage") {
+          next({
+            name: "inventoryPage"
+          })
+        }
+      }
+    })
   }
 }
 const routes = [
@@ -410,7 +425,7 @@ const routes = [
               {
                 path: "change-account",
                 name: "EditBankDetails",
-                component: EditBankDetails, 
+                component: EditBankDetails,
                 beforeEnter: allowEditBankAccount
               }
             ]

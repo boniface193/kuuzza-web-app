@@ -77,7 +77,7 @@ export default {
           routeName: "OrderDetails",
         },
         { text: "Amount", value: "amount", width: "250px", money: true },
-        { text: "Settlement Date", value: "settlement_date", width: "250px" },
+        { text: "Settlement Date", value: "date_settled", width: "250px" },
       ],
     };
   },

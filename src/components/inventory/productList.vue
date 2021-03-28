@@ -19,7 +19,9 @@
 
     <div class="d-flex align-center justify-center browse-container">
       <div class="text-center" v-show="!importingFile && !fileImported">
-        <img src="@/assets/img/Group12879.svg" alt="" class="mb-5" />
+        <div class="upload-img mb-5 mx-auto">
+          <img src="@/assets/img/Group12879.svg" alt="" />
+        </div>
         <h2 class="mb-3">Import file</h2>
         <p class="secondary--text">
           Drag and drop a file to import <br />
@@ -59,11 +61,12 @@ export default {
     },
     uploadFile() {
       let formData = new FormData();
+      console.log(this.$refs.docInput.files[0])
       formData.append("file", this.$refs.docInput.files[0]);
       this.importingFile = true;
        
        this.$store.dispatch("inventory/importProducts", {
-         file: formData
+         formData
        }).then(()=> {
           this.importingFile = false;
          console.log(111)
@@ -88,6 +91,15 @@ export default {
 }
 .browse-container {
   padding-top: 13%;
+  .upload-img{
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--v-primary-base);
+  }
 }
 .browse {
   cursor: pointer;

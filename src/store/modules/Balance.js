@@ -92,7 +92,12 @@ const actions = {
                         newData.amount = item.amount;
                         newData.order_id = item.order_id;
                         newData.product_name = item.meta.product_name;
-                        newData.due_date = (item.due_date == null) ? "pending" : item.due_date;
+                        if (data.status === "pending") {
+                            newData.due_date = (item.due_date == null) ? "pending" : item.due_date;
+                        } else {
+                            newData.date_settled = (item.date_settled == null) ? "pending" : item.date_settled
+                        }
+
                         newDataFormat.push(newData);
                     });
                     let resturctedData = {}
