@@ -139,8 +139,8 @@
           </div>
 
           <!-- variant container -->
-          <div class="mb-9" style="width:100%">
-            <ProductVariant />
+          <div class="mb-9" style="width: 100%">
+            <ProductVariant @setVariant="setVariant" ref="variantForm" />
           </div>
 
           <!-- button container -->
@@ -272,6 +272,11 @@ export default {
       productDescription: "",
       imageUrl: null,
       loading: false,
+      variantDetails: {
+        variant: [],
+        variantStatus: false,
+        formsValidated: false,
+      },
       inputRules: [(v) => !!v || "This field is required"],
       priceRules: [
         (v) => !!v || "This field is required",
@@ -307,9 +312,18 @@ export default {
         this.categoryError === false &&
         this.quantityError === false
       ) {
-        this.productForm = `form${formNum + 1}`;
-        this.progress = "70%";
-        this.setProgress();
+        if (this.variantDetails.variantStatus === true) {
+          this.$refs.variantForm.validateForm();
+          if (this.variantDetails.formsValidated === true) {
+            this.productForm = `form${formNum + 1}`;
+            this.progress = "70%";
+            this.setProgress();
+          }
+        } else {
+          this.productForm = `form${formNum + 1}`;
+          this.progress = "70%";
+          this.setProgress();
+        }
       }
     },
     // previous form
@@ -368,6 +382,10 @@ export default {
         this.progress = "70%";
       }
     },
+    // setVariant
+    setVariant(params) {
+      this.variantDetails = params;
+    },
     // submit
     submit() {
       this.$refs.form2.validate();
@@ -398,20 +416,33 @@ export default {
           }
         });
     },
+    getProductDetails() {
+      let productDetails = {};
+      productDetails.name = this.productName;
+      productDetails.category = this.category;
+      productDetails.sku = this.skuNumber;
+      productDetails.quantity = this.quantity;
+      productDetails.min_order_quantity = this.minQuantity;
+      productDetails.price = this.price;
+      productDetails.description = this.productDescription;
+      productDetails.image = this.imageUrl;
+
+      if(this.variantDetails.variantStatus === true){ 
+        productDetails.variants = []
+        this.variantDetails.variant.forEach(item => {
+        item.values = item.values.split(',');
+         productDetails.variants.push(item);
+        })
+      } 
+      console.log(productDetails)
+
+      return productDetails;
+    },
     // add products
     addProduct() {
       this.loading = true;
       this.$store
-        .dispatch("inventory/addProduct", {
-          name: this.productName,
-          category: this.category,
-          sku: this.skuNumber,
-          quantity: this.quantity,
-          min_order_quantity: this.minQuantity,
-          price: this.price,
-          description: this.productDescription,
-          image: this.imageUrl,
-        })
+        .dispatch("inventory/addProduct", this.getProductDetails())
         .then(() => {
           this.failedRequest = false;
           this.loading = false;

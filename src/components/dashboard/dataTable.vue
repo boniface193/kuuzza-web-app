@@ -49,8 +49,8 @@
         <tbody class="custom-tbody">
           <!-- table row -->
           <tr
-            v-for="item in sortedItems"
-            :key="item[`${itemKey}`]"
+            v-for="(item, index3) in sortedItems"
+            :key="index3"
             :class="{
               selectedRow: selected.includes(item[`${itemKey}`]),
               statusRow:
@@ -160,8 +160,8 @@
           </span>
         </div>
         <div
-          v-for="item in sortedItems"
-          :key="item[`${itemKey}`]"
+          v-for="(item, index3) in sortedItems"
+          :key="index3"
           :class="{
             selectedRow: selected.includes(item[`${itemKey}`]),
             statusRow:

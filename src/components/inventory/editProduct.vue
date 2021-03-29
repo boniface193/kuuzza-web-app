@@ -243,7 +243,7 @@ export default {
       .catch((error) => {
         this.dialog = true;
         this.pageLoader = false;
-        this.successImage = failedImage;
+        this.statusImage = failedImage;
         if (error.response) {
           this.dialogMessage = "Sorry, this data does not Exist";
         } else {
