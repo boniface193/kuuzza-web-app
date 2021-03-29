@@ -368,7 +368,7 @@ const actions = {
     // get product categories
     getProductCategories(context) {
         return new Promise((resolve, reject) => {
-            axios.get(`/products/category`,
+            axios.get(`/categories`,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,

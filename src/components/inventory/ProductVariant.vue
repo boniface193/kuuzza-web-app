@@ -128,7 +128,6 @@ export default {
         }
       });
 
-      console.log(this.variantItems);
       errorCount === 0 && this.$refs.variantForm.validate()
         ? (this.formsValidated = true)
         : (this.formsValidated = false);
