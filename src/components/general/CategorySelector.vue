@@ -52,8 +52,8 @@
             <div class="sub-category" v-for="(subCategory, index2) in item.children" :key="index2">
               <p class="mb-1" @click.stop="itemSelected(subCategory.name)">{{ subCategory.name }}</p>
               <hr class="mb-2" />
-              <p class="item mb-1" @click.stop="itemSelected(subCategory.name)">
-                {{ subCategory.name}}
+              <p class="item mb-1" v-for="(subSubCategory, index3) in subCategory.children" :key="index3" @click.stop="itemSelected(subCategory.name)">
+                {{ subSubCategory.name}}
               </p>
             </div>
           </div>
