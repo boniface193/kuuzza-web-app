@@ -67,7 +67,7 @@
       <!-- button container -->
       <div class="pa-0 mt-5" style="width: 100%">
         <v-btn
-          class="primary px-8 py-5 mb-5"
+          class="primary px-8 mb-5"
           @click="validate_form(1)"
           :loading="loading2"
           :disabled="loading2"
@@ -158,9 +158,7 @@
         >
           Back</v-btn
         >
-        <v-btn class="primary px-8 py-5 mb-5" @click="validate_form(2)"
-          >Next</v-btn
-        >
+        <v-btn class="primary px-8 mb-5" @click="validate_form(2)">Next</v-btn>
       </div>
     </v-form>
 
@@ -199,12 +197,13 @@
         @keyup.enter="validate_form(3)"
       ></v-text-field>
 
-      <v-checkbox
-        v-model="acceptTerms"
-        label="By clicking continue, you are agreeing to our terms of service and privacy
-        policy"
-        class="mt-5"
-      ></v-checkbox>
+      <div class="d-flex">
+        <v-checkbox v-model="acceptTerms"> </v-checkbox>
+        <p class="text-lg-body-1 text-caption">
+          By clicking continue, you are agreeing to our terms of service and
+          privacy policy
+        </p>
+      </div>
 
       <!-- button container -->
       <div
@@ -218,7 +217,7 @@
           Back</v-btn
         >
         <v-btn
-          class="primary px-8 py-5 mb-5"
+          class="primary px-8 mb-5"
           @click="validate_form(3)"
           :loading="loading"
           :disabled="loading || !acceptTerms"

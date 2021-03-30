@@ -47,7 +47,7 @@
           </a>
         </p>
         <v-btn
-          class="primary px-8 py-5 mb-5"
+          class="primary px-8 mb-5"
           @click="SubmitCode()"
           :loading="loading"
           :disabled="loading"
@@ -72,7 +72,7 @@
         <p class="my-3">You have successfully verified your Account.</p>
 
         <v-btn
-          class="primary mx-auto py-5 px-8"
+          class="primary mx-auto px-8"
           :loading="loading2"
           :disabled="loading2"
           v-if="dashboardBtn"

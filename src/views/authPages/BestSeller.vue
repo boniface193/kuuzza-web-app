@@ -34,7 +34,6 @@
           v-if="!isLoading"
           :headers="headers"
           :items="bestSeller"
-          :select="true"
           itemKey="id"
         />
       </div>
