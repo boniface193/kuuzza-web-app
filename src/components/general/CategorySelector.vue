@@ -201,6 +201,7 @@ export default {
           display: none;
           justify-content: flex-end;
           flex-wrap: wrap;
+          flex-direction: column;
           overflow-y: auto;
 
           .sub-category {

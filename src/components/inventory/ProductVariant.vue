@@ -101,12 +101,15 @@ export default {
         }, 2000);
       }
     },
-    removeForm(item) {
-      this.variantItems.splice(item, 1);
+    removeForm(index) {
+      this.variantTypes.push(this.variantItems[index].name)
+      this.variantItems.splice(index, 1);
     },
     setVariant(index, params) {
       this.variantItems[index].name = params;
       this.variantItems[index].inValidInput = false;
+      // let item = this.variantTypes.indexOf(params);
+      // this.variantTypes.splice(item, 1);
       this.emitVariant();
     },
     emitVariant() {

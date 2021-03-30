@@ -78,10 +78,12 @@
             </p> -->
 
             <!-- Product Variant -->
-            <p class="mt-8 mb-3">
+            <p class="mt-8 mb-3" v-show="orderDetails.variants">
               <span class="item-title">Variant: </span>
             </p>
-            <p class="secondary--text">variant goes here</p>
+            <p class="secondary--text mb-1" v-for="(variant, index) in orderDetails.variants" :key="index">
+              {{ variant.name }}: {{ variant.value }}
+            </p>
 
             <hr class="secondary--text" style="width: 300px" />
 
