@@ -42,7 +42,7 @@
             </h1>
             <!-- link to withdrawal page -->
             <v-btn
-              class="primary px-5 py-5 my-5 mx-auto"
+              class="primary px-5 my-5 mx-auto"
               :disabled="withdrawLoader"
               :loading="withdrawLoader"
               @click="withdrawFunds()"

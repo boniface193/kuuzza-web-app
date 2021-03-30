@@ -58,7 +58,7 @@
           </div>
 
           <v-btn
-            class="primary py-6 px-4"
+            class="primary px-4"
             :disabled="!accountVerified || this.accNumber.length !== 10"
             @click="openPasswordModal"
             >Save and continue</v-btn
@@ -123,7 +123,7 @@
             <!-- button container -->
             <div class="pa-0 mt-1" style="width: 100%">
               <v-btn
-                class="primary py-5 mb-5 mx-auto"
+                class="primary mb-5 mx-auto"
                 :loading="loading"
                 :disabled="loading"
                 @click="setAccountDetails()"
