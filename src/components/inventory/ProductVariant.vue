@@ -31,16 +31,39 @@
             />
           </div>
           <!-- variant options -->
-          <div class="option-variant">
+          <div
+            class="option-variant mb-8"
+            :class="{
+              'option-variant--active': variantItems[index].values.length > 0,
+            }"
+          >
+            <div class="mt-1 mb-0 px-3">
+              <span
+                class="item-selected mr-2"
+                v-for="(item, itemd) in variantItems[index].values"
+                :key="itemd"
+                >{{ item }}
+                <v-icon
+                  class="error--text ml-2"
+                  style="font-size: 16px"
+                  @click="removeVariantOption(index, itemd)"
+                  >mdi-close</v-icon
+                >
+              </span>
+            </div>
             <v-text-field
               class="mt-0"
               type="text"
               color="primary"
               placeholder="Seperate options with a comma"
-              v-model="variantItems[index].values"
-              :rules="inputRules"
+              v-model="variantItems[index].value"
+              @keyup="setVariantOption(index)"
+              :rules="[
+                inputRules.checkVariantOption(variantItems[index].values),
+              ]"
+              solo
+              flat
               required
-              outlined
             >
             </v-text-field>
           </div>
@@ -77,20 +100,28 @@ export default {
       variantItems: [
         {
           name: "",
-          values: "",
+          value: "",
+          values: [],
           inValidInput: null,
         },
       ],
       formsValidated: false,
-      inputRules: [(v) => !!v || "This field is required"],
+      variantOptionError: false,
+      inputRules: {
+        checkVariantOption(values) {
+          return () => values.length > 0 || "Add at least one variant option";
+        },
+      },
     };
   },
   methods: {
+    // generate variant form
     generateForm() {
       if (this.variantTypes.length > this.variantItems.length) {
         let variant = {};
         variant.name = "";
-        variant.values = "";
+        variant.value = "";
+        variant.values = [];
         this.variantItems.push(variant);
       } else {
         this.variantErrorMsg =
@@ -101,10 +132,31 @@ export default {
         }, 2000);
       }
     },
+    // remove variant form
     removeForm(index) {
-      this.variantTypes.push(this.variantItems[index].name)
+      this.variantTypes.push(this.variantItems[index].name);
       this.variantItems.splice(index, 1);
     },
+    // add the variant option
+    setVariantOption(index) {
+      if (
+        this.variantItems[index].value.slice(-1) == "," &&
+        this.variantItems[index].value.length > 1
+      ) {
+        this.variantItems[index].value = this.variantItems[
+          index
+        ].value.substring(0, this.variantItems[index].value.length - 1);
+        this.variantItems[index].values.push(
+          `${this.variantItems[index].value}`
+        );
+        this.variantItems[index].value = "";
+      }
+    },
+    // remove variant option
+    removeVariantOption(index, itemIndex) {
+      this.variantItems[index].values.splice(itemIndex, 1);
+    },
+    // set variant name
     setVariant(index, params) {
       this.variantItems[index].name = params;
       this.variantItems[index].inValidInput = false;
@@ -147,6 +199,30 @@ export default {
 }
 .option-variant {
   width: 62%;
+  height: 58px;
+  border: 1px solid rgba(0, 0, 0, 0.38) !important;
+  min-height: 58px;
+  border-radius: 8px;
+  padding: 0px 0px;
+  &:hover {
+    border-color: rgba(0, 0, 0, 0.87);
+  }
+  &:focus-within {
+    border-color: var(--v-primary-base) !important;
+  }
+  &--active {
+    height: 75px;
+  }
+  &--error {
+    border-color: var(--v-error-base) !important;
+  }
+  .item-selected {
+    color: var(--v-primary-base);
+    background: var(--v-light-background-base);
+    margin: 5px 2px 2px 0px;
+    padding: 3px 4px;
+    border-radius: 5px;
+  }
 }
 .v-text-field--outlined {
   border-radius: 8px !important;
@@ -158,5 +234,10 @@ export default {
   .option-variant {
     width: 100%;
   }
+}
+</style>
+<style>
+.theme--light.v-text-field--solo > .v-input__control > .v-input__slot {
+  background: transparent !important;
 }
 </style>
