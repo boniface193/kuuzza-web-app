@@ -45,7 +45,7 @@
             :to="{ name: 'EditBankDetails' }"
             style="text-decoration: none"
           >
-            <v-btn class="mt-5 primary--text light-background" 
+            <v-btn class="mt-5 primary--text light-background"
               >Change account number
             </v-btn>
           </router-link>
@@ -54,7 +54,7 @@
     </div>
 
     <!-- confirmation modal -->
-    <modal :dialog="confirmationDialog" width="400">
+    <modal :dialog="confirmationDialog" width="450">
       <div class="white pa-3 px-5 pb-10 text-center dialog">
         <div class="d-flex justify-end">
           <v-icon
@@ -65,17 +65,31 @@
         </div>
 
         <div class="text-left confirmation-dialog">
-          <!-- message -->
-          <p class="mt-5">
-            Your available balance is
-            <span class="primary--text"
-              >&#8358;{{ revenueDetails.available_balance_label }}</span
-            >, a sum of
-            <span class="primary--text"
-              >&#8358;{{ amountToDeposit.amount }}</span
+          <p class="mt-5 mb-2">
+            <span style="font-weight: 600">Payment method: </span
+            ><span
+              class="ml-3 primary white--text px-3 py-1"
+              style="border-radius: 5px"
             >
-            would deposited to your bank account due to deduction of 7.5% VAT.
+              Bank transfer</span
+            >
           </p>
+
+          <p class="mt-1 mb-0">
+            <span style="font-weight: 600">Available balance: </span
+            ><span class="ml-3">
+              &#8358;{{ revenueDetails.available_balance_label }}</span
+            >
+          </p>
+
+          <p class="mt-1">
+            <span style="font-weight: 600">Charges: </span
+            ><span class="ml-3"
+              >7.5% VAT and &#8358;{{ amountToDeposit.transferFee }} transfer
+              fee
+            </span>
+          </p>
+
           <!-- acount details -->
           <h5>
             <span>Account name: </span
@@ -96,13 +110,21 @@
             }}</span>
           </h5>
 
+          <p class="mt-4">
+            You are about to send
+            <span class="primary--text"
+              >&#8358;{{ numberWithCommas(amountToDeposit.amount) }}</span
+            >
+            to your bank's account
+          </p>
+
           <!-- withdraw btn -->
           <v-btn
             class="primary mt-5 mx-auto"
             :disabled="withdrawLoader"
             :loading="withdrawLoader"
             @click="withdrawFunds()"
-            >Continue</v-btn
+            >Get Paid Now</v-btn
           >
         </div>
       </div>
@@ -167,24 +189,33 @@ export default {
     },
     amountToDeposit() {
       let balance = this.revenueDetails.available_balance;
+      let transferFee = null;
       let vat = 0.075 * balance;
       if (balance <= 5000) {
-        balance = balance - vat - 10;
+        transferFee = 10;
+        balance = balance - vat - transferFee;
       }
 
       if (balance > 5000 && balance <= 50000) {
-        balance = balance - vat - 25;
+        transferFee = 25;
+        balance = balance - vat - transferFee;
       }
 
       if (balance > 50000) {
-        balance = balance - vat - 50;
+        transferFee = 50;
+        balance = balance - vat - transferFee;
       }
       return {
         amount: balance,
+        transferFee: transferFee,
       };
     },
   },
   methods: {
+    // separate money with comma
+    numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
     openConfirmationDialog() {
       this.confirmationDialog = true;
     },

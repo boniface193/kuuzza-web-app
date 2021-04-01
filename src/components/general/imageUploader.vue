@@ -45,9 +45,12 @@
 
         <div class="px-4 px-sm-7">
           <h4 class="secondary--text mt-5 mb-2">Upload Product Image</h4>
-          <p class="mb-0 error--text" v-show="imageError">
-            {{ imageErrorMsg }}
-          </p>
+          <p
+            class="mb-0 error--text"
+            style="font-size: 14px"
+            v-show="imageError"
+            v-html="imageErrorMsg"
+          ></p>
           <!-- upload image -->
           <div class="upload-container" v-if="status === 'upload'">
             <div class="upload-content" @click="pickImageFromUserFile">
@@ -107,7 +110,7 @@
             {{ numberOfImage > 1 ? "images" : "image" }} selected
           </h4>
           <p class="primary--text mb-0">
-            <span class="accent--text">NB:</span> maximum of 20MB is allowed
+            <span class="accent--text">NB:</span> maximum of 2MB is allowed
           </p>
         </div>
       </div>
@@ -265,8 +268,15 @@ export default {
     upload() {
       if (this.imageNames !== null) {
         const formData = new FormData();
-        formData.set("image", this.imageNames[0]);
-        this.uploadImage(formData);
+        if (this.imageNames[0].size < 2242880) {
+          formData.set("image", this.imageNames[0]);
+          this.uploadImage(formData);
+          this.imageError = false;
+        } else {
+          this.imageError = true;
+          this.imageErrorMsg =
+            "Image size too large, kindly compress <a class='primary--text' target='_blank' href='https://compressjpeg.com/'>here</a> and re-upload";
+        }
       }
     },
     uploadImage(data) {
