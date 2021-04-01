@@ -191,7 +191,6 @@ export default {
           width: 700px;
           min-height: 250px;
           max-height: 500px;
-          background: red;
           top: 70px;
           left: -702px;
           box-shadow: 0px 3px 6px #00000029;
@@ -202,6 +201,7 @@ export default {
           justify-content: flex-end;
           flex-wrap: wrap;
           flex-direction: column;
+          cursor: context-menu;
           overflow-y: auto;
 
           .sub-category {

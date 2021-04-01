@@ -34,7 +34,10 @@
             <h5>&#8358;100</h5>
           </div> -->
           <!-- withdrwa btn -->
-          <v-btn class="primary mt-5" @click="openConfirmationDialog()"
+          <v-btn
+            class="primary mt-5"
+            :disabled="revenueDetails.available <= 100"
+            @click="openConfirmationDialog()"
             >Withdraw</v-btn
           >
           <!-- change account btn -->
@@ -42,7 +45,7 @@
             :to="{ name: 'EditBankDetails' }"
             style="text-decoration: none"
           >
-            <v-btn class="mt-5 primary--text" style="background: #f3f5ff"
+            <v-btn class="mt-5 primary--text light-background" 
               >Change account number
             </v-btn>
           </router-link>
@@ -64,10 +67,14 @@
         <div class="text-left confirmation-dialog">
           <!-- message -->
           <p class="mt-5">
-            Your available balance is <span class="primary--text">&#8358;{{
-              revenueDetails.available_balance_label
-            }}</span>, a sum of <span class="primary--text">&#8358;{{ amountToDeposit.amount }}</span> would deposited to
-            your bank account due to deduction of 7.5% VAT.
+            Your available balance is
+            <span class="primary--text"
+              >&#8358;{{ revenueDetails.available_balance_label }}</span
+            >, a sum of
+            <span class="primary--text"
+              >&#8358;{{ amountToDeposit.amount }}</span
+            >
+            would deposited to your bank account due to deduction of 7.5% VAT.
           </p>
           <!-- acount details -->
           <h5>
@@ -159,17 +166,17 @@ export default {
       };
     },
     amountToDeposit() {
-      let balance = this.revenueDetails.available_balance
+      let balance = this.revenueDetails.available_balance;
       let vat = 0.075 * balance;
-      if(balance <= 5000){
+      if (balance <= 5000) {
         balance = balance - vat - 10;
       }
 
-      if(balance > 5000 && balance <= 50000){
+      if (balance > 5000 && balance <= 50000) {
         balance = balance - vat - 25;
       }
 
-      if(balance > 50000){
+      if (balance > 50000) {
         balance = balance - vat - 50;
       }
       return {

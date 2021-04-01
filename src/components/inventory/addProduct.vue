@@ -430,11 +430,10 @@ export default {
       if(this.variantDetails.variantStatus === true){ 
         productDetails.variants = []
         this.variantDetails.variant.forEach(item => {
-        item.values = item.values.split(',');
+        //item.values = item.values.split(',');
          productDetails.variants.push(item);
         })
       } 
-      console.log(productDetails)
 
       return productDetails;
     },
