@@ -12,7 +12,7 @@
         <calendar @updateDate="dateValue" />
       </div>
 
-      <div class="d-flex align-center mt-8 mb-1 flex-wrap offset-lg-9">
+      <div class="d-flex mt-8 mb-1 float-right">
         <!-- search bar -->
         <div class="">
           <searchBar
@@ -41,9 +41,9 @@
           ><img src="@/assets/img/upload2.svg" alt=""
         /></span>
       </div>
+      <div class="py-15"></div>
     </div>
     <!-- this is the loader visible to the user -->
-
     <div
       v-if="isLoading"
       style="position: absolute; margin: 10% 45%;"
@@ -73,7 +73,9 @@
       @onPageChange="setCurentPage"
       @selectedRow="rowSelected"
     />
-    <p class="text-center mt-8">{{errorMsg}}</p>
+    <div class="d-flex justify-center">
+    <p class="">{{errorMsg}}</p>
+    </div>
     <!--------------------------- modal for dialog messages ------------------------------>
     <modal :dialog="isAlert" width="400">
       <div class="white pa-3 pb-10 text-center dialog">

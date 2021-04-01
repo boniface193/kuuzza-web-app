@@ -179,7 +179,7 @@
               </a>
             </p>
             <v-btn
-              class="primary px-16 py-5 mb-5 mx-auto"
+              class="primary px-16 mb-5 mx-auto"
               :disabled="otpLoader"
               :loading="otpLoader"
               @click="submitOTP()"

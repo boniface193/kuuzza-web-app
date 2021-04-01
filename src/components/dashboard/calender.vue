@@ -179,4 +179,9 @@ export default {
 .ranges.col-12.col-md-auto {
   width: 20%;
 }
+
+.daterangepicker .ranges li.active {
+    background-color: #029B97;
+    color: #fff;
+}
 </style>

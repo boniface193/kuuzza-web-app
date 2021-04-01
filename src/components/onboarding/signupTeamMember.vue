@@ -65,7 +65,7 @@
 
       <!-- button container -->
       <div class="pa-0 mt-5" style="width: 100%">
-        <v-btn class="primary px-8 py-5 mb-5" @click="validateForm(1)"
+        <v-btn class="primary px-8 mb-5" @click="validateForm(1)"
           >Next</v-btn
         >
       </div>
@@ -119,7 +119,7 @@
           Back</v-btn
         >
         <v-btn
-          class="primary px-8 py-5 mb-5"
+          class="primary px-8 mb-5"
           @click="validateForm(2)"
           :loading="loading"
           :disabled="loading"
@@ -143,7 +143,7 @@
         <p class="my-3">You have successfully accepted your invite.</p>
 
         <v-btn
-          class="primary mx-auto py-5 px-8"
+          class="primary mx-auto px-8"
           :loading="loading2"
           :disabled="loading2"
           v-if="dashboardBtn"

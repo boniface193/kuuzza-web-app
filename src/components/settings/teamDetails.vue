@@ -104,7 +104,7 @@
         <!-- btns -->
         <div class="d-flex justify-space-between flex-wrap">
           <v-btn
-            class="error py-5 mb-3 mb-sm-0"
+            class="error mb-3 mb-sm-0"
             @click="deleteMember"
             :loading="deleteLoader"
             :disabled="deleteLoader"
@@ -112,7 +112,7 @@
           >
           <v-btn
             color="#F6F7FD"
-            class="primary--text py-5"
+            class="primary--text"
             @click="closeDialog2"
             :disabled="deleteLoader"
             >No, keep this member</v-btn
@@ -153,7 +153,7 @@
         <!-- btns -->
         <div class="d-flex justify-space-between flex-wrap">
           <v-btn
-            class="error py-5 mb-3 mb-sm-0"
+            class="error mb-3 mb-sm-0"
             @click="suspendTeamMember"
             :loading="suspendLoader"
             :disabled="suspendLoader"
@@ -161,7 +161,7 @@
           >
           <v-btn
             color="#F6F7FD"
-            class="primary--text py-5"
+            class="primary--text"
             @click="closeDialog3"
             :disabled="suspendLoader"
             >No, keep this member</v-btn
@@ -203,7 +203,7 @@
         <!-- btns -->
         <div class="d-flex justify-center flex-wrap">
           <v-btn
-            class="primary py-5 mb-3 mb-sm-0"
+            class="primary mb-3 mb-sm-0"
             @click="unSuspendTeamMember"
             :loading="unSuspendLoader"
             :disabled="unSuspendLoader"
