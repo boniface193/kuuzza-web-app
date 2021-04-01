@@ -59,7 +59,7 @@ export default {
         {
           text: "Rank",
           sortable: true,
-          value: "",
+          value: "rank",
           width: "25%",
         },
         {
