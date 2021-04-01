@@ -12,20 +12,18 @@
         <calendar @updateDate="dateValue" />
       </div>
 
-      <div class="d-flex mt-8 mb-1 float-right">
+      <div class="d-md-flex mt-8 mb-1 float-md-right">
         <!-- search bar -->
-        <div class="">
           <searchBar
             placeholder="Search orders"
             @search="getSearchValue"
             bgColor="white"
             borderColor="#e2e2e2"
-            class="mr-2 mb-5 mb-sm-0"
+            class="mr-2 mb-2"
           />
-        </div>
         <!-- filter -->
         <basicFilter
-          class="mr-2 mb-5 mb-sm-0"
+          class="mx-2 mb-5 float-left"
           :price="filterParameters.price"
           :payment="filterParameters.payment"
           :delivery="filterParameters.delivery"
@@ -35,19 +33,16 @@
           @resetFilter="resetFilter"
         />
         <!-- export btn -->
-        <span
+        <div
           @click="exportOrder"
-          class="small-btn primary--text mr-2 mb-5 mb-sm-0"
+          class="small-btn primary--text mr-2 mb-5 "
           ><img src="@/assets/img/upload2.svg" alt=""
-        /></span>
+        /></div>
       </div>
-      <div class="py-15"></div>
+      <div class="py-md-15"></div>
     </div>
     <!-- this is the loader visible to the user -->
-    <div
-      v-if="isLoading"
-      style="position: absolute; margin: 10% 45%;"
-    >
+    <div v-if="isLoading" style="position: absolute; margin: 10% 45%">
       <!-- this image time loader is calculated by the loader to triger the load time -->
       <v-progress-circular
         color="primary"
@@ -74,7 +69,7 @@
       @selectedRow="rowSelected"
     />
     <div class="d-flex justify-center">
-    <p class="">{{errorMsg}}</p>
+      <p class="">{{ errorMsg }}</p>
     </div>
     <!--------------------------- modal for dialog messages ------------------------------>
     <modal :dialog="isAlert" width="400">
@@ -154,7 +149,7 @@ export default {
           value: "total_price_label",
           width: "200px",
         },
-          { text: "Seller", value: "seller_name", width: "200px" },
+        { text: "Seller", value: "seller_name", width: "200px" },
         { text: "Time", value: "created_at", width: "200px" },
         { text: "Payment", value: "payment_status_label", width: "150px" },
         { text: "Delivery", value: "delivery_status_label", width: "170px" },
@@ -174,11 +169,11 @@ export default {
     }),
   },
   created() {
-    console.log("order", this.orders)
+    console.log("order", this.orders);
     this.$store.dispatch("orders/getOrders").then((res) => {
       this.isLoading = false;
       if (res.length == 0) {
-        this.errorMsg = "No Sales Recorded Yet"
+        this.errorMsg = "No Sales Recorded Yet";
       }
     });
     this.$store.dispatch("orders/filterGetOrders");

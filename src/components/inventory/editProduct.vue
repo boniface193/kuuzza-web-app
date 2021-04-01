@@ -149,7 +149,7 @@
           <div class="d-flex justify-end" style="width: 100%">
             <!-- continue button -->
             <v-btn
-              class="primary px-10 py-6 mb-5"
+              class="primary px-10 mb-5"
               :loading="loading"
               :disabled="loading || !edited"
               @click="updateProduct"

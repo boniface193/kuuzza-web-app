@@ -26,11 +26,11 @@
           >
         </div>
 
-        <div>
+        <div class="">
           <p class="mt-5" style="color: black">
             Are you sure you want to delete this products?
           </p>
-          <div class="d-flex align-center mb-6">
+          <div class="d-flex mb-6">
             <img
               class="mr-3"
               :src="selectedProduct.image"
@@ -45,26 +45,32 @@
         </div>
 
         <!-- btns -->
-        <div class="d-flex justify-space-between flex-wrap">
-          <v-btn
-            class="error py-5 mb-3 mb-sm-0"
-            @click="deleteProducts"
-            :loading="deleteDialogLoader"
-            :disabled="deleteDialogLoader"
-            >Yes, delete
-            {{
-              this.selectedReferences.length == 1 ? "product" : "products"
-            }}</v-btn
-          >
-          <v-btn
-            class="primary--text light-background py-5"
-            @click="closeDeleteDialog"
-            :disabled="deleteDialogLoader"
-            >No, keep
-            {{
-              this.selectedReferences.length == 1 ? "product" : "products"
-            }}</v-btn
-          >
+        <div class="row d-flex">
+          <div class="col-sm-6 justify-center">
+            <v-btn
+              block
+              class="error elevation-0 text-caption text-lg-body-2"
+              @click="deleteProducts"
+              :loading="deleteDialogLoader"
+              :disabled="deleteDialogLoader"
+              >Yes, delete
+              {{
+                this.selectedReferences.length == 1 ? "product" : "products"
+              }}</v-btn
+            >
+          </div>
+          <div class="col-sm-6">
+            <v-btn
+              block
+              class="primary--text light-background elevation-0 text-caption text-lg-body-2"
+              @click="closeDeleteDialog"
+              :disabled="deleteDialogLoader"
+              >No, keep
+              {{
+                this.selectedReferences.length == 1 ? "product" : "products"
+              }}</v-btn
+            >
+          </div>
         </div>
         <div></div>
       </div>
@@ -94,26 +100,32 @@
         </div>
 
         <!-- btns -->
-        <div class="d-flex justify-space-between flex-wrap">
-          <v-btn
-            class="error py-5 mb-3 mb-sm-0"
-            @click="deleteProducts()"
-            :loading="deleteDialogBulkLoader"
-            :disabled="deleteDialogBulkLoader"
-            >Yes, delete
-            {{
-              this.selectedReferences.length == 1 ? "product" : "products"
-            }}</v-btn
-          >
-          <v-btn
-            class="primary--text light-background py-5"
-            @click="closeDeleteDialogBulk"
-            :disabled="deleteDialogBulkLoader"
-            >No, keep
-            {{
-              this.selectedReferences.length == 1 ? "product" : "products"
-            }}</v-btn
-          >
+        <div class="row d-flex">
+          <div class="col-sm-6 justify-center">
+            <v-btn
+              block
+              class="error elevation-0 text-caption text-lg-body-2"
+              @click="deleteProducts()"
+              :loading="deleteDialogBulkLoader"
+              :disabled="deleteDialogBulkLoader"
+              >Yes, delete
+              {{
+                this.selectedReferences.length == 1 ? "product" : "products"
+              }}</v-btn
+            >
+          </div>
+          <div class="col-sm-6 justify-center">
+            <v-btn
+              block
+              class="primary--text light-background elevation-0 text-caption text-lg-body-2"
+              @click="closeDeleteDialogBulk"
+              :disabled="deleteDialogBulkLoader"
+              >No, keep
+              {{
+                this.selectedReferences.length == 1 ? "product" : "products"
+              }}</v-btn
+            >
+          </div>
         </div>
         <div></div>
       </div>

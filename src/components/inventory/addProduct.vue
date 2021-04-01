@@ -146,7 +146,7 @@
           <!-- button container -->
           <div class="d-flex justify-end" style="width: 100%">
             <!-- continue button -->
-            <v-btn class="primary px-10 py-6 mb-5" @click="nextForm(1)"
+            <v-btn class="primary px-10 mb-5" @click="nextForm(1)"
               >Continue</v-btn
             >
           </div>
@@ -193,13 +193,13 @@
           <div class="d-flex justify-space-between" style="width: 100%">
             <!-- return button -->
             <v-btn
-              class="primary--text light-background px-8 py-4 mb-5"
+              class="primary--text light-background px-8 mb-5"
               @click="prevForm(2)"
               >Return</v-btn
             >
             <!-- add product button -->
             <v-btn
-              class="primary px-10 py-6 mb-5"
+              class="primary px-10 mb-5"
               :loading="loading"
               :disabled="loading"
               @click="submit"
