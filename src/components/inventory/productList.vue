@@ -34,6 +34,9 @@
       </div>
 
       <div class="text-center" v-show="importingFile && !fileImported">
+        <div class="upload-img mb-5 mx-auto">
+          <img src="@/assets/img/Group12879.svg" alt="" />
+        </div>
         <h2 class="mb-3">Importing file...</h2>
         <p class="secondary--text">
           Please wait a few seconds while we <br />import your file to Nova
@@ -44,15 +47,40 @@
         <h2 class="mb-3">Product list imported successfully!</h2>
       </div>
     </div>
+    <!-- modal for dialog messages -->
+    <modal :dialog="dialog" width="400">
+      <div class="white pa-3 pb-10 text-center dialog">
+        <div class="d-flex justify-end">
+          <v-icon class="error--text close-btn" @click="dialog = false"
+            >mdi-close</v-icon
+          >
+        </div>
+
+        <div class="mb-7 mt-5 mx-auto status-img">
+          <v-img :src="statusImage"></v-img>
+        </div>
+
+        <h4>{{ dialogMessage }}</h4>
+      </div>
+    </modal>
   </div>
 </template>
 <script>
+import modal from "@/components/dashboard/modal.vue";
+import successImage from "@/assets/img/success-img.svg";
+import failedImage from "@/assets/img/failed-img.svg";
 export default {
   name: "productList",
+  components: {
+    modal,
+  },
   data: function () {
     return {
       importingFile: false,
       fileImported: false,
+      dialog: false,
+      dialogMessage: "",
+      statusImage: null,
     };
   },
   methods: {
@@ -64,17 +92,25 @@ export default {
       // console.log(this.$refs.docInput.files[0])
       formData.append("file", this.$refs.docInput.files[0]);
       this.importingFile = true;
-      console.log(formData);
 
       this.$store
         .dispatch("inventory/importProducts", formData)
-        .then(() => {
+        .then((response) => {
           this.importingFile = false;
-          console.log(111);
+          this.dialog = true;
+          this.statusImage = successImage;
+          this.dialogMessage = response.data.message;
         })
-        .catch(() => {
+        .catch((error) => {
           this.importingFile = false;
-          console.log(222);
+          this.loading = false;
+          this.dialog = true;
+          this.statusImage = failedImage;
+          if (error.response) {
+            this.dialogMessage = error.response.message;
+          } else {
+            this.dialogMessage = "No internet connection!";
+          }
         });
     },
   },
@@ -89,6 +125,12 @@ export default {
   color: #2b2b2b;
   .v-icon {
     margin-right: 15px;
+  }
+}
+.status-img {
+  width: 140px;
+  .v-image {
+    width: 100%;
   }
 }
 .browse-container {
