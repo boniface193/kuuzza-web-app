@@ -5,7 +5,8 @@ const state = {
     token: localStorage.getItem('vendorToken') || null,
     profile: {
         store: {
-            location: {}
+            location: {},
+            phone_number: ""
         },
         name: "",
         email: "",

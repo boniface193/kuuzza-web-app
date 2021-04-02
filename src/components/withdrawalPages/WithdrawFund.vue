@@ -36,7 +36,7 @@
           <!-- withdrwa btn -->
           <v-btn
             class="primary mt-5"
-            :disabled="revenueDetails.available <= 100"
+            :disabled="revenueDetails.available_balance <= 100"
             @click="openConfirmationDialog()"
             >Withdraw</v-btn
           >

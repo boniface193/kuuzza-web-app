@@ -72,7 +72,7 @@
                 class="mt-0"
                 v-model="rcNumber"
                 type="text"
-                :rules="rcNumberRues"
+                :rules="rcNumberRules"
                 color="primary"
                 placeholder="RC Number"
                 ref="RCnumber"
@@ -297,8 +297,9 @@
         <!-- phone number verification  -->
         <v-form v-show="presentForm === 'form4'" ref="form4">
           <!-- Phone Number -->
-          <div class="mb-3">
+          <div class="mb-3 phone-field" style="position: relative">
             <p class="mb-1 question">Store Phone Number</p>
+            <span class="primary--text phone-format">+234</span>
             <v-text-field
               class=""
               v-model="phoneNumber"
@@ -506,7 +507,7 @@ export default {
         (v) => !!v || "Phone Number is required",
         (v) => v.length > 10 || "Number should 10 digit or more",
       ],
-      rcNumberRues: [
+      rcNumberRules: [
         (v) => !!v || "This field is required",
         (v) => v.length === 11 || "RC Number should be 11 digits",
       ],
@@ -522,8 +523,9 @@ export default {
 
     if (
       this.$store.getters["settings/getUserProfile"].store
-        .phone_number_verified == false &&  this.$store.getters["settings/getUserProfile"].store
-        .setup_is_complete !== false
+        .phone_number_verified == false &&
+      this.$store.getters["settings/getUserProfile"].store.setup_is_complete !==
+        false
     ) {
       this.otp.length > 0 ? this.$refs.otpInput1.clearInput() : "";
       this.dialog = true;
@@ -696,7 +698,10 @@ export default {
       storeDetails.location.address = this.pickUpLocation;
       storeDetails.location.lat = this.lat;
       storeDetails.location.lng = this.lng;
-      storeDetails.phone_number = this.phoneNumber;
+      storeDetails.phone_number =
+        this.phoneNumber.substring(0, 1) == "0"
+          ? "+234" + this.phoneNumber.substring(1)
+          : "+234" + this.phoneNumber;
       storeDetails.refund_policy.return_allowed = this.allowReturnProducts;
       if (this.allowReturnProducts == "true") {
         storeDetails.refund_policy.return_precondition = this.productQualification;
@@ -854,6 +859,11 @@ export default {
   align-items: center;
   flex-wrap: wrap;
 }
+.phone-format {
+  position: absolute;
+  margin-top: 15px;
+  left: 10px;
+}
 .status-img {
   width: 140px;
   .v-image {
@@ -878,5 +888,20 @@ export default {
   .max-day-container {
     display: block;
   }
+}
+</style>
+<style lang="scss">
+.phone-field
+  > .v-text-field
+  > .v-input__control
+  > .v-input__slot
+  > .v-text-field__slot {
+  padding-left: 40px;
+}
+.phone-field > .v-input .v-label {
+  padding-left: 40px;
+}
+.phone-field > .v-text-field .v-label--active {
+  padding-left: 0px;
 }
 </style>
