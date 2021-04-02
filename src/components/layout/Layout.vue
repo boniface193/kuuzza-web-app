@@ -130,7 +130,7 @@ export default {
   components: { modal, Notification, UserLayout },
   data: () => ({
     dialog: false,
-    drawer: true,
+    drawer: null,
     settings: [],
     showNot: null,
     items: [

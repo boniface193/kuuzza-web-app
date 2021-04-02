@@ -47,20 +47,26 @@
         </div>
 
         <!-- btns -->
-        <div class="d-flex justify-space-between flex-wrap mx-auto">
-          <v-btn
-            class="error py-5 mb-3 mb-sm-0 px-7"
-            @click="takeProductsOffline()"
-            :loading="offlineDialogLoader"
-            :disabled="offlineDialogLoader"
-            >Yes, take offline</v-btn
-          >
-          <v-btn
-            class="primary--text light-background py-5 px-7"
-            @click="closeOfflineDialog"
-            :disabled="offlineDialogLoader"
-            >No, keep online</v-btn
-          >
+        <div class="row d-flex">
+          <div class="col-sm-6 justify-center">
+            <v-btn
+              block
+              class="error elevation-0 text-caption text-lg-body-2"
+              @click="takeProductsOffline()"
+              :loading="offlineDialogLoader"
+              :disabled="offlineDialogLoader"
+              >Yes, take offline</v-btn
+            >
+          </div>
+          <div class="col-sm-6 justify-center">
+            <v-btn
+              block
+              class="primary--text light-background elevation-0 text-caption text-lg-body-2"
+              @click="closeOfflineDialog"
+              :disabled="offlineDialogLoader"
+              >No, keep online</v-btn
+            >
+          </div>
         </div>
         <div></div>
       </div>
@@ -90,20 +96,26 @@
         </div>
 
         <!-- btns -->
-        <div class="d-flex justify-space-between flex-wrap mx-auto">
-          <v-btn
-            class="error py-5 mb-3 mb-sm-0 px-7"
-            @click="takeProductsOffline()"
-            :loading="offlineDialogBulkLoader"
-            :disabled="offlineDialogBulkLoader"
-            >Yes, take offline</v-btn
-          >
-          <v-btn
-            class="primary--text light-background py-5 px-7"
-            @click="closeOfflineDialogBulk"
-            :disabled="offlineDialogBulkLoader"
-            >No, keep online</v-btn
-          >
+        <div class="row d-flex">
+          <div class="col-sm-6 justify-center">
+            <v-btn
+              block
+              class="error elevation-0 text-caption text-lg-body-2"
+              @click="takeProductsOffline()"
+              :loading="offlineDialogBulkLoader"
+              :disabled="offlineDialogBulkLoader"
+              >Yes, take offline</v-btn
+            >
+          </div>
+          <div class="col-sm-6 justify-center">
+            <v-btn
+              block
+              class="primary--text elevation-0 text-caption text-lg-body-2"
+              @click="closeOfflineDialogBulk"
+              :disabled="offlineDialogBulkLoader"
+              >No, keep online</v-btn
+            >
+          </div>
         </div>
         <div></div>
       </div>

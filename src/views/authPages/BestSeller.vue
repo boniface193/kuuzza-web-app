@@ -59,14 +59,14 @@ export default {
         {
           text: "Rank",
           sortable: true,
-          value: "",
+          value: "rank",
           width: "25%",
         },
         {
           text: "Product Name",
           value: "product_name",
-          href: true,
-          routeName: "seller",
+          // href: true,
+          // routeName: "seller",
           width: "25%",
           id: "product_id"
         },

@@ -54,30 +54,24 @@ export default {
     return {
       orderStatus: true,
       totalOrder: 0,
-      data: {
-      },
+      data: {},
       color: ["#029B97", "#FFA500", "#1C3737", "#00B944"],
     };
   },
 
   async created() {
-    await this.$store
-      .dispatch("orderStatus/getOrderStatus")
-      .then((res) => {
-        let dataSet = {
-          "Awaiting processing": res.awaiting_processing,
-          Processing: res.processing,
-          Shipped: res.shipped,
-          Completed: res.completed,
-        };
-        this.data = dataSet;
-        this.totalOrder =
-          res.awaiting_processing +
-          res.processing +
-          res.shipped +
-          res.completed;
-        this.orderStatus = false;
-      })
+    await this.$store.dispatch("orderStatus/getOrderStatus").then((res) => {
+      let dataSet = {
+        "Awaiting processing": res.awaiting_processing,
+        Processing: res.processing,
+        Shipped: res.shipped,
+        Completed: res.completed,
+      };
+      this.data = dataSet;
+      this.totalOrder =
+        res.awaiting_processing + res.processing + res.shipped + res.completed;
+      this.orderStatus = false;
+    });
   },
 };
 </script>
@@ -316,6 +310,182 @@ div#chart-5 {
 @media (min-width: 1799px) {
   .mx-lg-25 {
     margin: 64px 282px 64px 282px !important;
+  }
+}
+
+@supports (-moz-appearance: none) {
+  @media (min-width: 1024px) {
+    .mx-lg-25 {
+      margin: 64px 282px 64px 75px !important;
+    }
+  }
+
+  @media (min-width: 960px) {
+    .mx-lg-25 {
+      margin: 64px 125px 64px 60px !important;
+    }
+  }
+
+  @media (min-width: 990px) {
+    .mx-lg-25 {
+      margin: 64px 135px 64px 70px !important;
+    }
+  }
+
+  @media (min-width: 1010px) {
+    .mx-lg-25 {
+      margin: 64px 145px 64px 75px !important;
+    }
+  }
+
+  @media (min-width: 1050px) {
+    .mx-lg-25 {
+      margin: 64px 160px 64px 84px !important;
+    }
+  }
+
+  @media (min-width: 1080px) {
+    .mx-lg-25 {
+      margin: 64px 165px 64px 93px !important;
+    }
+  }
+
+  @media (min-width: 1112px) {
+    .mx-lg-25 {
+      margin: 64px 170px 64px 100px !important;
+    }
+  }
+
+  @media (min-width: 1140px) {
+    .mx-lg-25 {
+      margin: 64px 182px 64px 110px !important;
+    }
+  }
+
+  @media (min-width: 1186px) {
+    .mx-lg-25 {
+      margin: 64px 190px 64px 120px !important;
+    }
+  }
+
+  @media (min-width: 1220px) {
+    .mx-lg-25 {
+      margin: 64px 200px 64px 130px !important;
+    }
+  }
+
+  @media (min-width: 1263px) {
+    .mx-lg-25 {
+      margin: 64px 210px 64px 140px !important;
+    }
+  }
+
+  @media (min-width: 1264px) {
+    .mx-lg-25 {
+      margin: 64px 225px 64px 35px !important;
+    }
+  }
+
+  @media (min-width: 1272px) {
+    .mx-lg-25 {
+      margin: 64px 120px 64px 40px !important;
+    }
+  }
+
+  @media (min-width: 1300px) {
+    .mx-lg-25 {
+      margin: 64px 125px 64px 45px !important;
+    }
+  }
+
+  @media (min-width: 1320px) {
+    .mx-lg-25 {
+      margin: 64px 135px 64px 50px !important;
+    }
+  }
+
+  @media (min-width: 1345px) {
+    .mx-lg-25 {
+      margin: 64px 145px 64px 60px !important;
+    }
+  }
+
+  @media (min-width: 1380px) {
+    .mx-lg-25 {
+      margin: 64px 155px 64px 70px !important;
+    }
+  }
+
+  @media (min-width: 1405px) {
+    .mx-lg-25 {
+      margin: 64px 160px 64px 75px !important;
+    }
+  }
+
+  @media (min-width: 1440px) {
+    .mx-lg-25 {
+      margin: 64px 170px 64px 80px !important;
+    }
+  }
+
+  @media (min-width: 1473px) {
+    .mx-lg-25 {
+      margin: 64px 200px 64px 90px !important;
+    }
+  }
+
+  @media (min-width: 1512px) {
+    .mx-lg-25 {
+      margin: 64px 210px 64px 95px !important;
+    }
+  }
+
+  @media (min-width: 1535px) {
+    .mx-lg-25 {
+      margin: 64px 220px 64px 100px !important;
+    }
+  }
+
+  @media (min-width: 1553px) {
+    .mx-lg-25 {
+      margin: 64px 230px 64px 110px !important;
+    }
+  }
+
+  @media (min-width: 1585px) {
+    .mx-lg-25 {
+      margin: 64px 235px 64px 120px !important;
+    }
+  }
+
+  @media (min-width: 1635px) {
+    .mx-lg-25 {
+      margin: 64px 235px 64px 130px !important;
+    }
+  }
+
+  @media (min-width: 1670px) {
+    .mx-lg-25 {
+      margin: 64px 245px 64px 140px !important;
+    }
+  }
+
+  @media (min-width: 1720px) {
+    .mx-lg-25 {
+      margin: 64px 255px 64px 150px !important;
+    }
+  }
+
+  @media (min-width: 1755px) {
+    .mx-lg-25 {
+      margin: 64px 270px 64px 160px !important;
+    }
+  }
+
+  @media (min-width: 1806px) {
+    .mx-lg-25 {
+      margin: 64px 277px 64px 170px !important;
+    }
   }
 }
 </style>

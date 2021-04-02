@@ -138,7 +138,7 @@
                 <div v-for="items in bestSeller" :key="items.product_id">
                   <v-row class="text">
                     <v-col cols="2" class="text-center">
-                      {{ sellerRank[items.product_id] }}
+                      {{ items.rank }}
                     </v-col>
                     <v-col cols="6" class="text-truncate"
                       >{{ items.product_name }}

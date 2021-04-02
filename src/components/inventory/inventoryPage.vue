@@ -77,7 +77,7 @@
               :disabled="!verifiedStore"
               :event="verifiedStore ? 'click' : ''"
             >
-              <v-btn class="primary py-6 px-4" :disabled="!verifiedStore">
+              <v-btn class="primary px-4" :disabled="!verifiedStore">
                 Add New Product</v-btn
               >
             </router-link>
