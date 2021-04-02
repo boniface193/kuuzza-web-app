@@ -77,7 +77,8 @@
         </span>
       </div>
       <!-- phone number field -->
-      <div class="mb-5 settings-input">
+      <div class="mb-5 settings-input phone-field">
+        <span class="primary--text phone-format">+234</span>
         <p class="mb-1 secondary--text">Phone Number</p>
         <v-text-field
           class="input mt-0"
@@ -243,7 +244,7 @@ export default {
       phoneRules: [
         //verifies phone number satisfies the requirement
         (v) => !!v || "This field is required",
-        (v) => v.length > 10 || "Number should 10 digit or more",
+        (v) => v.length > 9 || "Number should 10 digit or more",
       ],
     };
   },
@@ -267,10 +268,10 @@ export default {
       let userProfile = this.$store.getters["settings/getUserProfile"];
       let storeName = userProfile.store.name;
       let storeLocation = userProfile.store.location.address;
-      let storeNum = userProfile.store.phone_number;
+      let storeNum = userProfile.store.phone_number.substring(4);
       let currentStoreName = userProfile.store.name;
       let currentStoreLocation = userProfile.store.location.address;
-      let currentStoreNum = userProfile.store.phone_number;
+      let currentStoreNum = userProfile.store.phone_number.substring(4);
 
       return {
         storeName: storeName,
@@ -377,13 +378,16 @@ export default {
       // check if the edited input field is the admin store phone number
       if (
         input_field === "storeNum" &&
-        (this.computedInfo.currentStoreNum != "" && this.computedInfo.currentStoreNum.length > 10)
+        this.computedInfo.currentStoreNum !== ""
       ) {
         if (this.computedInfo.currentStoreNum !== this.computedInfo.storeNum) {
           this.phoneNumLoader = true;
           this.$store
             .dispatch("settings/editStore", {
-              phone_number: this.computedInfo.currentStoreNum,
+              phone_number:
+                this.computedInfo.currentStoreNum.substring(0, 1) == "0"
+                  ? "+234" + this.computedInfo.currentStoreNum.substring(1)
+                  : "+234" + this.computedInfo.currentStoreNum,
             })
             .then(() => {
               // this.dialogMessage = "phone number changed successfully!";
@@ -525,9 +529,26 @@ export default {
     padding: 5px 0px 0px 5px;
   }
 }
+.phone-format {
+  position: absolute;
+  margin-top: 44px;
+  left: 0px;
+}
 @media (max-width: 950px) {
   .store-width {
     width: 100%;
   }
+}
+</style>
+<style lang="scss">
+.phone-field
+  > .v-text-field
+  > .v-input__control
+  > .v-input__slot
+  > .v-text-field__slot {
+  padding-left: 40px;
+}
+.phone-field > .v-input .v-label {
+  padding-left: 40px;
 }
 </style>

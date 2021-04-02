@@ -7,7 +7,7 @@
         <div class="profile-img my-5">
           <v-img src="@/assets/img/user-profile.svg"></v-img>
         </div>
-        <h4>{{userInfo.name}}</h4>
+        <h4>{{ userInfo.name }}</h4>
         <p class="secondary--text">Store Manager</p>
         <a class="primary--text" style="text-decoration: underline"
           >Change profile picture</a
@@ -57,7 +57,8 @@
         </div>
 
         <!-- phone number field -->
-        <div class="mb-5 settings-input">
+        <div class="mb-5 settings-input phone-field">
+          <span class="primary--text phone-format">+234</span>
           <p class="mb-1 secondary--text">Phone Number</p>
           <v-text-field
             class="input mt-0"
@@ -154,21 +155,21 @@ export default {
       phoneRules: [
         //verifies phone number satisfies the requirement
         (v) => !!v || "This field is required",
-        (v) => v.length > 10 || "Number should 10 digit or more",
+        (v) => v.length > 9 || "Number should 10 digit or more",
       ],
     };
   },
   computed: {
     ...mapGetters({
       loader: "settings/loader",
-      userInfo: "settings/getUserProfile"
+      userInfo: "settings/getUserProfile",
     }),
     computedInfo() {
       // gets the values of user information
       let fullName = this.userInfo.name;
-      let phoneNum = this.userInfo.phone_number;
+      let phoneNum = this.userInfo.phone_number.substring(4);
       let currentFullName = this.userInfo.name;
-      let currentPhoneNum = this.userInfo.phone_number;
+      let currentPhoneNum = this.userInfo.phone_number.substring(4);
       let currentEmail = this.userInfo.email;
 
       return {
@@ -208,7 +209,7 @@ export default {
                 this.dialogMessage = "No internet connection!";
               }
               this.nameLoader = false;
-              this.statusImage = failedImage
+              this.statusImage = failedImage;
               this.dialog = true;
             });
         } else {
@@ -225,7 +226,10 @@ export default {
           this.phoneNumLoader = true;
           this.$store
             .dispatch("settings/editUserProfile", {
-              phone_number: this.computedInfo.currentPhoneNum,
+              phone_number:
+                this.computedInfo.currentPhoneNum.substring(0, 1) == "0"
+                  ? "+234" + this.computedInfo.currentPhoneNum.substring(1)
+                  : "+234" + this.computedInfo.currentPhoneNum,
             })
             .then(() => {
               this.dialogMessage = "Phone number changed successfully!";
@@ -289,9 +293,29 @@ export default {
     padding: 5px 0px 0px 5px;
   }
 }
+.phone-format {
+  position: absolute;
+  margin-top: 44px;
+  left: 0px;
+}
 @media (max-width: 950px) {
   .store-width {
     width: 100%;
   }
+}
+</style>
+<style lang="scss">
+.phone-field
+  > .v-text-field
+  > .v-input__control
+  > .v-input__slot
+  > .v-text-field__slot {
+  padding-left: 40px;
+}
+.phone-field > .v-input .v-label {
+  padding-left: 40px;
+}
+.phone-field >.v-text-field .v-label--active{
+  padding-left: 0px;
 }
 </style>

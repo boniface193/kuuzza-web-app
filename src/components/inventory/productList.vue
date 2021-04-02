@@ -49,31 +49,33 @@
 <script>
 export default {
   name: "productList",
-  data: function() {
+  data: function () {
     return {
       importingFile: false,
-      fileImported: false
-    }
+      fileImported: false,
+    };
   },
   methods: {
     pickDocument() {
       this.$refs.docInput.click();
     },
     uploadFile() {
-      let formData = new FormData();
-      console.log(this.$refs.docInput.files[0])
+      const formData = new FormData();
+      // console.log(this.$refs.docInput.files[0])
       formData.append("file", this.$refs.docInput.files[0]);
       this.importingFile = true;
-       
-       this.$store.dispatch("inventory/importProducts", {
-         formData
-       }).then(()=> {
+      console.log(formData);
+
+      this.$store
+        .dispatch("inventory/importProducts", formData)
+        .then(() => {
           this.importingFile = false;
-         console.log(111)
-       }).catch(()=> {
+          console.log(111);
+        })
+        .catch(() => {
           this.importingFile = false;
-         console.log(222)
-       })
+          console.log(222);
+        });
     },
   },
 };
@@ -91,7 +93,7 @@ export default {
 }
 .browse-container {
   padding-top: 13%;
-  .upload-img{
+  .upload-img {
     width: 120px;
     height: 120px;
     display: flex;

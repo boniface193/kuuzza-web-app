@@ -52,17 +52,20 @@
       ></v-text-field>
 
       <!-- Phone Number -->
-      <v-text-field
-        class="onboarding-input mr-5 mt-5"
-        v-model="phone_number"
-        :rules="phoneRules"
-        label="Phone Number"
-        color="primary"
-        type="tel"
-        required
-        ref="input4"
-        @keyup.enter="validate_form(1)"
-      ></v-text-field>
+      <div class="onboarding-input phone-field mr-5 mt-5">
+        <span class="primary--text phone-format">+234</span>
+        <v-text-field
+          class=""
+          v-model="phone_number"
+          :rules="phoneRules"
+          label="Phone Number"
+          color="primary"
+          type="tel"
+          required
+          ref="input4"
+          @keyup.enter="validate_form(1)"
+        ></v-text-field>
+      </div>
 
       <!-- button container -->
       <div class="pa-0 mt-5" style="width: 100%">
@@ -266,7 +269,7 @@ export default {
       phoneRules: [
         //verifies phone number satisfies the requirement
         (v) => !!v || "Phone Number is required",
-        (v) => v.length > 10 || "Number should 10 digit or more",
+        (v) => v.length > 9 || "Number should 10 digit or more",
       ],
       company_nameRules: [
         //verifies comapany name satisfies the requirement
@@ -387,7 +390,10 @@ export default {
           first_name: this.first_name,
           last_name: this.last_name,
           email: this.email,
-          phone_number: this.phone_number,
+          phone_number:
+            this.phone_number.substring(0, 1) == "0"
+              ? "+234" + this.phone_number.substring(1)
+              : "+234" + this.phone_number,
           company_name: this.company_name,
           company_location: {
             address: this.company_address,
@@ -426,6 +432,14 @@ export default {
 .btn-container {
   width: 60%;
 }
+.phone-field{
+  position: relative;
+}
+.phone-format {
+  position: absolute;
+  margin-top: 20px;
+  left: 0px;
+}
 @media (max-width: 1100px) {
   .btn-container {
     width: 80%;
@@ -435,5 +449,20 @@ export default {
   .btn-container {
     width: 100%;
   }
+}
+</style>
+<style lang="scss">
+.phone-field
+  > .v-text-field
+  > .v-input__control
+  > .v-input__slot
+  > .v-text-field__slot {
+  padding-left: 40px;
+}
+.phone-field > .v-input .v-label {
+  padding-left: 40px;
+}
+.phone-field > .v-text-field .v-label--active {
+  padding-left: 0px !important;
 }
 </style>
