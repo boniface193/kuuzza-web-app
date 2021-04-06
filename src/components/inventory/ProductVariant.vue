@@ -14,14 +14,18 @@
     <v-form class="py-4" v-show="haveVariant" ref="variantForm">
       <p class="mb-4">OPTIONS</p>
 
-      <div v-for="(item, index) in variantItems" :key="index">
+      <div v-for="(item, index) in variantItems" :key="index + 1">
         <h4 class="mb-1">Option {{ index + 1 }}</h4>
         <div class="d-flex align-center justify-space-between flex-wrap">
           <!-- variant name -->
           <div class="option-name mb-8">
             <SelectBtn
               :items="variantTypes"
-              item="---select variant---"
+              :item="
+                variantItems[index].name !== ''
+                  ? variantItems[index].name
+                  : '---select variant---'
+              "
               bgColor="transparent"
               borderRadius="8px"
               borderColor="rgba(0, 0, 0, 0.38)"
@@ -91,20 +95,24 @@ import SelectBtn from "@/components/general/SelectBtn.vue";
 export default {
   name: "ProductVariant",
   components: { SelectBtn },
+  props: ["variants"],
   data: function () {
     return {
-      haveVariant: false,
+      haveVariant: this.variants == null ? false : true,
+      variantItems:
+        this.variants == null
+          ? [
+              {
+                name: "",
+                value: "",
+                values: [],
+                inValidInput: null,
+              },
+            ]
+          : this.variants,
       variantTypes: ["Size", "Color"],
       variantErrorMsg: "",
       variantError: false,
-      variantItems: [
-        {
-          name: "",
-          value: "",
-          values: [],
-          inValidInput: null,
-        },
-      ],
       formsValidated: false,
       variantOptionError: false,
       inputRules: {
@@ -114,6 +122,22 @@ export default {
       },
     };
   },
+  watch: {
+    variants: function () {
+      this.haveVariant = this.variants == null ? false : true;
+      this.variantItems =
+        this.variants == null
+          ? [
+              {
+                name: "",
+                value: "",
+                values: [],
+                inValidInput: null,
+              },
+            ]
+          : this.variants;
+    },
+  },
   methods: {
     // generate variant form
     generateForm() {
@@ -122,6 +146,7 @@ export default {
         variant.name = "";
         variant.value = "";
         variant.values = [];
+        variant.inValidInput = null;
         this.variantItems.push(variant);
       } else {
         this.variantErrorMsg =
@@ -150,23 +175,23 @@ export default {
           `${this.variantItems[index].value}`
         );
         this.variantItems[index].value = "";
+        this.emitVariant();
       }
     },
     // remove variant option
     removeVariantOption(index, itemIndex) {
       this.variantItems[index].values.splice(itemIndex, 1);
+      this.emitVariant();
     },
     // set variant name
     setVariant(index, params) {
       this.variantItems[index].name = params;
       this.variantItems[index].inValidInput = false;
-      // let item = this.variantTypes.indexOf(params);
-      // this.variantTypes.splice(item, 1);
       this.emitVariant();
     },
     emitVariant() {
       this.$emit("setVariant", {
-        variant: this.variantItems,
+        variants: this.variantItems,
         variantStatus: this.haveVariant,
         formsValidated: this.formsValidated,
       });
@@ -186,7 +211,7 @@ export default {
       errorCount === 0 && this.$refs.variantForm.validate()
         ? (this.formsValidated = true)
         : (this.formsValidated = false);
-
+      
       this.emitVariant();
     },
   },

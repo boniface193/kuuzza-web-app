@@ -273,7 +273,7 @@ export default {
       imageUrl: null,
       loading: false,
       variantDetails: {
-        variant: [],
+        variants: [],
         variantStatus: false,
         formsValidated: false,
       },
@@ -429,7 +429,7 @@ export default {
 
       if(this.variantDetails.variantStatus === true){ 
         productDetails.variants = []
-        this.variantDetails.variant.forEach(item => {
+        this.variantDetails.variants.forEach(item => {
         //item.values = item.values.split(',');
          productDetails.variants.push(item);
         })
