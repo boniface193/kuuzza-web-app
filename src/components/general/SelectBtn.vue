@@ -63,6 +63,11 @@ export default {
       selectedDropDownValue: null,
     };
   },
+  watch: {
+    item: function(){
+      this.selectedItem = this.item
+    }
+  },
   methods: {
     // toggle the select dropdown
     toggleDropdown() {

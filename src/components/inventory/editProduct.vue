@@ -72,7 +72,7 @@
             <customNumberInput
               width="120px"
               height="57px"
-              caretColor="#5064CC"
+              caretColor="#029B97"
               :quantity="productDetails.quantity || 0"
               @quantity="setQuantity"
               :inputStatus="quantityError"
@@ -80,6 +80,24 @@
             <div v-if="quantityError === true" class="inputError error--text">
               Quantity cannot be less or equal to 0
             </div>
+          </div>
+
+          <!-- minimum quantity -->
+          <div class="mb-9 input-field">
+            <p class="mb-1">
+              Minimum Order Quantity
+              <span class="primary--text"
+                >(minimum quantity a customer can order for this product)</span
+              >
+            </p>
+            <customNumberInput
+              width="120px"
+              height="57px"
+              caretColor="#029B97"
+              :minimumNumber="1"
+              :quantity="productDetails.min_order_quantity || 0"
+              @quantity="setMinQuantity"
+            />
           </div>
 
           <!-- unit price -->
@@ -106,7 +124,7 @@
             <imageUploader
               width="100%"
               height="57px"
-              caretColor="#5064cc"
+              caretColor="#029B97"
               :multiple="false"
               @images="setImageUrl"
             />
@@ -114,23 +132,6 @@
               An image is required
             </div>
           </div>
-
-          <!-- commission -->
-          <!-- <div class="mb-3 input-field">
-          <p class="mb-1">Commission (N)</p>
-          <v-text-field
-            class="input mt-0"
-            :rules="priceRules"
-            v-model="computedInfo.commission"
-            type="number"
-            min="1"
-            color="primary"
-            placeholder="Enter Amount"
-            required
-            outlined
-          >
-          </v-text-field>
-        </div> -->
 
           <!-- product description -->
           <div class="mb-3 input-field">
@@ -143,6 +144,15 @@
               v-model="productDetails.description"
               placeholder="Enter brief description about product"
             ></v-textarea>
+          </div>
+
+          <!-- variant container -->
+          <div class="mb-9" style="width: 100%">
+            <ProductVariant
+              @setVariant="setVariant"
+              :variants="productDetails.variants"
+              ref="variantForm"
+            />
           </div>
 
           <!-- button container -->
@@ -186,20 +196,36 @@
   </div>
 </template>
 <script>
-//import modal from "@/components/dashboard/modal.vue";
-import customNumberInput from "@/components/dashboard/customNumberInput.vue";
+import customNumberInput from "@/components/general/customNumberInput.vue";
 import imageUploader from "@/components/general/imageUploader.vue";
 import CategorySelector from "@/components/general/CategorySelector.vue";
-import modal from "@/components/dashboard/modal.vue";
+import modal from "@/components/general/modal.vue";
+import ProductVariant from "@/components/inventory/ProductVariant.vue";
 import successImage from "@/assets/img/success-img.svg";
 import failedImage from "@/assets/img/failed-img.svg";
 import { mapGetters } from "vuex";
 export default {
   name: "editInventory",
-  components: { CategorySelector, customNumberInput, imageUploader, modal },
+  components: {
+    CategorySelector,
+    customNumberInput,
+    imageUploader,
+    modal,
+    ProductVariant,
+  },
   data: function () {
     return {
-      productDetails: {},
+      productDetails: {
+        category: "",
+        quantity: 0,
+        min_order_quantity: 0,
+        variants: null,
+      },
+      variantDetails: {
+        variants: [],
+        variantStatus: false,
+        formsValidated: true,
+      },
       imageUrl: null,
       failedRequest: false,
       initialProductDetails: {},
@@ -229,8 +255,6 @@ export default {
       })
       .then((response) => {
         this.productDetails = response.data.data;
-        this.productDetails.quantity = response.data.data.quantity;
-        this.productDetails.category = response.data.data.category;
         this.imageUrl = response.data.image;
         this.initialProductDetails = response.data.data;
         // get product categories if not available
@@ -251,15 +275,23 @@ export default {
         }
       });
   },
+  watch: {
+    productDetails: function () {
+      this.variantDetails = {
+        variants: this.productDetails.variants,
+        variantStatus: this.productDetails.variants == null ? false : true,
+      };
+    },
+  },
   computed: {
     ...mapGetters({
       productCategories: "inventory/productCategories",
     }),
-    productCategory(){
+    productCategory() {
       return {
-        category: this.productDetails.category || ''
-      }
-    }
+        category: this.productDetails.category || "",
+      };
+    },
   },
   methods: {
     setCategory(params) {
@@ -271,6 +303,10 @@ export default {
       this.productDetails.quantity = params;
       this.edited = true;
       this.verifyQuantity();
+    },
+    setMinQuantity(params) {
+      this.productDetails.min_order_quantity = params;
+      this.edited = true;
     },
     // verfiy that category is selected
     verifyCategory() {
@@ -291,6 +327,7 @@ export default {
         this.quantityError = false;
       }
     },
+    // verify an image was selected
     verifyImages() {
       if (this.imageUrl !== null) {
         this.imageError = false;
@@ -304,6 +341,11 @@ export default {
       this.imageUrl = params.imageUrl;
       this.edited = true;
       this.verifyImages();
+    },
+    // setVariant
+    setVariant(params) {
+      this.variantDetails = params;
+      this.edited = true;
     },
     // get the list of product category
     getProductCategories() {
@@ -327,6 +369,7 @@ export default {
           }
         });
     },
+    // update products after passing certain condition
     updateProduct() {
       this.verifyCategory();
       this.verifyQuantity();
@@ -338,45 +381,69 @@ export default {
         this.categoryError === false &&
         this.imageError === false
       ) {
-        this.loading = true;
-        this.$store
-          .dispatch("inventory/updateProduct", {
-            name: this.productDetails.name,
-            category: this.productDetails.category,
-            sku: this.productDetails.skuNumber,
-            quantity: this.productDetails.quantity,
-            price: this.productDetails.price,
-            description: this.productDetails.description,
-            image: this.imageUrl,
-            ref: this.$route.params.id,
-          })
-          .then(() => {
-            this.failedRequest = false;
-            this.loading = false;
-            this.dialog = true;
-            this.statusImage = successImage;
-            this.dialogMessage = "You have successfully updated this product.";
-            this.$store.getters["inventory/searchProduct"] === true
-              ? this.$store.dispatch("inventory/getfilteredProducts")
-              : this.$store.dispatch("inventory/searchProducts");
-          })
-          .catch((error) => {
-            this.failedRequest = true;
-            this.loading = false;
-            this.dialog = true;
-            this.statusImage = failedImage;
-            if (error.response) {
-              this.dialogMessage = error.response.message;
-            } else {
-              this.dialogMessage = "No internet connection!";
-            }
-          });
+        if (this.variantDetails.variantStatus === true) {
+          this.$refs.variantForm.validateForm();
+          if (this.variantDetails.formsValidated === true) {
+            this.sendUpdatedProduct();
+          }
+        } else {
+          this.sendUpdatedProduct();
+        }
       }
+    },
+    // send the updated product details
+    sendUpdatedProduct() {
+      this.loading = true;
+      this.$store
+        .dispatch("inventory/updateProduct", this.getProductDetails())
+        .then(() => {
+          this.failedRequest = false;
+          this.loading = false;
+          this.dialog = true;
+          this.statusImage = successImage;
+          this.dialogMessage = "You have successfully updated this product.";
+          this.$store.getters["inventory/searchProduct"] === true
+            ? this.$store.dispatch("inventory/getfilteredProducts")
+            : this.$store.dispatch("inventory/searchProducts");
+          setTimeout(() => {
+            location.reload();
+          }, 2000);
+        })
+        .catch((error) => {
+          this.failedRequest = true;
+          this.loading = false;
+          this.dialog = true;
+          this.statusImage = failedImage;
+          if (error.response) {
+            this.dialogMessage = error.response.message;
+          } else {
+            this.dialogMessage = "No internet connection!";
+          }
+        });
+    },
+    getProductDetails() {
+      let productDetails = {};
+      productDetails.name = this.productDetails.name;
+      productDetails.category = this.productDetails.category;
+      productDetails.sku = this.productDetails.sku;
+      (productDetails.quantity = this.productDetails.quantity),
+        (productDetails.min_order_quantity = this.productDetails.min_order_quantity),
+        (productDetails.price = this.productDetails.price),
+        (productDetails.description = this.productDescription);
+      productDetails.image = this.imageUrl;
+      productDetails.ref = this.$route.params.id;
+
+      if (this.variantDetails.variantStatus === true) {
+        productDetails.variants = [];
+        this.variantDetails.variants.forEach((item) => {
+          productDetails.variants.push(item);
+        });
+      }
+      return productDetails;
     },
     // close modal
     closeModal() {
       this.dialog = false;
-      location.reload();
     },
   },
 };
