@@ -14,6 +14,9 @@
       >
         No Notification
       </div>
+      <div class="bg-color py-5 d-flex justify-center">
+        {{ msg }}
+      </div>
       <v-list class="py-0">
         <v-subheader
           class="bg-color py-5 d-flex justify-center"
@@ -144,6 +147,7 @@ export default {
       showNotificationStatusToday: null,
       showNotificationStatusOld: null,
       filteredArray: {},
+      msg: "",
       // isLoading: false,
     };
   },
@@ -158,16 +162,17 @@ export default {
 
       // check if is an old notification
       let checkIfNewNotification = e.data
-        .slice(0, 2)
+        .slice(0, 3)
         .filter((item) => moment(item.date).calendar().includes("Today"));
       if (checkIfNewNotification) {
         this.newNotification = checkIfNewNotification;
         // show msg of today
-        let showToday = e.data.find((item) => item.read == false);
-        if (showToday) {
-          this.showNotificationStatusToday = true;
-        } else {
+        // let showToday = e.data.find((item) => item.read == false);
+        if (checkIfNewNotification.length == 0) {
           this.showNotificationStatusToday = false;
+          this.msg = "Click on view all to see unread notifications";
+        } else {
+          this.showNotificationStatusToday = true;
         }
       } else {
         let showNotToday = e.data
