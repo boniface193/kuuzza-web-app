@@ -407,7 +407,7 @@ export default {
             : this.$store.dispatch("inventory/searchProducts");
           setTimeout(() => {
             location.reload();
-          }, 2000);
+          }, 5000);
         })
         .catch((error) => {
           this.failedRequest = true;

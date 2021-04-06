@@ -86,7 +86,7 @@ export default {
         { text: "SKU", value: "sku", width: "200px" },
         { text: "Quantity", value: "quantity", width: "200px" },
         { text: "Status", value: "status", width: "200px" },
-        { text: "Time", value: "time", width: "200px" },
+        { text: "Time", value: "created_at", width: "250px" },
       ],
     };
   },

@@ -457,7 +457,7 @@ export default {
           font-size: 15px;
           text-align: left;
           padding: 10px 5px 10px 10px;
-          min-width: 250px;
+          min-width: 150px;
           min-height: 45px;
           max-height: 45px;
           display: flex;
@@ -496,7 +496,7 @@ export default {
           text-align: left;
           padding: 10px 5px 10px 10px;
           min-height: 45px;
-          min-width: 250px;
+          min-width: 150px;
           display: flex;
           flex-wrap: wrap;
           align-items: center;

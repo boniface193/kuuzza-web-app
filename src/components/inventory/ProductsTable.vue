@@ -82,7 +82,7 @@
   </div>
 </template>
 <script>
-import dataTable from "@/components/dashboard/dataTable.vue";
+import dataTable from "@/components/general/dataTable.vue";
 import deleteProductModal from "@/components/inventory/deleteProductModal";
 import takeProductOfflineModal from "@/components/inventory/takeProductOfflineModal";
 import takeProductOnlineModal from "@/components/inventory/takeProductOnlineModal";
@@ -129,9 +129,10 @@ export default {
         },
         { text: "Image", value: "image", image: true, width: "150px" },
         { text: "Category", value: "category", width: "200px" },
-        { text: "SKU", value: "sku", width: "200px" },
+        { text: "SKU", value: "sku", width: "170px" },
         { text: "Price", value: "price", width: "160px", money: true },
         { text: "Quantity", value: "quantity", width: "100px" },
+         { text: "Time", value: "created", width: "150px" },
       ],
     };
   },
