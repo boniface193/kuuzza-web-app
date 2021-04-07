@@ -84,7 +84,7 @@
         <!--------------------- donut chart ------------------------------>
         <v-col class="d-none d-md-block" md="8">
           <donut
-            class="py-5 px-5 my-3"
+            class="py-5 px-5 "
             bar_class="chart-heading text-capitalize"
             bar_title="Order Status"
           />
@@ -92,9 +92,9 @@
         <!--------------------- donut chart ------------------------------>
 
         <v-col md="4">
-          <v-row>
+          <!-- <v-row> -->
             <!--------------------- leaderboard ------------------------------>
-            <v-col md="12">
+            <!-- <v-col md="12"> -->
               <v-skeleton-loader type="article" v-show="leader">
               </v-skeleton-loader>
               <leader
@@ -122,11 +122,11 @@
                   </v-row>
                 </div>
               </leader>
-            </v-col>
+            <!-- </v-col> -->
             <!--------------------- leaderboard ------------------------------>
 
             <!--------------------- Best Selling ------------------------------>
-            <v-col md="12">
+            <!-- <v-col md="12">
               <v-skeleton-loader type="article" v-show="bestSelling">
               </v-skeleton-loader>
               <leader
@@ -146,43 +146,43 @@
                   </v-row>
                 </div>
               </leader>
-            </v-col>
-          </v-row>
+            </v-col> -->
+          <!-- </v-row> -->
         </v-col>
       </v-row>
       <!--------------------- Best Selling ------------------------------>
 
       <v-row>
-        <!--------------------- Top customer ------------------------------>
+        <!--------------------- Best Selling ------------------------------>
         <v-col class="col-lg-8 col-sm-12 d-none d-sm-block">
-          <v-skeleton-loader type="article" v-show="topCust">
+          <v-skeleton-loader type="article" v-show="bestSelling">
           </v-skeleton-loader>
-          <leader leader="Top Customers" v-show="!topCust">
-            <div v-for="(items, index) in topCustomer" :key="items.id">
+          <leader
+            v-show="!bestSelling"
+            linkToDetails="bestSeller"
+            leader="Best Selling Items"
+            sell_text="See all"
+          >
+            <div v-for="items in bestSeller" :key="items.product_id">
               <v-row class="text">
-                <v-col cols="2" class="text-center"> {{ index + 1 }} </v-col>
-                <v-col cols="4" class="text-truncate">
-                  <span class="large-text"> {{ items.name }}</span>
+                <v-col cols="4" class="text-center">
+                  {{ items.rank }}
                 </v-col>
-                <v-col cols="3" class="text-truncate">
-                  <span class="small-text">No. of Orders</span>
-                  <div class="mt-2 large-text">{{ items.total_order }}</div>
+                <v-col cols="4" class="text-truncate"
+                  >{{ items.product_name }}
                 </v-col>
-                <v-col cols="3">
-                  <span class="small-text">Total Spent</span>
-                  <div class="mt-2 large-text">
-                    ₦{{ items.total_order_value }}
-                  </div>
+                <v-col cols="4" class="text-truncate"
+                  >{{ items.quantity }} (Sold)
                 </v-col>
               </v-row>
             </div>
           </leader>
         </v-col>
-        <!--------------------- Top customer ------------------------------>
+        <!--------------------- Best Selling ------------------------------>
         <v-col class="col-lg-4 col-sm-12">
           <v-row>
             <!--------------------- customer ------------------------------>
-            <v-col cols="12" sm="12">
+            <v-col cols="12" sm="12" class="pt-0">
               <v-skeleton-loader type="article" v-show="customer">
               </v-skeleton-loader>
               <custom
@@ -204,7 +204,7 @@
             <!--------------------- customer ------------------------------>
 
             <!--------------------- seller ------------------------------>
-            <v-col cols="12" sm="12">
+            <v-col cols="12" sm="12" class="pb-0">
               <v-skeleton-loader type="article" v-show="seller">
               </v-skeleton-loader>
               <custom
@@ -386,7 +386,7 @@ export default {
       this.$store.dispatch("leaderboard/searchLeaderboard").then((e) => {
         let leader = e.data;
 
-        this.leaderboard = leader.slice(0, 4);
+        this.leaderboard = leader.slice(0, 7);
         this.leader = false;
       });
 
@@ -400,7 +400,7 @@ export default {
         let seller = e.data;
         let Rank = e.ranks;
 
-        this.bestSeller = seller.slice(0, 3);
+        this.bestSeller = seller.slice(0, 7);
         this.sellerRank = Rank;
         this.bestSelling = false;
       });

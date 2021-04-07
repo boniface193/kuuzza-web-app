@@ -14,13 +14,13 @@
 
       <div class="d-md-flex mt-8 mb-1 float-md-right">
         <!-- search bar -->
-          <searchBar
-            placeholder="Search orders"
-            @search="getSearchValue"
-            bgColor="white"
-            borderColor="#e2e2e2"
-            class="mr-2 mb-2"
-          />
+        <searchBar
+          placeholder="Search orders"
+          @search="getSearchValue"
+          bgColor="white"
+          borderColor="#e2e2e2"
+          class="mr-2 mb-2"
+        />
         <!-- filter -->
         <basicFilter
           class="mx-2 mb-5 float-left"
@@ -33,11 +33,9 @@
           @resetFilter="resetFilter"
         />
         <!-- export btn -->
-        <div
-          @click="exportOrder"
-          class="small-btn primary--text mr-2 mb-5 "
-          ><img src="@/assets/img/upload2.svg" alt=""
-        /></div>
+        <div @click="exportOrder" class="small-btn primary--text mr-2 mb-5">
+          <img src="@/assets/img/upload2.svg" alt="" />
+        </div>
       </div>
       <div class="py-md-15"></div>
     </div>
@@ -108,6 +106,7 @@ export default {
   components: { searchBar, dataTable, basicFilter, calendar, modal },
   data: function () {
     return {
+      totalValue: 0,
       isLoading: true,
       alertColor: null,
       errorMsg: "",
@@ -119,6 +118,7 @@ export default {
         delivery: true,
       },
       selectedRow: [],
+
       tableHeaders: [
         {
           text: "Product Name",
@@ -146,14 +146,19 @@ export default {
         },
         {
           text: "Total (₦)",
-          value: "total_price_label",
+          value: "store_total_price",
           width: "200px",
         },
         { text: "Seller", value: "seller_name", width: "200px" },
         { text: "Time", value: "created_at", width: "200px" },
         { text: "Payment", value: "payment_status_label", width: "150px" },
-        { text: "Delivery", value: "delivery_status_label", width: "170px" },
+        {
+          text: "Delivery",
+          value: "delivery_status_label",
+          width: "170px",
+        },
       ],
+      
     };
   },
   computed: {
@@ -169,7 +174,6 @@ export default {
     }),
   },
   created() {
-    console.log("order", this.orders);
     this.$store.dispatch("orders/getOrders").then((res) => {
       this.isLoading = false;
       if (res.length == 0) {
