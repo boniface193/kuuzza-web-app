@@ -62,8 +62,8 @@ const state = {
         selectedOptions: [],
     },
     dateRange: {
-        startDate: null,
-        endDate: null,
+        startDate: '',
+        endDate: '',
     },
     allowDateFilter: false,
     selectedReferences: [],
