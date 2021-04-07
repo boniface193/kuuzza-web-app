@@ -129,7 +129,7 @@ export default {
         },
         { text: "Image", value: "image", image: true, width: "150px" },
         { text: "Category", value: "category", width: "200px" },
-        { text: "SKU", value: "sku", width: "200px" },
+        { text: "SKU", value: "sku", width: "170px" },
         { text: "Price", value: "price", width: "160px", money: true },
         { text: "Quantity", value: "quantity", width: "100px" },
          { text: "Time", value: "created", width: "150px" },
