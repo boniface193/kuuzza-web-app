@@ -84,7 +84,7 @@
         <!--------------------- donut chart ------------------------------>
         <v-col class="d-none d-md-block" md="8">
           <donut
-            class="py-5 px-5 "
+            class="py-5 px-5"
             bar_class="chart-heading text-capitalize"
             bar_title="Order Status"
           />
@@ -93,64 +93,35 @@
 
         <v-col md="4">
           <!-- <v-row> -->
-            <!--------------------- leaderboard ------------------------------>
-            <!-- <v-col md="12"> -->
-              <v-skeleton-loader type="article" v-show="leader">
-              </v-skeleton-loader>
-              <leader
-                v-show="!leader"
-                linkToDetails="leaderboard"
-                leader="Leaderboard"
-                sell_text="See all"
-                listItem="listItem"
-              >
-                <div
-                  v-for="item in leaderboard"
-                  :key="item.seller_id"
-                  class="text"
-                >
-                  <v-row class="text">
-                    <v-col cols="2" class="text-center">
-                      {{ item.rank }}
-                    </v-col>
-                    <v-col cols="8" class="text-truncate">
-                      {{ item.seller_name }}
-                    </v-col>
-                    <v-col cols="2" class="text-truncate">
-                      {{ item.total_points }}
-                    </v-col>
-                  </v-row>
-                </div>
-              </leader>
-            <!-- </v-col> -->
-            <!--------------------- leaderboard ------------------------------>
-
-            <!--------------------- Best Selling ------------------------------>
-            <!-- <v-col md="12">
-              <v-skeleton-loader type="article" v-show="bestSelling">
-              </v-skeleton-loader>
-              <leader
-                v-show="!bestSelling"
-                linkToDetails="bestSeller"
-                leader="Best Selling Items"
-                sell_text="See all"
-              >
-                <div v-for="items in bestSeller" :key="items.product_id">
-                  <v-row class="text">
-                    <v-col cols="2" class="text-center">
-                      {{ items.rank }}
-                    </v-col>
-                    <v-col cols="6" class="text-truncate"
-                      >{{ items.product_name }}
-                    </v-col>
-                  </v-row>
-                </div>
-              </leader>
-            </v-col> -->
-          <!-- </v-row> -->
+          <!--------------------- leaderboard ------------------------------>
+          <!-- <v-col md="12"> -->
+          <v-skeleton-loader type="article" v-show="leader">
+          </v-skeleton-loader>
+          <leader
+            v-show="!leader"
+            linkToDetails="leaderboard"
+            leader="Leaderboard"
+            sell_text="See all"
+            listItem="listItem"
+          >
+            <div v-for="item in leaderboard" :key="item.seller_id" class="text">
+              <v-row class="text">
+                <v-col cols="2" class="text-center">
+                  {{ item.rank }}
+                </v-col>
+                <v-col cols="8" class="text-truncate">
+                  {{ item.seller_name.split(" ").slice(-1).join(" ") }}
+                </v-col>
+                <v-col cols="2" class="text-truncate">
+                  {{ item.total_points }}
+                </v-col>
+              </v-row>
+            </div>
+          </leader>
+          <!-- </v-col> -->
+          <!--------------------- leaderboard ------------------------------>
         </v-col>
       </v-row>
-      <!--------------------- Best Selling ------------------------------>
 
       <v-row>
         <!--------------------- Best Selling ------------------------------>
@@ -179,7 +150,7 @@
           </leader>
         </v-col>
         <!--------------------- Best Selling ------------------------------>
-        <v-col class="col-lg-4 col-sm-12">
+        <v-col class="col-lg-4 col-sm-12 text-center">
           <v-row>
             <!--------------------- customer ------------------------------>
             <v-col cols="12" sm="12" class="pt-0">
@@ -322,8 +293,8 @@ export default {
     });
     // customer
     this.$store.dispatch("customerDashboard/getCustomer").then((res) => {
-      let filtered = res.filter_customers;
-      let all = res.all_customers;
+      let filtered = res.all_customers;
+      let all = res.filter_customers;
 
       this.filteredCustomerToString = filtered.toString();
       this.allCustomerToString = all.toString();
@@ -331,8 +302,8 @@ export default {
     });
     // seller
     this.$store.dispatch("sellerDashboard/getSeller").then((res) => {
-      let filtered = res.filter_sellers;
-      let all = res.all_sellers;
+      let filtered = res.all_sellers;
+      let all = res.filter_sellers;
 
       this.filteredSellerToString = filtered.toString();
       this.allSellerToString = all.toString();
