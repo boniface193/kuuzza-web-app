@@ -28,7 +28,7 @@
 
         <div class="">
           <p class="mt-5" style="color: black">
-            Are you sure you want to delete this products?
+            You’re about to delete this product. Are you sure ?
           </p>
           <div class="d-flex mb-6">
             <img
@@ -49,15 +49,18 @@
           <div class="col-sm-6 justify-center">
             <v-btn
               block
-              class="error elevation-0 text-caption text-lg-body-2"
+              class="error elevation-0 text-caption text-lg-body-2 tex"
               @click="deleteProducts"
               :loading="deleteDialogLoader"
               :disabled="deleteDialogLoader"
-              >Yes, delete
-              {{
-                this.selectedReferences.length == 1 ? "product" : "products"
-              }}</v-btn
-            >
+              >Yes,
+              <span class="text-lowercase">
+                delete
+                {{
+                  this.selectedReferences.length == 1 ? "product" : "products"
+                }}</span
+              >
+            </v-btn>
           </div>
           <div class="col-sm-6">
             <v-btn
@@ -65,10 +68,13 @@
               class="primary--text light-background elevation-0 text-caption text-lg-body-2"
               @click="closeDeleteDialog"
               :disabled="deleteDialogLoader"
-              >No, keep
-              {{
-                this.selectedReferences.length == 1 ? "product" : "products"
-              }}</v-btn
+              >No,
+              <span class="text-lowercase">
+                keep
+                {{
+                  this.selectedReferences.length == 1 ? "product" : "products"
+                }}</span
+              ></v-btn
             >
           </div>
         </div>
@@ -91,7 +97,7 @@
             {{ this.selectedReferences.length == 1 ? "product" : "products" }}
             <br /><br />
             <span class="secondary--text"
-              >Are you sure you want to delete this
+              >You’re about to delete this product. Are you sure ?
               {{
                 this.selectedReferences.length == 1 ? "product" : "products"
               }}</span
@@ -108,10 +114,13 @@
               @click="deleteProducts()"
               :loading="deleteDialogBulkLoader"
               :disabled="deleteDialogBulkLoader"
-              >Yes, delete
-              {{
-                this.selectedReferences.length == 1 ? "product" : "products"
-              }}</v-btn
+              >Yes,
+              <span class="text-lowercase">
+                delete
+                {{
+                  this.selectedReferences.length == 1 ? "product" : "products"
+                }}</span
+              ></v-btn
             >
           </div>
           <div class="col-sm-6 justify-center">
@@ -120,10 +129,13 @@
               class="primary--text light-background elevation-0 text-caption text-lg-body-2"
               @click="closeDeleteDialogBulk"
               :disabled="deleteDialogBulkLoader"
-              >No, keep
-              {{
-                this.selectedReferences.length == 1 ? "product" : "products"
-              }}</v-btn
+              >No,
+              <span class="text-lowercase">
+                keep
+                {{
+                  this.selectedReferences.length == 1 ? "product" : "products"
+                }}</span
+              ></v-btn
             >
           </div>
         </div>

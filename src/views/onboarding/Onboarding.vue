@@ -79,7 +79,7 @@
               (this.$route.name == 'Signin' || this.$route.name == 'Signup')
             "
           >
-            Do you want to amplify your performance and grow sales?
+            
           </p>
 
           <!-- route view for pages (signup, signin, recoverpassowrd)-->
@@ -103,9 +103,9 @@
                 this.$route.name == 'Forgotpassword' ||
                 this.$route.name == 'Recoverpassword'
               "
-              class="white--text"
+              class="white--text text-center"
             >
-              Learn, Compete… Grow
+              Maximise Inventory, Boost  <br/> Sales!
             </p>
 
             <!-- display message if condition is true -->

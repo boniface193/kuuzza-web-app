@@ -77,9 +77,6 @@
               <v-list-item-title class="layout-title mb-3">
                 {{ userName }}
               </v-list-item-title>
-              <v-list-item-subtitle class="layout-title-subtitle">
-                Store Manager
-              </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
 
