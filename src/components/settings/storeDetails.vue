@@ -246,7 +246,9 @@ export default {
       phoneRules: [
         //verifies phone number satisfies the requirement
         (v) => !!v || "This field is required",
-        (v) => v.length > 9 || "Number should 10 digit or more",
+        (v) => v.substring(0, 1) != 0 || "Phone number cannot begin with 0",
+        (v) => v.length > 9 || "Number should 10 digits or more",
+        (v) => v.length <= 11 || "Maximum 11 digits or more",
       ],
     };
   },
@@ -380,7 +382,8 @@ export default {
       // check if the edited input field is the admin store phone number
       if (
         input_field === "storeNum" &&
-        this.computedInfo.currentStoreNum !== ""
+        this.computedInfo.currentStoreNum !== "" &&
+        this.computedInfo.currentStoreNum.substring(0, 1) != "0"
       ) {
         if (this.computedInfo.currentStoreNum !== this.computedInfo.storeNum) {
           this.phoneNumLoader = true;

@@ -504,8 +504,11 @@ export default {
         () => this.validAddress || "Select a valid Address",
       ],
       phoneRules: [
-        (v) => !!v || "Phone Number is required",
-        (v) => v.length > 10 || "Number should 10 digit or more",
+        //verifies phone number satisfies the requirement
+        (v) => !!v || "This field is required",
+        (v) => v.substring(0, 1) != 0 || "Phone number cannot begin with 0",
+        (v) => v.length > 9 || "Number should 10 digits or more",
+        (v) => v.length <= 11 || "Maximum 11 digits or more",
       ],
       rcNumberRules: [
         (v) => !!v || "This field is required",
