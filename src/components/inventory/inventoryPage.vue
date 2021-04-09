@@ -53,12 +53,12 @@
               <exportProducts class="mr-2" />
 
               <!-- import products -->
-              <router-link :to="{ name: 'productList' }">
+              <router-link :to="{ name: 'ImportProduct' }">
                 <importIcon class="mr-2" toolTipText="Import products" />
               </router-link>
             </div>
 
-            <!-- add product btn primary-->
+            <!-- add product btn secondary-->
             <router-link
               :to="{ name: 'addProduct' }"
               class="add-btn-secondary"
@@ -77,7 +77,7 @@
               :disabled="!verifiedStore"
               :event="verifiedStore ? 'click' : ''"
             >
-              <v-btn class="primary px-4" :disabled="!verifiedStore">
+              <v-btn class="primary px-4" :disabled="!verifiedStore" depressed>
                 Add New Product</v-btn
               >
             </router-link>
@@ -91,7 +91,9 @@
       <ProductsTable ref="productsTable" v-show="verifiedStore === true" />
 
       <!-- show the user this form if the store is not verified yet -->
-      <RequiredInformationPage v-show="verifiedStore === false || verifiedPhoneNumber === false" />
+      <RequiredInformationPage
+        v-show="verifiedStore === false || verifiedPhoneNumber === false"
+      />
     </div>
 
     <!--------------------------- modal for dialog messages ------------------------------>
@@ -253,6 +255,9 @@ export default {
 }
 .add-btn-primary {
   text-decoration: none;
+  .v-btn:not(.v-btn--round).v-size--default {
+    height: 45px;
+  }
 }
 .add-btn-secondary {
   display: none;

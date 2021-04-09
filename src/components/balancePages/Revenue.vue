@@ -46,6 +46,7 @@
               :disabled="withdrawLoader"
               :loading="withdrawLoader"
               @click="withdrawFunds()"
+              depressed
               >Withdraw funds</v-btn
             >
           </div>

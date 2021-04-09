@@ -47,26 +47,35 @@ export default {
     // export products
     exportProducts() {
       if (this.verifiedStore === true) {
-        this.dialog = true;
-        this.statusImage = successImage;
-        this.dialogMessage = "Exporting Product...";
-        this.$store
-          .dispatch("inventory/exportProducts")
-          .then(() => {
-            this.dialog = true;
-            this.statusImage = successImage;
-            this.dialogMessage =
-              "Products successfully exported, An email would be sent to you shortly!";
-          })
-          .catch((error) => {
-            this.statusImage = failedImage;
-            this.dialog = true;
-            if (error.response) {
-              this.dialogMessage = "Something went wrong, pls try again!";
-            } else {
-              this.dialogMessage = "No internet Connection!";
-            }
-          });
+        if (
+          this.$store.state.inventory.dateRange.startDate !== "" &&
+          this.$store.state.inventory.dateRange.endDate !== ""
+        ) {
+          this.dialog = true;
+          this.statusImage = successImage;
+          this.dialogMessage = "Exporting Product...";
+          this.$store
+            .dispatch("inventory/exportProducts")
+            .then(() => {
+              this.dialog = true;
+              this.statusImage = successImage;
+              this.dialogMessage =
+                "Products successfully exported, An email would be sent to you shortly!";
+            })
+            .catch((error) => {
+              this.statusImage = failedImage;
+              this.dialog = true;
+              if (error.response) {
+                this.dialogMessage = "Something went wrong, pls try again!";
+              } else {
+                this.dialogMessage = "No internet Connection!";
+              }
+            });
+        } else {
+          this.statusImage = failedImage;
+          this.dialog = true;
+          this.dialogMessage = "Please select a date range before proceeding with your export.";
+        }
       }
     },
   },

@@ -7,9 +7,9 @@
         :headers="paymentHeader"
         :items="paymentHistory.data"
         itemKey="id"
-        :itemPerPage="15"
-        :paginationLength="1"
-        :page="1"
+        :itemPerPage="pageDetails.per_page || 15"
+        :paginationLength="pageDetails.last_page"
+        :page="pageDetails.current_page"
         @itemPerPage="setItemPerPage"
         @onPageChange="setCurentPage"
       />
@@ -66,12 +66,12 @@ export default {
       paymentHeader: [
         {
           text: "Bank Details",
-          value: "name",
+          value: "account_number",
           width: "400px",
         },
-        { text: "Amount", value: "amount", width: "250px", money: true},
-        { text: "Payment Status", value: "status", width: "250px"},
-        { text: "Time", value: "time", width: "250px" },
+        { text: "Amount", value: "amount", width: "250px", money: true },
+        { text: "Payment Status", value: "status", width: "250px" },
+        { text: "Time", value: "created_at", width: "250px" },
       ],
     };
   },
@@ -90,7 +90,7 @@ export default {
       paymentHistory: "balance/paymentHistory",
     }),
     ...mapState({
-      pageDetails: (state) => state.awaitingSettlements.meta,
+      pageDetails: (state) => state.balance.paymentHistory.meta,
     }),
   },
   methods: {
@@ -98,7 +98,7 @@ export default {
       let storeId = this.$store.getters["settings/getUserProfile"].store.id;
       this.$store
         .dispatch("balance/getPaymentHistory", {
-          storeId: storeId
+          storeId: storeId,
         })
         .then(() => (this.fetchingData = false))
         .catch((error) => {
@@ -112,12 +112,20 @@ export default {
           }
         });
     },
-    setItemPerPage() {},
-    setCurentPage() {},
-     reset(){
+    // set item per page
+    setItemPerPage(params) {
+      this.$store.commit("balance/setItemPerPagePaymentHistory", params);
+      this.getPaymentHistory();
+    },
+    // set current page
+    setCurentPage(params) {
+      this.$store.commit("balance/setPagePaymentHistory", params);
+      this.getPaymentHistory();
+    },
+    reset() {
       this.fetchingData = true;
       this.getPaymentHistory();
-    }
+    },
   },
 };
 </script>

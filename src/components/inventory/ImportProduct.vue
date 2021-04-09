@@ -17,6 +17,13 @@
       @change="uploadFile"
     />
 
+    <div class="text-center mt-5 instruction">
+      <p>
+        Upload format (Select a CSV File, Each line should contain the product
+        details) <a>Download CSV format</a> and see how to upload <a>here</a>.
+      </p>
+    </div>
+
     <div class="d-flex align-center justify-center browse-container">
       <div class="text-center" v-show="!importingFile && !fileImported">
         <div class="upload-img mb-5 mx-auto">
@@ -47,6 +54,7 @@
         <h2 class="mb-3">Product list imported successfully!</h2>
       </div>
     </div>
+
     <!-- modal for dialog messages -->
     <modal :dialog="dialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
@@ -133,8 +141,12 @@ export default {
     width: 100%;
   }
 }
+.instruction {
+  padding-top: 12%;
+  width: 500px;
+  margin: auto;
+}
 .browse-container {
-  padding-top: 13%;
   .upload-img {
     width: 120px;
     height: 120px;
@@ -147,5 +159,10 @@ export default {
 }
 .browse {
   cursor: pointer;
+}
+@media (max-width: 550px) {
+  .instruction {
+    width: auto;
+  }
 }
 </style>

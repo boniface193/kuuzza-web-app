@@ -175,7 +175,9 @@
                 ></v-progress-circular>
                 <span class="primary--text" v-show="showOTPTimer"
                   >You can resend OTP in
-                  <span class="error--text">{{ timer }}.00</span></span
+                  <span class="error--text"
+                    >{{ timer }}{{ timer > 1 ? "secs" : "sec" }}</span
+                  ></span
                 >
               </a>
             </p>

@@ -511,7 +511,10 @@ export default {
         (v) => !!v || "This field is required",
         (v) => v.length === 11 || "RC Number should be 11 digits",
       ],
-      daysRules: [(v) => !!v || "Required"],
+      daysRules: [
+        (v) => !!v || "Required",
+        (v) => v > 0 || "Minimum of day is required",
+      ],
       radioRules: [(v) => !!v || "Required"],
     };
   },
