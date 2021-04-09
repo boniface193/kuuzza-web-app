@@ -98,6 +98,12 @@
               :quantity="productDetails.min_order_quantity || 0"
               @quantity="setMinQuantity"
             />
+            <div
+              v-if="minQuantityError === true"
+              class="inputError error--text"
+            >
+              Minimum order quantity cannot be greater than quantity
+            </div>
           </div>
 
           <!-- unit price -->
@@ -245,6 +251,7 @@ export default {
       quantityError: false,
       categoryError: false,
       imageError: false,
+      minQuantityError: false,
     };
   },
   created() {
@@ -307,6 +314,7 @@ export default {
     setMinQuantity(params) {
       this.productDetails.min_order_quantity = params;
       this.edited = true;
+      this.verifyMinQuantity();
     },
     // verfiy that category is selected
     verifyCategory() {
@@ -325,6 +333,15 @@ export default {
         this.quantityError = true;
       } else {
         this.quantityError = false;
+      }
+    },
+    verifyMinQuantity() {
+      if (
+        this.productDetails.min_order_quantity > this.productDetails.quantity
+      ) {
+        this.minQuantityError = true;
+      } else {
+        this.minQuantityError = false;
       }
     },
     // verify an image was selected
@@ -374,12 +391,14 @@ export default {
       this.verifyCategory();
       this.verifyQuantity();
       this.verifyImages();
+      this.verifyMinQuantity();
       if (
         this.edited === true &&
         this.$refs.form.validate() &&
         this.quantityError === false &&
         this.categoryError === false &&
-        this.imageError === false
+        this.imageError === false &&
+        this.minQuantityError === false
       ) {
         if (this.variantDetails.variantStatus === true) {
           this.$refs.variantForm.validateForm();
@@ -405,9 +424,7 @@ export default {
           this.$store.getters["inventory/searchProduct"] === true
             ? this.$store.dispatch("inventory/getfilteredProducts")
             : this.$store.dispatch("inventory/searchProducts");
-          setTimeout(() => {
-            location.reload();
-          }, 5000);
+          this.edited = false;
         })
         .catch((error) => {
           this.failedRequest = true;
@@ -426,10 +443,10 @@ export default {
       productDetails.name = this.productDetails.name;
       productDetails.category = this.productDetails.category;
       productDetails.sku = this.productDetails.sku;
-      (productDetails.quantity = this.productDetails.quantity),
-        (productDetails.min_order_quantity = this.productDetails.min_order_quantity),
-        (productDetails.price = this.productDetails.price),
-        (productDetails.description = this.productDescription);
+      productDetails.quantity = this.productDetails.quantity;
+      productDetails.min_order_quantity = this.productDetails.min_order_quantity;
+      productDetails.price = this.productDetails.price;
+      productDetails.description = this.productDescription;
       productDetails.image = this.imageUrl;
       productDetails.ref = this.$route.params.id;
 

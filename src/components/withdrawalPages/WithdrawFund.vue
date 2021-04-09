@@ -38,6 +38,7 @@
             class="primary mt-5"
             :disabled="revenueDetails.available_balance <= 100"
             @click="openConfirmationDialog()"
+            depressed
             >Withdraw</v-btn
           >
           <!-- change account btn -->
@@ -45,7 +46,7 @@
             :to="{ name: 'EditBankDetails' }"
             style="text-decoration: none"
           >
-            <v-btn class="mt-5 primary--text light-background"
+            <v-btn class="mt-5 primary--text light-background" depressed
               >Change account number
             </v-btn>
           </router-link>
@@ -124,6 +125,7 @@
             :disabled="withdrawLoader"
             :loading="withdrawLoader"
             @click="withdrawFunds()"
+            depressed
             >Get Paid Now</v-btn
           >
         </div>
@@ -164,7 +166,9 @@ export default {
       dialog: false,
       statusImage: null,
       fetchingBalance: false,
-      revenueDetails: {},
+      revenueDetails: {
+        available_balance: 0,
+      },
       confirmationDialog: false,
     };
   },
@@ -228,6 +232,8 @@ export default {
           this.confirmationDialog = false;
           this.dialog = true;
           this.statusImage = successImage;
+          this.fetchingBalance = true;
+          this.getRevenueDetails();
           this.dialogMessage =
             "Your request have been received successfully, your account would be credited within 24hrs";
         })
@@ -296,7 +302,7 @@ export default {
     height: 45px;
     min-width: 100%;
     padding: 0 16px;
-    border-radius: 12px;
+    border-radius: 8px;
   }
 }
 .confirmation-dialog {
@@ -304,7 +310,7 @@ export default {
     height: 45px;
     min-width: 80%;
     padding: 0 16px;
-    border-radius: 12px;
+    border-radius: 8px;
   }
 }
 .status-img {

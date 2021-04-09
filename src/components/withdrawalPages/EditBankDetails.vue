@@ -62,6 +62,7 @@
               !accountVerified || this.getAccountDetails.accNumber.length !== 10
             "
             @click="openPasswordModal"
+            depressed
             >Update</v-btn
           >
         </v-form>
@@ -128,6 +129,7 @@
                 :loading="loading"
                 :disabled="loading"
                 @click="setAccountDetails()"
+                depressed
                 >Update</v-btn
               >
             </div>

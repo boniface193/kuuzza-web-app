@@ -7,9 +7,9 @@
         :headers="settlementsHeader"
         :items="settlements.data"
         itemKey="order_id"
-        :itemPerPage="15"
-        :paginationLength="1"
-        :page="1"
+        :itemPerPage="pageDetails.per_page || 15"
+        :paginationLength="pageDetails.last_page"
+        :page="pageDetails.current_page"
         @itemPerPage="setItemPerPage"
         @onPageChange="setCurentPage"
       />
@@ -96,7 +96,7 @@ export default {
       settlements: "balance/settlements",
     }),
     ...mapState({
-      pageDetails: (state) => state.settlements.meta,
+      pageDetails: (state) => state.balance.settlements.meta,
     }),
   },
   methods: {

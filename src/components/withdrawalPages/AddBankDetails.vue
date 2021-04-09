@@ -61,6 +61,7 @@
             class="primary px-4"
             :disabled="!accountVerified || this.accNumber.length !== 10"
             @click="openPasswordModal"
+            depressed
             >Save and continue</v-btn
           >
         </v-form>
@@ -127,6 +128,7 @@
                 :loading="loading"
                 :disabled="loading"
                 @click="setAccountDetails()"
+                depressed
                 >Submit</v-btn
               >
             </div>

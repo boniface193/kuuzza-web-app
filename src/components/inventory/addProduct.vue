@@ -1,5 +1,5 @@
 <template>
-  <div class="pb-8">
+  <div class="pb-16">
     <div v-show="!loader">
       <div style="width: 200px">
         <!-- back to Inventory -->
@@ -133,9 +133,12 @@
               :quantity="minQuantity"
               @quantity="setMinQuantity"
             />
-            <!-- <div v-if="quantityError === true" class="inputError error--text">
-              Minimum quantity cannot be less than 1
-            </div> -->
+            <div
+              v-if="minQuantityError === true"
+              class="inputError error--text"
+            >
+              Minimum order quantity cannot be greater than quantity
+            </div>
           </div>
 
           <!-- variant container -->
@@ -146,7 +149,7 @@
           <!-- button container -->
           <div class="d-flex justify-end" style="width: 100%">
             <!-- continue button -->
-            <v-btn class="primary px-10 mb-5" @click="nextForm(1)"
+            <v-btn class="primary px-10 mb-5" @click="nextForm(1)" depressed
               >Continue</v-btn
             >
           </div>
@@ -203,6 +206,7 @@
               :loading="loading"
               :disabled="loading"
               @click="submit"
+              depressed
               >Add Product</v-btn
             >
           </div>
@@ -287,6 +291,7 @@ export default {
       quantityError: false,
       categoryError: false,
       imageError: false,
+      minQuantityError: false,
     };
   },
   created() {
@@ -306,11 +311,13 @@ export default {
       this.$refs[`form${formNum}`].validate();
       this.verifyCategory();
       this.verifyQuantity();
+      this.verifyMinQuantity();
 
       if (
         this.$refs[`form${formNum}`].validate() &&
         this.categoryError === false &&
-        this.quantityError === false
+        this.quantityError === false &&
+        this.minQuantityError === false
       ) {
         if (this.variantDetails.variantStatus === true) {
           this.$refs.variantForm.validateForm();
@@ -339,6 +346,13 @@ export default {
         this.categoryError = false;
       }
     },
+    verifyMinQuantity() {
+      if (this.minQuantity > this.quantity) {
+        this.minQuantityError = true;
+      } else {
+        this.minQuantityError = false;
+      }
+    },
     // verfiy that quantity is not less or equal to 0
     verifyQuantity() {
       if (this.quantity == 0 || this.quantity < 0) {
@@ -359,6 +373,7 @@ export default {
     },
     setMinQuantity(params) {
       this.minQuantity = params;
+      this.verifyMinQuantity();
     },
     verifyImages() {
       if (this.imageUrl !== null) {
@@ -427,13 +442,12 @@ export default {
       productDetails.description = this.productDescription;
       productDetails.image = this.imageUrl;
 
-      if(this.variantDetails.variantStatus === true){ 
-        productDetails.variants = []
-        this.variantDetails.variants.forEach(item => {
-        //item.values = item.values.split(',');
-         productDetails.variants.push(item);
-        })
-      } 
+      if (this.variantDetails.variantStatus === true) {
+        productDetails.variants = [];
+        this.variantDetails.variants.forEach((item) => {
+          productDetails.variants.push(item);
+        });
+      }
 
       return productDetails;
     },

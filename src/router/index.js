@@ -23,7 +23,7 @@ import inventoryPage from "@/components/inventory/inventoryPage.vue";
 import addProduct from "@/components/inventory/addProduct.vue";
 import editProduct from "@/components/inventory/editProduct.vue";
 import productDetails from "@/components/inventory/productDetails.vue";
-import productList from "@/components/inventory/productList.vue";
+import ImportProduct from "@/components/inventory/ImportProduct.vue";
 // settings pages
 import Settings from "../views/authPages/Settings.vue";
 import userDetails from "@/components/settings/userDetails.vue";
@@ -251,9 +251,9 @@ const routes = [
             beforeEnter: allowAddProducts
           },
           {
-            path: "import-product-list",
-            name: "productList",
-            component: productList,
+            path: "import-product",
+            name: "ImportProduct",
+            component: ImportProduct,
             beforeEnter: allowAddProducts
           }
         ]

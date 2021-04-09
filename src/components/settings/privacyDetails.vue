@@ -62,6 +62,7 @@
           @click="update_password"
           :loading="loading"
           :disabled="loading"
+          depressed
           >Save Changes</v-btn
         >
       </div>
@@ -105,15 +106,15 @@ export default {
       value3: String,
       oldPasswordRules: [
         (v) => !!v || "Password is required",
-        (v) => v !== this.newPassword || "old password cannot be the same as new password",
+        (v) =>
+          v !== this.newPassword ||
+          "old password cannot be the same as new password",
       ],
       newPasswordRules: [
         //verifies password satisfies the requirement
         (v) => !!v || "New password is required",
         (v) =>
-          /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(
-            v
-          ) ||
+          /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(v) ||
           "Password must contain a minimum of 8 character, at least one uppercase, one lowercase, one number",
       ],
       confirmPasswordRules: [

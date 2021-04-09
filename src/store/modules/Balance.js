@@ -158,9 +158,11 @@ const actions = {
         })
     },
     getPaymentHistory(context, data) {
-        let dateRange = (state.dateRange.endDate !== '') ? `date_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
+        let dateRange = (state.dateRange.endDate !== '') ? `date_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "";
+        let page = ((state.paymentHistory.meta.current_page) ? `page=${state.paymentHistory.meta.current_page}` : "");
+        let perPage = ((state.paymentHistory.meta.per_page) ? `per_page=${state.paymentHistory.meta.per_page}` : "");
         return new Promise((resolve, reject) => {
-            axios.get(`/payouts/${data.storeId}/history?${dateRange}`, {
+            axios.get(`/payouts/${data.storeId}/history?${dateRange}&${page}&${perPage}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
                 },
@@ -199,6 +201,12 @@ const mutations = {
         state.settlements.meta.per_page = itemPerPage;
     },
     setPageSettlements: (state, page) => (state.settlements.meta.current_page = page),
+    setItemPerPagePaymentHistory: (state, itemPerPage) => {
+        let page = setItemPerPage(itemPerPage, state.paymentHistory.meta.per_page, state.paymentHistory.meta.from);
+        state.paymentHistory.meta.current_page = page;
+        state.paymentHistory.meta.per_page = itemPerPage;
+    },
+    setPagePaymentHistory: (state, page) => (state.paymentHistory.meta.current_page = page),
 };
 
 export default {

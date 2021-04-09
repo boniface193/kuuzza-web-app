@@ -8,7 +8,7 @@
         :items="awaitingSettlements.data"
         itemKey="order_id"
         :itemPerPage="pageDetails.per_page || 15"
-        :paginationLength="pageDetails.total"
+        :paginationLength="pageDetails.last_page"
         :page="pageDetails.current_page"
         @itemPerPage="setItemPerPage"
         @onPageChange="setCurentPage"

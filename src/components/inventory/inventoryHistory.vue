@@ -60,10 +60,10 @@
   </div>
 </template>
 <script>
-import dataTable from "@/components/dashboard/dataTable.vue";
+import dataTable from "@/components/general/dataTable.vue";
 import calendar from "@/components/dashboard/calender.vue";
 import failedImage from "@/assets/img/failed-img.svg";
-import modal from "@/components/dashboard/modal.vue";
+import modal from "@/components/general/modal.vue";
 import { mapGetters, mapState } from "vuex";
 export default {
   name: "inventoryHistory",
