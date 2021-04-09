@@ -1,5 +1,5 @@
 <template>
-  <div class="pb-10">
+  <div class="pb-16">
     <div>
       <!-- page title -->
       <div class="d-flex justify-space-between align-center">
