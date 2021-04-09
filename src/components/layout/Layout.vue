@@ -152,7 +152,7 @@ export default {
         routes: "/orders",
       },
       {
-        title: "Balance",
+        title: "Earnings",
         icon: "mdi-credit-card",
         routes: "/balance",
       },
