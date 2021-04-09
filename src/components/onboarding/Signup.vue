@@ -266,10 +266,12 @@ export default {
         (v) => !!v || "E-mail is required",
         (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
       ],
-      phoneRules: [
+       phoneRules: [
         //verifies phone number satisfies the requirement
-        (v) => !!v || "Phone Number is required",
-        (v) => v.length > 9 || "Number should 10 digit or more",
+        (v) => !!v || "This field is required",
+        (v) => v.substring(0,1) != 0 || "Phone number cannot begin with 0",
+        (v) => v.length > 9 || "Number should 10 digits or more",
+        (v) => v.length <= 11 || "Maximum 11 digits or more",
       ],
       company_nameRules: [
         //verifies comapany name satisfies the requirement
