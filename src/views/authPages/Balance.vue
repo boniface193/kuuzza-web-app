@@ -2,7 +2,7 @@
   <div class="px-3 px-sm-12 pt-12 pb-4" style="zoom: 110%">
     <div class="d-flex align-center justify-space-between">
       <!-- page title -->
-      <h1 class="">Balance</h1>
+      <h1 class="">Earnings</h1>
       <!-- calendar -->
       <calendar @updateDate="setDate" />
     </div>

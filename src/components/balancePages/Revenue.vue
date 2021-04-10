@@ -6,10 +6,10 @@
         <v-col class="col-12 col-sm-6 col-md-3">
           <div class="text-center">
             <p class="text-sm-body-2 text-md-body-1 grey--text">
-              Total Revenue(NGN)
+              Total Revenue
             </p>
             <h1 class="text-lg-h4">
-              <span v-show="!fetchingData">{{
+              <span v-show="!fetchingData">₦{{
                 revenueDetails.total_revenue_label
               }}</span>
               <span v-show="fetchingData">
@@ -26,10 +26,10 @@
         <v-col class="col-12 col-sm-6 col-md-3">
           <div class="text-center">
             <p class="text-sm-body-2 text-md-body-1 grey--text">
-              Available Balance(NGN)
+              Available Balance
             </p>
             <h1 class="text-lg-h4">
-              <span v-show="!fetchingData">{{
+              <span v-show="!fetchingData">₦{{
                 revenueDetails.available_balance_label
               }}</span>
               <span v-show="fetchingData">
@@ -55,10 +55,10 @@
         <v-col class="col-12 col-sm-6 col-md-3">
           <div class="text-center">
             <p class="text-sm-body-2 text-md-body-1 grey--text">
-              Total Settlements(NGN)
+              Total Settlements
             </p>
             <h1 class="text-lg-h4">
-              <span v-show="!fetchingData">{{
+              <span v-show="!fetchingData">₦{{
                 revenueDetails.settled_label
               }}</span>
               <span v-show="fetchingData">
@@ -74,9 +74,9 @@
         <!-- Awaiting settlements column -->
         <v-col class="col-12 col-sm-6 col-md-3">
           <div class="text-center">
-            <p class="grey--text">Awaiting Settlements(NGN)</p>
+            <p class="grey--text">Awaiting Settlements</p>
             <h1 class="text-lg-h4">
-              <span v-show="!fetchingData">{{
+              <span v-show="!fetchingData">₦{{
                 revenueDetails.awaiting_settlement_label
               }}</span>
               <span v-show="fetchingData">

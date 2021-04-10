@@ -7,10 +7,10 @@
       <div
         class="welcome-user text-sm-h6 text-md-h5 text-lg-h4 text-xl-h3 text-h6 font-weight-bold"
       >
-        <div class="mb-2">Welcome,</div>
-        <span class="text-h6"
-          >{{ userInfor.name }} <span v-show="userInfor.name">!</span></span
-        >
+        <div class="mb-2">Welcome {{ userInfor.name.split(" ").slice(0, 1).join(" ") }}, </div>
+        <!-- <span class="text-h6"
+          ><span v-show="userInfor.name">!</span></span
+        > -->
       </div>
       <v-snackbar v-model="snackbar" top :color="errorColor">
         {{ error }}

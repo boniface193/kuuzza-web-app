@@ -73,15 +73,14 @@
 
           <!-- display this message if the condition is meet -->
           <p
-            class="mt-5 mb-0"
+            class="mt-5 mb-0 text-caption"
             v-show="
               (present_form == 'form1' || present_form == 'form2') &&
               (this.$route.name == 'Signin' || this.$route.name == 'Signup')
             "
-          >
-            Do you want to amplify your performance and grow sales?
-          </p>
-
+          ></p>
+          Do you want to amplify your performance and grow sales? <br />
+          Tap into our decentralised sales force and watch your business scale!
           <!-- route view for pages (signup, signin, recoverpassowrd)-->
           <router-view />
         </v-col>
@@ -103,9 +102,10 @@
                 this.$route.name == 'Forgotpassword' ||
                 this.$route.name == 'Recoverpassword'
               "
-              class="white--text"
+              class="white--text text-center"
             >
-              Learn, Compete… Grow
+              Maximise Inventory, Boost <br />
+              Sales!
             </p>
 
             <!-- display message if condition is true -->
@@ -116,13 +116,10 @@
                 this.$route.name == 'forgotPasswordVerification' ||
                 this.$route.name == 'signupTeamMember'
               "
-              class="white--text"
-              style="width: 70%"
+              class="white--text text-center"
             >
-              <span class="float-left" style="width: 100%"
-                >Amplify Performance</span
-              ><br />
-              <span class="float-right">Grow Sales</span>
+              Maximise Inventory, Boost <br />
+              Sales!
             </p>
           </div>
         </v-col>
