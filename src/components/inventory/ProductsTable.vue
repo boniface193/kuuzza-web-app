@@ -2,7 +2,7 @@
   <div>
     <!-- table  -->
     <div v-show="products.length > 0 && tableLoader !== true">
-      <dataTable
+      <DataTable
         ref="productsTable"
         :actions="actions"
         :action="true"
@@ -36,7 +36,7 @@
       <v-progress-circular indeterminate color="primary"></v-progress-circular>
     </div>
 
-    <!-- delete product modal component -->
+    <!-- delete product Modal component -->
     <deleteProductModal
       :deleteDialogBulk="deleteDialogBulk"
       :deleteDialog="deleteDialog"
@@ -45,7 +45,7 @@
       @clearSelectedRow="clearSelectedRow"
     />
 
-    <!-- take product offline modal component -->
+    <!-- take product offline Modal component -->
     <takeProductOfflineModal
       :offlineDialogBulk="offlineDialogBulk"
       :offlineDialog="offlineDialog"
@@ -54,7 +54,7 @@
       @clearSelectedRow="clearSelectedRow"
     />
 
-    <!-- take product online modal component -->
+    <!-- take product online Modal component -->
     <takeProductOnlineModal
       :onlineDialogBulk="onlineDialogBulk"
       :onlineDialog="onlineDialog"
@@ -63,8 +63,8 @@
       @clearSelectedRow="clearSelectedRow"
     />
 
-    <!--------------------------- modal for dialog messages ------------------------------>
-    <modal :dialog="dialog" width="400">
+    <!--------------------------- Modal for dialog messages ------------------------------>
+    <Modal :dialog="dialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="dialog = false"
@@ -78,25 +78,25 @@
 
         <h4>{{ dialogMessage }}</h4>
       </div>
-    </modal>
+    </Modal>
   </div>
 </template>
 <script>
-import dataTable from "@/components/general/dataTable.vue";
+import DataTable from "@/components/general/DataTable.vue";
 import deleteProductModal from "@/components/inventory/deleteProductModal";
 import takeProductOfflineModal from "@/components/inventory/takeProductOfflineModal";
 import takeProductOnlineModal from "@/components/inventory/takeProductOnlineModal";
 import failedImage from "@/assets/img/failed-img.svg";
-import modal from "@/components/dashboard/modal.vue";
+import Modal from "@/components/dashboard/Modal.vue";
 import { mapGetters, mapState } from "vuex";
 export default {
   name: "ProductsTable",
   components: {
-    dataTable,
+    DataTable,
     deleteProductModal,
     takeProductOfflineModal,
     takeProductOnlineModal,
-    modal
+    Modal
   },
   data: function () {
     return {
@@ -215,7 +215,7 @@ export default {
         }
       }
     },
-    // close modal for taking product offline
+    // close Modal for taking product offline
     closeOfflineDialog() {
       this.offlineDialog = false;
       this.actions.offlineId = null;
@@ -225,7 +225,7 @@ export default {
         this.selectedReferences
       );
     },
-    // close modal for taking products offline in bulk
+    // close Modal for taking products offline in bulk
     closeOfflineDialogBulk() {
       this.offlineDialogBulk = false;
       this.selectedReferences = [];
@@ -234,7 +234,7 @@ export default {
         this.selectedReferences
       );
     },
-    // close modal for taking product online
+    // close Modal for taking product online
     closeOnlineDialog() {
       this.onlineDialog = false;
       this.actions.offlineId = null;
@@ -244,7 +244,7 @@ export default {
         this.selectedReferences
       );
     },
-    // close modal for taking products online in bulk
+    // close Modal for taking products online in bulk
     closeOnlineDialogBulk() {
       this.onlineDialogBulk = false;
       this.selectedReferences = [];
@@ -253,7 +253,7 @@ export default {
         this.selectedReferences
       );
     },
-    // close modal for deleting product
+    // close Modal for deleting product
     closeDeleteDialog() {
       this.deleteDialog = false;
       this.actions.deleteId = null;
@@ -263,7 +263,7 @@ export default {
         this.selectedReferences
       );
     },
-    // close modal for deleting products in bulk
+    // close Modal for deleting products in bulk
     closeDeleteDialogBulk() {
       this.deleteDialogBulk = false;
       this.selectedReferences = [];

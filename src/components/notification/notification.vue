@@ -97,7 +97,7 @@
       </v-card>
     </Modal>
 
-    <!-- modal -->
+    <!-- Modal -->
     <Modal :dialog="showDialog" width="400">
       <v-card width="400">
         <div
@@ -131,7 +131,7 @@
 </template>
 
 <script>
-import Modal from "@/components/dashboard/modal.vue";
+import Modal from "@/components/dashboard/Modal.vue";
 import moment from "moment";
 export default {
   components: {
@@ -189,7 +189,7 @@ export default {
   },
 
   methods: {
-    // iterate for each on the modal
+    // iterate for each on the Modal
     viewBodyOfNotification(id) {
       this.$store.dispatch("notification/getNotification").then((e) => {
         let data = e.data;

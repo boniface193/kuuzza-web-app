@@ -41,7 +41,7 @@
         >
         <v-spacer></v-spacer>
 
-        <searchBar
+        <SearchBar
           class="mt-2 text-caption text-sm-subtitle-2 text-md-subtitle-1"
           placeholder="Search Customers"
           @search="getSearchValue"
@@ -53,10 +53,10 @@
 </template>
 
 <script>
-import searchBar from "@/components/dashboard/searchBar.vue";
+import SearchBar from "@/components/dashboard/SearchBar.vue";
 export default {
   components: {
-    searchBar,
+    SearchBar,
   },
 };
 </script>

@@ -27,7 +27,7 @@
       :style="{ top: height }"
       v-show="dropdown === true"
     >
-      <div class="search-container" v-if="searchBar === true">
+      <div class="search-container" v-if="SearchBar === true">
         <div class="search-bar">
           <input
             type="text"
@@ -62,7 +62,7 @@ export default {
     "placeholder",
     "items",
     "inputStatus",
-    "searchBar",
+    "SearchBar",
     "item"
   ],
   data: function () {

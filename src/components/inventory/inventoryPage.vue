@@ -96,8 +96,8 @@
       />
     </div>
 
-    <!--------------------------- modal for dialog messages ------------------------------>
-    <modal :dialog="dialog" width="400">
+    <!--------------------------- Modal for dialog messages ------------------------------>
+    <Modal :dialog="dialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="dialog = false"
@@ -111,26 +111,26 @@
 
         <h4>{{ dialogMessage }}</h4>
       </div>
-    </modal>
+    </Modal>
   </div>
 </template>
 
 <script>
-import modal from "@/components/dashboard/modal.vue";
+import Modal from "@/components/dashboard/Modal.vue";
 import ProductsTable from "@/components/inventory/ProductsTable.vue";
 import searchProducts from "@/components/inventory/searchProducts.vue";
 import filterProducts from "@/components/inventory/filterProducts.vue";
+import exportProducts from "@/components/inventory/exportProducts.vue";
 import selectBtn from "@/components/dashboard/selectBtn.vue";
 import calendar from "@/components/dashboard/calender.vue";
 import RequiredInformationPage from "@/components/inventory/RequiredInformationPage.vue";
 import failedImage from "@/assets/img/failed-img.svg";
-import exportProducts from "@/components/inventory/exportProducts.vue";
 import importIcon from "@/components/icons/importIcon.vue";
 import { mapGetters } from "vuex";
 export default {
   name: "inventoryPage",
   components: {
-    modal,
+    Modal,
     searchProducts,
     filterProducts,
     exportProducts,
@@ -172,6 +172,7 @@ export default {
         startDate: params.startDate.toISOString().split("T")[0],
         endDate: params.endDate.toISOString().split("T")[0],
       });
+      this.$store.commit("inventory/setTableLoader", true);
       this.$store.commit("inventory/setAllowDateFilter", true);
       // set page back to page 1
       this.$store.commit("inventory/setPage", 1);
@@ -179,20 +180,19 @@ export default {
     },
     // request for page with the request informations
     getfilteredProducts() {
-      this.$store.dispatch("inventory/getfilteredProducts").catch((error) => {
-        this.statusImage = failedImage;
-        if (error.response) {
-          if (error.response.status == 401) {
-            this.$store.commit("onboarding/setTokenAuthorizeStatus");
-          } else {
-            this.dialog = true;
-            this.dialogMessage = "Something went wrong, pls try again!";
-          }
-        } else {
+      this.$store
+        .dispatch("inventory/getfilteredProducts")
+        .then(() => this.$store.commit("inventory/setTableLoader", false))
+        .catch((error) => {
+          this.$store.commit("inventory/setTableLoader", false)
+          this.statusImage = failedImage;
           this.dialog = true;
-          this.dialogMessage = "No internet Connection!";
-        }
-      });
+          if (error.response) {
+            this.dialogMessage = "Something went wrong, please try again!";
+          } else {
+            this.dialogMessage = "No internet Connection!";
+          }
+        });
     },
     // get products from inventory
     getProducts() {
@@ -202,16 +202,11 @@ export default {
         .then(() => this.$store.commit("inventory/setTableLoader", false))
         .catch((error) => {
           this.statusImage = failedImage;
+          this.dialog = true;
           this.$store.commit("inventory/setTableLoader", false);
           if (error.response) {
-            if (error.response.status == 401) {
-              this.$store.commit("onboarding/setTokenAuthorizeStatus");
-            } else {
-              this.dialog = true;
-              this.dialogMessage = "Something went wrong, pls try again!";
-            }
+            this.dialogMessage = "Something went wrong, pls try again!";
           } else {
-            this.dialog = true;
             this.dialogMessage = "No internet Connection!";
           }
         });

@@ -30,7 +30,7 @@
       ></v-progress-circular>
     </div>
         <!-- table  -->
-        <dataTable
+        <DataTable
           v-if="!isLoading"
           :headers="headers"
           :items="bestSeller"
@@ -43,12 +43,12 @@
   </v-container>
 </template>
 <script>
-import dataTable from "@/components/dashboard/dataTable.vue";
+import DataTable from "@/components/dashboard/DataTable.vue";
 import dateFilter from "@/components/dashboard/calender.vue";
 export default {
   components: {
     dateFilter,
-    dataTable,
+    DataTable,
   },
   data() {
     return {

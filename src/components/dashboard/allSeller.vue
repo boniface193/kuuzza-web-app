@@ -3,7 +3,7 @@
     <v-card elevation="0" class="py-3">
       <div>
         <!-- table  -->
-        <dataTable
+        <DataTable
           class="mr-0"
           :headers="headers"
           :items="items"
@@ -16,11 +16,11 @@
 </template>
 
 <script>
-import dataTable from "@/components/dashboard/dataTable.vue";
+import DataTable from "@/components/dashboard/DataTable.vue";
 import { mapGetters } from "vuex";
 export default {
   components: {
-    dataTable,
+    DataTable,
   },
   data() {
     return {

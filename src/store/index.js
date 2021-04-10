@@ -7,7 +7,6 @@ import sellers from "./modules/sellers";
 import customer from "./modules/customer";
 import settings from "./modules/settings";
 import bankService from "./modules/bankService";
-import mediaService from "./modules/mediaService";
 import balance from "./modules/Balance";
 import leaderboard from "./modules/leaderboard";
 import totalRevenue from "./modules/totalRevenue";
@@ -27,7 +26,6 @@ const initialState = {
   customer: customer.state,
   settings: settings.state,
   bankService: bankService.state,
-  mediaService: mediaService.state,
   balance: balance.state,
   leaderboard: leaderboard.state,
   totalRevenue: totalRevenue.state,
@@ -54,7 +52,6 @@ export default new Vuex.Store({
     customer: customer,
     settings: settings,
     bankService: bankService,
-    mediaService: mediaService,
     balance: balance,
     leaderboard: leaderboard,
     totalRevenue: totalRevenue,

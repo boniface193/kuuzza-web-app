@@ -24,6 +24,7 @@ const setItemPerPage = (itemPerPage, per_page, from_page) => {
 
 //holds the state properties
 const state = {
+    tableLoader: false,
     orders: [],
     orderDetails: {},
     searchOrder: false,
@@ -44,6 +45,7 @@ const state = {
         startDate: '',
         endDate: '',
     },
+    allowDateFilter: false,
     selectedReferences: [],
     doNothing: null,
 };
@@ -51,9 +53,6 @@ const state = {
 const getters = {
     orders(state) {
         return state.orders
-    },
-    searchOrder(state) {
-        return state.searchOrder
     },
     orderDetail(state) {
         return state.orderDetails
@@ -83,10 +82,12 @@ const actions = {
         })
     },
 
-    filterGetOrders(context) {
+    getFilteredOrders(context) {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
         let page = ((state.page) ? `page=${state.page}` : "");
         let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
-        let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== '') ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
+        let dateRange = ((state.dateRange.endDate !== null && state.allowDateFilter === true) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
         let priceRange = ((state.filter.maxPrice) ? `price_between=${state.filter.minPrice},${state.filter.maxPrice}` : "");
         let paid = ((state.filter.selectedOptions.includes('paid')) ? `paid=${true}` : "");
         let unpaid = ((state.filter.selectedOptions.includes('unpaid')) ? `unpaid=${true}` : "");
@@ -109,7 +110,7 @@ const actions = {
                     }
                     reject(error);
                 })
-            })
+        })
     },
 
     getOrdersDetail(context, data) {
@@ -122,17 +123,19 @@ const actions = {
                 context.commit('setDetails', response.data.data)
                 resolve(response.data.data);
             })
-            .catch(error => {
-                if (error.response.status == 401) {
-                    store.commit("onboarding/setTokenAuthorizeStatus", false);
-                }
-                context.commit("doNothing");
-                reject(error);
-            })
+                .catch(error => {
+                    if (error.response.status == 401) {
+                        store.commit("onboarding/setTokenAuthorizeStatus", false);
+                    }
+                    context.commit("doNothing");
+                    reject(error);
+                })
         })
     },
-    
+
     searchOrders(context) {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
         let page = ((state.page) ? `page=${state.page}` : "");
         let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
         let route = (state.searchValue !== "") ? `/search?q=${state.searchValue}&${page}&${perPage}` : ""
@@ -156,7 +159,7 @@ const actions = {
         })
     },
 
-    exportOrder() {
+    exportOrders() {
         return new Promise((resolve, reject) => {
             axios.post(`/orders/export`, {
                 start_date: state.dateRange.startDate,
@@ -182,19 +185,21 @@ const actions = {
 
 //updates the different state properties
 const mutations = {
+    setTableLoader: (state, status) => (state.tableLoader = status),
     setOrders(state, data) {
         state.orders = data
     },
     setDetails(state, data) {
         state.orderDetails = data
     },
-    filterOrders(state, filter) {
+    setFilter(state, filter) {
         state.filter = filter
     },
-    filterRange(state, dateRange) {
+    setDateRange(state, dateRange) {
         state.dateRange = dateRange
     },
-    getSearchValue(state, value) {
+    setAllowDateFilter: (state, status) => (state.allowDateFilter = status),
+    setSearchValue(state, value) {
         state.searchValue = value
     },
     setSearchOrder(state, status) {
@@ -220,4 +225,4 @@ export default {
     getters,
     actions,
     mutations
-};  
+};

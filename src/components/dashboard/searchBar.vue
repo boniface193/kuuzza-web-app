@@ -5,7 +5,6 @@
     <input
       type="text"
       v-model="searchValue"
-      @change="updateSearchValue"
       @keyup.enter="updateSearchValue"
       :placeholder="placeholder"
     />
@@ -13,7 +12,7 @@
 </template>
 <script>
 export default {
-  name: "searchBar",
+  name: "SearchBar",
   data: function () {
     return {
       searchValue: "",

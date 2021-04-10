@@ -7,8 +7,8 @@
         <router-view />
       </v-main>
     </div>
-    <!--------------------------- Authentication modal ------------------------------>
-    <modal :dialog="!tokenAuthorize" width="400">
+    <!--------------------------- Authentication Modal ------------------------------>
+    <Modal :dialog="!tokenAuthorize" width="400">
       <div class="white pa-3 pb-3 text-center">
         <div class="nova-logo d-flex align-center justify-center mx-auto my-5">
           <img src="@/assets/img/primary-logo.png" />
@@ -59,18 +59,18 @@
           </div>
         </v-form>
       </div>
-    </modal>
+    </Modal>
   </div>
 </template>
 
 <script>
 import Layout from "@/components/layout/Layout.vue";
-import modal from "@/components/dashboard/modal.vue";
+import Modal from "@/components/dashboard/Modal.vue";
 import { mapState } from "vuex";
 export default {
   components: {
     Layout,
-    modal,
+    Modal,
   },
   data: function () {
     return {

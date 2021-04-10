@@ -13,7 +13,7 @@
 
     <!-- table  -->
     <div v-show="inventoriesHistory.length > 0 && loader !== true">
-      <dataTable
+      <DataTable
         :action="false"
         :headers="tableHeaders"
         itemKey="product_id"
@@ -41,8 +41,8 @@
       <v-progress-circular indeterminate color="primary"></v-progress-circular>
     </div>
 
-    <!--------------------------- modal for dialog messages ------------------------------>
-    <modal :dialog="dialog" width="400">
+    <!--------------------------- Modal for dialog messages ------------------------------>
+    <Modal :dialog="dialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="dialog = false"
@@ -56,18 +56,18 @@
 
         <h4>{{ dialogMessage }}</h4>
       </div>
-    </modal>
+    </Modal>
   </div>
 </template>
 <script>
-import dataTable from "@/components/general/dataTable.vue";
+import DataTable from "@/components/general/DataTable.vue";
 import calendar from "@/components/dashboard/calender.vue";
 import failedImage from "@/assets/img/failed-img.svg";
-import modal from "@/components/general/modal.vue";
+import Modal from "@/components/general/Modal.vue";
 import { mapGetters, mapState } from "vuex";
 export default {
   name: "inventoryHistory",
-  components: { dataTable, calendar, modal },
+  components: { DataTable, calendar, Modal },
   data: function () {
     return {
       loader: false,

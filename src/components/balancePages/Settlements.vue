@@ -2,7 +2,7 @@
   <div class="py-5">
     <!-- table  -->
     <div v-show="!fetchingData && settlements.data.length !== 0">
-      <dataTable
+      <DataTable
         ref="settlementsTable"
         :headers="settlementsHeader"
         :items="settlements.data"
@@ -29,8 +29,8 @@
       ></v-progress-circular>
     </div>
 
-    <!-- modal for dialog messages -->
-    <modal :dialog="dialog" width="400">
+    <!-- Modal for dialog messages -->
+    <Modal :dialog="dialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="dialog = false"
@@ -43,19 +43,19 @@
 
         <h4>{{ dialogMessage }}</h4>
       </div>
-    </modal>
+    </Modal>
   </div>
 </template>
 <script>
-import dataTable from "@/components/general/dataTable.vue";
+import DataTable from "@/components/general/DataTable.vue";
 import failedImage from "@/assets/img/failed-img.svg";
-import modal from "@/components/dashboard/modal.vue";
+import Modal from "@/components/dashboard/Modal.vue";
 import { mapGetters, mapState } from "vuex";
 export default {
   name: "Settlements",
   components: {
-    dataTable,
-    modal,
+    DataTable,
+    Modal,
   },
   data: function () {
     return {

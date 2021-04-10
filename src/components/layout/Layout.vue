@@ -114,20 +114,20 @@
         </div>
       </v-navigation-drawer>
     </v-card>
-    <!-- modal for dialog messages -->
-    <modal :dialog="dialog" width="120">
+    <!-- Modal for dialog messages -->
+    <Modal :dialog="dialog" width="120">
       <div class="text-center dialog white">Loging Out...</div>
-    </modal>
+    </Modal>
   </div>
 </template>
 
 <script>
-import modal from "@/components/dashboard/modal.vue";
+import Modal from "@/components/dashboard/Modal.vue";
 import Notification from "@/components/notification/notification.vue";
 import UserLayout from "@/components/layout/userInfo.vue";
 import { mapState } from "vuex";
 export default {
-  components: { modal, Notification, UserLayout },
+  components: { Modal, Notification, UserLayout },
   data: () => ({
     dialog: false,
     drawer: null,

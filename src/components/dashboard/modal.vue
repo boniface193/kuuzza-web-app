@@ -7,7 +7,7 @@
 </template>
 <script>
 export default {
-  name: "modal",
+  name: "Modal",
   props: ["width","dialog"],
 };
 </script>

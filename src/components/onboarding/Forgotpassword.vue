@@ -68,7 +68,7 @@ export default {
           this.loading = false;
           if (response.data.message === "An OTP has been sent to your email.") {
             this.$router.push({
-              name: "forgotPasswordVerification",
+              name: "ForgotPasswordVerification",
               params: { email: emailAddress },
             });
           }
