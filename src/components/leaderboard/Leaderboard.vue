@@ -11,7 +11,7 @@
       <!-- nav section -->
       <div class="settings-nav px-4 py-auto d-flex">
         <div>
-          <searchBar
+          <SearchBar
             class="mt-2 text-caption text-sm-subtitle-2 text-md-subtitle-1"
             placeholder="Search Leaderboard"
             @search="getSearchValue"
@@ -23,7 +23,7 @@
     <v-card elevation="0" class="py-3">
       <div>
         <!-- table  -->
-        <dataTable
+        <DataTable
           v-show="!isLoading"
           :headers="headers"
           :items="leaderboard"
@@ -49,16 +49,16 @@
 </template>
 <script>
 import filterByDate from "@/components/dashboard/calender.vue";
-import searchBar from "@/components/dashboard/searchBar.vue";
-import dataTable from "@/components/leaderboard/dataTable.vue";
+import SearchBar from "@/components/dashboard/SearchBar.vue";
+import DataTable from "@/components/leaderboard/DataTable.vue";
 import moment from "moment";
 import { mapState } from "vuex";
 
 export default {
   components: {
     filterByDate,
-    searchBar,
-    dataTable,
+    SearchBar,
+    DataTable,
   },
 
   data() {

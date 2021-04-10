@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- error placeholder -->
     <p v-show="error" class="error--text mt-3 mb-0">
       <span v-html="errorMessage"></span>
     </p>
@@ -63,7 +64,7 @@
           type="tel"
           required
           ref="input4"
-          @keyup.enter="validate_form(1)"
+          @keyup.enter="validateForm(1)"
         ></v-text-field>
       </div>
 
@@ -71,7 +72,7 @@
       <div class="pa-0 mt-5" style="width: 100%">
         <v-btn
           class="primary px-8 mb-5"
-          @click="validate_form(1)"
+          @click="validateForm(1)"
           :loading="loading2"
           :disabled="loading2"
           >Next</v-btn
@@ -108,35 +109,6 @@
         required
       ></v-text-field>
 
-      <!-- country
-      <v-select
-        class="onboarding-input mr-5 mt-5"
-        :items="countries"
-        item-text="country"
-        item-value="country"
-        v-model="country"
-        label="Country"
-        :rules="country_nameRules"
-        color="primary"
-        @change="get_states"
-        @keyup.enter="$refs.input7.focus"
-        ref="input6"
-        required
-      ></v-select>
-
-      
-      <v-select
-        class="onboarding-input mr-5 mt-5"
-        :items="states"
-        v-model="state"
-        label="State"
-        :rules="state_nameRules"
-        color="primary"
-        @keyup.enter="$refs.input8.focus"
-        ref="input7"
-        required
-      ></v-select> -->
-
       <!-- company address -->
       <v-text-field
         class="onboarding-input mr-5 mt-5"
@@ -148,7 +120,7 @@
         required
         ref="autocomplete"
         id="autocomplete"
-        @keyup.enter="validate_form(2)"
+        @keyup.enter="validateForm(2)"
       ></v-text-field>
 
       <!-- button conatainer -->
@@ -161,7 +133,7 @@
         >
           Back</v-btn
         >
-        <v-btn class="primary px-8 mb-5" @click="validate_form(2)">Next</v-btn>
+        <v-btn class="primary px-8 mb-5" @click="validateForm(2)">Next</v-btn>
       </div>
     </v-form>
 
@@ -197,7 +169,7 @@
         color="primary"
         required
         ref="input10"
-        @keyup.enter="validate_form(3)"
+        @keyup.enter="validateForm(3)"
       ></v-text-field>
 
       <div class="d-flex">
@@ -212,6 +184,7 @@
       <div
         class="pa-0 mt-5 d-flex justify-space-between align-center btn-container"
       >
+      <!-- goto prev form btn -->
         <v-btn
           class="primary--text light-background mb-5 mb-0 px-1 py-2"
           :disabled="loading"
@@ -219,9 +192,10 @@
         >
           Back</v-btn
         >
+        <!-- goto next form btn -->
         <v-btn
           class="primary px-8 mb-5"
-          @click="validate_form(3)"
+          @click="validateForm(3)"
           :loading="loading"
           :disabled="loading || !acceptTerms"
           >Complete Sign Up</v-btn
@@ -231,7 +205,6 @@
   </div>
 </template>
 <script>
-//import countries from "@/assets/data/countries.js";
 import { mapState } from "vuex";
 export default {
   name: "Signup",
@@ -298,12 +271,13 @@ export default {
     };
   },
   computed: {
-    //get state properties from vuex store
+    //get state properties from vuex store to know the present form
     ...mapState({
       present_form: (state) => state.onboarding.present_signup_form,
     }),
   },
   mounted() {
+    // google autocomplete for places
     this.autocomplete = new window.google.maps.places.Autocomplete(
       document.getElementById("autocomplete"),
       {
@@ -318,6 +292,7 @@ export default {
     this.autocomplete.addListener("place_changed", this.onPlaceChanged);
   },
   methods: {
+    // on google autocomplete selection 
     onPlaceChanged() {
       let place = this.autocomplete.getPlace();
       if (!place.geometry) {
@@ -331,14 +306,8 @@ export default {
         this.lng = place.geometry.location.lng();
       }
     },
-    //get the states under the country selected
-    // get_states() {
-    //   this.states = this.countries.find(
-    //     (x) => x.country === this.country
-    //   ).states;
-    // },
-    //validate forms
-    validate_form(form_num) {
+    // validate form and goto to next form
+    validateForm(form_num) {
       this.$refs[`form${form_num}`].validate();
       if (this.$refs[`form${form_num}`].validate()) {
         if (form_num == 3) {
@@ -367,6 +336,11 @@ export default {
                 this.errorMessage = error.response.data.errors.email[0];
               } else {
                 this.errorMessage = "No internet Connection!";
+              }
+
+              switch(error.response){
+                case 500:
+                  this.errorMessage = "Something went wrong, please try again."
               }
             });
         } else if (form_num == 2 && this.validAddress) {
@@ -410,7 +384,7 @@ export default {
           if (response.data.message === "Registeration successful.") {
             this.$store.commit("onboarding/present_signup_form", "form1");
             this.$router.push({
-              name: "emailVerification",
+              name: "EmailVerification",
               params: {
                 email: this.email,
               },

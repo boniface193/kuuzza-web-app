@@ -2,7 +2,7 @@
   <div>
     <!-- search bar -->
     <SearchBar
-      placeholder="Search inventory"
+      placeholder="Search order"
       @search="setSearchValue"
       bgColor="white"
       borderColor="#e2e2e2"
@@ -31,9 +31,9 @@
 import SearchBar from "@/components/general/SearchBar.vue";
 import Modal from "@/components/general/Modal.vue";
 import failedImage from "@/assets/img/failed-img.svg";
-import { mapGetters, mapState } from "vuex";
+import { mapState } from "vuex";
 export default {
-  name: "searchProducts",
+  name: "searchOrders",
   components: { SearchBar, Modal },
   data: function () {
     return {
@@ -44,47 +44,42 @@ export default {
   },
   computed: {
     ...mapState({
-      searchValue: (state) => state.inventory.searchValue,
-    }),
-    ...mapGetters({
-      verifiedStore: "settings/verifiedStore",
+      searchValue: (state) => state.orders.searchValue,
     }),
   },
   methods: {
     // set search value
     setSearchValue(params) {
-      if (this.verifiedStore === true) {
-        this.$store.commit("inventory/setSearchValue", params);
-        this.$store.commit("inventory/setSearchProduct", true);
-        this.$store.commit("inventory/setPage", 1);
-        this.searchProducts();
-      }
+        this.$store.commit("orders/setSearchValue", params);
+        this.$store.commit("orders/setSearchOrder", true);
+        this.$store.commit("orders/setPage", 1);
+        this.searchOrders();
     },
-    // search products
-    searchProducts() {
+    // search orders
+    searchOrders() {
       if (this.searchValue !== "") {
-        this.$store.commit("inventory/setSearchProduct", true);
-        this.getProducts();
+        this.$store.commit("orders/setSearchOrder", true);
+        this.getOrders();
       } else {
-        this.$store.commit("inventory/setSearchProduct", false);
-        this.getProducts();
+        this.$store.commit("orders/setSearchOrder", false);
+        this.getOrders();
       }
     },
-    // get products
-    getProducts() {
-      this.$store.commit("inventory/setTableLoader", true);
+    // get orders
+    getOrders() {
+      this.$store.commit("orders/setTableLoader", true);
       this.$store
-        .dispatch("inventory/searchProducts")
-        .then(() => this.$store.commit("inventory/setTableLoader", false))
+        .dispatch("orders/searchOrders")
+        .then(() => this.$store.commit("orders/setTableLoader", false))
         .catch((error) => {
-          this.$store.commit("inventory/setTableLoader", false);
+          this.$store.commit("orders/setTableLoader", false);
+          this.dialog = true;
           this.statusImage = failedImage;
           if (error.response) {
             this.dialogMessage = "Something went wrong, pls try again!";
           } else {
             this.dialogMessage = "No internet Connection!";
           }
-          this.dialog = true;
         });
     },
   },

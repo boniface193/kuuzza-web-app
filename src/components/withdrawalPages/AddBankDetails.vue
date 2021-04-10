@@ -75,8 +75,8 @@
         class="mx-auto"
       ></v-progress-circular>
     </div>
-    <!-- modal for dialog messages -->
-    <modal :dialog="dialog" width="400">
+    <!-- Modal for dialog messages -->
+    <Modal :dialog="dialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="dialog = false"
@@ -89,9 +89,9 @@
 
         <h4>{{ dialogMessage }}</h4>
       </div>
-    </modal>
-    <!-- modal for dialog messages -->
-    <modal :dialog="passwordDialog" width="300">
+    </Modal>
+    <!-- Modal for dialog messages -->
+    <Modal :dialog="passwordDialog" width="300">
       <div class="white pa-3 pb-2 dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="passwordDialog = false"
@@ -135,17 +135,17 @@
           </v-form>
         </div>
       </div>
-    </modal>
+    </Modal>
   </div>
 </template>
 <script>
 import customSelect from "@/components/general/customSelect.vue";
 import { mapGetters } from "vuex";
 import failedImage from "@/assets/img/failed-img.svg";
-import modal from "@/components/dashboard/modal.vue";
+import Modal from "@/components/dashboard/Modal.vue";
 export default {
   name: "WithdrawFund",
-  components: { customSelect, modal },
+  components: { customSelect, Modal },
   data: function () {
     return {
       password: "",

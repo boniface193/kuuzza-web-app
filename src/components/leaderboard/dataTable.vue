@@ -182,7 +182,7 @@ import editIcon from "@/components/icons/editIcon.vue";
 import deleteIcon from "@/components/icons/deleteIcon.vue";
 import removeIcon from "@/components/icons/removeIcon.vue";
 export default {
-  name: "dataTable",
+  name: "DataTable",
   components: { selectBtn, editIcon, deleteIcon, removeIcon },
   data: function () {
     return {

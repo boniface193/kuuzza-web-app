@@ -59,8 +59,8 @@
       {{message}}
     </div>
 
-    <!-- modal for dialog messages -->
-    <modal :dialog="dialog" width="400">
+    <!-- Modal for dialog messages -->
+    <Modal :dialog="dialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="closeModal"
@@ -74,15 +74,15 @@
 
         <h4>{{ dialogMessage }}</h4>
       </div>
-    </modal>
+    </Modal>
   </div>
 </template>
 <script>
-import modal from "@/components/dashboard/modal.vue";
+import Modal from "@/components/dashboard/Modal.vue";
 import { mapGetters } from 'vuex';
 export default {
   name: "editTeamMember",
-  components: { modal },
+  components: { Modal },
   data: function () {
     return {
       roles: ["vendor.super-admin", "vendor.admin"],

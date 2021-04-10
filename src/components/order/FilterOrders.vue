@@ -2,11 +2,11 @@
   <div>
     <BasicFilter
       :price="filterParameters.price"
-      :quantity="filterParameters.quantity"
+      :payment="filterParameters.payment"
+      :delivery="filterParameters.delivery"
       :category="filterParameters.category"
-      :stock="filterParameters.stock"
-      toolTipText="Filter products"
-      headerName="Filter Products"
+      toolTipText="Filter orders"
+      headerName="Filter orders"
       @filterOption="filterTable"
       @resetFilter="resetFilter"
     />
@@ -33,9 +33,9 @@
 import BasicFilter from "@/components/general/BasicFilter.vue";
 import Modal from "@/components/general/Modal.vue";
 import failedImage from "@/assets/img/failed-img.svg";
-import { mapState, mapGetters } from "vuex";
+import { mapState } from "vuex";
 export default {
-  name: "filterProducts",
+  name: "FilterOrders",
   components: { BasicFilter, Modal },
   data: function () {
     return {
@@ -45,9 +45,9 @@ export default {
       statusImage: null,
       filterParameters: {
         price: true,
-        quantity: true,
-        category: ["Phones & devices", "TV", "Gadgets"],
-        stock: true,
+        payment: true,
+        delivery: true,
+        category: [],
       },
       filteringOptions: {
         minPrice: 0,
@@ -62,66 +62,57 @@ export default {
     ...mapState({
       tableLoader: (state) => state.inventory.tableLoader,
     }),
-    ...mapGetters({
-      verifiedStore: "settings/verifiedStore",
-    }),
   },
   methods: {
     // get products
-    getProducts() {
-      this.$store.commit("inventory/setSearchProduct", false);
-      this.$store.commit("inventory/setTableLoader", true);
+    getOrders() {
+      this.$store.commit("orders/setSearchOrder", false);
+      this.$store.commit("orders/setTableLoader", true);
       this.$store
-        .dispatch("inventory/getfilteredProducts")
-        .then(() => this.$store.commit("inventory/setTableLoader", false))
+        .dispatch("orders/getFilteredOrders")
+        .then(() => this.$store.commit("orders/setTableLoader", false))
         .catch((error) => {
-          this.$store.commit("inventory/setTableLoader", false);
+          this.$store.commit("orders/setTableLoader", false);
           this.statusImage = failedImage;
+          this.dialog = true;
           if (error.response) {
             this.dialogMessage = "Something went wrong, pls try again!";
           } else {
             this.dialogMessage = "No internet Connection!";
           }
-          this.dialog = true;
         });
     },
     // filterTable
     filterTable(params) {
-      if (this.verifiedStore === true) {
-        // commit values for filter
-        this.$store.commit("inventory/setFilter", {
-          minPrice: params.minPrice,
-          maxPrice: params.maxPrice,
-          minQuantity: params.minQuantity,
-          maxQuantity: params.maxQuantity,
-          selectedOptions: params.selectedOptions,
-        });
+      // commit values for filter
+      this.$store.commit("orders/setFilter", {
+        minPrice: params.minPrice,
+        maxPrice: params.maxPrice,
+        selectedOptions: params.selectedOptions,
+      });
 
-        // set page back to page 1
-        this.$store.commit("inventory/setPage", 1);
+      // set page back to page 1
+      this.$store.commit("orders/setPage", 1);
 
-        // get products
-        this.getProducts();
-      }
+      // get products
+      this.getOrders();
     },
     // reset filter
     resetFilter() {
-      if (this.verifiedStore === true) {
-        // commit values for filter
-        this.$store.commit("inventory/setFilter", {
-          minPrice: 0,
-          maxPrice: 0,
-          minQuantity: 0,
-          maxQuantity: 0,
-          selectedOptions: [],
-        });
+      // commit values for filter
+      this.$store.commit("orders/setFilter", {
+        minPrice: 0,
+        maxPrice: 0,
+        minQuantity: 0,
+        maxQuantity: 0,
+        selectedOptions: [],
+      });
 
-        // set page back to page 1
-        this.$store.commit("inventory/setPage", 1);
+      // set page back to page 1
+      this.$store.commit("orders/setPage", 1);
 
-        // get products
-        this.getProducts();
-      }
+      // get products
+      this.getOrders();
     },
   },
 };

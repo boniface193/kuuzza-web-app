@@ -2,16 +2,16 @@
   <v-card elevation="0" class="py-3">
     <div>
       <!-- table  -->
-      <dataTable :headers="headers" :items="items" :select="true" />
+      <DataTable :headers="headers" :items="items" :select="true" />
     </div>
   </v-card>
 </template>
 
 <script>
-import dataTable from "@/components/dashboard/dataTable.vue";
+import DataTable from "@/components/dashboard/DataTable.vue";
 export default {
   components: {
-    dataTable,
+    DataTable,
   },
   data() {
     return {

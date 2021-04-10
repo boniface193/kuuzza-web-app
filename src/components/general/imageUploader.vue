@@ -32,7 +32,7 @@
     </div>
 
     <!-- dialog for upload -->
-    <modal :dialog="dialog" width="650">
+    <Modal :dialog="dialog" width="650">
       <div class="white pa-3 pb-10 dialog">
         <div class="d-flex justify-end">
           <v-icon class="secondary--text close-btn mr-2" @click="minimizeModal"
@@ -114,10 +114,10 @@
           </p>
         </div>
       </div>
-    </modal>
+    </Modal>
 
     <!-- dialog for image selection -->
-    <modal :dialog="imagesDialog" width="650">
+    <Modal :dialog="imagesDialog" width="650">
       <div class="white pa-3 pb-5 dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="imagesDialog = false"
@@ -169,10 +169,10 @@
           ></v-progress-circular>
         </div>
       </div>
-    </modal>
+    </Modal>
 
-    <!-- modal for error messages -->
-    <modal :dialog="errorDialog" width="400">
+    <!-- Modal for error messages -->
+    <Modal :dialog="errorDialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="errorDialog = false"
@@ -186,17 +186,17 @@
 
         <h4>{{ dialogMessage }}</h4>
       </div>
-    </modal>
+    </Modal>
   </div>
 </template>
 <script>
-import modal from "@/components/dashboard/modal.vue";
+import Modal from "@/components/dashboard/Modal.vue";
 import progressBar from "@/components/dashboard/progressBar.vue";
 import failedImage from "@/assets/img/failed-img.svg";
 import axios from "@/axios/mediaService.js";
 export default {
   name: "imageUploader",
-  components: { modal, progressBar },
+  components: { Modal, progressBar },
   props: ["width", "height", "caretColor", "multiple"],
   data: function () {
     return {

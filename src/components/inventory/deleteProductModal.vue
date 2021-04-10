@@ -1,7 +1,7 @@
 <template>
   <div>
-    <!--------------------------- modal for dialog messages ------------------------------>
-    <modal :dialog="dialog1" width="400">
+    <!--------------------------- Modal for dialog messages ------------------------------>
+    <Modal :dialog="dialog1" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="dialog1 = false"
@@ -15,10 +15,10 @@
 
         <h4>{{ dialogMessage }}</h4>
       </div>
-    </modal>
+    </Modal>
 
-    <!------------------------------------ delete products modal -------------------------------------------->
-    <modal :dialog="deleteDialog" width="400">
+    <!------------------------------------ delete products Modal -------------------------------------------->
+    <Modal :dialog="deleteDialog" width="400">
       <div class="white pa-3 pb-8 dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="closeDeleteDialog"
@@ -80,10 +80,10 @@
         </div>
         <div></div>
       </div>
-    </modal>
+    </Modal>
 
-    <!------------------------------------ delete products modal in bulk --------------------------------->
-    <modal :dialog="deleteDialogBulk" width="400">
+    <!------------------------------------ delete products Modal in bulk --------------------------------->
+    <Modal :dialog="deleteDialogBulk" width="400">
       <div class="white pa-3 pb-8 dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="closeDeleteDialogBulk"
@@ -141,17 +141,17 @@
         </div>
         <div></div>
       </div>
-    </modal>
+    </Modal>
   </div>
 </template>
 <script>
-import modal from "@/components/dashboard/modal.vue";
+import Modal from "@/components/dashboard/Modal.vue";
 import successImage from "@/assets/img/success-img.svg";
 import failedImage from "@/assets/img/failed-img.svg";
 import { mapState, mapGetters } from "vuex";
 export default {
   name: "deleteProductModal",
-  components: { modal },
+  components: { Modal },
   data: function () {
     return {
       statusImage: null,
@@ -185,13 +185,13 @@ export default {
     },
   },
   methods: {
-    // close modal for deleting product
+    // close Modal for deleting product
     closeDeleteDialog() {
       if (this.deleteDialogLoader === false) {
         this.$emit("closeDeleteDialog");
       }
     },
-    // close modal for deleting products in bulk
+    // close Modal for deleting products in bulk
     closeDeleteDialogBulk() {
       if (this.deleteDialogBulkLoader === false) {
         this.$emit("closeDeleteDialogBulk");

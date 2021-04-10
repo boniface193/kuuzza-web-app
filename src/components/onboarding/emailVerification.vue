@@ -58,8 +58,8 @@
       </div>
     </v-form>
 
-    <!-- modal for dialog messages -->
-    <modal :dialog="dialog" width="450">
+    <!-- Modal for dialog messages -->
+    <Modal :dialog="dialog" width="450">
       <div class="white pa-3 pb-10 text-center dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="cancelModal"
@@ -82,17 +82,17 @@
           >Go to Dashboard</v-btn
         >
       </div>
-    </modal>
+    </Modal>
   </div>
 </template>
 <script>
-import OtpInput from "@/components/onboarding/verifyInput";
-import modal from "@/components/dashboard/modal.vue";
+import OtpInput from "@/components/general/verifyInput";
+import Modal from "@/components/general/Modal.vue";
 export default {
   name: "emailVerification",
   components: {
     "v-otp-input": OtpInput,
-    modal,
+    Modal,
   },
   created() {
     this.setOTPTimer();
@@ -203,7 +203,7 @@ export default {
         }
       }, 1000);
     },
-    // close modal
+    // close Modal
     cancelModal() {
       this.dialog = false;
       this.denialAccess();

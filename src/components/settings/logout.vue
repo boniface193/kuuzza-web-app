@@ -1,14 +1,14 @@
 <template>
   <div class="px-4 pt-7 my-2 pb-16">
     <v-btn class="primary" @click="logout">Log Out </v-btn>
-    <!-- modal for dialog messages -->
-    <modal :dialog="dialog" width="120">
+    <!-- Modal for dialog messages -->
+    <Modal :dialog="dialog" width="120">
       <div class="text-center dialog white">Loging Out...</div>
-    </modal>
+    </Modal>
   </div>
 </template>
 <script>
-import modal from "@/components/dashboard/modal.vue";
+import Modal from "@/components/dashboard/Modal.vue";
 export default {
   name: "logout",
   data: function () {
@@ -16,7 +16,7 @@ export default {
       dialog: false,
     };
   },
-  components: { modal },
+  components: { Modal },
   methods: {
     logout() {
       this.dialog = true;

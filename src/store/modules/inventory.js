@@ -22,17 +22,6 @@ const setItemPerPage = (itemPerPage, per_page, from_page) => {
         return page
     }
 }
-// get todays date
-const curday = () => {
-    const today = new Date();
-    let dd = today.getDate();
-    let mm = today.getMonth() + 1; //As January is 0.
-    let yyyy = today.getFullYear();
-
-    if (dd < 10) dd = '0' + dd;
-    if (mm < 10) mm = '0' + mm;
-    return (dd + '-' + mm + '-' + yyyy);
-};
 
 //holds the state properties
 const state = {
@@ -327,8 +316,8 @@ const actions = {
     exportProducts() {
         return new Promise((resolve, reject) => {
             axios.post(`/products/export`, {
-                start_date: (state.dateRange.startDate == null) ? curday() : state.dateRange.startDate,
-                end_date: (state.dateRange.endDate == null) ? curday() : state.dateRange.endDate,
+                start_date: state.dateRange.startDate,
+                end_date: state.dateRange.endDate,
             },
                 {
                     headers: {

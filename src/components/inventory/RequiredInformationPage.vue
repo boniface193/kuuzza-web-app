@@ -341,8 +341,8 @@
       <v-progress-circular indeterminate color="primary"></v-progress-circular>
     </div>
 
-    <!-- modal for dialog messages -->
-    <modal :dialog="dialog" width="400">
+    <!-- Modal for dialog messages -->
+    <Modal :dialog="dialog" width="400">
       <div class="white pa-3 px-5 dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="dialog = false"
@@ -414,10 +414,10 @@
           </div>
         </v-form>
       </div>
-    </modal>
+    </Modal>
 
-    <!--------------------------- modal for dialog messages ------------------------------>
-    <modal :dialog="dialog2" width="400">
+    <!--------------------------- Modal for dialog messages ------------------------------>
+    <Modal :dialog="dialog2" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="dialog2 = false"
@@ -431,15 +431,15 @@
 
         <h4>{{ dialogMessage }}</h4>
       </div>
-    </modal>
+    </Modal>
   </div>
 </template>
 <script>
 import StepProgress from "@/components/general/StepProgress.vue";
 import MultipleSelect from "@/components/general/MultipleSelect.vue";
-import selectBtn from "@/components/dashboard/selectBtn.vue";
-import modal from "@/components/dashboard/modal.vue";
-import OtpInput from "@/components/onboarding/verifyInput";
+import selectBtn from "@/components/general/SelectBtn.vue";
+import Modal from "@/components/general/Modal.vue";
+import OtpInput from "@/components/general/verifyInput";
 import failedImage from "@/assets/img/failed-img.svg";
 import successImage from "@/assets/img/success-img.svg";
 import { mapGetters } from "vuex";
@@ -448,7 +448,7 @@ export default {
   components: {
     StepProgress,
     "select-btn": selectBtn,
-    modal,
+    Modal,
     "v-otp-input": OtpInput,
     MultipleSelect,
   },

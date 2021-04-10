@@ -20,7 +20,7 @@
 
       <!-- table  -->
       <div v-show="teamMembers.length > 0">
-        <dataTable
+        <DataTable
           :action="true"
           :actions="actions"
           :select="false"
@@ -54,8 +54,8 @@
       </div>
     </div>
 
-    <!-- modal for dialog messages -->
-    <modal :dialog="dialog1" width="400">
+    <!-- Modal for dialog messages -->
+    <Modal :dialog="dialog1" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="dialog1 = false"
@@ -69,10 +69,10 @@
 
         <h4>{{ dialogMessage }}</h4>
       </div>
-    </modal>
+    </Modal>
 
-    <!-- delete modal -->
-    <modal :dialog="dialog2" width="470">
+    <!-- delete Modal -->
+    <Modal :dialog="dialog2" width="470">
       <div class="white pa-3 pb-10 dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="closeDialog2"
@@ -120,10 +120,10 @@
         </div>
         <div></div>
       </div>
-    </modal>
+    </Modal>
 
-    <!-- suspend member modal -->
-    <modal :dialog="dialog3" width="440">
+    <!-- suspend member Modal -->
+    <Modal :dialog="dialog3" width="440">
       <div class="white pa-3 pb-8 dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="closeDialog3"
@@ -169,9 +169,9 @@
         </div>
         <div></div>
       </div>
-    </modal>
-    <!-- unsuspend modal -->
-    <modal :dialog="dialog4" width="440">
+    </Modal>
+    <!-- unsuspend Modal -->
+    <Modal :dialog="dialog4" width="440">
       <div class="white pa-3 pb-8 dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="closeDialog4"
@@ -212,19 +212,19 @@
         </div>
         <div></div>
       </div>
-    </modal>
+    </Modal>
   </div>
 </template>
 <script>
 //import searchBar from "@/components/dashboard/searchBar.vue";
-import modal from "@/components/dashboard/modal.vue";
-import dataTable from "@/components/dashboard/dataTable.vue";
+import Modal from "@/components/dashboard/Modal.vue";
+import DataTable from "@/components/dashboard/DataTable.vue";
 import successImage from "@/assets/img/success-img.svg";
 import failedImage from "@/assets/img/failed-img.svg";
 import { mapGetters} from "vuex";
 export default {
   name: "teamDetails",
-  components: {  modal, dataTable },
+  components: {  Modal, DataTable },
   data: function () {
     return {
       statusImage: null,

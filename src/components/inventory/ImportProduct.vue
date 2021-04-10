@@ -55,8 +55,8 @@
       </div>
     </div>
 
-    <!-- modal for dialog messages -->
-    <modal :dialog="dialog" width="400">
+    <!-- Modal for dialog messages -->
+    <Modal :dialog="dialog" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="dialog = false"
@@ -70,17 +70,17 @@
 
         <h4>{{ dialogMessage }}</h4>
       </div>
-    </modal>
+    </Modal>
   </div>
 </template>
 <script>
-import modal from "@/components/dashboard/modal.vue";
+import Modal from "@/components/dashboard/Modal.vue";
 import successImage from "@/assets/img/success-img.svg";
 import failedImage from "@/assets/img/failed-img.svg";
 export default {
   name: "productList",
   components: {
-    modal,
+    Modal,
   },
   data: function () {
     return {

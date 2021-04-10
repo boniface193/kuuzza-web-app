@@ -164,13 +164,13 @@
         <div class="d-flex justify-end px-4 mb-2 mt-2">
           <!-- reset filter btn -->
           <v-btn
-            class="px-4 py-2 mr-2 primary--text"
+            class="px-4 py-2 mr-2 primary--text light-background"
             @click="resetFilter"
-            style="background: #5064cc26"
+            depressed
             >Reset</v-btn
           >
           <!-- apply filter btn -->
-          <v-btn class="primary px-4 py-2" @click="filterItems">Apply</v-btn>
+          <v-btn class="primary px-4 py-2" @click="filterItems" depressed>Apply</v-btn>
         </div>
       </div>
     </div>

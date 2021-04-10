@@ -1,7 +1,7 @@
 <template>
   <div>
-    <!--------------------------- modal for dialog messages ------------------------------>
-    <modal :dialog="dialog1" width="400">
+    <!--------------------------- Modal for dialog messages ------------------------------>
+    <Modal :dialog="dialog1" width="400">
       <div class="white pa-3 pb-10 text-center dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="dialog1 = false"
@@ -17,10 +17,10 @@
 
         <p v-html="requestedStatistic"></p>
       </div>
-    </modal>
+    </Modal>
 
-    <!---------------------------- take product offline modal ----------------------------->
-    <modal :dialog="offlineDialog" width="400">
+    <!---------------------------- take product offline Modal ----------------------------->
+    <Modal :dialog="offlineDialog" width="400">
       <div class="white pa-3 pb-8 dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="closeOfflineDialog"
@@ -70,10 +70,10 @@
         </div>
         <div></div>
       </div>
-    </modal>
+    </Modal>
 
-    <!------------------------------- take product offline in bulk modal ------------------------------>
-    <modal :dialog="offlineDialogBulk" width="400">
+    <!------------------------------- take product offline in bulk Modal ------------------------------>
+    <Modal :dialog="offlineDialogBulk" width="400">
       <div class="white pa-3 pb-8 dialog">
         <div class="d-flex justify-end">
           <v-icon class="error--text close-btn" @click="closeOfflineDialogBulk"
@@ -119,17 +119,17 @@
         </div>
         <div></div>
       </div>
-    </modal>
+    </Modal>
   </div>
 </template>
 <script>
-import modal from "@/components/dashboard/modal.vue";
+import Modal from "@/components/dashboard/Modal.vue";
 import successImage from "@/assets/img/success-img.svg";
 import failedImage from "@/assets/img/failed-img.svg";
 import { mapState, mapGetters } from "vuex";
 export default {
   name: "takeProductOfflineModal",
-  components: { modal },
+  components: { Modal },
   props: ["offlineDialogBulk", "offlineDialog"],
   data: function () {
     return {
@@ -164,13 +164,13 @@ export default {
     },
   },
   methods: {
-    // close modal for deleting product
+    // close Modal for deleting product
     closeOfflineDialog() {
       if (this.offlineDialogLoader === false) {
         this.$emit("closeOfflineDialog");
       }
     },
-    // close modal for deleting products in bulk
+    // close Modal for deleting products in bulk
     closeOfflineDialogBulk() {
       if (this.offlineDialogBulkLoader === false) {
         this.$emit("closeOfflineDialogBulk");
