@@ -335,6 +335,7 @@ export default {
         this.quantityError = false;
       }
     },
+    // verify that minimum order quantity satisfy its condition 
     verifyMinQuantity() {
       if (
         this.productDetails.min_order_quantity > this.productDetails.quantity

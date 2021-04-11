@@ -71,45 +71,73 @@ import PaymentHistory from "@/components/balancePages/PaymentHistory.vue";
 
 Vue.use(VueRouter);
 
-// requirement for user to log on to the authenticated pages
-const ifAuthenticated = (to, from, next) => {
-  store.commit("onboarding/tokenIsPresent");
-  if (store.getters["onboarding/tokenIsPresent"] === true) {
-    store.dispatch("onboarding/getUserProfile").then(response => {
-      const profile = response.data.data;
-      if (profile.email_verified) {
-        if (profile.status) {
-          store.commit("onboarding/setTokenExpired");
-          if (store.getters["onboarding/tokenExpired"] === false) {
-            next()
-            return
-          } else {
-            store.commit("reset");
-            store.commit("onboarding/removeToken");
-            next({ name: "Signin" })
-          }
-        } else {
-          store.commit("reset");
-          store.commit("onboarding/removeToken");
-          next({ name: "SuspensionPage" })
-        }
+// get user profile information and check they meet the conditions
+const getProfile = (to, from, next) => {
+  store.dispatch("onboarding/getUserProfile").then(response => {
+    const profile = response.data.data;
+    if (profile.email_verified) {
+      if (profile.status) {
+        next()
+        return
       } else {
         store.commit("reset");
-        store.commit("onboarding/removeToken");
-        next({
-          name: 'EmailVerification', params: {
-            email: profile.email,
-          },
-        });
+        store.commit("onboarding/removeClientID");
+        next({ name: "SuspensionPage" })
       }
-    }).catch((error) => {
-      if (error.response.status == 401) {
-        store.commit("reset");
-        store.commit("onboarding/removeToken");
-        next({ name: "Signin" });
+    } else {
+      store.commit("reset");
+      store.commit("onboarding/removeClientID");
+      next({
+        name: 'EmailVerification', params: {
+          email: profile.email,
+        },
+      });
+    }
+  }).catch((error) => {
+
+    if (error.response.status == 401) {
+      store.commit("reset");
+      store.commit("onboarding/removeClientID");
+      next({ name: "Signin" });
+    }
+  })
+}
+
+// requirement for user to log on to the authenticated pages
+const ifAuthenticated = (to, from, next) => {
+  // check if client ID exists in localstorage
+  if (localStorage.getItem("clientID")) {
+    // check if accessToken is not equal to null in memory
+    if (store.state.onboarding.accessToken !== null) {
+      store.commit("onboarding/setTokenExpired");
+      if (store.getters["onboarding/tokenExpired"] === false) {
+        getProfile((to, from, next()));
+      } //if accesstoken as expired make a request for new accesstoken 
+      else {
+        store.dispatch("onboarding/getAccessToken").then(() => {
+          getProfile((to, from, next()));
+        }).catch((error) => {
+          if (error.response.status == 401) {
+            console.log(111)
+            store.commit("reset");
+            store.commit("onboarding/removeClientID");
+            next({ name: "Signin" });
+          }
+        })
       }
-    })
+    } else {
+      store.dispatch("onboarding/getAccessToken").then(() => {
+        getProfile((to, from, next()));
+      }).catch((error) => {
+        if (error.response.status == 401) {
+          store.commit("reset");
+          store.commit("onboarding/removeClientID");
+          next({ name: "Signin" });
+        }
+      })
+    }
   } else {
+    store.commit("reset");
     next({ name: 'Signin' });
   }
 }
@@ -145,8 +173,8 @@ const AlreadyLogin = (to, from, next) => {
   if (to.name === 'signupTeamMember') {
     next();
   } else {
-    store.commit("onboarding/tokenIsPresent");
-    if (store.getters["onboarding/tokenIsPresent"] === true) {
+    // check if client ID exists in localstorage
+    if (localStorage.getItem("clientID")) {
       next({ name: 'dashboard' })
     } else {
       next();
@@ -508,3 +536,39 @@ const router = new VueRouter({
 });
 
 export default router;
+
+
+// store.dispatch("onboarding/getUserProfile").then(response => {
+//   const profile = response.data.data;
+//   if (profile.email_verified) {
+//     if (profile.status) {
+//       store.commit("onboarding/setTokenExpired");
+//       if (store.getters["onboarding/tokenExpired"] === false) {
+//         next()
+//         return
+//       } else {
+//         store.commit("reset");
+//         store.commit("onboarding/removeToken");
+//         next({ name: "Signin" })
+//       }
+//     } else {
+//       store.commit("reset");
+//       store.commit("onboarding/removeToken");
+//       next({ name: "SuspensionPage" })
+//     }
+//   } else {
+//     store.commit("reset");
+//     store.commit("onboarding/removeToken");
+//     next({
+//       name: 'EmailVerification', params: {
+//         email: profile.email,
+//       },
+//     });
+//   }
+// }).catch((error) => {
+//   if (error.response.status == 401) {
+//     store.commit("reset");
+//     store.commit("onboarding/removeToken");
+//     next({ name: "Signin" });
+//   }
+// })

@@ -14,7 +14,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get('/notification', {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`
+                    Authorization: `Bearer ${store.state.onboarding.accessToken}`
                 }
             }).then((res) => {
                 context.commit('setNotification', res.data)
@@ -32,7 +32,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.post('/notification/read', { "ids": [data] }, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`
+                    Authorization: `Bearer ${store.state.onboarding.accessToken}`
                 }
             }).then((res) => {
                 context.commit('setNotification', res.data.data)
@@ -50,7 +50,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.post('/notification/read/all', {}, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`
+                    Authorization: `Bearer ${store.state.onboarding.accessToken}`
                 }
             }).then((res) => {
                 context.commit('setNotification', res.data.data)

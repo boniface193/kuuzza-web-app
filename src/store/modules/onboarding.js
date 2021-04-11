@@ -1,4 +1,5 @@
 import axios from "@/axios";
+import store from "@/store";
 
 //decode token
 const decodeToken = (token) => {
@@ -7,20 +8,10 @@ const decodeToken = (token) => {
     return JSON.parse(payload.toString());
 }
 
-
-// check if user is authenticated
-const checkIfTokenIsPresent = () => {
-    if (state.token !== null) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
 // check if token is expired
 const checkIftokenExpired = () => {
-    if (localStorage.getItem('vendorToken')) {
-        const expiration = decodeToken(state.token).exp
+    if (state.accessToken) {
+        const expiration = decodeToken(state.accessToken).exp
         return expiration >= new Date() || false;
     } else {
         return false
@@ -30,7 +21,8 @@ const checkIftokenExpired = () => {
 //holds the state properties
 const state = {
     present_signup_form: 'form1',
-    token: localStorage.getItem('vendorToken') || null,
+    clientID: localStorage.getItem("clientID") || null,
+    accessToken: null,
     tokenIsPresent: false,
     tokenExpired: true,
     tokenAuthorize: true,
@@ -50,13 +42,13 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get("profile", {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`
+                    Authorization: `Bearer ${state.accessToken}`
                 }
             }).then(response => {
                 resolve(response)
             }).catch((error) => {
                 if (error.response.status == 401) {
-                    context.commit("onboarding/setTokenAuthorizeStatus");
+                    context.commit("setTokenAuthorizeStatus", false);
                 }
                 reject(error)
             })
@@ -67,7 +59,8 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.post("auth/register", data)
                 .then(response => {
-                    context.commit("setToken", response.data.token);
+                    context.commit("setClientID", response.data.client_id)
+                    context.commit("setAccessToken", response.data.token);
                     resolve(response)
                 })
                 .catch(error => {
@@ -80,7 +73,8 @@ const actions = {
     signIn: (context, data) => {
         return new Promise((resolve, reject) => {
             axios.post("auth/login", data).then(response => {
-                context.commit("setToken", response.data.token)
+                context.commit("setClientID", response.data.client_id)
+                context.commit("setAccessToken", response.data.token);
                 context.commit("setTokenAuthorizeStatus", true);
                 resolve(response)
             })
@@ -174,15 +168,71 @@ const actions = {
         });
     },
     // registration for invited team member
-    inviteTeamMember: (context, data) => {
+    // inviteTeamMember: (context, data) => {
+    //     return new Promise((resolve, reject) => {
+    //         axios.post("invites/accept", data).then(response => {
+    //             context.commit("setToken", response.data.token)
+    //             context.commit("setTokenAuthorizeStatus", true);
+    //             resolve(response)
+    //         })
+    //             .catch(error => {
+    //                 context.commit("doNothing");
+    //                 reject(error);
+    //             })
+    //     });
+    // },
+    // get access token  
+    getAccessToken: (context) => {
+        let requestParameter = {};
+        if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+            requestParameter = {
+                withCredentials: false
+            }
+        } else {
+            requestParameter = {
+                withCredentials: true
+            }
+        }
         return new Promise((resolve, reject) => {
-            axios.post("invites/accept", data).then(response => {
-                context.commit("setToken", response.data.token)
+            axios.post("auth/refresh", {
+                client_id: state.clientID
+            },
+                {
+                    requestParameter
+                }
+            ).then(response => {
+                context.commit("setClientID", response.data.client_id);
+                context.commit("setAccessToken", response.data.token);
                 context.commit("setTokenAuthorizeStatus", true);
-                resolve(response)
+                resolve(response);
             })
                 .catch(error => {
-                    context.commit("doNothing");
+                    if (error.response.status == 401) {
+                        context.commit("setTokenAuthorizeStatus", false);
+                    }
+                    reject(error);
+                })
+        });
+    },
+    logout: (context) => {
+        return new Promise((resolve, reject) => {
+            axios.post("auth/logout", {
+                client_id: state.clientID
+            }, {
+                headers: {
+                    Authorization: `Bearer ${state.accessToken}`
+                }
+            }
+            ).then(response => {
+                context.commit("removeClientID");
+                context.commit("setAccessToken", null);
+                store.commit("reset");
+                resolve(response);
+            })
+                .catch(error => {
+                    if (error.response.status == 401) {
+                        context.commit("setTokenAuthorizeStatus", false);
+                    }
                     reject(error);
                 })
         });
@@ -193,20 +243,19 @@ const actions = {
 const mutations = {
     // update the present form on signup 
     present_signup_form: (state, form) => (state.present_signup_form = form),
-    //set token
-    setToken: (state, token) => {
-        localStorage.setItem('vendorToken', token)
-        state.token = localStorage.getItem('vendorToken') || null
+    // set client ID 
+    setClientID: (state, clientID) => {
+        localStorage.setItem('clientID', clientID)
+        state.clientID = localStorage.getItem('clientID') || null
     },
-    // remove token
-    removeToken: () => {
-        localStorage.removeItem('vendorToken');
-        state.token = localStorage.getItem('vendorToken') || null
+    // set access token
+    setAccessToken: (state, token) => (state.accessToken = token),
+    // remove client ID
+    removeClientID: () => {
+        localStorage.removeItem('clientID');
+        state.clientID = localStorage.getItem('clientID') || null
     },
-    tokenIsPresent: (state) => {
-        const tokenIsPresent = checkIfTokenIsPresent();
-        state.tokenIsPresent = tokenIsPresent;
-    },
+    // check if token expired
     setTokenExpired: (state) => {
         const tokenExpired = checkIftokenExpired();
         state.tokenExpired = tokenExpired;

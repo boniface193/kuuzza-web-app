@@ -65,7 +65,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get("/orders", {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
+                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 }
             })
                 .then(response => {
@@ -97,7 +97,7 @@ const actions = {
             axios.get(`/orders?${dateRange}&${priceRange}&${paid}&${unpaid}&${delivered}&${notDelivered}&${perPage}&${page}`,
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
+                        Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                     }
                 }).then(response => {
                     context.commit("setOrders", response.data.data);
@@ -117,7 +117,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get(`/orders/${data.id}`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
+                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 }
             }).then(response => {
                 context.commit('setDetails', response.data.data)
@@ -143,7 +143,7 @@ const actions = {
             axios.get(`/orders${route}`,
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
+                        Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                     }
                 }).then(response => {
                     context.commit("setOrders", response.data.data);
@@ -167,7 +167,7 @@ const actions = {
             },
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
+                        Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                     }
                 }).then(response => {
                     resolve(response);

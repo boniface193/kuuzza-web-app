@@ -21,7 +21,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get('/metrics/best-selling', {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
+                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 }
             }).then((res) => {
                 context.commit("setBestSelling", res.data)
@@ -41,7 +41,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get(`/metrics/best-selling?${dateRange}`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
+                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 }
             }).then((res) => {
                 context.commit("setBestSelling", res.data)

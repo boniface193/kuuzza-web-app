@@ -197,13 +197,15 @@ export default {
     // logout
     logout() {
       this.dialog = true;
-      this.$store.commit("reset");
-      this.$store.commit("onboarding/removeToken");
-      setTimeout(() => {
-        this.$router.push({
-          name: "Signin",
-        });
-      }, 1000);
+      this.$store
+        .dispatch("onboarding/logout")
+        .then(() => {
+          this.dialog = false;
+          this.$router.push({
+            name: "Signin",
+          });
+        })
+        .catch(() => (this.dialog = false));
     },
 
     getNotice() {

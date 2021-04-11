@@ -1,5 +1,6 @@
 import axios from "@/axios";
 import store from "@/store";
+
 //holds the state properties
 const state = {
     token: localStorage.getItem('vendorToken') || null,
@@ -43,7 +44,7 @@ const actions = {
             state.loader = true;
             axios.get("profile", {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
+                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 }
             }).then(response => {
                 context.commit("setUserProfile", response.data.data)

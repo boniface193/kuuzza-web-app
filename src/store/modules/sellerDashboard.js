@@ -22,7 +22,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get('/metrics/sellers', {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
+                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 }
             }).then((res) => {
                 context.commit("setSeller", res.data.data)
@@ -42,7 +42,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get(`/metrics/sellers?${dateRange}`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
+                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 }
             }).then((res) => {
                 context.commit("setSeller", res.data.data)

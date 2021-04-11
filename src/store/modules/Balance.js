@@ -23,18 +23,6 @@ const setItemPerPage = (itemPerPage, per_page, from_page) => {
     }
 }
 
-// get todays date
-// const curday = () => {
-//     const today = new Date();
-//     let dd = today.getDate();
-//     let mm = today.getMonth() + 1; //As January is 0.
-//     let yyyy = today.getFullYear();
-
-//     if (dd < 10) dd = '0' + dd;
-//     if (mm < 10) mm = '0' + mm;
-//     return (dd + '-' + mm + '-' + yyyy);
-// };
-
 //holds the state properties
 const state = {
     doNothing: null,
@@ -67,6 +55,7 @@ const getters = {
 
 //take actions 
 const actions = {
+    // get settlements and awaiting settlements
     getSettlements(context, data) {
         let dateRange = (state.dateRange.endDate !== '') ? `date_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
         let page, perPage;
@@ -82,7 +71,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get(`${data.storeId}/settlements?status=${data.status}&${dateRange}&${page}&${perPage}`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
+                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 },
             })
                 .then((response) => {
@@ -119,12 +108,13 @@ const actions = {
                 });
         })
     },
+    // get revenue informations
     getRevenueDetails(context, data) {
         let dateRange = (state.dateRange.endDate !== '') ? `date_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
         return new Promise((resolve, reject) => {
             axios.get(`/metrics/${data.storeId}/total-revenue?${dateRange}`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
+                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 },
             })
                 .then((response) => {
@@ -139,11 +129,12 @@ const actions = {
                 });
         })
     },
+    // triger withdrwal for user funds
     withdrawFunds(context) {
         return new Promise((resolve, reject) => {
             axios.post("/settlements/withdraw", {}, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
+                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 }
             }).then(response => {
                 resolve(response);
@@ -157,6 +148,7 @@ const actions = {
                 })
         })
     },
+    // get the payout history of a user
     getPaymentHistory(context, data) {
         let dateRange = (state.dateRange.endDate !== '') ? `date_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "";
         let page = ((state.paymentHistory.meta.current_page) ? `page=${state.paymentHistory.meta.current_page}` : "");
@@ -164,7 +156,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get(`/payouts/${data.storeId}/history?${dateRange}&${page}&${perPage}`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
+                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 },
             })
                 .then((response) => {
