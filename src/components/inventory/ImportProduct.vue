@@ -46,7 +46,7 @@
         </div>
         <h2 class="mb-3">Importing file...</h2>
         <p class="secondary--text">
-          Please wait a few seconds while we <br />import your file to Nova
+          Please wait a few seconds while we <br />import your file to kuuzza
         </p>
       </div>
 
@@ -115,7 +115,12 @@ export default {
           this.dialog = true;
           this.statusImage = failedImage;
           if (error.response) {
-            this.dialogMessage = error.response.message;
+            if (error.response.meta) {
+              this.dialogMessage =
+                error.response.meta.failed_imports_errors[0].message[0];
+            } else {
+              this.dialogMessage = error.response.message;
+            }
           } else {
             this.dialogMessage = "No internet connection!";
           }
