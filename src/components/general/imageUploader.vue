@@ -194,6 +194,7 @@ import Modal from "@/components/dashboard/Modal.vue";
 import progressBar from "@/components/dashboard/progressBar.vue";
 import failedImage from "@/assets/img/failed-img.svg";
 import axios from "@/axios/mediaService.js";
+import store from "@/store";
 export default {
   name: "imageUploader",
   components: { Modal, progressBar },
@@ -282,13 +283,22 @@ export default {
     uploadImage(data) {
       this.status = "uploading";
       axios
-        .post("/media/upload", data, {
-          onUploadProgress: (uploadEvent) => {
-            this.uploadProgress = String(
-              Math.round((uploadEvent.loaded / uploadEvent.total) * 100) + "%"
-            );
+        .post(
+          "/media/upload",
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${store.state.onboarding.accessToken}`,
+            },
           },
-        })
+          {
+            onUploadProgress: (uploadEvent) => {
+              this.uploadProgress = String(
+                Math.round((uploadEvent.loaded / uploadEvent.total) * 100) + "%"
+              );
+            },
+          }
+        )
         .then(() => {
           this.status = "uploaded";
           this.uploadProgress = "0%";
@@ -314,7 +324,11 @@ export default {
     },
     getImages() {
       axios
-        .get(`/media?page=${this.pageDetails.parameters.current_page}`)
+        .get(`/media?page=${this.pageDetails.parameters.current_page}`, {
+          headers: {
+            Authorization: `Bearer ${store.state.onboarding.accessToken}`,
+          },
+        })
         .then((response) => {
           this.errorDialog = false;
           this.recentImages = response.data.data;

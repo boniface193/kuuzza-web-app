@@ -187,9 +187,6 @@ const actions = {
             axios.post("auth/refresh", {
                 client_id: state.clientID
             },
-                {
-                    withCredentials: true
-                }
             ).then(response => {
                 context.commit("setClientID", response.data.client_id);
                 context.commit("setAccessToken", response.data.token);
