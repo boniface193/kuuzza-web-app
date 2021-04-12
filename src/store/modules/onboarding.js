@@ -183,22 +183,12 @@ const actions = {
     // },
     // get access token  
     getAccessToken: (context) => {
-        let requestParameter = {};
-        if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
-            requestParameter = {
-                withCredentials: false
-            }
-        } else {
-            requestParameter = {
-                withCredentials: true
-            }
-        }
         return new Promise((resolve, reject) => {
             axios.post("auth/refresh", {
                 client_id: state.clientID
             },
                 {
-                    requestParameter
+                    withCredentials: true
                 }
             ).then(response => {
                 context.commit("setClientID", response.data.client_id);

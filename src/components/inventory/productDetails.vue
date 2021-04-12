@@ -58,7 +58,7 @@
           </p>
           <!-- product description -->
           <p class="mt-8 mb-3">
-            <span class="item-title">Product Descriptiom: </span>
+            <span class="item-title">Product Description: </span>
           </p>
           <p class="secondary--text">
             {{ productDetails.description }}
