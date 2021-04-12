@@ -160,7 +160,7 @@
           </span>
         </div>
         <div
-          v-for="(item,index3) in sortedItems"
+          v-for="(item, index3) in sortedItems"
           :key="item[`${itemKey}`] + index3"
           :class="{
             selectedRow: selected.includes(item[`${itemKey}`]),

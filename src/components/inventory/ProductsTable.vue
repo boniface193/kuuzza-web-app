@@ -27,7 +27,7 @@
       v-show="products.length == 0 && !tableLoader"
     >
       <p class="mb-0 secondary--text" style="font-size: 20px">
-        No product has been added yet!
+        Products not Available!
       </p>
     </div>
 
@@ -96,7 +96,7 @@ export default {
     deleteProductModal,
     takeProductOfflineModal,
     takeProductOnlineModal,
-    Modal
+    Modal,
   },
   data: function () {
     return {
@@ -132,7 +132,7 @@ export default {
         { text: "SKU", value: "sku", width: "170px" },
         { text: "Price", value: "price", width: "160px", money: true },
         { text: "Quantity", value: "quantity", width: "100px" },
-         { text: "Time", value: "created", width: "150px" },
+        { text: "Time", value: "created", width: "150px" },
       ],
     };
   },
