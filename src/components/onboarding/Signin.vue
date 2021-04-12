@@ -44,7 +44,7 @@
         <p style="font-size: 14px">
           or
           <router-link
-            to="/forgotpassword"
+            to="/forgot-password"
             class="error--text"
             style="text-decoration: none"
             >Forgot password?</router-link

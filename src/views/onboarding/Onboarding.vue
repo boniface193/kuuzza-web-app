@@ -48,7 +48,7 @@
           </h1>
 
           <!-- display this introductory message if the condition is meet -->
-          <h1 class="mt-5 mb-0" v-show="this.$route.name == 'Recoverpassword'">
+          <h1 class="mt-5 mb-0" v-show="this.$route.name == 'RecoverPassword'">
             Recover password!
           </h1>
 
@@ -56,8 +56,8 @@
           <h1
             class="mt-5 mb-0"
             v-show="
-              this.$route.name == 'Forgotpassword' ||
-              this.$route.name == 'forgotPasswordVerification'
+              this.$route.name == 'ForgotPassword' ||
+              this.$route.name == 'ForgotPasswordVerification'
             "
           >
             Forgot password!
@@ -66,7 +66,7 @@
           <!-- display this introductory message if the condition is meet -->
           <h1
             class="mt-5 mb-0"
-            v-show="this.$route.name == 'emailVerification'"
+            v-show="this.$route.name == 'EmailVerification'"
           >
             Verify your email address
           </h1>
@@ -78,9 +78,12 @@
               (present_form == 'form1' || present_form == 'form2') &&
               (this.$route.name == 'Signin' || this.$route.name == 'Signup')
             "
-          ></p>
-          Do you want to amplify your performance and grow sales? <br />
-          Tap into our decentralised sales force and watch your business scale!
+          >
+            Do you want to amplify your performance and grow sales? <br />
+            Tap into our decentralised sales force and watch your business
+            scale!
+          </p>
+
           <!-- route view for pages (signup, signin, recoverpassowrd)-->
           <router-view />
         </v-col>
@@ -99,8 +102,8 @@
                 ((present_form == 'form1' || present_form == 'form2') &&
                   this.$route.name == 'Signup') ||
                 this.$route.name == 'Signin' ||
-                this.$route.name == 'Forgotpassword' ||
-                this.$route.name == 'Recoverpassword'
+                this.$route.name == 'ForgotPassword' ||
+                this.$route.name == 'RecoverPassword'
               "
               class="white--text text-center"
             >
@@ -112,8 +115,8 @@
             <p
               v-show="
                 (present_form == 'form3' && this.$route.name == 'Signup') ||
-                this.$route.name == 'emailVerification' ||
-                this.$route.name == 'forgotPasswordVerification' ||
+                this.$route.name == 'EmailVerification' ||
+                this.$route.name == 'ForgotPasswordVerification' ||
                 this.$route.name == 'signupTeamMember'
               "
               class="white--text text-center"

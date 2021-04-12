@@ -21,7 +21,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             orderStatus.get('/metrics/top-customers', {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
+                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 }
             }).then((res) => {
                 context.commit("setTopCustomer", res.data.data)
@@ -40,7 +40,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             orderStatus.get(`/metrics/top-customers?${dateRange}`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
+                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 }
             }).then((res) => {
                 context.commit("setTopCustomer", res.data.data)

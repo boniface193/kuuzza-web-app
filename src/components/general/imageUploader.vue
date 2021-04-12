@@ -283,9 +283,6 @@ export default {
       this.status = "uploading";
       axios
         .post("/media/upload", data, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
-          },
           onUploadProgress: (uploadEvent) => {
             this.uploadProgress = String(
               Math.round((uploadEvent.loaded / uploadEvent.total) * 100) + "%"
@@ -317,11 +314,7 @@ export default {
     },
     getImages() {
       axios
-        .get(`/media?page=${this.pageDetails.parameters.current_page}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
-          },
-        })
+        .get(`/media?page=${this.pageDetails.parameters.current_page}`)
         .then((response) => {
           this.errorDialog = false;
           this.recentImages = response.data.data;

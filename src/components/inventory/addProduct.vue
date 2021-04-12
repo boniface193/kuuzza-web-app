@@ -371,10 +371,12 @@ export default {
       this.quantity = params;
       this.verifyQuantity();
     },
+    // set minimum order quantity
     setMinQuantity(params) {
       this.minQuantity = params;
       this.verifyMinQuantity();
     },
+    // verify an image was selected
     verifyImages() {
       if (this.imageUrl !== null) {
         this.imageError = false;
