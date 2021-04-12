@@ -49,8 +49,8 @@
         <tbody class="custom-tbody">
           <!-- table row -->
           <tr
-            v-for="(item, index3) in sortedItems"
-            :key="item[`${itemKey}`] + index3"
+            v-for="item in sortedItems"
+            :key="item[`${itemKey}`]"
             :class="{
               selectedRow: selected.includes(item[`${itemKey}`]),
               statusRow:
@@ -146,135 +146,6 @@
           </tr>
         </tbody>
       </table>
-
-      <!-- table that shows on mobile at screen 650px -->
-      <div class="secondary-table">
-        <div class="px-2" v-show="select === true">
-          <span class="d-flex align-center py-2">
-            <v-checkbox
-              v-model="selectAll"
-              @click="selectRow"
-              class="primary--text mr-2"
-            ></v-checkbox>
-            <span>Select all</span>
-          </span>
-        </div>
-        <div
-          v-for="(item,index3) in sortedItems"
-          :key="item[`${itemKey}`] + index3"
-          :class="{
-            selectedRow: selected.includes(item[`${itemKey}`]),
-            statusRow:
-              item[`${statusKey}`] == 'suspended' ||
-              item[`${statusKey}`] == false,
-          }"
-        >
-          <div>
-            <div class="d-flex py-1 px-2 primary justify-end">
-              <span class="custom-checkbox">
-                <v-checkbox
-                  v-if="select === true"
-                  :value="item[`${itemKey}`]"
-                  v-model="selected"
-                  @click="emitSelectedRow()"
-                  class="white"
-                ></v-checkbox>
-              </span>
-            </div>
-            <div
-              class="d-flex align-center justify-space-between row-height px-2"
-              v-for="(header, index2) in headers"
-              :key="index2"
-            >
-              <div
-                style="font-weight: 600; word-break: break-all"
-                class="mr-2 name"
-              >
-                <!-- check if it is money and the currency symbol -->
-                <span>{{
-                  header.money === true
-                    ? `${header.text} (&#8358;)`
-                    : header.text
-                }}</span>
-              </div>
-              <div>
-                <span style="word-break: break-all">
-                  <!-- shows if the content is an image -->
-                  <img
-                    :src="item[header.value]"
-                    v-if="header.image === true"
-                    alt="Product Image"
-                    style="width: 60px; height: 50px"
-                  />
-                  <!-- shows if the content is a text and not an image or link -->
-                  <span v-if="header.image !== true && header.href !== true"
-                    >{{ item[`${header.value}`] }}
-                  </span>
-
-                  <!-- shows if the content is a text and link but not an image -->
-                  <span v-if="header.image !== true && header.href === true">
-                    <router-link
-                      :to="{
-                        name: header.routeName,
-                        params: { id: item[`${itemKey}`] },
-                      }"
-                      class="productLink"
-                      >{{
-                        header.money === true
-                          ? numberWithCommas(item[`${header.value}`])
-                          : item[`${header.value}`]
-                      }}</router-link
-                    >
-                  </span></span
-                >
-              </div>
-            </div>
-            <!-- action row-->
-            <div
-              class="d-flex align-center justify-space-between row-height px-2"
-              v-if="action === true"
-            >
-              <!-- action header -->
-              <span style="font-weight: 600">Action</span>
-              <!-- action btns -->
-              <span class="d-flex align-center">
-                <!-- edit btn -->
-                <span
-                  @click="editRow(item[`${itemKey}`], item.status)"
-                  class="mr-1"
-                >
-                  <editIcon toolTipText="Edit" />
-                </span>
-
-                <!-- remove btn -->
-                <span
-                  @click="offlineRow(item[`${itemKey}`], item[`${statusKey}`])"
-                  class="mr-1"
-                >
-                  <removeIcon
-                    :color="
-                      item[`${statusKey}`] === 'suspended' ||
-                      item[`${statusKey}`] === false
-                        ? 'success'
-                        : 'error'
-                    "
-                    :toolTipText="
-                      item[`${statusKey}`] === 'suspended' ||
-                      item[`${statusKey}`] === false
-                        ? 'Take online'
-                        : 'Take offline'
-                    "
-                  />
-                </span>
-
-                <!-- delete btn -->
-                <span @click="deleteRow(item[`${itemKey}`])" class="mr-1">
-                  <deleteIcon toolTipText="Delete" /> </span
-              ></span>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
     <!-- pagination -->
     <div class="d-flex justify-space-between px-4 align-center flex-wrap">
@@ -457,7 +328,7 @@ export default {
           font-size: 15px;
           text-align: left;
           padding: 10px 5px 10px 10px;
-          min-width: 150px;
+          min-width: 250px;
           min-height: 45px;
           max-height: 45px;
           display: flex;
@@ -496,7 +367,7 @@ export default {
           text-align: left;
           padding: 10px 5px 10px 10px;
           min-height: 45px;
-          min-width: 150px;
+          min-width: 250px;
           display: flex;
           flex-wrap: wrap;
           align-items: center;
@@ -544,15 +415,12 @@ export default {
   height: 30px;
 }
 .productLink {
-  color: var(--v-primary-base);
+  color: #5064cc;
   text-decoration: underline;
   cursor: pointer;
 }
 @media (max-width: 650px) {
   .table {
-    .custom-table {
-      display: none;
-    }
     .secondary-table {
       display: block;
     }

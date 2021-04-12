@@ -50,7 +50,7 @@
           <!-- table row -->
           <tr
             v-for="(item, index3) in sortedItems"
-            :key="item[`${itemKey}`] + index3"
+            :key="index3"
             :class="{
               selectedRow: selected.includes(item[`${itemKey}`]),
               statusRow:
@@ -160,8 +160,8 @@
           </span>
         </div>
         <div
-          v-for="(item,index3) in sortedItems"
-          :key="item[`${itemKey}`] + index3"
+          v-for="(item, index3) in sortedItems"
+          :key="index3"
           :class="{
             selectedRow: selected.includes(item[`${itemKey}`]),
             statusRow:
@@ -457,7 +457,7 @@ export default {
           font-size: 15px;
           text-align: left;
           padding: 10px 5px 10px 10px;
-          min-width: 150px;
+          min-width: 250px;
           min-height: 45px;
           max-height: 45px;
           display: flex;
@@ -496,7 +496,7 @@ export default {
           text-align: left;
           padding: 10px 5px 10px 10px;
           min-height: 45px;
-          min-width: 150px;
+          min-width: 250px;
           display: flex;
           flex-wrap: wrap;
           align-items: center;

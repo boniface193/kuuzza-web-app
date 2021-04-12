@@ -68,7 +68,7 @@
           <v-img :src="statusImage"></v-img>
         </div>
 
-        <h4>{{ dialogMessage }}</h4>
+        <h4 v-html="dialogMessage"></h4>
       </div>
     </Modal>
   </div>
@@ -107,7 +107,11 @@ export default {
           this.importingFile = false;
           this.dialog = true;
           this.statusImage = successImage;
-          this.dialogMessage = response.data.message;
+          if(response.data.meta.failed_imports_count > 0){
+            this.dialogMessage = `Products imported succesfully.<br /><span class="error--text">Total failed: ${response.data.meta.failed_imports_count}</span>`
+          }else{
+            this.dialogMessage = response.data.message;
+          }
         })
         .catch((error) => {
           this.importingFile = false;
