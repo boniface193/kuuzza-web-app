@@ -222,7 +222,8 @@ export default {
       // check if the edited input field is the admin phone number
       if (
         input_field === "phonenum" &&
-        this.computedInfo.currentPhoneNum !== "" &&
+        this.computedInfo.currentPhoneNum.length > 9 &&
+        this.computedInfo.currentPhoneNum.length <= 11 &&
         this.computedInfo.currentPhoneNum.substring(0, 1) != "0"
       ) {
         if (this.computedInfo.currentPhoneNum !== this.computedInfo.phoneNum) {
