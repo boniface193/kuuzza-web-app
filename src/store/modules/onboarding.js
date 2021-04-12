@@ -22,7 +22,7 @@ const checkIftokenExpired = () => {
 const state = {
     present_signup_form: 'form1',
     clientID: localStorage.getItem("clientID") || null,
-    accessToken: null,
+    accessToken: localStorage.getItem("accessToken") || null,
     tokenIsPresent: false,
     tokenExpired: true,
     tokenAuthorize: true,
@@ -236,7 +236,10 @@ const mutations = {
         state.clientID = localStorage.getItem('clientID') || null
     },
     // set access token
-    setAccessToken: (state, token) => (state.accessToken = token),
+    setAccessToken: (state, token) => {
+        localStorage.setItem('accessToken', token)
+        state.clientID = localStorage.getItem('accessToken') || null
+    },
     // remove client ID
     removeClientID: () => {
         localStorage.removeItem('clientID');
