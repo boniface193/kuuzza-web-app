@@ -80,13 +80,11 @@ const getProfile = (to, from, next) => {
         next()
         return
       } else {
-        store.commit("reset");
-        store.commit("onboarding/removeClientID");
+        store.dispatch("onboarding/logout");
         next({ name: "SuspensionPage" })
       }
     } else {
-      store.commit("reset");
-      store.commit("onboarding/removeClientID");
+      store.dispatch("onboarding/logout");
       next({
         name: 'EmailVerification', params: {
           email: profile.email,
@@ -96,8 +94,7 @@ const getProfile = (to, from, next) => {
   }).catch((error) => {
 
     if (error.response.status == 401) {
-      store.commit("reset");
-      store.commit("onboarding/removeClientID");
+      store.dispatch("onboarding/logout");
       next({ name: "Signin" });
     }
   })
@@ -106,21 +103,20 @@ const getProfile = (to, from, next) => {
 // requirement for user to log on to the authenticated pages
 const ifAuthenticated = (to, from, next) => {
   // check if client ID exists in localstorage
-  if (localStorage.getItem("clientID")) {
+  if (localStorage.getItem("clientID") && localStorage.getItem("refreshToken")) {
     // check if accessToken is not equal to null in memory
     if (store.state.onboarding.accessToken !== null) {
-      store.commit("onboarding/setTokenExpired");
-      if (store.getters["onboarding/tokenExpired"] === false) {
+      store.commit("onboarding/setAccessTokenExpired");
+      if (store.state.onboarding.accessTokenExpired === false) {
         getProfile((to, from, next()));
       } //if accesstoken as expired make a request for new accesstoken 
       else {
+        console.log(111)
         store.dispatch("onboarding/getAccessToken").then(() => {
           getProfile((to, from, next()));
         }).catch((error) => {
           if (error.response.status == 401) {
-            console.log(111)
-            store.commit("reset");
-            store.commit("onboarding/removeClientID");
+            store.dispatch("onboarding/logout");
             next({ name: "Signin" });
           }
         })
@@ -130,14 +126,13 @@ const ifAuthenticated = (to, from, next) => {
         getProfile((to, from, next()));
       }).catch((error) => {
         if (error.response.status == 401) {
-          store.commit("reset");
-          store.commit("onboarding/removeClientID");
+          store.dispatch("onboarding/logout");
           next({ name: "Signin" });
         }
       })
     }
   } else {
-    store.commit("reset");
+    store.dispatch("onboarding/logout");
     next({ name: 'Signin' });
   }
 }
@@ -174,7 +169,7 @@ const AlreadyLogin = (to, from, next) => {
     next();
   } else {
     // check if client ID exists in localstorage
-    if (localStorage.getItem("clientID")) {
+    if (localStorage.getItem("clientID") && localStorage.getItem("refreshToken")) {
       next({ name: 'dashboard' })
     } else {
       next();

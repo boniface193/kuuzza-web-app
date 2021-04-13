@@ -8,10 +8,10 @@ const decodeToken = (token) => {
     return JSON.parse(payload.toString());
 }
 
-// check if token is expired
-const checkIftokenExpired = () => {
-    if (state.accessToken) {
-        const expiration = decodeToken(state.accessToken).exp
+// check if access token is expired
+const checkIfTokenExpired = (token) => {
+    if (state[`${token}`]) {
+        const expiration = decodeToken(state[`${token}`]).exp
         return expiration >= new Date() || false;
     } else {
         return false
@@ -22,9 +22,11 @@ const checkIftokenExpired = () => {
 const state = {
     present_signup_form: 'form1',
     clientID: localStorage.getItem("clientID") || null,
-    accessToken: localStorage.getItem("accessToken") || null,
+    refreshToken: localStorage.getItem("refreshToken") || null,
+    accessToken: null,
     tokenIsPresent: false,
-    tokenExpired: true,
+    tokenAccessExpired: true,
+    tokenRefreshExpired: true,
     tokenAuthorize: true,
     doNothing: null,
 };
@@ -61,10 +63,12 @@ const actions = {
                 .then(response => {
                     context.commit("setClientID", response.data.client_id)
                     context.commit("setAccessToken", response.data.token);
+                    context.commit("setRefreshToken", response.data.refresh_token);
                     resolve(response)
                 })
                 .catch(error => {
-                    context.commit("removeToken")
+                    // context.commit("removeToken");
+                    // context.commit("removeRefreshToken");
                     reject(error)
                 })
         })
@@ -72,10 +76,11 @@ const actions = {
     //allows users to login
     signIn: (context, data) => {
         return new Promise((resolve, reject) => {
-            axios.post("auth/login", data).then(response => {
+            axios.post("auth/login", data, //{ withCredentials: true }
+            ).then(response => {
                 context.commit("setClientID", response.data.client_id)
                 context.commit("setAccessToken", response.data.token);
-                context.commit("setTokenAuthorizeStatus", true);
+                context.commit("setRefreshToken", response.data.refresh_token);
                 resolve(response)
             })
                 .catch(error => {
@@ -187,16 +192,19 @@ const actions = {
             axios.post("auth/refresh", {
                 client_id: state.clientID
             },
+                {
+                    headers: {
+                        Authorization: `Bearer ${state.refreshToken}`
+                    }
+                }
             ).then(response => {
-                context.commit("setClientID", response.data.client_id);
+                context.commit("setClientID", response.data.client_id)
                 context.commit("setAccessToken", response.data.token);
-                context.commit("setTokenAuthorizeStatus", true);
+                context.commit("setRefreshToken", response.data.refresh_token);
                 resolve(response);
             })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        context.commit("setTokenAuthorizeStatus", false);
-                    }
+                    
                     reject(error);
                 })
         });
@@ -212,7 +220,8 @@ const actions = {
             }
             ).then(response => {
                 context.commit("removeClientID");
-                context.commit("setAccessToken", null);
+                context.commit("removeRefreshToken");
+                context.commit("setAccessToken", null)
                 store.commit("reset");
                 resolve(response);
             })
@@ -235,20 +244,34 @@ const mutations = {
         localStorage.setItem('clientID', clientID)
         state.clientID = localStorage.getItem('clientID') || null
     },
+    // set refresh token 
+    setRefreshToken(state, refreshToken) {
+        localStorage.setItem('refreshToken', refreshToken)
+        state.refreshToken = localStorage.getItem('refreshToken') || null
+    },
     // set access token
     setAccessToken: (state, token) => {
-        localStorage.setItem('accessToken', token)
-        state.clientID = localStorage.getItem('accessToken') || null
+        state.accessToken = token
     },
     // remove client ID
     removeClientID: () => {
         localStorage.removeItem('clientID');
         state.clientID = localStorage.getItem('clientID') || null
     },
-    // check if token expired
-    setTokenExpired: (state) => {
-        const tokenExpired = checkIftokenExpired();
-        state.tokenExpired = tokenExpired;
+    // remove refresh token
+    removeRefreshToken: () => {
+        localStorage.removeItem('refreshToken');
+        state.clientID = localStorage.getItem('refreshToken') || null
+    },
+    // check if access token expired
+    setAccessTokenExpired: (state, token) => {
+        const tokenExpired = checkIfTokenExpired(token);
+        state.accessTokenExpired = tokenExpired;
+    },
+    // check if access token expired
+    setRefreshTokenExpired: (state, token) => {
+        const tokenExpired = checkIfTokenExpired(token);
+        state.refreshTokenExpired = tokenExpired;
     },
     setTokenAuthorizeStatus: (state, status) => (state.tokenAuthorize = status),
     // commit nothing
