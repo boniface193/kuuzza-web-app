@@ -382,7 +382,8 @@ export default {
       // check if the edited input field is the admin store phone number
       if (
         input_field === "storeNum" &&
-        this.computedInfo.currentStoreNum !== "" &&
+        this.computedInfo.currentStoreNum.length > 9 &&
+        this.computedInfo.currentStoreNum.length <= 11 &&
         this.computedInfo.currentStoreNum.substring(0, 1) != "0"
       ) {
         if (this.computedInfo.currentStoreNum !== this.computedInfo.storeNum) {
