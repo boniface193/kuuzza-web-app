@@ -140,7 +140,7 @@ export default {
           .then((response) => {
             this.loading = false;
             if (response.data.message === "Email verified successfully.") {
-              if (localStorage.getItem("vendorToken")) {
+              if (localStorage.getItem("clientID")) {
                 this.dialog = true;
               } else {
                 this.dashboardBtn = false;
@@ -214,9 +214,12 @@ export default {
     },
     // destroy token
     denialAccess() {
-      this.$store.commit("onboarding/setToken", null);
-      localStorage.removeItem("vendorToken");
-      this.$router.push({ name: "Signin" });
+      this.$store.dispatch("onboarding/logout").then(() => {
+        this.dialog = false;
+        this.$router.push({
+          name: "Signin",
+        });
+      });
     },
   },
 };
