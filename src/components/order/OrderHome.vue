@@ -80,7 +80,7 @@
   </div>
 </template>
 <script>
-import Modal from "@/components/dashboard/Modal.vue";
+import Modal from "@/components/general/Modal.vue";
 import DataTable from "@/components/general/DataTable.vue";
 import SearchOrders from "@/components/order/SearchOrders.vue";
 import FilterOrders from "@/components/order/FilterOrders.vue";

@@ -92,7 +92,7 @@
   </div>
 </template>
 <script>
-import selectBtn from "@/components/dashboard/selectBtn.vue";
+import selectBtn from "@/components/general/SelectBtn.vue";
 import { mapGetters } from "vuex";
 export default {
   name: "Settings",

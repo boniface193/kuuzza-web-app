@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import SearchBar from "@/components/dashboard/SearchBar.vue";
+import SearchBar from "@/components/general/SearchBar.vue";
 export default {
   components: {
     SearchBar,

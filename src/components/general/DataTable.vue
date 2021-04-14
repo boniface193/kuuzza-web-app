@@ -311,7 +311,7 @@
   </div>
 </template>
 <script>
-import selectBtn from "@/components/dashboard/selectBtn.vue";
+import selectBtn from "@/components/general/SelectBtn.vue";
 import editIcon from "@/components/icons/editIcon.vue";
 import deleteIcon from "@/components/icons/deleteIcon.vue";
 import removeIcon from "@/components/icons/removeIcon.vue";

@@ -32,7 +32,7 @@
           <input
             type="text"
             v-model="searchValue"
-            placeholder="Search Category"
+            :placeholder="searchPlaceholder"
           />
           <v-icon class="primary--text">mdi-magnify</v-icon>
         </div>
@@ -63,7 +63,8 @@ export default {
     "items",
     "inputStatus",
     "searchBar",
-    "item"
+    "item",
+    "searchPlaceholder"
   ],
   data: function () {
     return {

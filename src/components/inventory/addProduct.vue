@@ -238,12 +238,12 @@
   </div>
 </template>
 <script>
-import progressBar from "@/components/dashboard/progressBar.vue";
+import progressBar from "@/components/general/progressBar.vue";
 import CategorySelector from "@/components/general/CategorySelector.vue";
-import customNumberInput from "@/components/dashboard/customNumberInput.vue";
+import customNumberInput from "@/components/general/customNumberInput.vue";
 import imageUploader from "@/components/general/imageUploader.vue";
 import ProductVariant from "@/components/inventory/ProductVariant.vue";
-import Modal from "@/components/dashboard/Modal.vue";
+import Modal from "@/components/general/Modal.vue";
 import successImage from "@/assets/img/success-img.svg";
 import failedImage from "@/assets/img/failed-img.svg";
 import { mapGetters } from "vuex";

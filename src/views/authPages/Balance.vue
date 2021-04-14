@@ -67,7 +67,7 @@
   </div>
 </template>
 <script>
-import selectBtn from "@/components/dashboard/selectBtn.vue";
+import selectBtn from "@/components/general/SelectBtn.vue";
 import calendar from "@/components/dashboard/calender.vue";
 export default {
   name: "Balance",

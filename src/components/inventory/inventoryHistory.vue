@@ -28,12 +28,14 @@
 
     <!-- no data -->
     <div
-      class="text-center pt-10 pb-5"
+      class="text-center pt-16 pb-5"
       v-show="inventoriesHistory.length == 0 && !loader"
     >
-      <p class="mb-0 secondary--text" style="font-size: 20px">
-        No history Available!
-      </p>
+      <div class="mb-5">
+        <img src="@/assets/img/Empty-inventory.svg" alt="" />
+      </div>
+
+      <h2>No history available</h2>
     </div>
 
     <!-- loader -->

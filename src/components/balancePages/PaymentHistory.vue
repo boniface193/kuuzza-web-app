@@ -52,7 +52,7 @@
 <script>
 import DataTable from "@/components/general/DataTable.vue";
 import failedImage from "@/assets/img/failed-img.svg";
-import Modal from "@/components/dashboard/Modal.vue";
+import Modal from "@/components/general/Modal.vue";
 import { mapGetters, mapState } from "vuex";
 export default {
   name: "PaymentHistory",

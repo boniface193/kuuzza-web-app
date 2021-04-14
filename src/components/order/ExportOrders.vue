@@ -24,7 +24,7 @@
 </template>
 <script>
 import exportIcon from "@/components/icons/exportIcon.vue";
-import Modal from "@/components/dashboard/Modal.vue";
+import Modal from "@/components/general/Modal.vue";
 import failedImage from "@/assets/img/failed-img.svg";
 import successImage from "@/assets/img/success-img.svg";
 export default {
