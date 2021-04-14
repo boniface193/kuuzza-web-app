@@ -10,7 +10,7 @@
             <th
               v-for="(header, index) in headers"
               :key="index"
-              :style="{ 'min-width': header.width }"
+              :style="{ 'min-width': header.width, 'max-width': header.width }"
             >
               <span class="with-checkbox">
                 <v-checkbox
@@ -62,7 +62,7 @@
             <td
               v-for="(header, index2) in headers"
               :key="index2"
-              :style="{ 'min-width': header.width }"
+              :style="{ 'min-width': header.width, 'max-width': header.width }"
             >
               <span class="with-checkbox">
                 <v-checkbox
@@ -497,6 +497,7 @@ export default {
           padding: 10px 5px 10px 10px;
           min-height: 45px;
           min-width: 250px;
+          overflow-x: hidden;
           display: flex;
           flex-wrap: wrap;
           align-items: center;

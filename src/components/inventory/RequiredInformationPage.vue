@@ -516,7 +516,8 @@ export default {
       ],
       daysRules: [
         (v) => !!v || "Required",
-        (v) => v > 0 || "Minimum of day is required",
+        (v) => v >= 3 || "a minimum of 3 day is required",
+        (v) => v <= 14 || "a maximum of 14 day is required",
       ],
       radioRules: [(v) => !!v || "Required"],
     };

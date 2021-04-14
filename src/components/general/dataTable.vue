@@ -10,7 +10,7 @@
             <th
               v-for="(header, index) in headers"
               :key="index"
-              :style="{ 'min-width': header.width }"
+              :style="{ 'min-width': header.width, 'max-width': header.width }"
             >
               <span class="with-checkbox">
                 <v-checkbox
@@ -50,7 +50,7 @@
           <!-- table row -->
           <tr
             v-for="(item, index3) in sortedItems"
-            :key="item[`${itemKey}`] + index3"
+            :key="index3"
             :class="{
               selectedRow: selected.includes(item[`${itemKey}`]),
               statusRow:
@@ -62,7 +62,7 @@
             <td
               v-for="(header, index2) in headers"
               :key="index2"
-              :style="{ 'min-width': header.width }"
+              :style="{ 'min-width': header.width, 'max-width': header.width }"
             >
               <span class="with-checkbox">
                 <v-checkbox
@@ -80,7 +80,9 @@
                   style="width: 60px; height: 50px"
                 />
                 <!-- shows if the content is a text and not an image or link -->
-                <span v-if="header.image !== true && header.href !== true"
+                <span
+                  v-if="header.image !== true && header.href !== true"
+                  class="text-property"
                   >{{
                     header.money === true
                       ? numberWithCommas(item[`${header.value}`])
@@ -89,7 +91,10 @@
                 </span>
 
                 <!-- shows if the content is a text and link but not an image -->
-                <span v-if="header.image !== true && header.href === true">
+                <span
+                  v-if="header.image !== true && header.href === true"
+                  class="text-property"
+                >
                   <router-link
                     :to="{
                       name: header.routeName,
@@ -161,7 +166,7 @@
         </div>
         <div
           v-for="(item, index3) in sortedItems"
-          :key="item[`${itemKey}`] + index3"
+          :key="index3"
           :class="{
             selectedRow: selected.includes(item[`${itemKey}`]),
             statusRow:
@@ -457,7 +462,7 @@ export default {
           font-size: 15px;
           text-align: left;
           padding: 10px 5px 10px 10px;
-          min-width: 150px;
+          min-width: 250px;
           min-height: 45px;
           max-height: 45px;
           display: flex;
@@ -477,6 +482,7 @@ export default {
         .with-checkbox {
           display: flex;
           align-items: flex-end;
+          overflow: hidden;
         }
         &:last-child {
           border-right: none;
@@ -496,7 +502,10 @@ export default {
           text-align: left;
           padding: 10px 5px 10px 10px;
           min-height: 45px;
-          min-width: 150px;
+          min-width: 250px;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow-x: hidden;
           display: flex;
           flex-wrap: wrap;
           align-items: center;
@@ -507,6 +516,12 @@ export default {
             &:hover {
               color: #979797 !important;
             }
+          }
+          .text-property {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 100%;
+            overflow: hidden;
           }
         }
       }
