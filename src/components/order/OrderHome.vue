@@ -42,12 +42,18 @@
 
     <!-- no data -->
     <div
-      class="text-center pt-10 pb-5"
+      class="text-center pt-16 pb-5"
       v-show="orders.length == 0 && !tableLoader"
     >
-      <p class="mb-0 secondary--text" style="font-size: 20px">
-        No order available!
-      </p>
+      <div class="mb-5">
+        <img src="@/assets/img/Empty-orders.svg" alt="" />
+      </div>
+      <div v-show="emptyOrder">
+        <h2>You have no orders yet</h2>
+        <p>When you do, you will have a list here.</p>
+      </div>
+
+      <h2 v-show="!emptyOrder">No Orders were found!</h2>
     </div>
 
     <!-- loader -->
@@ -150,6 +156,7 @@ export default {
       pageDetails: (state) => state.orders.pageDetails,
       tableLoader: (state) => state.orders.tableLoader,
       searchOrder: (state) => state.orders.searchOrder,
+      emptyOrder: (state) => state.orders.emptyOrder,
     }),
   },
   methods: {

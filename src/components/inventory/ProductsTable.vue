@@ -23,12 +23,21 @@
 
     <!-- no data -->
     <div
-      class="text-center pt-10 pb-5"
+      class="text-center pt-16 pb-5"
       v-show="products.length == 0 && !tableLoader"
     >
-      <p class="mb-0 secondary--text" style="font-size: 20px">
-        Products not Available!
-      </p>
+      <div class="mb-5">
+        <img src="@/assets/img/Empty-inventory.svg" alt="" />
+      </div>
+      <div v-show="emptyInventory">
+        <h2>You have no items in your inventory</h2>
+        <p>When you do, you will have a list here.</p>
+        <router-link :to="{ name: 'addProduct' }" class="add-btn-primary">
+          <v-btn class="primary px-8 mx-auto" depressed> Add New Product</v-btn>
+        </router-link>
+      </div>
+
+      <h2 v-show="!emptyInventory">No Products were found!</h2>
     </div>
 
     <!-- loader -->
@@ -143,6 +152,7 @@ export default {
     ...mapState({
       pageDetails: (state) => state.inventory.pageDetails,
       tableLoader: (state) => state.inventory.tableLoader,
+      emptyInventory: (state) => state.inventory.emptyInventory,
     }),
   },
   methods: {
@@ -307,6 +317,12 @@ export default {
   width: 140px;
   .v-image {
     width: 100%;
+  }
+}
+.add-btn-primary {
+  text-decoration: none;
+  .v-btn:not(.v-btn--round).v-size--default {
+    height: 45px;
   }
 }
 </style>

@@ -57,7 +57,8 @@ const state = {
     allowDateFilter: false,
     selectedReferences: [],
     productCategories: [],
-    doNothing: null
+    doNothing: null,
+    emptyInventory: false,
 };
 
 //returns the state properties
@@ -119,6 +120,11 @@ const actions = {
             }).then(response => {
                 context.commit("setProducts", response.data.data);
                 context.commit("setPageDetails", response.data.meta);
+                if(response.data.data.length === 0){
+                    context.commit("setEmptyInventory", true);
+                }else{
+                    context.commit("setEmptyInventory", false);   
+                }
                 resolve(response);
             })
                 .catch(error => {
@@ -378,6 +384,7 @@ const actions = {
 
 //updates the different state properties
 const mutations = {
+    setEmptyInventory: (state, status) => (state.emptyInventory = status),
     setProducts: (state, data) => (state.products = data),
     addProduct: (state, data) => {
         state.products.push(data)

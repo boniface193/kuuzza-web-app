@@ -47,6 +47,7 @@ const state = {
     },
     allowDateFilter: false,
     selectedReferences: [],
+    emptyOrder: false,
     doNothing: null,
 };
 //returns the state properties
@@ -71,6 +72,11 @@ const actions = {
                 .then(response => {
                     context.commit("setOrders", response.data.data);
                     context.commit("setPageDetails", response.data.meta);
+                    if(response.data.data.length === 0){
+                        context.commit("setEmptyOrder", true);
+                    }else{
+                        context.commit("setEmptyOrder", false);   
+                    }
                     resolve(response.data.data)
                 })
                 .catch(error => {
@@ -186,6 +192,7 @@ const actions = {
 //updates the different state properties
 const mutations = {
     setTableLoader: (state, status) => (state.tableLoader = status),
+    setEmptyOrder: (state, status) => (state.emptyOrder = status),
     setOrders(state, data) {
         state.orders = data
     },
