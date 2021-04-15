@@ -18,7 +18,10 @@
       class="text-center py-5"
       v-show="awaitingSettlements.data.length == 0 && !fetchingData"
     >
-      <p>No Awaiting Settlements Available!</p>
+      <div class="mb-5">
+        <img src="@/assets/img/Empty-payments.svg" alt="" />
+      </div>
+      <h2>No Awaiting Settlements Available!</h2>
     </div>
     <!-- loader -->
     <div v-show="fetchingData" class="text-center py-5">
@@ -69,8 +72,14 @@ export default {
           value: "product_name",
           width: "400px",
         },
-        { text: "Order ID", value: "order_id", width: "300px", href: true,  routeName: "OrderDetails"},
-        { text: "Amount", value: "amount", width: "250px", money: true},
+        {
+          text: "Order ID",
+          value: "order_id",
+          width: "300px",
+          href: true,
+          routeName: "OrderDetails",
+        },
+        { text: "Amount", value: "amount", width: "250px", money: true },
         { text: "Due Date", value: "due_date", width: "250px" },
       ],
     };
@@ -123,10 +132,10 @@ export default {
       this.$store.commit("balance/setPageAwaitingSettlements", params);
       this.getAwaitingSettlements();
     },
-     reset(){
+    reset() {
       this.fetchingData = true;
       this.getAwaitingSettlements();
-    }
+    },
   },
 };
 </script>

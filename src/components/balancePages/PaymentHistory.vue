@@ -18,7 +18,10 @@
       class="text-center py-5"
       v-show="paymentHistory.data.length == 0 && !fetchingData"
     >
-      <p>No payment history Available!</p>
+      <div class="mb-5">
+        <img src="@/assets/img/Empty-payments.svg" alt="" />
+      </div>
+      <h2>No payment history Available!</h2>
     </div>
     <!-- loader -->
     <div v-show="fetchingData" class="text-center py-5">
