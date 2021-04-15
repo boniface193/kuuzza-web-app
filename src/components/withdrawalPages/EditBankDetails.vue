@@ -15,8 +15,9 @@
             <customSelect
               width="100%"
               height="57px"
-              caretColor="#5064cc"
+              caretColor="#029B97"
               :placeholder="getAccountDetails.bank_name"
+              searchPlaceholder="Search bank"
               :searchBar="true"
               :items="bankList"
               :item="getAccountDetails.bank_name"
@@ -143,7 +144,7 @@
 import customSelect from "@/components/general/customSelect.vue";
 import { mapGetters } from "vuex";
 import failedImage from "@/assets/img/failed-img.svg";
-import Modal from "@/components/dashboard/Modal.vue";
+import Modal from "@/components/general/Modal.vue";
 export default {
   name: "EditBankDetails",
   components: { customSelect, Modal },

@@ -153,7 +153,7 @@
 import { mapGetters } from "vuex";
 import failedImage from "@/assets/img/failed-img.svg";
 import successImage from "@/assets/img/success-img.svg";
-import Modal from "@/components/dashboard/Modal.vue";
+import Modal from "@/components/general/Modal.vue";
 export default {
   name: "WithdrawFund",
   components: { Modal },

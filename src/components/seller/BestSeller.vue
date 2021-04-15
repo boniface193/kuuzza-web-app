@@ -43,7 +43,7 @@
   </v-container>
 </template>
 <script>
-import DataTable from "@/components/dashboard/DataTable.vue";
+import DataTable from "@/components/general/DataTable.vue";
 import dateFilter from "@/components/dashboard/calender.vue";
 export default {
   components: {

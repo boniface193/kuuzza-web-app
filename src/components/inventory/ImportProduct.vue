@@ -74,11 +74,11 @@
   </div>
 </template>
 <script>
-import Modal from "@/components/dashboard/Modal.vue";
+import Modal from "@/components/general/Modal.vue";
 import successImage from "@/assets/img/success-img.svg";
 import failedImage from "@/assets/img/failed-img.svg";
 export default {
-  name: "productList",
+  name: "ImportProduct",
   components: {
     Modal,
   },
@@ -97,7 +97,6 @@ export default {
     },
     uploadFile() {
       const formData = new FormData();
-      // console.log(this.$refs.docInput.files[0])
       formData.append("file", this.$refs.docInput.files[0]);
       this.importingFile = true;
 
@@ -106,12 +105,31 @@ export default {
         .then((response) => {
           this.importingFile = false;
           this.dialog = true;
-          this.statusImage = successImage;
-          if(response.data.meta.failed_imports_count > 0){
-            this.dialogMessage = `Products imported succesfully.<br /><span class="error--text">Total failed: ${response.data.meta.failed_imports_count}</span>`
-          }else{
-            this.dialogMessage = response.data.message;
+          console.log(response.data.meta);
+
+          if (response.data.meta.successful_imports_count > 0) {
+            this.statusImage = successImage;
+            this.dialogMessage = `${response.data.message} succesfully.<br />
+            <span class="secondary--text">Total number: ${
+              response.data.meta.failed_imports_count +
+              response.data.meta.successful_imports_count
+            }</span>
+            <span class="success--text">Total success: ${
+              response.data.meta.failed_imports_count
+            }</span>
+            <span class="error--text">Total failed: ${
+              response.data.meta.successful_imports_count
+            }</span>`;
+          } else {
+            this.statusImage = failedImage;
+            this.dialogMessage = "All products failed to import";
           }
+
+          this.getProducts();
+          setTimeout(() => {
+            this.dialog = false;
+            this.$router.push({ name: "inventoryPage" });
+          }, 2000);
         })
         .catch((error) => {
           this.importingFile = false;
@@ -119,16 +137,25 @@ export default {
           this.dialog = true;
           this.statusImage = failedImage;
           if (error.response) {
-            if (error.response.meta) {
-              this.dialogMessage =
-                error.response.meta.failed_imports_errors[0].message[0];
+            if (error.response.status == 422) {
+              this.dialogMessage = error.response.data.errors.file[0];
+            } else if (error.response.status == 400) {
+              this.dialogMessage = error.response.data.message;
             } else {
-              this.dialogMessage = error.response.message;
+              this.dialogMessage = "Something went wrong, please try again!";
             }
           } else {
             this.dialogMessage = "No internet connection!";
           }
         });
+    },
+    // get products from inventory
+    getProducts() {
+      this.$store.commit("inventory/setTableLoader", true);
+      this.$store
+        .dispatch("inventory/getProducts")
+        .then(() => this.$store.commit("inventory/setTableLoader", false))
+        .catch(() => this.$store.commit("inventory/setTableLoader", false));
     },
   },
 };

@@ -135,7 +135,7 @@
   </div>
 </template>
 <script>
-import Modal from "@/components/dashboard/Modal.vue";
+import Modal from "@/components/general/Modal.vue";
 import successImage from "@/assets/img/success-img.svg";
 import failedImage from "@/assets/img/failed-img.svg";
 import { mapGetters } from "vuex";

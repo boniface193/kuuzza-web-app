@@ -55,7 +55,7 @@
   </div>
 </template>
 <script>
-import selectBtn from "@/components/dashboard/selectBtn.vue";
+import selectBtn from "@/components/general/SelectBtn.vue";
 export default {
   name: "bankAccounts",
   components: { selectBtn },

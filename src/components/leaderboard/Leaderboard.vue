@@ -49,7 +49,7 @@
 </template>
 <script>
 import filterByDate from "@/components/dashboard/calender.vue";
-import SearchBar from "@/components/dashboard/SearchBar.vue";
+import SearchBar from "@/components/general/SearchBar.vue";
 import DataTable from "@/components/leaderboard/DataTable.vue";
 import moment from "moment";
 import { mapState } from "vuex";

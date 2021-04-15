@@ -190,8 +190,8 @@
   </div>
 </template>
 <script>
-import Modal from "@/components/dashboard/Modal.vue";
-import progressBar from "@/components/dashboard/progressBar.vue";
+import Modal from "@/components/general/Modal.vue";
+import progressBar from "@/components/general/progressBar.vue";
 import failedImage from "@/assets/img/failed-img.svg";
 import axios from "@/axios/mediaService.js";
 import store from "@/store";

@@ -78,7 +78,7 @@
   </div>
 </template>
 <script>
-import Modal from "@/components/dashboard/Modal.vue";
+import Modal from "@/components/general/Modal.vue";
 import { mapGetters } from 'vuex';
 export default {
   name: "editTeamMember",

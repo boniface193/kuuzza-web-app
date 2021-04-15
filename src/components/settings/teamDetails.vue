@@ -216,9 +216,9 @@
   </div>
 </template>
 <script>
-//import searchBar from "@/components/dashboard/searchBar.vue";
-import Modal from "@/components/dashboard/Modal.vue";
-import DataTable from "@/components/dashboard/DataTable.vue";
+//import searchBar from "@/components/general/SearchBar.vue";
+import Modal from "@/components/general/Modal.vue";
+import DataTable from "@/components/general/DataTable.vue";
 import successImage from "@/assets/img/success-img.svg";
 import failedImage from "@/assets/img/failed-img.svg";
 import { mapGetters} from "vuex";

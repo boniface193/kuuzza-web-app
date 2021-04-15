@@ -266,10 +266,11 @@ const routes = [
             path: "edit-product/:id",
             name: "editProduct",
             component: editProduct,
+            props: true,
             beforeEnter: allowAddProducts
           },
           {
-            path: ":id",
+            path: "product-details/:id",
             name: "productDetails",
             component: productDetails,
             props: true,

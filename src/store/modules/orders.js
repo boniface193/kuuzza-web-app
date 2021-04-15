@@ -72,10 +72,10 @@ const actions = {
                 .then(response => {
                     context.commit("setOrders", response.data.data);
                     context.commit("setPageDetails", response.data.meta);
-                    if(response.data.data.length === 0){
+                    if (response.data.data.length === 0) {
                         context.commit("setEmptyOrder", true);
-                    }else{
-                        context.commit("setEmptyOrder", false);   
+                    } else {
+                        context.commit("setEmptyOrder", false);
                     }
                     resolve(response.data.data)
                 })
@@ -95,12 +95,12 @@ const actions = {
         let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
         let dateRange = ((state.dateRange.endDate !== null && state.allowDateFilter === true) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
         let priceRange = ((state.filter.maxPrice) ? `price_between=${state.filter.minPrice},${state.filter.maxPrice}` : "");
-        let paid = ((state.filter.selectedOptions.includes('paid')) ? `paid=${true}` : "");
-        let unpaid = ((state.filter.selectedOptions.includes('unpaid')) ? `unpaid=${true}` : "");
-        let delivered = ((state.filter.selectedOptions.includes('delivered')) ? `delivered=${true}` : "");
-        let notDelivered = ((state.filter.selectedOptions.includes('notDelivered')) ? `not_delivered=${true}` : "");
+        let paid = ((state.filter.selectedOptions.includes('paid')) ? "paid" : "");
+        let unpaid = ((state.filter.selectedOptions.includes('not paid')) ? "unpaid" : "");
+        let delivered = ((state.filter.selectedOptions.includes('delivered')) ? "delivered" : "");
+        let notDelivered = ((state.filter.selectedOptions.includes('not delivered')) ? "not_delivered" : "");
         return new Promise((resolve, reject) => {
-            axios.get(`/orders?${dateRange}&${priceRange}&${paid}&${unpaid}&${delivered}&${notDelivered}&${perPage}&${page}`,
+            axios.get(`/orders?${perPage}&${page}&${dateRange}&${priceRange}&${paid}&${unpaid}&${delivered}&${notDelivered}`,
                 {
                     headers: {
                         Authorization: `Bearer ${store.state.onboarding.accessToken}`,

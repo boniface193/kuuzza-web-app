@@ -82,9 +82,9 @@
             <v-checkbox
               v-for="(item, index) in category"
               :key="index"
-              v-model="selected"
-              :value="item"
-              :label="item"
+              v-model="categories"
+              :value="item.name"
+              :label="item.name"
               class="my-0 py-0"
             ></v-checkbox>
           </div>
@@ -177,7 +177,7 @@
   </div>
 </template>
 <script>
-import multipleRange from "@/components/dashboard/multipleRange";
+import multipleRange from "@/components/general/multipleRange";
 import filterIcon from "@/components/icons/filterIcon.vue";
 export default {
   name: "basicFilter",
@@ -199,6 +199,7 @@ export default {
   data: function () {
     return {
       selected: [],
+      categories: [],
       filterActive: false,
       minPrice: 0,
       maxPrice: 0,
@@ -241,6 +242,7 @@ export default {
         minQuantity: this.minQuantity,
         maxQuantity: this.maxQuantity,
         selectedOptions: this.selected,
+        categories: this.categories
       });
       this.filterActive = false;
     },
@@ -251,6 +253,7 @@ export default {
       //this.$refs.commissionRange.resetRange();
       this.$refs.quantityRange.resetRange();
       this.selected = [];
+      this.categories = [];
     },
   },
 };

@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import DataTable from "@/components/dashboard/DataTable.vue";
+import DataTable from "@/components/general/DataTable.vue";
 import { mapGetters } from "vuex";
 export default {
   components: {

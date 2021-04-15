@@ -3,7 +3,7 @@
     <BasicFilter
       :price="filterParameters.price"
       :quantity="filterParameters.quantity"
-      :category="filterParameters.category"
+      :category="productCategories"
       :stock="filterParameters.stock"
       toolTipText="Filter products"
       headerName="Filter Products"
@@ -46,7 +46,6 @@ export default {
       filterParameters: {
         price: true,
         quantity: true,
-        category: ["Phones & devices", "TV", "Gadgets"],
         stock: true,
       },
       filteringOptions: {
@@ -64,6 +63,7 @@ export default {
     }),
     ...mapGetters({
       verifiedStore: "settings/verifiedStore",
+      productCategories: "inventory/productCategories",
     }),
   },
   methods: {
@@ -95,6 +95,7 @@ export default {
           minQuantity: params.minQuantity,
           maxQuantity: params.maxQuantity,
           selectedOptions: params.selectedOptions,
+          categories: params.categories
         });
 
         // set page back to page 1
@@ -114,6 +115,7 @@ export default {
           minQuantity: 0,
           maxQuantity: 0,
           selectedOptions: [],
+          categories: []
         });
 
         // set page back to page 1

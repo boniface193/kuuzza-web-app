@@ -116,12 +116,12 @@
 </template>
 
 <script>
-import Modal from "@/components/dashboard/Modal.vue";
+import Modal from "@/components/general/Modal.vue";
 import ProductsTable from "@/components/inventory/ProductsTable.vue";
 import searchProducts from "@/components/inventory/searchProducts.vue";
 import filterProducts from "@/components/inventory/filterProducts.vue";
 import exportProducts from "@/components/inventory/exportProducts.vue";
-import selectBtn from "@/components/dashboard/selectBtn.vue";
+import selectBtn from "@/components/general/SelectBtn.vue";
 import calendar from "@/components/dashboard/calender.vue";
 import RequiredInformationPage from "@/components/inventory/RequiredInformationPage.vue";
 import failedImage from "@/assets/img/failed-img.svg";

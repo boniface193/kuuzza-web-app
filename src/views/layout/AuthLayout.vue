@@ -65,7 +65,7 @@
 
 <script>
 import Layout from "@/components/layout/Layout.vue";
-import Modal from "@/components/dashboard/Modal.vue";
+import Modal from "@/components/general/Modal.vue";
 import { mapState } from "vuex";
 export default {
   components: {
