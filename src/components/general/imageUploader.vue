@@ -312,13 +312,10 @@ export default {
         .catch((error) => {
           this.status = "upload";
           this.imageError = true;
-          if (error.response.status == 401) {
-            this.$store.commit("onboarding/setTokenAuthorizeStatus", false);
-          }
           if (error.response) {
             this.imageErrorMsg = error.response.message;
           } else {
-            this.imageErrorMsg = "Something went wrong, pls try again.";
+            this.imageErrorMsg = "Something went wrong, please try again.";
           }
         });
     },
@@ -335,20 +332,11 @@ export default {
           this.fetchingImages = false;
           this.pageDetails.parameters = response.data.meta;
         })
-        .catch((error) => {
+        .catch(() => {
           this.errorDialog = true;
           this.imagesDialog = false;
           this.statusImage = failedImage;
           this.dialog = false;
-          if (error.response) {
-            if (error.response.status == 401) {
-              this.$store.commit("onboarding/setTokenAuthorizeStatus", false);
-            } else {
-              this.dialogMessage = "Pls try again, something went wrong";
-            }
-          } else {
-            this.dialogMessage = "No internet connection!";
-          }
         });
     },
   },

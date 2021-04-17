@@ -240,12 +240,10 @@ export default {
         .catch((error) => {
           this.withdrawLoader = false;
           this.confirmationDialog = false;
-          this.dialog = true;
-          this.statusImage = failedImage;
-          if (error.response) {
+          if (error.response.status == (400 || 422)) {
+            this.dialog = true;
+            this.statusImage = failedImage;
             this.dialogMessage = error.response.data.message;
-          } else {
-            this.dialogMessage = "No internet Connection!";
           }
         });
     },
@@ -260,13 +258,11 @@ export default {
           this.fetchingBalance = false;
         })
         .catch((error) => {
-          this.dialog = true;
           this.fetchingBalance = false;
-          this.statusImage = failedImage;
-          if (error.response) {
+          if (error.response.status == (400 || 422)) {
+            this.dialog = true;
+            this.statusImage = failedImage;
             this.dialogMessage = error.response.data.message;
-          } else {
-            this.dialogMessage = "No internet Connection!";
           }
         });
     },

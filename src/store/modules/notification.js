@@ -1,5 +1,5 @@
-import axios from "../../axios/notification"
-import store from "@/store";
+import notificationHttpClient from "@/axios/notification.js"
+
 const state = {
     notification: [],
     readSingleNotification: [],
@@ -12,17 +12,10 @@ const getters = {
 const actions = {
     getNotification(context) {
         return new Promise((resolve, reject) => {
-            axios.get('/notification', {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`
-                }
-            }).then((res) => {
+            notificationHttpClient.get('/notification').then((res) => {
                 context.commit('setNotification', res.data)
                 resolve(res.data)
             }).catch((error) => {
-                if (error.response.status == 401) {
-                    store.commit("onboarding/setTokenAuthorizeStatus", false);
-                }
                 reject(error)
             })
         })
@@ -30,17 +23,10 @@ const actions = {
 
     markReadForSigle(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post('/notification/read', { "ids": [data] }, {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`
-                }
-            }).then((res) => {
+            notificationHttpClient.post('/notification/read', { "ids": [data] }).then((res) => {
                 context.commit('setNotification', res.data.data)
                 resolve(res.data.data)
             }).catch((error) => {
-                if (error.response.status == 401) {
-                    store.commit("onboarding/setTokenAuthorizeStatus", false);
-                }
                 reject(error)
             })
         })
@@ -48,11 +34,7 @@ const actions = {
 
     markAll(context) {
         return new Promise((resolve, reject) => {
-            axios.post('/notification/read/all', {}, {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`
-                }
-            }).then((res) => {
+            notificationHttpClient.post('/notification/read/all', {}).then((res) => {
                 context.commit('setNotification', res.data.data)
                 resolve(res.data.data)
             }).catch((error) => {

@@ -1,5 +1,4 @@
-import axios from "@/axios/bankServices.js";
-import store from "@/store";
+import bankServiceHttpClient from "@/axios/bankServices.js";
 
 //holds the state properties
 const state = {
@@ -16,71 +15,46 @@ const actions = {
     // get bank list
     getBankList(context) {
         return new Promise((resolve, reject) => {
-            axios.get("/banks", {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                }
-            }).then(response => {
+            bankServiceHttpClient.get("/banks").then(response => {
                 resolve(response);
             })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     context.commit("doNothing");
                     reject(error);
                 })
         })
     },
+    // validate that bank account exist
     validateBankAccount(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post("/banks/verify-account", data, {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                }
-            }).then(response => {
+            bankServiceHttpClient.post("/banks/verify-account", data).then(response => {
                 resolve(response);
             })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     context.commit("doNothing");
                     reject(error);
                 })
         })
     },
+    // set account details
     setAccountDetails(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post("/bank-accounts", data, {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                }
-            }).then(response => {
+            bankServiceHttpClient.post("/bank-accounts", data).then(response => {
                 resolve(response);
             })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     context.commit("doNothing");
                     reject(error);
                 })
         })
     },
+    // get users bank account details
     getUserBankDetails(context, data) {
         return new Promise((resolve, reject) => {
-            axios.get(`/bank-accounts/${data.store_id}`, {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                }
-            }).then(response => {
+            bankServiceHttpClient.get(`/bank-accounts/${data.store_id}`).then(response => {
                 resolve(response);
             })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     context.commit("doNothing");
                     reject(error);
                 })

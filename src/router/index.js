@@ -111,7 +111,6 @@ const ifAuthenticated = (to, from, next) => {
         getProfile((to, from, next()));
       } //if accesstoken as expired make a request for new accesstoken 
       else {
-        console.log(111)
         store.dispatch("onboarding/getAccessToken").then(() => {
           getProfile((to, from, next()));
         }).catch((error) => {
@@ -132,7 +131,10 @@ const ifAuthenticated = (to, from, next) => {
       })
     }
   } else {
-    store.dispatch("onboarding/logout");
+    store.onboarding.commit("removeClientID");
+    store.onboarding.commit("removeRefreshToken");
+    store.onboarding.commit("setAccessToken", null)
+    store.commit("reset");
     next({ name: 'Signin' });
   }
 }

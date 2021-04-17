@@ -1,5 +1,5 @@
-import axios from "../../axios/gamification"
-import store from "@/store";
+import gamificationHttpClient from "@/axios/gamification"
+
 // set the number of item you want to show on table
 const setItemPerPage = (itemPerPage, per_page, from_page) => {
     let page = null;
@@ -42,20 +42,13 @@ const getters = {
 const actions = {
     getLeaderboard(context) {
         return new Promise((resolve, reject) => {
-            axios.get("/leaderboard", {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                }
-            })
+            gamificationHttpClient.get("/leaderboard")
                 .then(response => {
                     context.commit("setLeaderboard", response.data)
                     context.commit("setPageDetails", response.data.meta);
                     resolve(response.data)
                 })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     reject(error)
                 })
         })
@@ -68,20 +61,13 @@ const actions = {
         let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== '') ? `/filter?created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
         let params = route || dateRange;
         return new Promise((resolve, reject) => {
-            axios.get(`/leaderboard${params}&${page}&${perPage}`, {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                }
-            })
+            gamificationHttpClient.get(`/leaderboard${params}&${page}&${perPage}`)
                 .then(response => {
                     context.commit("setLeaderboard", response.data)
                     context.commit("setPageDetails", response.data.meta);
                     resolve(response.data)
                 })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     reject(error)
                 })
         })
@@ -121,4 +107,4 @@ export default {
     getters,
     actions,
     mutations
-}; 
+};

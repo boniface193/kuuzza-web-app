@@ -1,6 +1,4 @@
-// orderstatus base url
-import axios from "../../axios/inventory";
-import store from "@/store";
+import inventoryHttpClient from "@/axios/inventory.js";
 //holds the state properties
 const state = {
     instock: [],
@@ -19,38 +17,24 @@ const getters = {
 const actions = {
     getStock(context) {
         return new Promise((resolve, reject) => {
-            axios.get('/products/metrics', {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                }
-            }).then((res) => {
+            inventoryHttpClient.get('/products/metrics').then((res) => {
                 context.commit("setStock", res.data.data)
                 resolve(res.data.data)
 
             }).catch((error) => {
-                if (error.response.status == 401) {
-                    store.commit("onboarding/setTokenAuthorizeStatus", false);
-                }
                 reject(error.response)
             })
         })
 
     },
 
-    getStockDateFilter(context){
+    getStockDateFilter(context) {
         let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== '') ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
         return new Promise((resolve, reject) => {
-            axios.get(`/products/metrics?${dateRange}`, {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                }
-            }).then((res) => {
+            inventoryHttpClient.get(`/products/metrics?${dateRange}`).then((res) => {
                 context.commit("setStock", res.data.data)
                 resolve(res.data.data)
             }).catch((error) => {
-                if (error.response.status == 401) {
-                    store.commit("onboarding/setTokenAuthorizeStatus", false);
-                }
                 reject(error.response)
             })
         })
@@ -77,4 +61,4 @@ export default {
     getters,
     actions,
     mutations
-};  
+};

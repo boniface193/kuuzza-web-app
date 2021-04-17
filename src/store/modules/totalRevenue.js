@@ -1,6 +1,5 @@
 // orderstatus base url
-import axios from "../../axios/bankServices";
-import store from "@/store";
+import bankServiceHttpClient from "@/axios/bankServices";
 // import moment from "moment"
 //holds the state properties
 const state = {
@@ -27,18 +26,11 @@ const actions = {
         let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== '') ? `date_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
 
         return new Promise((resolve, reject) => {
-            axios.get(`/metrics/${data.id}/total-revenue?${dateRange}`, {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                }
-            }).then((response) => {
+            bankServiceHttpClient.get(`/metrics/${data.id}/total-revenue?${dateRange}`).then((response) => {
                 context.commit('setRevenue', response.data.data)
                 resolve(response.data.data)
             })
                 .catch((error) => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     reject(error)
                 })
         })

@@ -1,6 +1,5 @@
 // orderstatus base url
-import axios from "../../axios/order"
-import store from "@/store";
+import orderHttpClient from "@/axios/order"
 //holds the state properties
 const state = {
     bestSellingItems: [],
@@ -19,17 +18,10 @@ const getters = {
 const actions = {
     getBestSelling(context) {
         return new Promise((resolve, reject) => {
-            axios.get('/metrics/best-selling', {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                }
-            }).then((res) => {
+            orderHttpClient.get('/metrics/best-selling').then((res) => {
                 context.commit("setBestSelling", res.data)
                 resolve(res.data)
             }).catch((error) => {
-                if (error.response.status == 401) {
-                    store.commit("onboarding/setTokenAuthorizeStatus", false);
-                }
                 reject(error.response)
             })
         })
@@ -39,17 +31,10 @@ const actions = {
         let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== '') ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
 
         return new Promise((resolve, reject) => {
-            axios.get(`/metrics/best-selling?${dateRange}`, {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                }
-            }).then((res) => {
+            orderHttpClient.get(`/metrics/best-selling?${dateRange}`).then((res) => {
                 context.commit("setBestSelling", res.data)
                 resolve(res.data)
             }).catch((error) => {
-                if (error.response.status == 401) {
-                    store.commit("onboarding/setTokenAuthorizeStatus", false);
-                }
                 reject(error.response)
             })
         })

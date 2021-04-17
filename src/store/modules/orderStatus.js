@@ -1,6 +1,5 @@
 // orderstatus base url
-import axios from "../../axios/order"
-import store from "@/store";
+import orderHttpClient from "@/axios/order"
 //holds the state properties
 const state = {
     dashboardOrder: [],
@@ -10,19 +9,11 @@ const state = {
 const actions = {
     getOrderStatus(context) {
         return new Promise((resolve, reject) => {
-            axios.get('/metrics', {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                }
-            }).then((res) => {
+            orderHttpClient.get('/metrics').then((res) => {
                 context.commit("setdashboardOrder", res.data.data)
-                resolve(res.data.data)
-
+                resolve(res.data.data);
             }).catch((error) => {
-                if (error.response.status == 401) {
-                    store.commit("onboarding/setTokenAuthorizeStatus", false);
-                }
-                reject(error.response)
+                reject(error.response);
             })
         })
 

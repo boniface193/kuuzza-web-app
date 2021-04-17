@@ -200,12 +200,10 @@ export default {
         })
         .catch((error) => {
           this.pageLoader = false;
-          this.dialog = true;
-          this.statusImage = failedImage;
-          if (error.response) {
+          if (error.response.status == (400 || 422)) {
+            this.dialog = true;
+            this.statusImage = failedImage;
             this.dialogMessage = error.response.data.message;
-          } else {
-            this.dialogMessage = "No internet Connection!";
           }
         });
     },
@@ -246,10 +244,9 @@ export default {
             this.accountVerified = false;
             this.accountDetails = {};
             this.fetchingAccountDetails = false;
-            if (error.response) {
+
+            if (error.response.status == (400 || 422)) {
               this.errorMsg = error.response.data.message;
-            } else {
-              this.errorMsg = "No internet Connection!";
             }
           });
       }
@@ -281,10 +278,12 @@ export default {
               } else if (error.response.data.account_number) {
                 this.passwordErrorMsg = error.response.data.account_number[0];
               } else {
-                this.passwordErrorMsg = "Something went wrong, pls try again";
+                if (error.response.status == (400 || 422)) {
+                  this.dialog = true;
+                  this.statusImage = failedImage;
+                  this.dialogMessage = error.response.data.message;
+                }
               }
-            } else {
-              this.passwordErrorMsg = "No internet Connection!";
             }
           });
       }

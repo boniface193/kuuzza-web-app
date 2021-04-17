@@ -1,5 +1,4 @@
-import axios from "@/axios/bankServices.js";
-import store from "@/store";
+import bankServicesHttpClient from "@/axios/bankServices.js";
 
 // set the number of item you want to show on table
 const setItemPerPage = (itemPerPage, per_page, from_page) => {
@@ -69,11 +68,7 @@ const actions = {
         }
 
         return new Promise((resolve, reject) => {
-            axios.get(`${data.storeId}/settlements?status=${data.status}&${dateRange}&${page}&${perPage}`, {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                },
-            })
+            bankServicesHttpClient.get(`${data.storeId}/settlements?status=${data.status}&${dateRange}&${page}&${perPage}`)
                 .then((response) => {
                     let newDataFormat = []
                     response.data.data.forEach(item => {
@@ -101,9 +96,6 @@ const actions = {
                     resolve(response)
                 })
                 .catch((error) => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     reject(error)
                 });
         })
@@ -112,18 +104,11 @@ const actions = {
     getRevenueDetails(context, data) {
         let dateRange = (state.dateRange.endDate !== '') ? `date_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
         return new Promise((resolve, reject) => {
-            axios.get(`/metrics/${data.storeId}/total-revenue?${dateRange}`, {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                },
-            })
+            bankServicesHttpClient.get(`/metrics/${data.storeId}/total-revenue?${dateRange}`)
                 .then((response) => {
                     resolve(response)
                 })
                 .catch((error) => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     context.commit("doNothing");
                     reject(error)
                 });
@@ -132,17 +117,11 @@ const actions = {
     // triger withdrwal for user funds
     withdrawFunds(context) {
         return new Promise((resolve, reject) => {
-            axios.post("/settlements/withdraw", {}, {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                }
-            }).then(response => {
+            bankServicesHttpClient.post("/settlements/withdraw", {}).then(response => {
                 resolve(response);
             })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
+
                     context.commit("doNothing");
                     reject(error);
                 })
@@ -154,19 +133,13 @@ const actions = {
         let page = ((state.paymentHistory.meta.current_page) ? `page=${state.paymentHistory.meta.current_page}` : "");
         let perPage = ((state.paymentHistory.meta.per_page) ? `per_page=${state.paymentHistory.meta.per_page}` : "");
         return new Promise((resolve, reject) => {
-            axios.get(`/payouts/${data.storeId}/history?${dateRange}&${page}&${perPage}`, {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                },
-            })
+            bankServicesHttpClient.get(`/payouts/${data.storeId}/history?${dateRange}&${page}&${perPage}`)
                 .then((response) => {
                     context.commit("setPaymentHistory", response.data)
                     resolve(response)
                 })
                 .catch((error) => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
+
                     reject(error)
                 });
         })
