@@ -139,7 +139,6 @@ const actions = {
         let quantityRange = ((state.filter.maxQuantity) ? `quantity_between=${state.filter.minQuantity},${state.filter.maxQuantity}` : "");
         let inStock = (state.filter.selectedOptions.includes('inStock') ? `in_stock=${true}` : "")
         let outOfStock = (state.filter.selectedOptions.includes('outOfStock') ? `out_of_stock=${true}` : "")
-        console.log(state.filter.categories)
         let category = (state.filter.categories.length > 0) ? `category=${state.filter.categories}` : ""
         let dateRange = (state.dateRange.endDate !== null && state.allowDateFilter === true) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
 
