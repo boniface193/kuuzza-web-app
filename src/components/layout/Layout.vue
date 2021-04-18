@@ -205,7 +205,14 @@ export default {
             name: "Signin",
           });
         })
-        .catch(() => (this.dialog = false));
+        .catch((error) => {
+          this.dialog = false;
+          if (error.status == 401 || error.status == 422) {
+            this.$router.push({
+              name: "Signin",
+            });
+          }
+        });
     },
 
     getNotice() {

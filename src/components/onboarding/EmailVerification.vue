@@ -229,9 +229,9 @@ export default {
     },
     // destroy token
     denialAccess() {
-      this.$store.commit("removeClientID");
-      this.$store.commit("removeRefreshToken");
-      this.$store.commit("setAccessToken", null);
+      this.$store.commit("onboarding/removeClientID");
+      this.$store.commit("onboarding/removeRefreshToken");
+      this.$store.commit("onboarding/setAccessToken", null);
       this.dialog = false;
       this.$router.push({
         name: "Signin",
