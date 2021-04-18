@@ -61,7 +61,7 @@
             <!-- add product btn secondary-->
             <router-link
               :to="{ name: 'addProduct' }"
-              class="add-btn-secondary"
+              class="add-btn-secondary px-5"
               :disabled="!verifiedStore"
               :event="verifiedStore ? 'click' : ''"
             >
@@ -247,7 +247,7 @@ export default {
 .add-btn-primary {
   text-decoration: none;
   .v-btn:not(.v-btn--round).v-size--default {
-    height: 45px;
+    height: 48px !important;
   }
 }
 .add-btn-secondary {
