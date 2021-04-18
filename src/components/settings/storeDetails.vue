@@ -324,12 +324,7 @@ export default {
               this.statusImage = successImage;
               this.dialog = true;
             })
-            .catch((error) => {
-              if (error.response) {
-                this.dialogMessage = "";
-              } else {
-                this.dialogMessage = "No internet connection!";
-              }
+            .catch(() => {
               this.nameLoader = false;
               this.statusImage = failedImage;
               this.dialog = true;
@@ -364,12 +359,7 @@ export default {
               this.statusImage = successImage;
               this.dialog = true;
             })
-            .catch((error) => {
-              if (error.response) {
-                this.dialogMessage = "";
-              } else {
-                this.dialogMessage = "No internet connection!";
-              }
+            .catch(() => {
               this.locationLoader = false;
               this.statusImage = failedImage;
               this.dialog = true;
@@ -408,12 +398,12 @@ export default {
             .catch((error) => {
               this.phoneNumLoader = false;
               this.statusImage = failedImage;
-              if (error.response) {
+              if (error.status == 422) {
                 this.dialog = true;
-                this.dialogMessage = error.response.data.errors.phone_number[0];
-              } else {
+                this.dialogMessage = error.data.errors.phone_number[0];
+              } else if (error.status == 400) {
                 this.dialog = true;
-                this.dialogMessage = "No internet connection!";
+                this.dialogMessage = error.data.message;
               }
             });
         } else {
@@ -471,10 +461,10 @@ export default {
           .catch((error) => {
             this.otpLoader = false;
             this.otpError = true;
-            if (error.response) {
-              this.otpErrorMessage = error.response.data.errors.otp[0];
-            } else {
-              this.otpErrorMessage = "No internet Connection!";
+            if (error.status == 422) {
+              this.otpErrorMessage = error.data.errors.otp[0];
+            } else if (error.status == 400) {
+              this.otpErrorMessage = error.data.message;
             }
           });
       } else {
@@ -500,10 +490,10 @@ export default {
           this.errorMessage = true;
           this.resendOTPLoader = false;
           this.otpError = true;
-          if (error.response) {
-            this.otpErrorMessage = error.response.data.message;
-          } else {
-            this.otpErrorMessage = "No internet Connection!";
+          if (error.status == 422) {
+            this.otpErrorMessage = error.data.errors.email[0];
+          } else if (error.status == 400) {
+            this.otpErrorMessage = error.data.message;
           }
         });
     },

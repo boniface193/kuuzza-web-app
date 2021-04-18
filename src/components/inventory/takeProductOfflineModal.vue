@@ -207,17 +207,10 @@ export default {
           this.offlineDialogLoader = false;
           this.closeOfflineDialog();
           this.statusImage = failedImage;
-          this.dialog1 = true;
           this.requestedStatistic = "";
-          if (error.response) {
-            if (error.response.data.message == "Invalid product refs.") {
-              this.dialogMessage =
-                "<span class='error--text'>Failed! </span> product already offline";
-            } else {
-              this.dialogMessage = "Something went wrong, pls try again!";
-            }
-          } else {
-            this.dialogMessage = "No internet connection!";
+          if (error.status == 422 || error.status == 400) {
+            this.dialog1 = true;
+            this.dialogMessage = error.data.message;
           }
         });
     },

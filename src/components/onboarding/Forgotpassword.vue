@@ -16,7 +16,7 @@
         required
         @keyup.enter="validate_email()"
       ></v-text-field>
-      <v-text-field style="display:none"></v-text-field>
+      <v-text-field style="display: none"></v-text-field>
 
       <!-- button container -->
       <div class="pa-0 mt-5" style="width: 100%">
@@ -62,7 +62,7 @@ export default {
       this.$store
         .dispatch("onboarding/forgotPassword", {
           email: this.email,
-          type: "vendor"
+          type: "vendor",
         })
         .then((response) => {
           this.loading = false;
@@ -75,11 +75,17 @@ export default {
         })
         .catch((error) => {
           this.error = true;
-          this.loading = false; 
-          if(error.response){
+          this.loading = false;
+          if (error.status == 422) {
             this.errorMessage = `This Account does not Exist`;
-          }else {
-            this.errorMessage = `No internet Connection!`;
+          } else if (error.status == 400) {
+            this.errorMessage = error.data.message;
+          } else if (error.status == 404) {
+            this.message = "404 not found";
+          } else if (error.status == 500) {
+            this.message = "Something went wrong, please try again";
+          } else if (!navigator.onLine) {
+            this.message = "No internet connection!";
           }
         });
     },

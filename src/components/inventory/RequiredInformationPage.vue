@@ -66,7 +66,7 @@
             </div>
 
             <!-- RC number -->
-            <div class="mb-3 RC-field" style="position:relative">
+            <div class="mb-3 RC-field" style="position: relative">
               <p class="mb-1 question">RC Number</p>
               <span class="primary--text phone-format">RC</span>
               <v-text-field
@@ -776,8 +776,10 @@ export default {
             this.loader = false;
             this.otpLoader = false;
             this.otpError = true;
-            if (error.response) {
+            if (error.status == 422) {
               this.otpErrorMessage = error.response.data.errors.otp[0];
+            } else if (error.status == 400) {
+              this.otpErrorMessage = error.data.message;
             }
           });
       } else {
@@ -803,7 +805,7 @@ export default {
           this.errorMessage = true;
           this.resendOTPLoader = false;
           this.otpError = true;
-          if (error.response) {
+          if (error.status == 422 || error.status == 400) {
             this.otpErrorMessage = error.response.data.message;
           }
         });
@@ -892,7 +894,7 @@ export default {
   padding-left: 40px;
 }
 .RC-field
-> .v-text-field
+  > .v-text-field
   > .v-input__control
   > .v-input__slot
   > .v-text-field__slot {

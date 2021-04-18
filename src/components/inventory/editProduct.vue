@@ -275,10 +275,8 @@ export default {
         this.dialog = true;
         this.pageLoader = false;
         this.statusImage = failedImage;
-        if (error.response) {
-          this.dialogMessage = "Sorry, this data does not Exist";
-        } else {
-          this.dialogMessage = "No internet Connection!";
+        if (error.status == 422 || error.status == 400) {
+          this.dialogMessage = error.data.message;
         }
       });
   },
@@ -335,7 +333,7 @@ export default {
         this.quantityError = false;
       }
     },
-    // verify that minimum order quantity satisfy its condition 
+    // verify that minimum order quantity satisfy its condition
     verifyMinQuantity() {
       if (
         this.productDetails.min_order_quantity > this.productDetails.quantity
@@ -378,12 +376,10 @@ export default {
         })
         .catch((error) => {
           this.statusImage = failedImage;
-          this.dialog2 = true;
           this.pageLoader = false;
-          if (error.response) {
-            this.dialogMessage = "Something went wrong, pls try again!";
-          } else {
-            this.dialogMessage = "No internet Connection!";
+          if (error.status == 422 || error.status == 400) {
+            this.dialog2 = true;
+            this.dialogMessage = error.data.message;
           }
         });
     },
@@ -430,12 +426,10 @@ export default {
         .catch((error) => {
           this.failedRequest = true;
           this.loading = false;
-          this.dialog = true;
           this.statusImage = failedImage;
-          if (error.response) {
-            this.dialogMessage = error.response.message;
-          } else {
-            this.dialogMessage = "No internet connection!";
+          if (error.status == 422 || error.status == 400) {
+            this.dialog = true;
+            this.dialogMessage = error.data.message;
           }
         });
     },

@@ -106,11 +106,11 @@ export default {
         .then(() => (this.fetchingData = false))
         .catch((error) => {
           this.fetchingData = false;
-          if (error.response) {
+          if (error.status == 422 || error.status == 400) {
             this.statusImage = failedImage;
             this.dialog = true;
-            this.dialogMessage = "Something went wrong, pls try again!";
-          } 
+            this.dialogMessage = error.data.message;
+          }
         });
     },
     // set item per page

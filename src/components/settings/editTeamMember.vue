@@ -11,7 +11,9 @@
 
       <v-form ref="form" class="pt-10 pl-2 edit-form">
         <!-- error message -->
-        <p class="mb-3 error--text" v-show="showErrorMessage">{{errorMessage}}</p>
+        <p class="mb-3 error--text" v-show="showErrorMessage">
+          {{ errorMessage }}
+        </p>
 
         <!-- email field-->
         <div class="mb-5 settings-input">
@@ -56,7 +58,7 @@
     </div>
 
     <div class="px-4 text-center error--text" v-show="showMessage">
-      {{message}}
+      {{ message }}
     </div>
 
     <!-- Modal for dialog messages -->
@@ -79,7 +81,7 @@
 </template>
 <script>
 import Modal from "@/components/general/Modal.vue";
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 export default {
   name: "editTeamMember",
   components: { Modal },
@@ -99,27 +101,30 @@ export default {
       message: "",
       showMessage: false,
       errorMessage: "",
-      showErrorMessage: false
+      showErrorMessage: false,
     };
   },
-  created(){
-    this.$store.dispatch("settings/getSingleTeamMember",{
-      id: this.$route.params.id,
-    }).then((response) => {
-      this.teamMember = response.data.data
-    }).catch((error) => {
-      if(error.response){
-        this.message= "Sorry, this data does not Exist"
-        this.showMessage = true
-      }
-    })
+  created() {
+    this.$store
+      .dispatch("settings/getSingleTeamMember", {
+        id: this.$route.params.id,
+      })
+      .then((response) => {
+        this.teamMember = response.data.data;
+      })
+      .catch((error) => {
+        if (error.response) {
+          this.message = "Sorry, this data does not Exist";
+          this.showMessage = true;
+        }
+      });
   },
   computed: {
-     ...mapGetters({
+    ...mapGetters({
       pageDetails: "settings/pageDetails",
     }),
     computedInfo() {
-      let member = this.teamMember
+      let member = this.teamMember;
 
       return {
         email: member.email,
@@ -136,7 +141,7 @@ export default {
         this.$store
           .dispatch("settings/updateTeamMember", {
             id: this.teamMember.id,
-            role: this.computedInfo.currentRole
+            role: this.computedInfo.currentRole,
           })
           .then(() => {
             this.dialogMessage =
@@ -144,26 +149,23 @@ export default {
             this.dialog = true;
             this.loading = false;
             this.$store.dispatch("settings/getTeamMembers", {
-            page: this.pageDetails.current_page,
-            itemPerPage: this.pageDetails.per_page,
-      });
+              page: this.pageDetails.current_page,
+              itemPerPage: this.pageDetails.per_page,
+            });
           })
           .catch((error) => {
-            if (error.response) {
-             this.errorMessage = error.response.data.message
-             this.showErrorMessage = true;
-            }else{
-               this.errorMessage = "No internet Connection!";
-               this.showErrorMessage = true;
+            if (error.status == 422 || error.status == 400) {
+              this.errorMessage = error.response.data.message;
+              this.showErrorMessage = true;
             }
             this.loading = false;
           });
       }
     },
-    closeModal(){
-      this.dialog= false;
-       this.$router.push({ name: "teamDetails" });
-    }
+    closeModal() {
+      this.dialog = false;
+      this.$router.push({ name: "teamDetails" });
+    },
   },
 };
 </script>

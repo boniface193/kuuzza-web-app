@@ -146,10 +146,10 @@ export default {
             this.dialog = true;
             this.loading = false;
             this.statusImage = failedImage;
-            if (error.response) {
-              this.dialogMessage = error.response.data.errors.old_password[0];
-            } else {
-              this.dialogMessage = "No internet connection!";
+            if (error.status == 422) {
+              this.dialogMessage = error.data.errors.old_password[0];
+            } else if (error.status == 400) {
+              this.dialogMessage = error.data.message;
             }
           });
       }

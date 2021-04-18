@@ -37,17 +37,22 @@ onboardingHttpClient.interceptors.response.use(
                     return store.dispatch("onboarding/getAccessToken").then(res => {
                         store.commit("onboarding/setRefreshingToken", false);
                         // Change Authorization header
-                        axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
+                        onboardingHttpClient.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
                         // return originalRequest object with Axios.                           
-                        return axios(originalRequest);
+                        return onboardingHttpClient(originalRequest);
                     }).catch(() => store.commit("onboarding/setRefreshingToken", false))
                 } else {
-                    return axios(error.config)
+                    return onboardingHttpClient(error.config)
                 }
             }
             else if (error.response.status === 500) {
                 store.commit("onboarding/setErrorTracker", {
                     message: "Something went wrong, Please try again.",
+                    error: true
+                })
+            } else if (error.response.status === 404) {
+                store.commit("onboarding/setErrorTracker", {
+                    message: "404 Not found",
                     error: true
                 })
             } else if (!navigator.onLine) {

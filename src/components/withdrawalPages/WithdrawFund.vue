@@ -240,10 +240,10 @@ export default {
         .catch((error) => {
           this.withdrawLoader = false;
           this.confirmationDialog = false;
-          if (error.response.status == (400 || 422)) {
-            this.dialog = true;
+          if (error.status == 422 || error.status == 400) {
             this.statusImage = failedImage;
-            this.dialogMessage = error.response.data.message;
+            this.dialog = true;
+            this.dialogMessage = error.data.message;
           }
         });
     },
@@ -259,10 +259,10 @@ export default {
         })
         .catch((error) => {
           this.fetchingBalance = false;
-          if (error.response.status == (400 || 422)) {
-            this.dialog = true;
+          if (error.status == 422 || error.status == 400) {
             this.statusImage = failedImage;
-            this.dialogMessage = error.response.data.message;
+            this.dialog = true;
+            this.dialogMessage = error.data.message;
           }
         });
     },

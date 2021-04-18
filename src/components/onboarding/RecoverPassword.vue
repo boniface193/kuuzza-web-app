@@ -87,9 +87,7 @@ export default {
         //verifies password satisfies the requirement
         (v) => !!v || "Password is required",
         (v) =>
-          /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(
-            v
-          ) ||
+          /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(v) ||
           "Password must contain a minimum of 8 character, at least one uppercase, one lowercase, one number",
       ],
       confirm_passwordRules: [
@@ -115,7 +113,7 @@ export default {
           password: this.create_password,
           password_confirmation: this.confirm_password,
           otp: this.$route.params.otp,
-          type: "vendor"
+          type: "vendor",
         })
         .then((response) => {
           this.loading = false;
@@ -133,10 +131,16 @@ export default {
         .catch((error) => {
           this.loading = false;
           this.error = true;
-          if (error.response) {
-            this.errorMessage = "something went wrong, pls try again";
-          } else {
-            this.errorMessage = "No internet Connection!";
+          if (error.status == 422) {
+            this.errorMessage = error.data.errors.email[0];
+          } else if (error.status == 400) {
+            this.errorMessage = error.data.message;
+          } else if (error.status == 404) {
+            this.errorMessage = "404 not found";
+          } else if (error.status == 500) {
+            this.errorMessage = "Something went wrong, please try again";
+          } else if (!navigator.onLine) {
+            this.errorMessage = "No internet connection!";
           }
         });
     },

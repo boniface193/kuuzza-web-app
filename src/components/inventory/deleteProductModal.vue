@@ -225,11 +225,9 @@ export default {
           this.deleteDialogLoader = false;
           this.closeDeleteDialog();
           this.statusImage = failedImage;
-          this.dialog1 = true;
-          if (error.response) {
-            this.dialogMessage = "Something went wrong, pls try again!";
-          } else {
-            this.dialogMessage = "No internet connection!";
+          if (error.status == 422 || error.status == 400) {
+            this.dialog1 = true;
+            this.dialogMessage = error.data.message;
           }
         });
     },

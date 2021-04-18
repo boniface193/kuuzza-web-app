@@ -135,12 +135,10 @@ export default {
         .then(() => (this.loader = false))
         .catch((error) => {
           this.statusImage = failedImage;
-          this.dialog = true;
           this.loader = false;
-          if (error.response) {
-            this.dialogMessage = "Something went wrong, pls try again!";
-          } else {
-            this.dialogMessage = "No internet Connection!";
+          if (error.status == 422 || error.status == 400) {
+            this.dialog = true;
+            this.dialogMessage = error.data.message;
           }
         });
     },
@@ -152,12 +150,10 @@ export default {
         })
         .catch((error) => {
           this.statusImage = failedImage;
-          this.dialog = true;
           this.loader = false;
-          if (error.response) {
-            this.dialogMessage = "Something went wrong, pls try again!";
-          } else {
-            this.dialogMessage = "No internet Connection!";
+          if (error.status == 422 || error.status == 400) {
+            this.dialog = true;
+            this.dialogMessage = error.data.message;
           }
         });
     },

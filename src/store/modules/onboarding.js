@@ -25,7 +25,6 @@ const state = {
     clientID: localStorage.getItem("clientID") || null,
     refreshToken: localStorage.getItem("refreshToken") || null,
     accessToken: null,
-    tokenIsPresent: false,
     tokenAccessExpired: true,
     tokenRefreshExpired: true,
     tokenAuthorize: true,
@@ -278,6 +277,7 @@ const mutations = {
         const tokenExpired = checkIfTokenExpired(token);
         state.refreshTokenExpired = tokenExpired;
     },
+    // set the refreshtoken status
     setRefreshingToken: (state, status) => (state.refreshingToken = status),
     // set error messages, this handles error message globally
     setErrorTracker: (state, errorInfo) => {

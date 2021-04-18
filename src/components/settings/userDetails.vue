@@ -204,12 +204,8 @@ export default {
               this.statusImage = successImage;
               this.dialog = true;
             })
-            .catch((error) => {
-              if (error.response) {
-                this.dialogMessage = "";
-              } else {
-                this.dialogMessage = "No internet connection!";
-              }
+            .catch(() => {
+              this.dialogMessage = "";
               this.nameLoader = false;
               this.statusImage = failedImage;
               this.dialog = true;
@@ -243,14 +239,15 @@ export default {
               this.dialog = true;
             })
             .catch((error) => {
-              if (error.response) {
-                this.dialogMessage = error.response.data.errors.phone_number[0];
-              } else {
-                this.dialogMessage = "No internet connection!";
+              if (error.status == 422) {
+                this.dialog = true;
+                this.dialogMessage = error.data.errors.phone_number[0];
+              } else if (error.status == 400) {
+                this.dialog = true;
+                this.dialogMessage = error.data.message;
               }
               this.phoneNumLoader = false;
               this.statusImage = failedImage;
-              this.dialog = true;
             });
         } else {
           this.editPhoneNum = false;

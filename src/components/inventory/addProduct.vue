@@ -424,12 +424,10 @@ export default {
         })
         .catch((error) => {
           this.statusImage = failedImage;
-          this.dialog2 = true;
           this.loader = false;
-          if (error.response) {
-            this.dialogMessage = "Something went wrong, pls try again!";
-          } else {
-            this.dialogMessage = "No internet Connection!";
+          if (error.status == 422 || error.status == 400) {
+            this.dialog2 = true;
+            this.dialogMessage = error.data.message;
           }
         });
     },
@@ -472,10 +470,8 @@ export default {
           this.loading = false;
           this.dialog = true;
           this.statusImage = failedImage;
-          if (error.response) {
-            this.dialogMessage = error.response.message;
-          } else {
-            this.dialogMessage = "No internet connection!";
+          if (error.status == 422 || error.status == 400) {
+            this.dialogMessage = error.data.message;
           }
         });
     },
