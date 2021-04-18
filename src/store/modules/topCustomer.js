@@ -1,6 +1,6 @@
 // orderstatus base url
-import orderStatus from "../../axios/order";
-import store from "@/store";
+import orderHttpClient from "@/axios/order";
+
 //holds the state properties
 const state = {
     topCustomerItem: [],
@@ -19,17 +19,10 @@ const getters = {
 const actions = {
     getTopCustomer(context) {
         return new Promise((resolve, reject) => {
-            orderStatus.get('/metrics/top-customers', {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                }
-            }).then((res) => {
+            orderHttpClient.get('/metrics/top-customers').then((res) => {
                 context.commit("setTopCustomer", res.data.data)
                 resolve(res.data.data)
             }).catch((error) => {
-                if (error.response.status == 401) {
-                    store.commit("onboarding/setTokenAuthorizeStatus", false);
-                }
                 reject(error.response)
             })
         })
@@ -38,17 +31,10 @@ const actions = {
     getFilterTopCustomer(context) {
         let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== '') ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
         return new Promise((resolve, reject) => {
-            orderStatus.get(`/metrics/top-customers?${dateRange}`, {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                }
-            }).then((res) => {
+            orderHttpClient.get(`/metrics/top-customers?${dateRange}`).then((res) => {
                 context.commit("setTopCustomer", res.data.data)
                 resolve(res.data.data)
             }).catch((error) => {
-                if (error.response.status == 401) {
-                    store.commit("onboarding/setTokenAuthorizeStatus", false);
-                }
                 reject(error.response)
             })
         })

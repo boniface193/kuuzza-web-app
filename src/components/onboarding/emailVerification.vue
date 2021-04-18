@@ -214,11 +214,12 @@ export default {
     },
     // destroy token
     denialAccess() {
-      this.$store.dispatch("onboarding/logout").then(() => {
-        this.dialog = false;
-        this.$router.push({
-          name: "Signin",
-        });
+      this.$store.commit("removeClientID");
+      this.$store.commit("removeRefreshToken");
+      this.$store.commit("setAccessToken", null);
+      this.dialog = false;
+      this.$router.push({
+        name: "Signin",
       });
     },
   },

@@ -1,5 +1,4 @@
-import axios from "@/axios/inventory.js";
-import store from "@/store";
+import inventoryHttpClient  from "@/axios/inventory.js";
 
 // set the number of item you want to show on table
 const setItemPerPage = (itemPerPage, per_page, from_page) => {
@@ -76,11 +75,7 @@ const actions = {
     // add product to inventory
     addProduct(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post("/products", data, {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                }
-            })
+            inventoryHttpClient.post("/products", data)
                 .then(response => {
                     context.commit("addProduct", response.data.data)
                     resolve(response);
@@ -94,18 +89,11 @@ const actions = {
     // update products on inventory
     updateProduct(context, data) {
         return new Promise((resolve, reject) => {
-            axios.put(`/products/${data.ref}`, data, {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                }
-            })
+            inventoryHttpClient.put(`/products/${data.ref}`, data)
                 .then(response => {
                     resolve(response);
                 })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     context.commit("doNothing")
                     reject(error)
                 })
@@ -114,24 +102,17 @@ const actions = {
     // get inventories 
     getProducts(context) {
         return new Promise((resolve, reject) => {
-            axios.get("/products", {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                }
-            }).then(response => {
+            inventoryHttpClient.get("/products").then(response => {
                 context.commit("setProducts", response.data.data);
                 context.commit("setPageDetails", response.data.meta);
-                if(response.data.data.length === 0){
+                if (response.data.data.length === 0) {
                     context.commit("setEmptyInventory", true);
-                }else{
-                    context.commit("setEmptyInventory", false);   
+                } else {
+                    context.commit("setEmptyInventory", false);
                 }
                 resolve(response);
             })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     reject(error);
                 })
         })
@@ -139,17 +120,10 @@ const actions = {
     // get a product detail
     getProductDetail(context, data) {
         return new Promise((resolve, reject) => {
-            axios.get(`/products/${data.id}`, {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                }
-            }).then(response => {
+            inventoryHttpClient.get(`/products/${data.id}`).then(response => {
                 resolve(response);
             })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     context.commit("doNothing");
                     reject(error);
                 })
@@ -166,24 +140,16 @@ const actions = {
         let inStock = (state.filter.selectedOptions.includes('inStock') ? `in_stock=${true}` : "")
         let outOfStock = (state.filter.selectedOptions.includes('outOfStock') ? `out_of_stock=${true}` : "")
         console.log(state.filter.categories)
-        let category = (state.filter.categories.length > 0)? `category=${state.filter.categories}`: ""
+        let category = (state.filter.categories.length > 0) ? `category=${state.filter.categories}` : ""
         let dateRange = (state.dateRange.endDate !== null && state.allowDateFilter === true) ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : ""
 
         return new Promise((resolve, reject) => {
-            axios.get(`/products?${page}&${perPage}&${priceRange}&${quantityRange}&${inStock}&${outOfStock}&${dateRange}&${category}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                    }
-                }).then(response => {
-                    context.commit("setProducts", response.data.data);
-                    context.commit("setPageDetails", response.data.meta);
-                    resolve(response);
-                })
+            inventoryHttpClient.get(`/products?${page}&${perPage}&${priceRange}&${quantityRange}&${inStock}&${outOfStock}&${dateRange}&${category}`).then(response => {
+                context.commit("setProducts", response.data.data);
+                context.commit("setPageDetails", response.data.meta);
+                resolve(response);
+            })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     reject(error);
                 })
         })
@@ -196,20 +162,12 @@ const actions = {
         let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
         let route = (state.searchValue !== "") ? `/search?q=${state.searchValue}&${page}&${perPage}` : ""
         return new Promise((resolve, reject) => {
-            axios.get(`/products${route}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                    }
-                }).then(response => {
-                    context.commit("setProducts", response.data.data);
-                    context.commit("setPageDetails", response.data.meta);
-                    resolve(response);
-                })
+            inventoryHttpClient.get(`/products${route}`).then(response => {
+                context.commit("setProducts", response.data.data);
+                context.commit("setPageDetails", response.data.meta);
+                resolve(response);
+            })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     reject(error);
                 })
         })
@@ -217,18 +175,10 @@ const actions = {
     // take products offline
     takeProductsOffline(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post(`/products/offline`, data,
-                {
-                    headers: {
-                        Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                    }
-                }).then(response => {
-                    resolve(response);
-                })
+            inventoryHttpClient.post(`/products/offline`, data).then(response => {
+                resolve(response);
+            })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     context.commit("doNothing");
                     reject(error);
                 })
@@ -237,18 +187,10 @@ const actions = {
     // bring products online
     takeProductsOnline(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post(`/products/online`, data,
-                {
-                    headers: {
-                        Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                    }
-                }).then(response => {
-                    resolve(response);
-                })
+            inventoryHttpClient.post(`/products/online`, data).then(response => {
+                resolve(response);
+            })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     context.commit("doNothing");
                     reject(error);
                 })
@@ -257,18 +199,10 @@ const actions = {
     // delete products
     deleteProducts(context, data) {
         return new Promise((resolve, reject) => {
-            axios.delete(`/products`, {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                }, data
-            },
-            ).then(response => {
+            inventoryHttpClient.delete(`/products`, { data }).then(response => {
                 resolve(response);
             })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     context.commit("doNothing");
                     reject(error);
                 })
@@ -277,20 +211,12 @@ const actions = {
     // get inventory history
     getInventoryHistory(context) {
         return new Promise((resolve, reject) => {
-            axios.get("/inventory-history",
-                {
-                    headers: {
-                        Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                    }
-                }).then(response => {
-                    context.commit("setInventoryHistory", response.data.data);
-                    context.commit("setInventoryHistoryPageDetails", response.data.meta);
-                    resolve(response);
-                })
+            inventoryHttpClient.get("/inventory-history").then(response => {
+                context.commit("setInventoryHistory", response.data.data);
+                context.commit("setInventoryHistoryPageDetails", response.data.meta);
+                resolve(response);
+            })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     reject(error);
                 })
         })
@@ -303,20 +229,12 @@ const actions = {
         let perPage = ((state.historyItemPerPage) ? `per_page=${state.historyItemPerPage}` : "");
         let dateRange = (state.historyDateRange.endDate !== null && state.allowHistoryDateFilter === true) ? `created_between=${state.historyDateRange.startDate},${state.historyDateRange.endDate}` : ""
         return new Promise((resolve, reject) => {
-            axios.get(`/inventory-history?${page}&${perPage}&${dateRange}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                    }
-                }).then(response => {
-                    context.commit("setInventoryHistory", response.data.data);
-                    context.commit("setInventoryHistoryPageDetails", response.data.meta);
-                    resolve(response);
-                })
+            inventoryHttpClient.get(`/inventory-history?${page}&${perPage}&${dateRange}`).then(response => {
+                context.commit("setInventoryHistory", response.data.data);
+                context.commit("setInventoryHistoryPageDetails", response.data.meta);
+                resolve(response);
+            })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     reject(error);
                 })
         })
@@ -324,21 +242,13 @@ const actions = {
     // export product
     exportProducts() {
         return new Promise((resolve, reject) => {
-            axios.post(`/products/export`, {
+            inventoryHttpClient.post(`/products/export`, {
                 start_date: state.dateRange.startDate,
                 end_date: state.dateRange.endDate,
-            },
-                {
-                    headers: {
-                        Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                    }
-                }).then(response => {
-                    resolve(response);
-                })
+            }).then(response => {
+                resolve(response);
+            })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     reject(error);
                 })
         })
@@ -346,18 +256,10 @@ const actions = {
     // import product
     importProducts(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post(`/products/import`, data,
-                {
-                    headers: {
-                        Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                    }
-                }).then(response => {
-                    resolve(response);
-                })
+            inventoryHttpClient.post(`/products/import`, data).then(response => {
+                resolve(response);
+            })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     context.commit("doNothing");
                     reject(error);
                 })
@@ -366,18 +268,10 @@ const actions = {
     // get product categories
     getProductCategories(context) {
         return new Promise((resolve, reject) => {
-            axios.get(`/categories`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                    }
-                }).then(response => {
-                    resolve(response);
-                })
+            inventoryHttpClient.get(`/categories`).then(response => {
+                resolve(response);
+            })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     context.commit("doNothing");
                     reject(error);
                 })

@@ -113,12 +113,10 @@ export default {
         .then(() => (this.fetchingData = false))
         .catch((error) => {
           this.fetchingData = false;
-          this.statusImage = failedImage;
-          this.dialog = true;
-          if (error.response) {
-            this.dialogMessage = "Something went wrong, pls try again!";
-          } else {
-            this.dialogMessage = "No internet Connection!";
+          if (error.response.status === (422 || 400)) {
+            this.statusImage = failedImage;
+            this.dialog = true;
+            this.dialogMessage = error.response.data.message;
           }
         });
     },

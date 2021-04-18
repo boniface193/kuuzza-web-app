@@ -1,4 +1,4 @@
-import axios from "@/axios";
+import onboardingHttpClient from "@/axios/onboarding";
 import store from "@/store";
 
 //holds the state properties
@@ -42,7 +42,7 @@ const actions = {
     getUserProfile(context) {
         return new Promise((resolve, reject) => {
             state.loader = true;
-            axios.get("profile", {
+            onboardingHttpClient.get("profile", {
                 headers: {
                     Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 }
@@ -51,9 +51,6 @@ const actions = {
                 state.loader = false
                 resolve(response)
             }).catch(error => {
-                if (error.response.status == 401) {
-                    store.commit("onboarding/setTokenAuthorizeStatus");
-                }
                 reject(error)
             })
         })
@@ -61,7 +58,7 @@ const actions = {
     // edit user profile
     editUserProfile(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post("profile", data, {
+            onboardingHttpClient.post("profile", data, {
                 headers: {
                     Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 }
@@ -70,9 +67,6 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     reject(error);
                 })
         });
@@ -80,19 +74,16 @@ const actions = {
     // edit store information
     editStore(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post("store", data, {
+            onboardingHttpClient.post("store", data, {
                 headers: {
                     Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 }
             }).then(response => {
                 context.commit("setUserProfile", response.data.data)
-                context.commit("setToken", response.data.token);
+                store.commit("onboarding/setAccessToken", response.data.token);
                 resolve(response);
             })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     reject(error);
                 })
         });
@@ -100,7 +91,7 @@ const actions = {
     // reset password
     resetPassword(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post("security/password", data, {
+            onboardingHttpClient.post("security/password", data, {
                 headers: {
                     Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 }
@@ -109,9 +100,6 @@ const actions = {
             })
                 .catch(error => {
                     context.commit("doNothing")
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     reject(error);
                 })
         });
@@ -119,7 +107,7 @@ const actions = {
     // invite team member
     inviteMember(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post("users/invite", data, {
+            onboardingHttpClient.post("users/invite", data, {
                 headers: {
                     Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 }
@@ -127,9 +115,6 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     context.commit("doNothing")
                     reject(error);
                 })
@@ -138,7 +123,7 @@ const actions = {
     // get all team Members information
     getTeamMembers(context, data) {
         return new Promise((resolve, reject) => {
-            axios.get(`users?page=${data.page}&per_page=${data.itemPerPage}`, {
+            onboardingHttpClient.get(`users?page=${data.page}&per_page=${data.itemPerPage}`, {
                 headers: {
                     Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 }
@@ -148,9 +133,6 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     reject(error);
                 })
         })
@@ -159,7 +141,7 @@ const actions = {
     // get details of a team member 
     getSingleTeamMember(context, data) {
         return new Promise((resolve, reject) => {
-            axios.get(`users/${data.id}`, {
+            onboardingHttpClient.get(`users/${data.id}`, {
                 headers: {
                     Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 }
@@ -167,9 +149,6 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     context.commit("doNothing");
                     reject(error);
                 })
@@ -178,7 +157,7 @@ const actions = {
     // delete team member
     deleteMember(context, data) {
         return new Promise((resolve, reject) => {
-            axios.delete(`users/${data.id}`, {
+            onboardingHttpClient.delete(`users/${data.id}`, {
                 headers: {
                     Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 }
@@ -186,9 +165,6 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     context.commit("doNothing");
                     reject(error);
                 })
@@ -197,7 +173,7 @@ const actions = {
     // suspend a team member
     suspendTeamMember(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post(`users/${data.id}/suspend`, {}, {
+            onboardingHttpClient.post(`users/${data.id}/suspend`, {}, {
                 headers: {
                     Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 }
@@ -205,9 +181,6 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     context.commit("doNothing");
                     reject(error);
                 })
@@ -216,7 +189,7 @@ const actions = {
     // unsuspend a team member
     unSuspendTeamMember(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post(`users/${data.id}/unsuspend`, {}, {
+            onboardingHttpClient.post(`users/${data.id}/unsuspend`, {}, {
                 headers: {
                     Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 }
@@ -224,9 +197,6 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     context.commit("doNothing");
                     reject(error);
                 })
@@ -235,7 +205,7 @@ const actions = {
     // update team member 
     updateTeamMember(context, data) {
         return new Promise((resolve, reject) => {
-            axios.put(`users/${data.id}`, data, {
+            onboardingHttpClient.put(`users/${data.id}`, data, {
                 headers: {
                     Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 }
@@ -243,9 +213,6 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     context.commit("doNothing");
                     reject(error);
                 })
@@ -254,18 +221,16 @@ const actions = {
     // verify phone number 
     verifyPhoneNumber(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post(`store/phone-number/verify`, data, {
+            onboardingHttpClient.post(`store/phone-number/verify`, data, {
                 headers: {
                     Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 }
             }).then(response => {
-                context.commit("setToken", response.data.data.token);
+                store.commit("onboarding/setAccessToken", response.data.token);
                 resolve(response);
             })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus");
-                    }
+                    context.commit("doNothing");
                     reject(error);
                 })
         })
@@ -273,7 +238,7 @@ const actions = {
     // verify phone number 
     resendPhoneNumberOTP(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post(`store/phone-number/send-otp`, data, {
+            onboardingHttpClient.post(`store/phone-number/send-otp`, data, {
                 headers: {
                     Authorization: `Bearer ${store.state.onboarding.accessToken}`,
                 }
@@ -281,9 +246,6 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     context.commit("doNothing");
                     reject(error);
                 })

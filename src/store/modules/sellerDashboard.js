@@ -1,6 +1,5 @@
 // orderstatus base url
-import axios from "../../axios/order";
-import store from "@/store";
+import orderHttpClient from "@/axios/order";
 //holds the state properties
 const state = {
     sellerItem: [],
@@ -20,17 +19,10 @@ const actions = {
 
     getSeller(context) {
         return new Promise((resolve, reject) => {
-            axios.get('/metrics/sellers', {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                }
-            }).then((res) => {
+            orderHttpClient.get('/metrics/sellers').then((res) => {
                 context.commit("setSeller", res.data.data)
                 resolve(res.data.data)
             }).catch((error) => {
-                if (error.response.status == 401) {
-                    store.commit("onboarding/setTokenAuthorizeStatus", false);
-                }
                 reject(error.response)
             })
         })
@@ -40,17 +32,10 @@ const actions = {
         let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== '') ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
 
         return new Promise((resolve, reject) => {
-            axios.get(`/metrics/sellers?${dateRange}`, {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                }
-            }).then((res) => {
+            orderHttpClient.get(`/metrics/sellers?${dateRange}`).then((res) => {
                 context.commit("setSeller", res.data.data)
                 resolve(res.data.data)
             }).catch((error) => {
-                if (error.response.status == 401) {
-                    store.commit("onboarding/setTokenAuthorizeStatus", false);
-                }
                 reject(error.response)
             })
         })

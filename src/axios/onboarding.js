@@ -1,29 +1,26 @@
 import axios from "axios";
 import store from "@/store";
 
-let requestQueue = [];
 
-const bankServiceHttpClient = axios.create({
-    baseURL: "https://payment.kuuzza.com",
+const onboardingHttpClient = axios.create({
+    baseURL: "https://identity.kuuzza.com" //" nova-ids.herokuapp.com
 })
 
-const bankServiceRequest = (config) => {
+const onboardingRequest = (config) => {
     if (store.state.onboarding.accessToken !== null) {
         if (!store.state.onboarding.refreshingToken) {
             config.headers.Authorization = `Bearer ${store.state.onboarding.accessToken}`;
-        } else {
-            // add to pending request
-            requestQueue.push(config);
         }
     }
     return config
 }
 
+
 /** Adding the request interceptors */
-bankServiceHttpClient.interceptors.request.use(bankServiceRequest);
+onboardingHttpClient.interceptors.request.use(onboardingRequest);
 
 /** Adding the response interceptors */
-bankServiceHttpClient.interceptors.response.use(
+onboardingHttpClient.interceptors.response.use(
     (response) => {
         if (response.status === 200 || response.status === 201) {
             return Promise.resolve(response);
@@ -44,13 +41,13 @@ bankServiceHttpClient.interceptors.response.use(
                         // return originalRequest object with Axios.                           
                         return axios(originalRequest);
                     }).catch(() => store.commit("onboarding/setRefreshingToken", false))
-                }else {
+                } else {
                     return axios(error.config)
                 }
             }
             else if (error.response.status === 500) {
                 store.commit("onboarding/setErrorTracker", {
-                    message: "Something went wrong, Please try again",
+                    message: "Something went wrong, Please try again.",
                     error: true
                 })
             } else if (!navigator.onLine) {
@@ -65,4 +62,4 @@ bankServiceHttpClient.interceptors.response.use(
     }
 );
 
-export default bankServiceHttpClient;
+export default onboardingHttpClient;

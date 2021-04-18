@@ -7,57 +7,19 @@
         <router-view />
       </v-main>
     </div>
-    <!--------------------------- Authentication Modal ------------------------------>
-    <Modal :dialog="!tokenAuthorize" width="400">
-      <div class="white pa-3 pb-3 text-center">
-        <div class="nova-logo d-flex align-center justify-center mx-auto my-5">
-          <img src="@/assets/img/primary-logo.png" />
+    <!--------------------------- General Modal Error Handler ------------------------------>
+    <Modal :dialog="errorInfo.error" width="400">
+      <div class="white pa-3 pb-10 text-center dialog">
+        <div class="d-flex justify-end">
+          <v-icon class="error--text close-btn" @click="closeErrorModal()"
+            >mdi-close</v-icon
+          >
         </div>
-        <h3 class="pb-0">Token Expired!</h3>
+        <div class="mb-7 mt-5 mx-auto status-img">
+          <v-img :src="statusImage"></v-img>
+        </div>
 
-        <!-- error messages -->
-        <p v-show="error" class="error--text mt-3 mb-0">
-          <span v-html="errorMessage"></span>
-        </p>
-
-        <!-- form section-->
-        <v-form ref="form">
-          <!-- Email Adrress-->
-          <v-text-field
-            class="onboarding-input mt-5"
-            v-model="email"
-            :rules="emailRules"
-            type="email"
-            label="Email"
-            color="primary"
-            required
-            @keyup.enter="$refs.input2.focus"
-          ></v-text-field>
-
-          <!-- Password -->
-          <v-text-field
-            class="onboarding-input mt-5"
-            v-model="password"
-            :rules="passwordRules"
-            type="password"
-            label="Password"
-            color="primary"
-            required
-            ref="input2"
-            @keyup.enter="validate_form()"
-          ></v-text-field>
-
-          <!-- button container -->
-          <div class="pa-0 mt-0" style="width: 100%">
-            <v-btn
-              class="primary px-16 py-6 mb-5 mx-auto"
-              @click="validate_form"
-              :loading="loading"
-              :disabled="loading"
-              >Sign In</v-btn
-            >
-          </div>
-        </v-form>
+        <h4>{{ errorInfo.message }}</h4>
       </div>
     </Modal>
   </div>
@@ -66,6 +28,7 @@
 <script>
 import Layout from "@/components/layout/Layout.vue";
 import Modal from "@/components/general/Modal.vue";
+import failedImage from "@/assets/img/failed-img.svg";
 import { mapState } from "vuex";
 export default {
   components: {
@@ -74,59 +37,20 @@ export default {
   },
   data: function () {
     return {
-      errorMessage: "",
-      error: false,
-      loading: false,
-      email: "",
-      password: "",
-      emailRules: [
-        // verifies email address satisfies the requirement
-        (v) => !!v || "E-mail is required",
-        (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
-      ],
-      passwordRules: [
-        // verifies password satisfies the requirement
-        (v) => !!v || "Password is required",
-      ],
+      statusImage: failedImage,
     };
   },
   computed: {
     ...mapState({
-      tokenAuthorize: (state) => state.onboarding.tokenAuthorize,
+      errorInfo: (state) => state.onboarding.errorTracker,
     }),
   },
   methods: {
-    //validates form
-    validate_form() {
-      this.$refs.form.validate();
-      if (this.$refs.form.validate()) {
-        this.signin();
-      }
-    },
-    //Sign in
-    signin() {
-      this.loading = true;
-      this.$store
-        .dispatch("onboarding/signIn", {
-          email: this.email,
-          password: this.password,
-          type: "vendor",
-        })
-        .then((response) => {
-          if (response.data.message === "Login successful.") {
-            this.$store.commit("onboarding/setTokenAuthorizeStatus", true);
-            this.loading = false;
-          }
-        })
-        .catch((error) => {
-          this.error = true;
-          this.loading = false;
-          if (error.response) {
-            this.errorMessage = `Incorrect email address or password`;
-          } else {
-            this.errorMessage = "No internet Connection!";
-          }
-        });
+    closeErrorModal() {
+      this.$store.commit("onboarding/setErrorTracker", {
+        message: "",
+        error: false,
+      });
     },
   },
 };
@@ -142,6 +66,12 @@ export default {
 .nova-logo {
   width: 120px;
   img {
+    width: 100%;
+  }
+}
+.status-img {
+  width: 140px;
+  .v-image {
     width: 100%;
   }
 }

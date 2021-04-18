@@ -153,13 +153,11 @@ export default {
           this.fetchingData = false;
         })
         .catch((error) => {
-          this.dialog = true;
           this.fetchingData = false;
-          this.statusImage = failedImage;
-          if (error.response) {
-            this.dialogMessage = error.response.data.message;
-          } else {
-            this.dialogMessage = "No internet Connection!";
+           if (error.response) {
+            this.statusImage = failedImage;
+            this.dialog = true;
+            this.dialogMessage = "Something went wrong, please try again!";
           }
         });
     },
@@ -193,12 +191,10 @@ export default {
           }
         })
         .catch((error) => {
-          this.dialog = true;
-          this.statusImage = failedImage;
-          if (error.response) {
-            this.dialogMessage = error.response.data.message;
-          } else {
-            this.dialogMessage = "No internet Connection!";
+           if (error.response) {
+            this.statusImage = failedImage;
+            this.dialog = true;
+            this.dialogMessage = "Something went wrong, please try again!";
           }
         });
     },

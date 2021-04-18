@@ -1,4 +1,4 @@
-import axios from "@/axios";
+import onboardingHttpClient from "@/axios/onboarding.js";
 import store from "@/store";
 
 //decode token
@@ -20,6 +20,7 @@ const checkIfTokenExpired = (token) => {
 
 //holds the state properties
 const state = {
+    refreshingToken: false,
     present_signup_form: 'form1',
     clientID: localStorage.getItem("clientID") || null,
     refreshToken: localStorage.getItem("refreshToken") || null,
@@ -28,6 +29,10 @@ const state = {
     tokenAccessExpired: true,
     tokenRefreshExpired: true,
     tokenAuthorize: true,
+    errorTracker: {
+        message: "",
+        error: false
+    },
     doNothing: null,
 };
 
@@ -42,7 +47,7 @@ const actions = {
     // get user profile details
     getUserProfile(context) {
         return new Promise((resolve, reject) => {
-            axios.get("profile", {
+            onboardingHttpClient.get("profile", {
                 headers: {
                     Authorization: `Bearer ${state.accessToken}`
                 }
@@ -56,10 +61,10 @@ const actions = {
             })
         })
     },
-    //creates user account
+    // creates user account
     register(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post("auth/register", data)
+            onboardingHttpClient.post("auth/register", data)
                 .then(response => {
                     context.commit("setClientID", response.data.client_id)
                     context.commit("setAccessToken", response.data.token);
@@ -67,16 +72,14 @@ const actions = {
                     resolve(response)
                 })
                 .catch(error => {
-                    // context.commit("removeToken");
-                    // context.commit("removeRefreshToken");
                     reject(error)
                 })
         })
     },
-    //allows users to login
+    // allows users to login
     signIn: (context, data) => {
         return new Promise((resolve, reject) => {
-            axios.post("auth/login", data, //{ withCredentials: true }
+            onboardingHttpClient.post("auth/login", data, //{ withCredentials: true }
             ).then(response => {
                 context.commit("setClientID", response.data.client_id)
                 context.commit("setAccessToken", response.data.token);
@@ -91,8 +94,8 @@ const actions = {
     // verify email address 
     verifyEmail: (context, data) => {
         return new Promise((resolve, reject) => {
-            axios.post("emails/verify", data).then(response => {
-                context.commit("setToken", response.data.token)
+            onboardingHttpClient.post("emails/verify", data).then(response => {
+                context.commit("setAccessToken", response.data.token)
                 resolve(response);
             })
                 .catch(error => {
@@ -104,7 +107,7 @@ const actions = {
     // resend opt for email verification 
     resendEmailOTP(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post("emails/send-otp", data).then(response => {
+            onboardingHttpClient.post("emails/send-otp", data).then(response => {
                 resolve(response);
             })
                 .catch(error => {
@@ -116,7 +119,7 @@ const actions = {
     // forgot password
     forgotPassword: (context, data) => {
         return new Promise((resolve, reject) => {
-            axios.post("passwords/reset", data).then(response => {
+            onboardingHttpClient.post("passwords/reset", data).then(response => {
                 resolve(response)
             }).catch(error => {
                 context.commit("doNothing");
@@ -127,7 +130,7 @@ const actions = {
     // verify forgot password 
     verifyForgotPassword: (context, data) => {
         return new Promise((resolve, reject) => {
-            axios.post("passwords/verify-otp", data).then(response => {
+            onboardingHttpClient.post("passwords/verify-otp", data).then(response => {
                 resolve(response)
             })
                 .catch(error => {
@@ -139,7 +142,7 @@ const actions = {
     // resend opt verify forgot password 
     resendverifyForgotPasswordOTP(context, data) {
         return new Promise((resolve, reject) => {
-            axios.post("passwords/reset", data).then(response => {
+            onboardingHttpClient.post("passwords/reset", data).then(response => {
                 resolve(response);
             })
                 .catch(error => {
@@ -151,7 +154,7 @@ const actions = {
     // recover password
     recoverPassword: (context, data) => {
         return new Promise((resolve, reject) => {
-            axios.post("passwords/new", data).then(response => {
+            onboardingHttpClient.post("passwords/new", data).then(response => {
                 resolve(response)
             })
                 .catch(error => {
@@ -163,7 +166,7 @@ const actions = {
     // check if an account exist
     checkAccount: (context, data) => {
         return new Promise((resolve, reject) => {
-            axios.post("auth/register/validate-email", data).then(response => {
+            onboardingHttpClient.post("auth/register/validate-email", data).then(response => {
                 resolve(response)
             })
                 .catch(error => {
@@ -175,7 +178,7 @@ const actions = {
     // registration for invited team member
     // inviteTeamMember: (context, data) => {
     //     return new Promise((resolve, reject) => {
-    //         axios.post("invites/accept", data).then(response => {
+    //         onboardingHttpClient.post("invites/accept", data).then(response => {
     //             context.commit("setToken", response.data.token)
     //             context.commit("setTokenAuthorizeStatus", true);
     //             resolve(response)
@@ -189,7 +192,7 @@ const actions = {
     // get access token  
     getAccessToken: (context) => {
         return new Promise((resolve, reject) => {
-            axios.post("auth/refresh", {
+            onboardingHttpClient.post("auth/refresh", {
                 client_id: state.clientID
             },
                 {
@@ -204,14 +207,15 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
-                    
+
                     reject(error);
                 })
         });
     },
+    // logout 
     logout: (context) => {
         return new Promise((resolve, reject) => {
-            axios.post("auth/logout", {
+            onboardingHttpClient.post("auth/logout", {
                 client_id: state.clientID
             }, {
                 headers: {
@@ -226,9 +230,10 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        context.commit("setTokenAuthorizeStatus", false);
-                    }
+                    context.commit("removeClientID");
+                    context.commit("removeRefreshToken");
+                    context.commit("setAccessToken", null)
+                    store.commit("reset");
                     reject(error);
                 })
         });
@@ -273,7 +278,12 @@ const mutations = {
         const tokenExpired = checkIfTokenExpired(token);
         state.refreshTokenExpired = tokenExpired;
     },
-    setTokenAuthorizeStatus: (state, status) => (state.tokenAuthorize = status),
+    setRefreshingToken: (state, status) => (state.refreshingToken = status),
+    // set error messages, this handles error message globally
+    setErrorTracker: (state, errorInfo) => {
+        state.errorTracker.message = errorInfo.message;
+        state.errorTracker.error = errorInfo.error;
+    },
     // commit nothing
     doNothing: (state) => (state.doNothing = null)
 

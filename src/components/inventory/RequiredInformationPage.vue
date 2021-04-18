@@ -66,15 +66,16 @@
             </div>
 
             <!-- RC number -->
-            <div class="mb-3">
+            <div class="mb-3 RC-field" style="position:relative">
               <p class="mb-1 question">RC Number</p>
+              <span class="primary--text phone-format">RC</span>
               <v-text-field
                 class="mt-0"
                 v-model="rcNumber"
                 type="text"
                 :rules="rcNumberRules"
                 color="primary"
-                placeholder="RC Number"
+                placeholder="Number"
                 ref="RCnumber"
                 @keyup.enter="goNextForm(1)"
                 required
@@ -512,7 +513,7 @@ export default {
       ],
       rcNumberRules: [
         (v) => !!v || "This field is required",
-        (v) => v.length === 11 || "RC Number should be 11 digits",
+        (v) => v.length === 9 || "RC Number should be 11 digits",
       ],
       daysRules: [
         (v) => !!v || "Required",
@@ -565,8 +566,8 @@ export default {
     // set the account type selected by the user
     setAccountType(params) {
       this.accountType = params;
-      this.$refs.businessForm.reset();
-      this.$refs.individualForm.reset();
+      // this.$refs.businessForm.reset();
+      //this.$refs.individualForm.reset();
       this.accountErrorStatus = false;
     },
     // verify that the user choosed an account type
@@ -746,13 +747,10 @@ export default {
           }
         })
         .catch((error) => {
-          this.statusImage = failedImage;
-          this.dialog2 = true;
           this.submitLoader = false;
-          if (error.response) {
-            this.dialogMessage = "Something went wrong, pls try again!";
-          } else {
-            this.dialogMessage = "No internet Connection!";
+          if (error.response.status == (400 || 422)) {
+            this.statusImage = failedImage;
+            this.dialog2 = true;
           }
         });
     },
@@ -779,13 +777,7 @@ export default {
             this.otpLoader = false;
             this.otpError = true;
             if (error.response) {
-              if (error.response.status == 401) {
-                this.$store.commit("onboarding/setTokenAuthorizeStatus", false);
-              } else {
-                this.otpErrorMessage = error.response.data.errors.otp[0];
-              }
-            } else {
-              this.otpErrorMessage = "No internet Connection!";
+              this.otpErrorMessage = error.response.data.errors.otp[0];
             }
           });
       } else {
@@ -812,13 +804,7 @@ export default {
           this.resendOTPLoader = false;
           this.otpError = true;
           if (error.response) {
-            if (error.response.status == 401) {
-              this.$store.commit("onboarding/setTokenAuthorizeStatus", false);
-            } else {
-              this.otpErrorMessage = error.response.data.message;
-            }
-          } else {
-            this.otpErrorMessage = "No internet Connection!";
+            this.otpErrorMessage = error.response.data.message;
           }
         });
     },
@@ -904,6 +890,13 @@ export default {
   > .v-input__slot
   > .v-text-field__slot {
   padding-left: 40px;
+}
+.RC-field
+> .v-text-field
+  > .v-input__control
+  > .v-input__slot
+  > .v-text-field__slot {
+  padding-left: 20px;
 }
 .phone-field > .v-input .v-label {
   padding-left: 40px;

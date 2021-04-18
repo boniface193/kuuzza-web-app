@@ -1,5 +1,5 @@
-import axios from "@/axios/order.js";
-import store from "@/store";
+import orderHttpClient from "@/axios/order.js";
+
 // set the number of item you want to show on table
 const setItemPerPage = (itemPerPage, per_page, from_page) => {
     let page = null;
@@ -64,11 +64,7 @@ const getters = {
 const actions = {
     getOrders(context) {
         return new Promise((resolve, reject) => {
-            axios.get("/orders", {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                }
-            })
+            orderHttpClient.get("/orders",)
                 .then(response => {
                     context.commit("setOrders", response.data.data);
                     context.commit("setPageDetails", response.data.meta);
@@ -80,9 +76,6 @@ const actions = {
                     resolve(response.data.data)
                 })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     reject(error)
                 })
         })
@@ -100,20 +93,13 @@ const actions = {
         let delivered = ((state.filter.selectedOptions.includes('delivered')) ? "delivered" : "");
         let notDelivered = ((state.filter.selectedOptions.includes('not delivered')) ? "not_delivered" : "");
         return new Promise((resolve, reject) => {
-            axios.get(`/orders?${perPage}&${page}&${dateRange}&${priceRange}&${paid}&${unpaid}&${delivered}&${notDelivered}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                    }
-                }).then(response => {
-                    context.commit("setOrders", response.data.data);
-                    context.commit("setPageDetails", response.data.meta);
-                    resolve(response);
-                })
+            orderHttpClient.get(`/orders?${perPage}&${page}&${dateRange}&${priceRange}&${paid}&${unpaid}&${delivered}&${notDelivered}`,
+            ).then(response => {
+                context.commit("setOrders", response.data.data);
+                context.commit("setPageDetails", response.data.meta);
+                resolve(response);
+            })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     reject(error);
                 })
         })
@@ -121,18 +107,11 @@ const actions = {
 
     getOrdersDetail(context, data) {
         return new Promise((resolve, reject) => {
-            axios.get(`/orders/${data.id}`, {
-                headers: {
-                    Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                }
-            }).then(response => {
+            orderHttpClient.get(`/orders/${data.id}`).then(response => {
                 context.commit('setDetails', response.data.data)
                 resolve(response.data.data);
             })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     context.commit("doNothing");
                     reject(error);
                 })
@@ -146,20 +125,12 @@ const actions = {
         let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
         let route = (state.searchValue !== "") ? `/search?q=${state.searchValue}&${page}&${perPage}` : ""
         return new Promise((resolve, reject) => {
-            axios.get(`/orders${route}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                    }
-                }).then(response => {
-                    context.commit("setOrders", response.data.data);
-                    context.commit("setPageDetails", response.data.meta);
-                    resolve(response);
-                })
+            orderHttpClient.get(`/orders${route}`).then(response => {
+                context.commit("setOrders", response.data.data);
+                context.commit("setPageDetails", response.data.meta);
+                resolve(response);
+            })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     reject(error);
                 })
         })
@@ -167,21 +138,13 @@ const actions = {
 
     exportOrders() {
         return new Promise((resolve, reject) => {
-            axios.post(`/orders/export`, {
+            orderHttpClient.post(`/orders/export`, {
                 start_date: state.dateRange.startDate,
                 end_date: state.dateRange.endDate
-            },
-                {
-                    headers: {
-                        Authorization: `Bearer ${store.state.onboarding.accessToken}`,
-                    }
-                }).then(response => {
-                    resolve(response);
-                })
+            }).then(response => {
+                resolve(response);
+            })
                 .catch(error => {
-                    if (error.response.status == 401) {
-                        store.commit("onboarding/setTokenAuthorizeStatus", false);
-                    }
                     reject(error);
                 })
         })
