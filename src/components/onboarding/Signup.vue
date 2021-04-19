@@ -184,7 +184,7 @@
       <div
         class="pa-0 mt-5 d-flex justify-space-between align-center btn-container"
       >
-      <!-- goto prev form btn -->
+        <!-- goto prev form btn -->
         <v-btn
           class="primary--text light-background mb-5 mb-0 px-1 py-2"
           :disabled="loading"
@@ -239,10 +239,10 @@ export default {
         (v) => !!v || "E-mail is required",
         (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
       ],
-       phoneRules: [
+      phoneRules: [
         //verifies phone number satisfies the requirement
         (v) => !!v || "This field is required",
-        (v) => v.substring(0,1) != 0 || "Phone number cannot begin with 0",
+        (v) => v.substring(0, 1) != 0 || "Phone number cannot begin with 0",
         (v) => v.length > 9 || "Number should 10 digits or more",
         (v) => v.length <= 11 || "Maximum 11 digits or more",
       ],
@@ -292,7 +292,7 @@ export default {
     this.autocomplete.addListener("place_changed", this.onPlaceChanged);
   },
   methods: {
-    // on google autocomplete selection 
+    // on google autocomplete selection
     onPlaceChanged() {
       let place = this.autocomplete.getPlace();
       if (!place.geometry) {
@@ -332,15 +332,16 @@ export default {
             .catch((error) => {
               this.error = true;
               this.loading2 = false;
-              if (error.response) {
-                this.errorMessage = error.response.data.errors.email[0];
-              } else {
-                this.errorMessage = "No internet Connection!";
-              }
-
-              switch(error.response){
-                case 500:
-                  this.errorMessage = "Something went wrong, please try again."
+              if (error.status == 422) {
+                this.errorMessage = error.data.errors.email[0];
+              } else if (error.status == 400) {
+                this.errorMessage = error.data.message;
+              } else if (error.status == 404) {
+                this.errorMessage = "404 not found";
+              } else if (error.status == 500) {
+                this.errorMessage = "Something went wrong, please try again";
+              } else if (!navigator.onLine) {
+                this.errorMessage = "No internet connection!";
               }
             });
         } else if (form_num == 2 && this.validAddress) {
@@ -394,10 +395,17 @@ export default {
         .catch((error) => {
           this.error = true;
           this.loading = false;
-          if (error.response) {
-            this.errorMessage = error.response.data.errors.email[0];
-          } else {
-            this.errorMessage = "No internet Connection!";
+
+          if (error.status == 422) {
+            this.errorMessage = error.data.errors.email[0];
+          } else if (error.status == 400) {
+            this.errorMessage = error.data.message;
+          } else if (error.status == 404) {
+            this.errorMessage = "404 not found";
+          } else if (error.status == 500) {
+            this.errorMessage = "Something went wrong, please try again";
+          } else if (!navigator.onLine) {
+            this.errorMessage = "No internet connection!";
           }
         });
     },
@@ -408,7 +416,7 @@ export default {
 .btn-container {
   width: 60%;
 }
-.phone-field{
+.phone-field {
   position: relative;
 }
 .phone-format {

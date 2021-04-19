@@ -186,11 +186,9 @@ export default {
         .catch((error) => {
           this.$store.commit("orders/setTableLoader", false);
           this.statusImage = failedImage;
-          this.dialog = true;
-          if (error.response) {
-            this.dialogMessage = "Something went wrong, please try again!";
-          } else {
-            this.dialogMessage = "No internet Connection!";
+          if (error.status == 422 || error.status == 400) {
+            this.dialog = true;
+            this.dialogMessage = error.data.message;
           }
         });
     },
@@ -198,11 +196,10 @@ export default {
     getSearchOrder() {
       this.$store.dispatch("orders/searchOrders").catch((error) => {
         this.statusImage = failedImage;
-        this.dialog = true;
-        if (error.response) {
-          this.dialogMessage = "Something went wrong, pls try again!";
-        } else {
-          this.dialogMessage = "No internet Connection!";
+
+        if (error.status == 422 || error.status == 400) {
+          this.dialog = true;
+          this.dialogMessage = error.data.message;
         }
       });
     },

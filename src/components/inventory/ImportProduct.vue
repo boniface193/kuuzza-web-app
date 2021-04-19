@@ -105,7 +105,6 @@ export default {
         .then((response) => {
           this.importingFile = false;
           this.dialog = true;
-          console.log(response.data.meta);
 
           if (response.data.meta.successful_imports_count > 0) {
             this.statusImage = successImage;
@@ -134,18 +133,14 @@ export default {
         .catch((error) => {
           this.importingFile = false;
           this.loading = false;
-          this.dialog = true;
           this.statusImage = failedImage;
-          if (error.response) {
-            if (error.response.status == 422) {
-              this.dialogMessage = error.response.data.errors.file[0];
-            } else if (error.response.status == 400) {
-              this.dialogMessage = error.response.data.message;
-            } else {
-              this.dialogMessage = "Something went wrong, please try again!";
-            }
-          } else {
-            this.dialogMessage = "No internet connection!";
+
+          if (error.status == 422) {
+            this.dialog = true;
+            this.dialogMessage = error.response.data.errors.file[0];
+          } else if (error.response.status == 400) {
+            this.dialog = true;
+            this.dialogMessage = error.response.data.message;
           }
         });
     },

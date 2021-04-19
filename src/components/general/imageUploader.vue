@@ -312,10 +312,10 @@ export default {
         .catch((error) => {
           this.status = "upload";
           this.imageError = true;
-          if (error.response) {
+          if (error.status == 422 || error.status == 400) {
+            this.statusImage = failedImage;
+            this.dialog = true;
             this.imageErrorMsg = error.response.message;
-          } else {
-            this.imageErrorMsg = "Something went wrong, please try again.";
           }
         });
     },

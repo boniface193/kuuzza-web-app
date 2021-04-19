@@ -50,14 +50,13 @@ export default {
     };
   },
   created() {
-    this.pageLoader = true
+    this.pageLoader = true;
     if (this.$store.getters["settings/getUserProfile"].name === "") {
-      this.$store.dispatch("settings/getUserProfile")
-      .then(()=> {
+      this.$store.dispatch("settings/getUserProfile").then(() => {
         this.getUserBankDetails();
-      })
-    }else{
-      this.getUserBankDetails()
+      });
+    } else {
+      this.getUserBankDetails();
     }
   },
   computed: {
@@ -90,13 +89,11 @@ export default {
           }
         })
         .catch((error) => {
-          this.dialog = true;
           this.pageLoader = false;
-          this.statusImage = failedImage;
-          if (error.response) {
-            this.dialogMessage = error.response.data.message;
-          } else {
-            this.dialogMessage = "No internet Connection!";
+          if (error.status == 422 || error.status == 400) {
+            this.statusImage = failedImage;
+            this.dialog = true;
+            this.dialogMessage = error.data.message;
           }
         });
     },

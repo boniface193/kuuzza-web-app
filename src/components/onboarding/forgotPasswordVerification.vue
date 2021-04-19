@@ -121,10 +121,16 @@ export default {
           .catch((error) => {
             this.loading = false;
             this.errorMessage = true;
-            if (error.response) {
-              this.message = "OTP is invalid or expired";
-            } else {
-              this.message = "No internet Connection!";
+            if (error.status == 422) {
+              this.message = error.data.errors.otp[0];
+            } else if (error.status == 400) {
+              this.message = error.data.message;
+            } else if (error.status == 404) {
+              this.message = "404 not found";
+            } else if (error.status == 500) {
+              this.message = "Something went wrong, please try again";
+            } else if (!navigator.onLine) {
+              this.message = "No internet connection!";
             }
           });
       } else {
@@ -154,10 +160,16 @@ export default {
         .catch((error) => {
           this.errorMessage = true;
           this.resendOTPLoader = false;
-          if (error.response) {
-            this.message = error.response.errors.email[0];
-          } else {
-            this.message = "No internet Connection!";
+          if (error.status == 422) {
+            this.message = error.data.errors.email[0];
+          } else if (error.status == 400) {
+            this.message = error.data.message;
+          } else if (error.status == 404) {
+            this.message = "404 not found";
+          } else if (error.status == 500) {
+            this.message = "Something went wrong, please try again";
+          } else if (!navigator.onLine) {
+            this.message = "No internet connection!";
           }
         });
     },

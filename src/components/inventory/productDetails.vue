@@ -26,7 +26,7 @@
             <span class="item-title">SKU: </span
             ><span class="secondary--text">{{ productDetails.sku }}</span>
           </p>
-          
+
           <!-- product quantity -->
           <p class="mt-2 mb-3">
             <span class="item-title">Quantity: </span
@@ -51,9 +51,7 @@
           <p class="mt-2 mb-3">
             <span class="item-title">Total price: </span
             ><span class="secondary--text"
-              >&#8358;{{
-               productDetails.total_price_label
-              }}</span
+              >&#8358;{{ productDetails.total_price_label }}</span
             >
           </p>
           <!-- product description -->
@@ -99,12 +97,10 @@ export default {
         this.productDetails = response.data.data;
       })
       .catch((error) => {
-        this.dialog = true;
         this.pageLoader = false;
-        if (error.response) {
-          this.dialogMessage = "Sorry, this data does not Exist";
-        } else {
-          this.dialogMessage = "No internet Connection!";
+        if (error.status == 422 || error.status == 400) {
+          this.dialog = true;
+          this.dialogMessage = error.data.message;
         }
       });
   },
@@ -113,7 +109,7 @@ export default {
       this.$router.push({
         name: "editProduct",
         params: {
-          id: this.$route.params.id
+          id: this.$route.params.id,
         },
       });
     },

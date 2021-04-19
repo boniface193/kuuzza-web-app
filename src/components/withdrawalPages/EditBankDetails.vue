@@ -207,10 +207,10 @@ export default {
         })
         .catch((error) => {
           this.pageLoader = false;
-          if (error.response.status == (400 || 422)) {
-            this.dialog = true;
+          if (error.status == 422 || error.status == 400) {
             this.statusImage = failedImage;
-            this.dialogMessage = error.response.data.message;
+            this.dialog = true;
+            this.dialogMessage = error.data.message;
           }
         });
     },
@@ -253,7 +253,7 @@ export default {
             this.accountVerified = false;
             this.newAccountDetails = {};
             this.fetchingAccountDetails = false;
-            if (error.response.status == (400 || 422)) {
+            if (error.status == 422 || error.status == 400) {
               this.errorMsg = error.response.data.message;
             }
           });

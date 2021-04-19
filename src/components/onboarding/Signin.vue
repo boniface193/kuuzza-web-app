@@ -108,10 +108,17 @@ export default {
         .catch((error) => {
           this.error = true;
           this.loading = false;
-          if (error.response) {
+
+          if (error.status == 422) {
             this.errorMessage = `Incorrect email address or password`;
-          } else {
-            this.errorMessage = "No internet Connection!";
+          } else if (error.status == 400) {
+            this.errorMessage = error.data.message;
+          } else if (error.status == 404) {
+            this.errorMessage = "404 not found";
+          } else if (error.status == 500) {
+            this.errorMessage = "Something went wrong, please try again";
+          } else if (!navigator.onLine) {
+            this.errorMessage = "No internet connection!";
           }
         });
     },

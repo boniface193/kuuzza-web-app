@@ -64,17 +64,16 @@ export default {
             })
             .catch((error) => {
               this.statusImage = failedImage;
-              this.dialog = true;
-              if (error.response) {
-                this.dialogMessage = "Something went wrong, pls try again!";
-              } else {
-                this.dialogMessage = "No internet Connection!";
+              if (error.status == 422 || error.status == 400) {
+                this.dialog = true;
+                this.dialogMessage = error.data.message;
               }
             });
         } else {
           this.statusImage = failedImage;
           this.dialog = true;
-          this.dialogMessage = "Please select a date range before proceeding with your export.";
+          this.dialogMessage =
+            "Please select a date range before proceeding with your export.";
         }
       }
     },
