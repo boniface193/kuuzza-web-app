@@ -36,6 +36,10 @@ body {
       color: var(--v-primary-base);
     }
   }
+  .v-btn:not(.v-btn--round).v-size--default {
+    height: 40px;
+    border-radius: 8px;
+  }
 }
 
 *::-webkit-scrollbar {
