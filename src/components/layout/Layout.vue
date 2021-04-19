@@ -183,22 +183,11 @@ export default {
     ...mapState({
       userName: (state) => state.settings.profile.name,
       image: (state) => state.settings.profile.photo,
-      // getNotified: (state) => state.notification.notification,
     }),
   },
 
   created() {
     this.getNotice();
-    // this.$store.dispatch("notification/getNotification").then((res) => {
-    //   this.getNotified = res.data;
-    //   let showNote = res.data.filter((item) => item.read);
-    //   // if (showing_not) {
-    //   //   this.showNot = true;
-    //   // } else {
-    //   //   this.showNot = false;
-    //   // }
-    //   console.log(showNote);
-    // });
     if (this.$store.getters["settings/getUserProfile"].name === "") {
       this.$store.dispatch("settings/getUserProfile");
     }
@@ -228,22 +217,14 @@ export default {
 
     getNotice() {
       this.$store.dispatch("notification/getNotification").then((res) => {
-        this.getNotified = res.data.filter((item) => {
-          return item.id == true;
+        res.data.forEach((i) => {
+          if (i.read === false) {
+            this.showNot = true;
+          } else {
+            this.showNot = false;
+          }
         });
-        console.log(this.getNotified);
       });
-      //   console.log("hello", this.getNotified)
-      //   if (!this.getNotified === undefined) {
-      // let showing_not = this.getNotified.data.find(
-      //   (item) => item.read === true
-      // );
-      // if (showing_not) {
-      //   this.showNot = true;
-      // } else {
-      //   this.showNot = false;
-      // }
-      //   }
     },
   },
 };

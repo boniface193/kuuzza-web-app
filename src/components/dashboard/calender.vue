@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center calender d-none d-md-block">
+  <div class="text-center calender">
     <!-- displays calendar filter -->
     <date-range-picker
       ref="picker"
