@@ -29,6 +29,10 @@
           :items="leaderboard"
           itemKey="id"
           :itemPerPage="pageDetails.per_page || 15"
+          :paginationLength="pageDetails.last_page"
+          :page="pageDetails.current_page"
+          @itemPerPage="setItemPerPage"
+          @onPageChange="setCurentPage"
         />
       </div>
       <!-- card item -->
@@ -113,6 +117,16 @@ export default {
   },
 
   methods: {
+    // set item per page
+    setItemPerPage(params) {
+      this.$store.commit("inventory/setItemPerPage", params);
+      this.getLeaderboard();
+    },
+    // set current page
+    setCurentPage(params) {
+      this.$store.commit("inventory/setPage", params);
+      this.getLeaderboard();
+    },
     getSearchValue(params) {
       this.$store.commit("leaderboard/getSearchValue", params);
       this.$store.commit("leaderboard/setSearchOrder", true);

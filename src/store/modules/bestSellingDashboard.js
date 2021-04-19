@@ -3,6 +3,9 @@ import orderHttpClient from "@/axios/order"
 //holds the state properties
 const state = {
     bestSellingItems: [],
+    page: 1,
+    itemPerPage: 15,
+    pageDetails: {},
     dateRange: {
         startDate: '',
         endDate: '',
@@ -20,6 +23,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             orderHttpClient.get('/metrics/best-selling').then((res) => {
                 context.commit("setBestSelling", res.data)
+                context.commit("setPageDetails", res.data.meta);
                 resolve(res.data)
             }).catch((error) => {
                 reject(error.response)
@@ -29,10 +33,12 @@ const actions = {
 
     getSellerFilter(context) {
         let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== '') ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
-
+console.log(dateRange)
         return new Promise((resolve, reject) => {
             orderHttpClient.get(`/metrics/best-selling?${dateRange}`).then((res) => {
                 context.commit("setBestSelling", res.data)
+                context.commit("setPageDetails", res.data.meta);
+                console.log(res.data)
                 resolve(res.data)
             }).catch((error) => {
                 reject(error.response)
@@ -48,7 +54,14 @@ const mutations = {
     },
     filterRange: (state, data) => {
         state.dateRange = data
-    }
+    },
+    setPageDetails: (state, data) => (state.pageDetails = data),
+    // setItemPerPage: (state, itemPerPage) => {
+    //     state.itemPerPage = itemPerPage;
+    //     let page = setItemPerPage(itemPerPage, state.pageDetails.per_page, state.pageDetails.from);
+    //     state.page = page;
+    // },
+    setPage: (state, page) => (state.page = page),
 };
 
 
@@ -59,4 +72,4 @@ export default {
     getters,
     actions,
     mutations
-};  
+};

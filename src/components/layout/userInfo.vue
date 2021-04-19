@@ -3,10 +3,7 @@
     <v-card width="300">
       <div class="text-center py-5">
         <v-avatar size="40" class="rounded-circle mb-4">
-          <v-img
-            v-if="userInfor.photo"
-            :src="userInfor.photo"
-          ></v-img>
+          <v-img v-if="userInfor.photo" :src="userInfor.photo"></v-img>
           <v-icon v-else size="40">mdi-account-circle</v-icon>
         </v-avatar>
         <div class="layout-title mb-2">{{ userInfor.name }}</div>
@@ -15,7 +12,7 @@
           depressed
           class="layout-title-subtitle mx-6"
           :to="{ name: 'user' }"
-          >Manage your Kuuza Account</v-btn
+          >Manage your Account</v-btn
         >
       </div>
     </v-card>
