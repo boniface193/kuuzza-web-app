@@ -87,6 +87,7 @@ import FilterOrders from "@/components/order/FilterOrders.vue";
 import ExportOrders from "@/components/order/ExportOrders.vue";
 import Calendar from "@/components/general/Calendar.vue";
 import failedImage from "@/assets/img/failed-img.svg";
+import moment from "moment";
 import { mapState } from "vuex";
 export default {
   name: "orderPage",
@@ -163,8 +164,8 @@ export default {
     // filter by date
     dateValue(params) {
       this.$store.commit("orders/setDateRange", {
-        startDate: params.startDate.toISOString().split("T")[0],
-        endDate: params.endDate.toISOString().split("T")[0],
+        startDate: moment(params.startDate).format("L"),
+        endDate: moment(params.endDate).format("L"),
       });
       this.$store.commit("orders/setTableLoader", true);
       this.$store.commit("orders/setAllowDateFilter", true);

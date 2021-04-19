@@ -114,10 +114,10 @@ export default {
               response.data.meta.successful_imports_count
             }</span>
             <span class="success--text">Total success: ${
-              response.data.meta.failed_imports_count
+              response.data.meta.successful_imports_count
             }</span>
             <span class="error--text">Total failed: ${
-              response.data.meta.successful_imports_count
+              response.data.meta.failed_imports_count
             }</span>`;
           } else {
             this.statusImage = failedImage;

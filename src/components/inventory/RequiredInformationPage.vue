@@ -513,7 +513,7 @@ export default {
       ],
       rcNumberRules: [
         (v) => !!v || "This field is required",
-        (v) => v.length === 9 || "RC Number should be 11 digits",
+        (v) => v.length === 9 || "RC Number should be 9 digits",
       ],
       daysRules: [
         (v) => !!v || "Required",
@@ -777,7 +777,7 @@ export default {
             this.otpLoader = false;
             this.otpError = true;
             if (error.status == 422) {
-              this.otpErrorMessage = error.response.data.errors.otp[0];
+              this.otpErrorMessage = error.data.errors.otp[0];
             } else if (error.status == 400) {
               this.otpErrorMessage = error.data.message;
             }
@@ -806,7 +806,7 @@ export default {
           this.resendOTPLoader = false;
           this.otpError = true;
           if (error.status == 422 || error.status == 400) {
-            this.otpErrorMessage = error.response.data.message;
+            this.otpErrorMessage = error.data.message;
           }
         });
     },

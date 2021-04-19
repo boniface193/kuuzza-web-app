@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pb-16">
     <div>
       <div style="width: 200px">
         <!-- back to Inventory -->

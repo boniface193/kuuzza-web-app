@@ -85,7 +85,7 @@
           <div class="mb-3 input-field">
             <p class="mb-1">
               Unit Price (&#8358;)
-              <span class="primary--text">(Inclusive of 7.5% VAT)</span>
+              <!-- <span class="primary--text">(Inclusive of 7.5% VAT)</span> -->
             </p>
             <v-text-field
               class="input mt-0"
