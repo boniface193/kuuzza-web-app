@@ -22,7 +22,9 @@
         class="onboarding-input mr-5 mt-5"
         v-model="password"
         :rules="passwordRules"
-        type="password"
+        :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+        @click:append="() => (showPassword = !showPassword)"
+        :type="showPassword ? 'password' : 'text'"
         label="Password"
         color="primary"
         required
@@ -72,6 +74,7 @@ export default {
       loading: false,
       email: "",
       password: "",
+      showPassword: true,
       emailRules: [
         // verifies email address satisfies the requirement
         (v) => !!v || "E-mail is required",

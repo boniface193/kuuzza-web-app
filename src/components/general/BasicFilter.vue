@@ -212,7 +212,7 @@ export default {
   computed: {
     numberRange() {
       return {
-        maxNum: 1000000000,
+        maxNum: 500000,
         minNum: 0,
       };
     },

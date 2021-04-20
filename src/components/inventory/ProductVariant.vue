@@ -71,7 +71,7 @@
             >
             </v-text-field>
             <!-- this is to prevent enter from triggering default in an input -->
-            <v-text-field style="dispplay:none"></v-text-field>
+            <v-text-field style="display:none"></v-text-field>
           </div>
           <v-btn
             class="light-background primary--text mb-8"
@@ -161,8 +161,9 @@ export default {
     },
     // remove variant form
     removeForm(index) {
-      this.variantTypes.push(this.variantItems[index].name);
+      //this.variantTypes.push(this.variantItems[index].name);
       this.variantItems.splice(index, 1);
+      this.emitVariant();
     },
     // add the variant option
     setVariantOption(index) {

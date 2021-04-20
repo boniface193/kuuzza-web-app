@@ -200,7 +200,7 @@ export default {
         })
         .catch((error) => {
           this.pageLoader = false;
-          if (error.response.status == (400 || 422)) {
+          if (error.status == 400 || error.status == 422) {
             this.dialog = true;
             this.statusImage = failedImage;
             this.dialogMessage = error.response.data.message;
@@ -245,8 +245,8 @@ export default {
             this.accountDetails = {};
             this.fetchingAccountDetails = false;
 
-            if (error.response.status == (400 || 422)) {
-              this.errorMsg = error.response.data.message;
+            if (error.status == 400 || error.status == 422) {
+              this.errorMsg = error.data.message;
             }
           });
       }
