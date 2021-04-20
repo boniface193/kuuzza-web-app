@@ -14,7 +14,7 @@
             Selling Items
           </h2>
         </router-link>
-        <dateFilter @updateDate="dateValue" />
+        <!-- <dateFilter @updateDate="dateValue" /> -->
       </div>
       <div>
         <div
@@ -48,11 +48,11 @@
 </template>
 <script>
 import DataTable from "@/components/general/DataTable.vue";
-import dateFilter from "@/components/dashboard/calender.vue";
+// import dateFilter from "@/components/dashboard/calender.vue";
 import { mapState } from "vuex";
 export default {
   components: {
-    dateFilter,
+    // dateFilter,
     DataTable,
   },
   data() {
@@ -78,7 +78,7 @@ export default {
         { text: "Total Quantity Sold", value: "quantity", width: "25%" },
         {
           text: "Total Value of Orders(₦)",
-          value: "total_order_value",
+          value: "total_store_value",
           width: "25%",
         },
       ],
@@ -108,17 +108,17 @@ export default {
 
   methods: {
     // filter by date
-    dateValue(params) {
-     this.$store.commit("bestSellingDashboard/filterRange", {
-        startDate: params.startDate.toISOString().split("T")[0],
-        endDate: params.endDate.toISOString().split("T")[0],
-      });
-      // this.$store.commit("bestSellingDashboard/setTableLoader", true);
-      // this.$store.commit("bestSellingDashboard/setAllowDateFilter", true);
-      // set page back to page 1
-      this.$store.commit("bestSellingDashboard/setPage", 1);
-      // this.getFilteredOrders();
-    },
+    // dateValue(params) {
+    //  this.$store.commit("bestSellingDashboard/filterRange", {
+    //     startDate: params.startDate.toISOString().split("T")[0],
+    //     endDate: params.endDate.toISOString().split("T")[0],
+    //   });
+    //   // this.$store.commit("bestSellingDashboard/setTableLoader", true);
+    //   // this.$store.commit("bestSellingDashboard/setAllowDateFilter", true);
+    //   // set page back to page 1
+    //   this.$store.commit("bestSellingDashboard/setPage", 1);
+    //   // this.getFilteredOrders();
+    // },
     // set item per page
     setItemPerPage(params) {
       this.$store.commit("bestSellingDashboard/setItemPerPage", params);

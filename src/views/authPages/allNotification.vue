@@ -57,10 +57,10 @@
               </p>
             </div>
           </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          <v-expansion-panel-content class="mx-2">
             <v-chip small>{{ item.type }}</v-chip>
-            <div class="my-3">
-              {{ item.description }}
+            <div class="my-3 d-flex justify-center">
+            {{ item.description }}
             </div>
           </v-expansion-panel-content>
         </v-expansion-panel>
