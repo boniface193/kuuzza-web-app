@@ -15,7 +15,7 @@
           depressed
           class="layout-title-subtitle mx-6"
           :to="{ name: 'user' }"
-          >Manage your Kuuza Account</v-btn
+          >Manage your Kuuzza Account</v-btn
         >
       </div>
     </v-card>

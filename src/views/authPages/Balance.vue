@@ -69,6 +69,7 @@
 <script>
 import selectBtn from "@/components/general/SelectBtn.vue";
 import calendar from "@/components/dashboard/calender.vue";
+import moment from "moment";
 export default {
   name: "Balance",
   components: { selectBtn, calendar },
@@ -90,8 +91,8 @@ export default {
     },
     setDate(params) {
       this.$store.commit("balance/setDateRange", {
-        startDate: params.startDate.toISOString().split("T")[0],
-        endDate: params.endDate.toISOString().split("T")[0],
+        startDate: moment(params.startDate).format("L"),
+        endDate: moment(params.endDate).format("L"),
       });
       this.$refs.views.reset();
     },

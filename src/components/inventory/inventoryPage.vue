@@ -126,6 +126,7 @@ import calendar from "@/components/dashboard/calender.vue";
 import RequiredInformationPage from "@/components/inventory/RequiredInformationPage.vue";
 import failedImage from "@/assets/img/failed-img.svg";
 import importIcon from "@/components/icons/importIcon.vue";
+import moment from "moment";
 import { mapGetters } from "vuex";
 export default {
   name: "inventoryPage",
@@ -169,8 +170,8 @@ export default {
     // filter base on date
     setDate(params) {
       this.$store.commit("inventory/setDateRange", {
-        startDate: params.startDate.toISOString().split("T")[0],
-        endDate: params.endDate.toISOString().split("T")[0],
+        startDate: moment(params.startDate).format("L"),
+        endDate: moment(params.endDate).format("L"),
       });
       this.$store.commit("inventory/setTableLoader", true);
       this.$store.commit("inventory/setAllowDateFilter", true);

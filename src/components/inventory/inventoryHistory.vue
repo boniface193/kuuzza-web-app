@@ -66,6 +66,7 @@ import DataTable from "@/components/general/DataTable.vue";
 import calendar from "@/components/dashboard/calender.vue";
 import failedImage from "@/assets/img/failed-img.svg";
 import Modal from "@/components/general/Modal.vue";
+import moment from "moment";
 import { mapGetters, mapState } from "vuex";
 export default {
   name: "inventoryHistory",
@@ -118,8 +119,8 @@ export default {
     // filter base on date
     setDate(params) {
       this.$store.commit("inventory/setHistoryDateRange", {
-        startDate: params.startDate.toISOString().split("T")[0],
-        endDate: params.endDate.toISOString().split("T")[0],
+        startDate: moment(params.startDate).format("L"),
+        endDate: moment(params.endDate).format("L"),
       });
       this.$store.commit("inventory/setAllowHistoryDateFilter", true);
       // set page back to page 1

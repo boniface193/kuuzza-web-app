@@ -70,6 +70,8 @@
               required
             >
             </v-text-field>
+            <!-- this is to prevent enter from triggering default in an input -->
+            <v-text-field style="dispplay:none"></v-text-field>
           </div>
           <v-btn
             class="light-background primary--text mb-8"
