@@ -130,6 +130,7 @@ export default {
     drawer: null,
     settings: [],
     showNot: null,
+    getNotified: [],
     items: [
       {
         title: "Dashboard",
@@ -182,15 +183,14 @@ export default {
     ...mapState({
       userName: (state) => state.settings.profile.name,
       image: (state) => state.settings.profile.photo,
-      getNotified: (state) => state.notification.notification,
     }),
   },
 
   created() {
+    this.getNotice();
     if (this.$store.getters["settings/getUserProfile"].name === "") {
       this.$store.dispatch("settings/getUserProfile");
     }
-    this.getNotice();
   },
 
   methods: {
@@ -216,16 +216,15 @@ export default {
     },
 
     getNotice() {
-      if (!this.getNotified === undefined) {
-        let showing_not = this.getNotified.data.find(
-          (item) => item.read === true
-        );
-        if (showing_not) {
-          this.showNot = true;
-        } else {
-          this.showNot = false;
-        }
-      }
+      this.$store.dispatch("notification/getNotification").then((res) => {
+        res.data.forEach((i) => {
+          if (i.read === false) {
+            this.showNot = true;
+          } else {
+            this.showNot = false;
+          }
+        });
+      });
     },
   },
 };

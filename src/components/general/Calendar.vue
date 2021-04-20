@@ -86,6 +86,7 @@ export default {
   },
 
   created() {
+    this.momentDate = moment()
     let comparedDate = this.dateRange;
     if (
       comparedDate.startDate == moment(new Date(today.getFullYear(), 0, 0)).format('l') ||

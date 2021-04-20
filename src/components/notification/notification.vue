@@ -160,10 +160,16 @@ export default {
         this.filterNotificationLength = checkForLength.length;
       }
 
-      // check if is an old notification
+      // check if is an Today notification
       let checkIfNewNotification = e.data
         .slice(0, 3)
         .filter((item) => moment(item.date).calendar().includes("Today"));
+
+      // check if it is yesterday notification
+      let showNotToday = e.data
+        .slice(0, 2)
+        .filter((item) => moment(item.date).calendar().indexOf("Today", -1));
+
       if (checkIfNewNotification) {
         this.newNotification = checkIfNewNotification;
         // show msg of today
@@ -174,17 +180,15 @@ export default {
         } else {
           this.showNotificationStatusToday = true;
         }
-      } else {
-        let showNotToday = e.data
-          .slice(0, 2)
-          .filter((item) => moment(item.date).calendar().indexOf("Today", -1));
-        if (showNotToday) {
-          this.oldNotification = showNotToday;
-          this.showNotificationStatusOld = true;
-        } else {
-          this.showNotificationStatusOld = false;
-        }
       }
+      // else {
+      if (showNotToday) {
+        this.oldNotification = showNotToday;
+        this.showNotificationStatusOld = true;
+      } else {
+        this.showNotificationStatusOld = false;
+      }
+      // }
     });
   },
 
