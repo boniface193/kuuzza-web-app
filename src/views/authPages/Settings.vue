@@ -69,7 +69,7 @@
             :items="[
               'Store',
               'User',
-              'Team',
+              //'Team',
               'Bank Account',
               'Privacy & Security',
             ]"

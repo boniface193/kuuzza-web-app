@@ -254,7 +254,7 @@ export default {
             this.newAccountDetails = {};
             this.fetchingAccountDetails = false;
             if (error.status == 422 || error.status == 400) {
-              this.errorMsg = error.response.data.message;
+              this.errorMsg = error.data.message;
             }
           });
       }
@@ -280,17 +280,12 @@ export default {
           .catch((error) => {
             this.passwordError = true;
             this.loading = false;
-            if (error.response) {
-              if (error.response.data.password) {
-                this.passwordErrorMsg = error.response.data.password[0];
-              } else if (error.response.data.account_number) {
-                this.passwordErrorMsg = error.response.data.account_number[0];
-              } else {
-                if (error.response.status == (400 || 422)) {
-                  this.dialog = true;
-                  this.statusImage = failedImage;
-                  this.dialogMessage = error.response.data.message;
-                }
+            if (error.status == 422 || error.status == 400) {
+              this.passwordError = true;
+              if (error.data.password) {
+                this.passwordErrorMsg = error.data.password[0];
+              } else if (error.data.account_number) {
+                this.passwordErrorMsg = error.data.account_number[0];
               }
             }
           });
