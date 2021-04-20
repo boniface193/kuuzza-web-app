@@ -54,8 +54,8 @@
       </div>
     </div>
 
-    <!-- confirmation Modal -->
-    <Modal :dialog="confirmationDialog" width="450">
+     <!-- confirmation Modal -->
+    <Modal :dialog="confirmationDialog" width="550">
       <div class="white pa-3 px-5 pb-10 text-center dialog">
         <div class="d-flex justify-end">
           <v-icon
@@ -66,7 +66,7 @@
         </div>
 
         <div class="text-left confirmation-dialog">
-          <p class="mt-5 mb-2">
+          <p class="mt-5 mb-5">
             <span style="font-weight: 600">Payment method: </span
             ><span
               class="ml-3 primary white--text px-3 py-1"
@@ -76,18 +76,39 @@
             >
           </p>
 
-          <p class="mt-1 mb-0">
+          <!-- Available balance -->
+          <p class="mt-1 mb-0  mr-2 d-flex justify-space-between">
             <span style="font-weight: 600">Available balance: </span
             ><span class="ml-3">
-              &#8358;{{ revenueDetails.available_balance_label }}</span
+              &#8358;{{ withdrawDetails.original_balance }}</span
             >
           </p>
-
-          <p class="mt-1">
-            <span style="font-weight: 600">Charges: </span
+          <!-- bank charges -->
+          <p class="mt-1 mb-0  mr-2 d-flex justify-space-between">
+            <span style="font-weight: 600">Bank charges: </span
             ><span class="ml-3"
-              >7.5% VAT and &#8358;{{ amountToDeposit.transferFee }} transfer
-              fee
+              >&#8358;{{ withdrawDetails.bank_charges }}
+            </span>
+          </p>
+          <!-- Processing fee -->
+          <p class="mt-1 mb-0  mr-2 d-flex justify-space-between">
+            <span style="font-weight: 600">Processing fee: </span
+            ><span class="ml-3"
+              >&#8358;{{ withdrawDetails.processing_fee }}
+            </span>
+          </p>
+          <!-- verification fee -->
+          <p class="mt-1 mb-0 mr-2 d-flex justify-space-between">
+            <span style="font-weight: 600">Verification fee: </span
+            ><span class="ml-3"
+              >&#8358;{{ withdrawDetails.verification_fee }}
+            </span>
+          </p>
+          <!-- total amount receiveable -->
+          <p class="mt-1 mb-5 mr-2 d-flex justify-space-between">
+            <span style="font-weight: 600">Total amount receiveable: </span
+            ><span class="ml-3"
+              >&#8358;{{ withdrawDetails.amount_to_receive }}
             </span>
           </p>
 
@@ -114,9 +135,9 @@
           <p class="mt-4">
             You are about to send
             <span class="primary--text"
-              >&#8358;{{ numberWithCommas(amountToDeposit.amount) }}</span
+              >&#8358;{{ withdrawDetails.amount_to_receive }}</span
             >
-            to your bank's account
+            to your bank account
           </p>
 
           <!-- withdraw btn -->
@@ -166,9 +187,11 @@ export default {
       dialog: false,
       statusImage: null,
       fetchingBalance: false,
+      confirmLoader: false,
       revenueDetails: {
         available_balance: 0,
       },
+      withdrawDetails: {},
       confirmationDialog: false,
     };
   },
@@ -191,29 +214,29 @@ export default {
         accountDetails: this.accountDetails,
       };
     },
-    amountToDeposit() {
-      let balance = this.revenueDetails.available_balance;
-      let transferFee = null;
-      let vat = 0.075 * balance;
-      if (balance <= 5000) {
-        transferFee = 10;
-        balance = balance - vat - transferFee;
-      }
+    // amountToDeposit() {
+    //   let balance = this.revenueDetails.available_balance;
+    //   let transferFee = null;
+    //   let vat = 0.075 * balance;
+    //   if (balance <= 5000) {
+    //     transferFee = 10;
+    //     balance = balance - vat - transferFee;
+    //   }
 
-      if (balance > 5000 && balance <= 50000) {
-        transferFee = 25;
-        balance = balance - vat - transferFee;
-      }
+    //   if (balance > 5000 && balance <= 50000) {
+    //     transferFee = 25;
+    //     balance = balance - vat - transferFee;
+    //   }
 
-      if (balance > 50000) {
-        transferFee = 50;
-        balance = balance - vat - transferFee;
-      }
-      return {
-        amount: balance,
-        transferFee: transferFee,
-      };
-    },
+    //   if (balance > 50000) {
+    //     transferFee = 50;
+    //     balance = balance - vat - transferFee;
+    //   }
+    //   return {
+    //     amount: balance,
+    //     transferFee: transferFee,
+    //   };
+    // },
   },
   methods: {
     // separate money with comma
@@ -221,7 +244,21 @@ export default {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
     openConfirmationDialog() {
-      this.confirmationDialog = true;
+      this.confirmLoader = true;
+      this.$store
+        .dispatch("bankService/getWithdrawalFees")
+        .then((response) => {
+          this.withdrawDetails = response.data.data;
+          this.confirmLoader = false;
+          this.confirmationDialog = true;
+        })
+        .catch((error) => {
+          if (error.status == 400 || error.status == 422) {
+            this.dialogMessage = error.data.message;
+            this.statusImage = failedImage;
+            this.dialog = true;
+          }
+        });
     },
     withdrawFunds() {
       this.withdrawLoader = true;

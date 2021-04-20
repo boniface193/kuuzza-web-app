@@ -10,13 +10,13 @@
     <div class="settings-container mt-7 white">
       <!-- nav section -->
       <div class="settings-nav px-4 py-auto d-flex">
-        <div>
+        <!-- <div>
           <SearchBar
             class="mt-2 text-caption text-sm-subtitle-2 text-md-subtitle-1"
             placeholder="Search Leaderboard"
             @search="getSearchValue"
           />
-        </div>
+        </div> -->
       </div>
     </div>
     <!-- table -->
@@ -53,7 +53,7 @@
 </template>
 <script>
 import filterByDate from "@/components/dashboard/calender.vue";
-import SearchBar from "@/components/general/SearchBar.vue";
+//import SearchBar from "@/components/general/SearchBar.vue";
 import DataTable from "@/components/leaderboard/DataTable.vue";
 import moment from "moment";
 import { mapState } from "vuex";
@@ -61,7 +61,7 @@ import { mapState } from "vuex";
 export default {
   components: {
     filterByDate,
-    SearchBar,
+    //SearchBar,
     DataTable,
   },
 
