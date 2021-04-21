@@ -37,7 +37,7 @@ body {
     }
   }
   .v-btn:not(.v-btn--round).v-size--default {
-    height: 40px;
+    height: 45px;
     border-radius: 8px;
   }
 }
