@@ -90,7 +90,7 @@ export default {
         { text: "Points", value: "total_points", width: "20%" },
         {
           text: " Orders(₦)",
-          value: "total_order_value",
+          value: "total_store_value",
           width: "29%",
         },
       ],
