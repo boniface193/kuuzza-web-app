@@ -237,6 +237,7 @@ const routes = [
     path: "/",
     name: "index",
     component: index,
+    redirect: { name: 'Signin' },
     metaTags: [
       {
         name: 'Kuuzza',
