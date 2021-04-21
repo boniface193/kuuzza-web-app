@@ -21,7 +21,7 @@
         <v-subheader
           class="bg-color py-5 d-flex justify-center"
           v-if="showNotificationStatusToday"
-          >Today</v-subheader
+          >New Notifications</v-subheader
         >
 
         <div v-for="msg in newNotification" :key="msg.id" v-show="!msg.read">
