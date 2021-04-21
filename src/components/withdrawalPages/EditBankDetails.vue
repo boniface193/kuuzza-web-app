@@ -278,14 +278,13 @@ export default {
             location.reload();
           })
           .catch((error) => {
-            this.passwordError = true;
             this.loading = false;
             if (error.status == 422 || error.status == 400) {
               this.passwordError = true;
-              if (error.data.password) {
-                this.passwordErrorMsg = error.data.password[0];
-              } else if (error.data.account_number) {
-                this.passwordErrorMsg = error.data.account_number[0];
+              if (error.data.errors.password) {
+                this.passwordErrorMsg = error.data.errors.password[0];
+              } else if (error.data.errors.account_number) {
+                this.passwordErrorMsg = error.data.errors.account_number[0];
               }
             }
           });
