@@ -40,7 +40,9 @@ onboardingHttpClient.interceptors.response.use(
                         onboardingHttpClient.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
                         // return originalRequest object with Axios.                           
                         return onboardingHttpClient(originalRequest);
-                    }).catch(() => store.commit("onboarding/setRefreshingToken", false))
+                    }).catch(() => {
+                        store.commit("onboarding/setRefreshingToken", false);
+                    })
                 } else {
                     return onboardingHttpClient(error.config)
                 }

@@ -1,5 +1,6 @@
 import onboardingHttpClient from "@/axios/onboarding.js";
 import store from "@/store";
+import router from '@/router/index.js';
 
 //decode token
 const decodeToken = (token) => {
@@ -36,10 +37,7 @@ const state = {
 };
 
 //returns the state properties
-const getters = {
-    tokenIsPresent: state => state.tokenIsPresent,
-    tokenExpired: state => state.tokenExpired,
-};
+const getters = {};
 
 //fetch data 
 const actions = {
@@ -206,7 +204,11 @@ const actions = {
                 resolve(response);
             })
                 .catch(error => {
-
+                    context.commit("removeClientID");
+                    context.commit("removeRefreshToken");
+                    context.commit("setAccessToken", null)
+                    store.commit("reset");
+                    router.push({name: 'Signin'})
                     reject(error);
                 })
         });
