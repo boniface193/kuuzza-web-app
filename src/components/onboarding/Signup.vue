@@ -176,11 +176,11 @@
         @keyup.enter="validateForm(3)"
       ></v-text-field>
 
-      <div class="d-flex">
-        <v-checkbox v-model="acceptTerms"> </v-checkbox>
-        <p class="text-lg-body-1 text-caption">
-          By clicking continue, you are agreeing to our terms of service and
-          privacy policy
+      <div class="d-flex align-center mt-5">
+        <v-checkbox v-model="acceptTerms" class="mr-1"></v-checkbox>
+        <p class="mb-0" style="">
+          By clicking continue, you are agreeing to our
+          <router-link style="text-decoration:none" :to="{name: 'PrivacyPolicy'}" class="primary--text"> terms of service and privacy policy</router-link>
         </p>
       </div>
 

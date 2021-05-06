@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import store from "@/store";
 // public pages
 import index from "@/views/index.vue";
+import PrivacyPolicy from "@/views/PrivacyPolicy.vue";
 import pageNotFound from "@/components/pageNotFound.vue";
 // onboarding pages
 import Signup from "@/components/onboarding/Signup.vue";
@@ -248,6 +249,11 @@ const routes = [
         content: "Tap into our decentralised sales force and watch your business scale"
       }
     ]
+  },
+  {
+    path: "terms-conditions",
+    name: "PrivacyPolicy",
+    component: PrivacyPolicy
   },
   {//layout dashboard and children
     path: "/dashboard",
