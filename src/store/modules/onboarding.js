@@ -1,4 +1,5 @@
 import onboardingHttpClient from "@/axios/onboarding.js";
+import refreshHttpClient from "@/axios/refresh.js";
 import store from "@/store";
 import router from '@/router/index.js';
 
@@ -189,7 +190,7 @@ const actions = {
     // get access token  
     getAccessToken: (context) => {
         return new Promise((resolve, reject) => {
-            onboardingHttpClient.post("auth/refresh", {
+            refreshHttpClient.post("auth/refresh", {
                 client_id: state.clientID
             },
                 {
