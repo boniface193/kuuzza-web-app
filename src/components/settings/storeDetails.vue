@@ -247,8 +247,8 @@ export default {
         //verifies phone number satisfies the requirement
         (v) => !!v || "This field is required",
         (v) => v.substring(0, 1) != 0 || "Phone number cannot begin with 0",
-        (v) => v.length > 9 || "Number should 10 digits or more",
-        (v) => v.length <= 11 || "Maximum 11 digits or more",
+        (v) => v.length > 9 || "Number should be 10 digits",
+        (v) => v.length < 11 || "Maximum of 10 digits is allowed",
       ],
     };
   },

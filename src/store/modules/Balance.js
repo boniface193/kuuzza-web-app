@@ -143,6 +143,18 @@ const actions = {
                     reject(error)
                 });
         })
+    },
+    getWithdrawalFees(context){
+        return new Promise((resolve, reject) => {
+            bankServicesHttpClient.post("/settlements/withdrawal-fees", {}).then(response => {
+                resolve(response);
+            })
+                .catch(error => {
+
+                    context.commit("doNothing");
+                    reject(error);
+                })
+        })
     }
 };
 

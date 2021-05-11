@@ -36,7 +36,8 @@
           <!-- withdrwa btn -->
           <v-btn
             class="primary mt-5"
-            :disabled="revenueDetails.available_balance <= 100"
+            :disabled="revenueDetails.available_balance <= 100 || confirmLoader"
+            :loading="confirmLoader"
             @click="openConfirmationDialog()"
             depressed
             >Withdraw</v-btn
@@ -214,29 +215,6 @@ export default {
         accountDetails: this.accountDetails,
       };
     },
-    // amountToDeposit() {
-    //   let balance = this.revenueDetails.available_balance;
-    //   let transferFee = null;
-    //   let vat = 0.075 * balance;
-    //   if (balance <= 5000) {
-    //     transferFee = 10;
-    //     balance = balance - vat - transferFee;
-    //   }
-
-    //   if (balance > 5000 && balance <= 50000) {
-    //     transferFee = 25;
-    //     balance = balance - vat - transferFee;
-    //   }
-
-    //   if (balance > 50000) {
-    //     transferFee = 50;
-    //     balance = balance - vat - transferFee;
-    //   }
-    //   return {
-    //     amount: balance,
-    //     transferFee: transferFee,
-    //   };
-    // },
   },
   methods: {
     // separate money with comma
@@ -246,7 +224,7 @@ export default {
     openConfirmationDialog() {
       this.confirmLoader = true;
       this.$store
-        .dispatch("bankService/getWithdrawalFees")
+        .dispatch("balance/getWithdrawalFees")
         .then((response) => {
           this.withdrawDetails = response.data.data;
           this.confirmLoader = false;

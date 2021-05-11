@@ -32,13 +32,6 @@
             <span class="item-title">Quantity: </span
             ><span class="secondary--text">{{ productDetails.quantity }}</span>
           </p>
-          <!-- product commission -->
-          <!-- <p class="mt-2 mb-3">
-            <span class="item-title">Service Charge: </span
-            ><span class="secondary--text"
-              >&#8358;{{ numberWithCommas(productDetails.commission) }}</span
-            >
-          </p> -->
           <!-- product unit price -->
           <p class="mt-2 mb-3">
             <span class="item-title">Unit Price: </span
@@ -54,6 +47,13 @@
               >&#8358;{{ productDetails.total_price_label }}</span
             >
           </p>
+          <!-- Product Variant -->
+            <p class="mt-8 mb-3" v-show="productDetails.variants !== null">
+              <span class="item-title">Variant: </span>
+            </p>
+            <p class="secondary--text mb-1" v-for="(variant, index) in productDetails.variants" :key="index">
+              {{ variant.name }}: <span class="mr-2" v-for="(value, index2) in variant.values" :key="index2">{{value}},</span>
+            </p>
           <!-- product description -->
           <p class="mt-8 mb-3">
             <span class="item-title">Product Description: </span>
