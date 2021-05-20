@@ -7,6 +7,18 @@
 <script>
 export default {
   name: "App",
+   metaInfo() {
+        return { 
+            title: "Kuuzza Vendor | Tap into our decentralised sales force and watch your business scale",
+            meta: [
+                { name: 'description', content:  "Kuuzza Vendor | Tap into our decentralised sales force and watch your business scale"},
+                { property: 'og:title', content: "Kuuzza Vendor | Tap into our decentralised sales force and watch your business scale"},
+                { property: 'og:site_name', content: 'Kuuzza Vendor'},
+                {property: 'og:type', content: 'website'},    
+                {name: 'robots', content: 'index,follow'} 
+            ]
+        }
+    },
 };
 </script>
 
