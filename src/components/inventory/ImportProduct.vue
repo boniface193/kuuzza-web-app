@@ -20,7 +20,7 @@
     <div class="text-center mt-5 instruction">
       <p>
         Upload format (Select a CSV File, Each line should contain the product
-        details) <a>Download CSV format</a> and see how to upload <a>here</a>.
+        details) <a style="text-decoration:none" href="https://docs.google.com/spreadsheets/d/136uj_qJ71ilG4o-psx4qIp1WmVmRM3gp/edit#gid=1185075535" target="_blank">Download CSV format</a> and see how to upload <a>here</a>.
       </p>
     </div>
 

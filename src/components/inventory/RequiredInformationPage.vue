@@ -145,7 +145,7 @@
           </div>
 
           <div class="btn-container d-flex justify-end">
-            <v-btn class="primary py-6 px-8" @click="goNextForm(1)">
+            <v-btn class="primary px-8" @click="goNextForm(1)">
               Next
             </v-btn>
           </div>
@@ -247,13 +247,13 @@
           <!-- btn container -->
           <div class="btn-container d-flex justify-space-between">
             <v-btn
-              class="primary--text light-background py-6 px-8"
+              class="primary--text light-background px-8"
               @click="goPrevForm(2)"
             >
               Back
             </v-btn>
             <v-btn
-              class="primary py-6 px-8"
+              class="primary px-8"
               :disabled="
                 !agreeToInccurShippingFee && allowReturnProducts === 'true'
               "
@@ -285,12 +285,12 @@
           <!-- btn container -->
           <div class="btn-container d-flex justify-space-between">
             <v-btn
-              class="primary--text light-background py-6 px-8"
+              class="primary--text light-background px-8"
               @click="goPrevForm(3)"
             >
               Back
             </v-btn>
-            <v-btn class="primary py-6 px-8" @click="goNextForm(3)">
+            <v-btn class="primary px-8" @click="goNextForm(3)">
               Next
             </v-btn>
           </div>
@@ -318,14 +318,14 @@
           <!-- btn container -->
           <div class="btn-container d-flex justify-space-between">
             <v-btn
-              class="primary--text light-background py-6 px-8"
+              class="primary--text light-background px-8"
               :disabled="submitLoader"
               @click="goPrevForm(4)"
             >
               Back
             </v-btn>
             <v-btn
-              class="primary py-6 px-8"
+              class="primary px-8"
               :disabled="submitLoader"
               :loading="submitLoader"
               @click="goNextForm(4)"

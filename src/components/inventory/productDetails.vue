@@ -63,8 +63,8 @@
           </p>
         </div>
       </v-col>
-      <v-col class="col-12 col-md-6 white d-flex align-center text-center">
-        <img :src="productDetails.image" style="width: 80%; margin: auto" />
+      <v-col class="col-12 col-md-6 white d-flex align-center text-center justify-center">
+        <img :src="productDetails.image" style="max-width: 80%;min-width:50% margin: auto" />
       </v-col>
     </v-row>
 

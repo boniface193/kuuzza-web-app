@@ -44,15 +44,15 @@
           v-for="(item, index) in filteredItem"
           :key="index"
           class="category"
-          @click="itemSelected(item.name)"
+          @click="itemSelected(item)"
         >
           {{ item.name }}
 
           <div class="sub-category-container">
             <div class="sub-category" v-for="(subCategory, index2) in item.children" :key="index2">
-              <p class="mb-1" @click.stop="itemSelected(subCategory.name)">{{ subCategory.name }}</p>
+              <p class="mb-1" @click.stop="itemSelected(subCategory)">{{ subCategory.name }}</p>
               <hr class="mb-2" />
-              <p class="item mb-1" v-for="(subSubCategory, index3) in subCategory.children" :key="index3" @click.stop="itemSelected(subSubCategory.name)">
+              <p class="item mb-1" v-for="(subSubCategory, index3) in subCategory.children" :key="index3" @click.stop="itemSelected(subSubCategory)">
                 {{ subSubCategory.name}}
               </p>
             </div>
@@ -105,10 +105,10 @@ export default {
      this.dropdown = false;
     },
     itemSelected(item) {
-      this.selectedValue = item;
-      this.itemHolder.itemName = item;
+      this.selectedValue = item.name;
+      this.itemHolder.itemName = item.name;
       this.dropdown = false;
-      this.$emit("selectedItem", item);
+      this.$emit("selectedItem", item.id);
     },
   },
 };
