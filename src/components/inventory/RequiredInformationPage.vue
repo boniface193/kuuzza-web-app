@@ -145,9 +145,7 @@
           </div>
 
           <div class="btn-container d-flex justify-end">
-            <v-btn class="primary px-8" @click="goNextForm(1)">
-              Next
-            </v-btn>
+            <v-btn class="primary px-8" @click="goNextForm(1)"> Next </v-btn>
           </div>
         </v-form>
 
@@ -235,13 +233,19 @@
                 >
               </p>
             </div>
-
-            <div class="mb-5">
-              <v-checkbox
-                v-model="agreeToInccurShippingFee"
-                label="Agree to incur the shipping fees associated with returns"
-                class="question"
-              ></v-checkbox>
+            <div class="d-flex align-center mb-5">
+              <v-checkbox v-model="agreeToInccurShippingFee" class="mr-1"></v-checkbox>
+              <p class="mb-0" style="">
+                I agree to Kuuzza
+                <a
+                  style="text-decoration: none"
+                  href="https://develop-landing.kuuzza.com/return-refund-policy"
+                  target="_blank"
+                  class="primary--text"
+                >
+                 Return, Refund and Shipping Policy</a
+                >
+              </p>
             </div>
           </v-form>
           <!-- btn container -->
@@ -290,9 +294,7 @@
             >
               Back
             </v-btn>
-            <v-btn class="primary px-8" @click="goNextForm(3)">
-              Next
-            </v-btn>
+            <v-btn class="primary px-8" @click="goNextForm(3)"> Next </v-btn>
           </div>
         </v-form>
         <!-- phone number verification  -->
