@@ -9,7 +9,7 @@ const state = {
 const actions = {
     getOrderStatus(context) {
         return new Promise((resolve, reject) => {
-            orderHttpClient.get('/metrics').then((res) => {
+            orderHttpClient.get('/metrics/order-status').then((res) => {
                 context.commit("setdashboardOrder", res.data.data)
                 resolve(res.data.data);
             }).catch((error) => {
@@ -34,4 +34,4 @@ export default {
     state,
     actions,
     mutations
-};  
+};
