@@ -268,7 +268,7 @@ export default {
         //verifies password satisfies the requirement
         (v) => !!v || "Password is required",
         (v) =>
-          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/.test(v) ||
+          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(v) ||
           "Password must contain a minimum of 8 character, at least one uppercase, one lowercase, one number",
       ],
       confirm_passwordRules: [

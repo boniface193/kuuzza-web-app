@@ -4,7 +4,6 @@ import store from "@/store";
 //let requestQueue = [];
 
 const mediaServiceHttpClient = axios.create({
-    // baseURL: "https://media.kuuzza.com",
     baseURL: "https://nova-image.herokuapp.com",
 })
 

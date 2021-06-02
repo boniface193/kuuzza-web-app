@@ -1,5 +1,5 @@
 {
-  "name": "vendor-app",
+  "name": "vendor_app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,16 +9,18 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "apexcharts": "^3.23.0",
-    "axios": "^0.21.0",
+    "apexcharts": "^3.26.3",
+    "axios": "^0.21.1",
     "chart.js": "^2.9.4",
     "core-js": "^3.6.5",
     "moment": "^2.29.1",
     "momentjs": "^2.0.0",
     "vue": "^2.6.11",
+    "vue-analytics": "^5.22.1",
     "vue-apexcharts": "^1.6.0",
     "vue-chartkick": "^0.6.1",
     "vue-clickaway": "^2.2.2",
+    "vue-facebook-pixel": "^1.2.1",
     "vue-meta": "^2.4.0",
     "vue-moment": "^4.1.0",
     "vue-router": "^3.2.0",

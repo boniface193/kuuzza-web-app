@@ -90,11 +90,11 @@ export default {
         return item.name.toLowerCase().includes(this.searchValue.toLowerCase());
       });
     },
-    itemHolder(){
-      return{
-        itemName: this.item
-      } 
-    }
+    itemHolder() {
+      return {
+        itemName: this.item,
+      };
+    },
   },
   methods: {
     toggleDropdown() {
@@ -102,7 +102,7 @@ export default {
       this.searchValue = "";
     },
     away() {
-     this.dropdown = false;
+      this.dropdown = false;
     },
     itemSelected(item) {
       this.selectedValue = item.name;
@@ -208,7 +208,7 @@ export default {
             padding: 10px;
             width: 33%;
             height: auto;
-            &:hover{
+            &:hover {
               color: var(--v-secondary-background-base);
             }
             .item {
@@ -221,7 +221,7 @@ export default {
             }
           }
         }
-         &:hover {
+        &:hover {
           color: var(--v-primary-base);
           background: var(--v-light-background-base);
         }
