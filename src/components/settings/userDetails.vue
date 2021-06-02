@@ -19,35 +19,71 @@
         class="col-12 col-md-7 pl-md-7 pr-md-10 pt-9 pb-16 px-4"
         style="border-left: 1px solid #f1edec"
       >
-        <!-- full name field -->
+        <!-- first name field -->
         <div class="mb-5 settings-input">
-          <p class="mb-1 secondary--text">Full Name</p>
+          <p class="mb-1 secondary--text">First Name</p>
           <v-text-field
             class="input mt-0"
-            v-model="computedInfo.currentFullName"
+            v-model="computedInfo.currentFirstName"
             :rules="inputRules"
             type="name"
             color="primary"
-            :disabled="editAdminName == false"
+            :disabled="editFirstName == false"
             required
           >
           </v-text-field>
           <!-- edit btn -->
           <span
             class="edit-btn"
-            v-show="editAdminName == false"
-            @click="editAdminName = true"
+            @click="editFirstName = true"
+            v-show="editFirstName == false"
             >Edit</span
           >
           <!-- done btn -->
           <span
             class="edit-btn"
-            v-show="editAdminName && !nameLoader"
-            @click="editInfo('admin_name')"
+            v-show="editFirstName && !firstNameLoader"
+            @click="editInfo('first_name')"
             >Done</span
           >
           <!-- loader -->
-          <span class="edit-btn" v-show="nameLoader == true">
+          <span class="edit-btn" v-show="firstNameLoader == true">
+            <v-progress-circular
+              indeterminate
+              color="primary"
+              :size="20"
+            ></v-progress-circular>
+          </span>
+        </div>
+        <!-- last name field -->
+        <div class="mb-5 settings-input">
+          <p class="mb-1 secondary--text">Last Name</p>
+          <v-text-field
+            class="input mt-0"
+            v-model="computedInfo.currentLastName"
+            :rules="inputRules"
+            type="name"
+            color="primary"
+            :disabled="editLastName == false"
+            required
+          >
+          </v-text-field>
+          <!-- edit btn -->
+          <span
+            class="edit-btn"
+            v-show="editLastName == false"
+            @click="editLastName = true"
+            >Edit</span
+          >
+          <!-- done btn -->
+          <span
+            class="edit-btn"
+            v-show="editLastName && !lastNameLoader"
+            @click="editInfo('last_name')"
+            >Done</span
+          >
+          <!-- loader -->
+          <span class="edit-btn" v-show="lastNameLoader == true">
             <v-progress-circular
               indeterminate
               color="primary"
@@ -147,10 +183,12 @@ export default {
       statusImage: null,
       dialog: false,
       dialogMessage: "",
-      editAdminName: false,
+      editFirstName: false,
+      editLastName: false,
       editPhoneNum: false,
       phoneNumLoader: false,
-      nameLoader: false,
+      firstNameLoader: false,
+      lastNameLoader: false,
       inputRules: [(v) => !!v || "This field is required"],
       phoneRules: [
         //verifies phone number satisfies the requirement
@@ -168,16 +206,20 @@ export default {
     }),
     computedInfo() {
       // gets the values of user information
-      let fullName = this.userInfo.name;
+      let firstName = this.userInfo.first_name;
+      let lastName = this.userInfo.last_name;
       let phoneNum = this.userInfo.phone_number.substring(4);
-      let currentFullName = this.userInfo.name;
+      let currentFirstName = this.userInfo.first_name;
+      let currentLastName = this.userInfo.last_name;
       let currentPhoneNum = this.userInfo.phone_number.substring(4);
       let currentEmail = this.userInfo.email;
 
       return {
-        fullName: fullName,
+        firstName: firstName,
+        lastName: lastName,
         phoneNum: phoneNum,
-        currentFullName: currentFullName,
+        currentFirstName: currentFirstName,
+        currentLastName: currentLastName,
         currentPhoneNum: currentPhoneNum,
         currentEmail: currentEmail,
       };
@@ -186,32 +228,61 @@ export default {
   methods: {
     // submits the edited information
     editInfo(input_field) {
-      // check if the edit input field is the admin name
+      // check if the edit input field is the first name
       if (
-        input_field === "admin_name" &&
-        this.computedInfo.currentFullName !== ""
+        input_field === "first_name" &&
+        this.computedInfo.currentFirstName !== ""
       ) {
-        if (this.computedInfo.currentFullName !== this.computedInfo.fullName) {
-          this.nameLoader = true;
+        if (this.computedInfo.currentFirstName !== this.computedInfo.firstName) {
+          this.firstNameLoader = true;
           this.$store
             .dispatch("settings/editUserProfile", {
-              name: this.computedInfo.currentFullName,
+              first_name: this.computedInfo.currentFirstName,
             })
             .then(() => {
-              this.dialogMessage = "Name changed successfully!";
-              this.editAdminName = false;
-              this.nameLoader = false;
+              this.dialogMessage = "First name changed successfully!";
+              this.editFirstName = false;
+              this.firstNameLoader = false;
               this.statusImage = successImage;
               this.dialog = true;
             })
             .catch(() => {
               this.dialogMessage = "";
-              this.nameLoader = false;
+              this.firstNameLoader = false;
               this.statusImage = failedImage;
               this.dialog = true;
             });
         } else {
-          this.editAdminName = false;
+          this.editFirstName = false;
+        }
+      }
+
+      // check if the edit input field is the last name
+      if (
+        input_field === "last_name" &&
+        this.computedInfo.currentLastName !== ""
+      ) {
+        if (this.computedInfo.currentLastName !== this.computedInfo.lastName) {
+          this.lastNameLoader = true;
+          this.$store
+            .dispatch("settings/editUserProfile", {
+              last_name: this.computedInfo.currentLastName,
+            })
+            .then(() => {
+              this.dialogMessage = "Last name changed successfully!";
+              this.editLastName = false;
+              this.lastNameLoader = false;
+              this.statusImage = successImage;
+              this.dialog = true;
+            })
+            .catch(() => {
+              this.dialogMessage = "";
+              this.lastNameLoader = false;
+              this.statusImage = failedImage;
+              this.dialog = true;
+            });
+        } else {
+          this.editLastName = false;
         }
       }
 
