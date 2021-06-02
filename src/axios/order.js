@@ -4,7 +4,7 @@ import store from "@/store";
 let requestQueue = [];
 
 const orderHttpClient = axios.create({
-    baseURL: "https://order-staging.kuuzza.com/",
+    baseURL: "https://order.kuuzza.com",
 })
 
 const orderRequest = (config) => {

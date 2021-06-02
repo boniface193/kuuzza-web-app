@@ -4,7 +4,7 @@ import store from "@/store";
 let requestQueue = [];
 
 const bankServiceHttpClient = axios.create({
-    baseURL: "https://payment-staging.kuuzza.com",
+    baseURL: "https://payment.kuuzza.com",
 })
 
 const bankServiceRequest = (config) => {
