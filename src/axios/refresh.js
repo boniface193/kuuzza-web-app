@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 const refreshHttpClient = axios.create({
-    baseURL: "https://identity.kuuzza.com"
+    baseURL: "https://nova-ids.herokuapp.com"
 })
 
 export default refreshHttpClient;

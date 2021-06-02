@@ -4,7 +4,7 @@ import store from "@/store";
 let requestQueue = [];
 
 const inventoryHttpClient = axios.create({
-    baseURL: "https://inventory.kuuzza.com" 
+    baseURL: "https://nova-inventory.herokuapp.com"
 });
 
 const inventoryRequest = (config) => {

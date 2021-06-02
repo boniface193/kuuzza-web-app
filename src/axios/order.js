@@ -4,7 +4,7 @@ import store from "@/store";
 let requestQueue = [];
 
 const orderHttpClient = axios.create({
-    baseURL: "https://order.kuuzza.com",
+    baseURL: "https://nova-order.herokuapp.com",
 })
 
 const orderRequest = (config) => {

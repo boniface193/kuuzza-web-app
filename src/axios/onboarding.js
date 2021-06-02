@@ -3,7 +3,7 @@ import store from "@/store";
 
 
 const onboardingHttpClient = axios.create({
-    baseURL: "https://identity.kuuzza.com"
+    baseURL: "https://nova-ids.herokuapp.com"
 })
 
 const onboardingRequest = (config) => {
