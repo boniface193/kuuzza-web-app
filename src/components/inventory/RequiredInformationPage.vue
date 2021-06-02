@@ -145,9 +145,7 @@
           </div>
 
           <div class="btn-container d-flex justify-end">
-            <v-btn class="primary py-6 px-8" @click="goNextForm(1)">
-              Next
-            </v-btn>
+            <v-btn class="primary px-8" @click="goNextForm(1)"> Next </v-btn>
           </div>
         </v-form>
 
@@ -235,25 +233,31 @@
                 >
               </p>
             </div>
-
-            <div class="mb-5">
-              <v-checkbox
-                v-model="agreeToInccurShippingFee"
-                label="Agree to incur the shipping fees associated with returns"
-                class="question"
-              ></v-checkbox>
+            <div class="d-flex align-center mb-5">
+              <v-checkbox v-model="agreeToInccurShippingFee" class="mr-1"></v-checkbox>
+              <p class="mb-0" style="">
+                I agree to Kuuzza
+                <a
+                  style="text-decoration: none"
+                  href="https://kuuzza.com/return-refund-policy"
+                  target="_blank"
+                  class="primary--text"
+                >
+                 Return, Refund and Shipping Policy</a
+                >
+              </p>
             </div>
           </v-form>
           <!-- btn container -->
           <div class="btn-container d-flex justify-space-between">
             <v-btn
-              class="primary--text light-background py-6 px-8"
+              class="primary--text light-background px-8"
               @click="goPrevForm(2)"
             >
               Back
             </v-btn>
             <v-btn
-              class="primary py-6 px-8"
+              class="primary px-8"
               :disabled="
                 !agreeToInccurShippingFee && allowReturnProducts === 'true'
               "
@@ -285,14 +289,12 @@
           <!-- btn container -->
           <div class="btn-container d-flex justify-space-between">
             <v-btn
-              class="primary--text light-background py-6 px-8"
+              class="primary--text light-background px-8"
               @click="goPrevForm(3)"
             >
               Back
             </v-btn>
-            <v-btn class="primary py-6 px-8" @click="goNextForm(3)">
-              Next
-            </v-btn>
+            <v-btn class="primary px-8" @click="goNextForm(3)"> Next </v-btn>
           </div>
         </v-form>
         <!-- phone number verification  -->
@@ -318,14 +320,14 @@
           <!-- btn container -->
           <div class="btn-container d-flex justify-space-between">
             <v-btn
-              class="primary--text light-background py-6 px-8"
+              class="primary--text light-background px-8"
               :disabled="submitLoader"
               @click="goPrevForm(4)"
             >
               Back
             </v-btn>
             <v-btn
-              class="primary py-6 px-8"
+              class="primary px-8"
               :disabled="submitLoader"
               :loading="submitLoader"
               @click="goNextForm(4)"

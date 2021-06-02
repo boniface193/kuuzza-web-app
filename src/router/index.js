@@ -48,20 +48,6 @@ import EditBankDetails from '@/components/withdrawalPages/EditBankDetails.vue';
 import Leaderboard from "@/components/leaderboard/Leaderboard.vue";
 // seller pages
 import bestSeller from "@/components/seller/BestSeller.vue";
-// import Sellers from "@/views/authPages/Seller.vue";
-// import allSeller from "@/components/dashboard/allSeller.vue";
-// import newSeller from "@/components/dashboard/newSeller.vue";
-// import returningSeller from "@/components/dashboard/returningSeller.vue";
-// import sellersCard from "@/components/dashboard/sellersCard.vue";
-// import mainSellers from "@/components/dashboard/mainSellers.vue";
-// orders pages
-// customer pages
-// import customers from "@/views/authPages/Customers.vue";
-// import mainCustomer from "@/components/dashboard/customerMain.vue";
-// import allCustomer from "@/components/dashboard/allCustomer.vue";
-// import newCustomer from "@/components/dashboard/newCustomer.vue";
-// import returningCustomer from "@/components/dashboard/returningCustomer.vue";
-// import customerDetails from "@/components/dashboard/customerDetails.vue";
 // balance pages
 import Balance from "@/views/authPages/Balance.vue";
 import Revenue from "@/components/balancePages/Revenue.vue";
@@ -349,72 +335,6 @@ const routes = [
           },
         ]
       },
-      // {
-      //   path: "/customers",
-      //   component: customers,
-      //   children: [
-      //     {
-      //       path: "",
-      //       component: mainCustomer,
-      //       children: [
-      //         {
-      //           path: "",
-      //           name: "allCustomer",
-      //           component: allCustomer,
-      //         },
-      //         {
-      //           path: "newCustomer",
-      //           name: "newCustomer",
-      //           component: newCustomer,
-      //         },
-      //         {
-      //           path: "returningCustomer",
-      //           name: "returningCustomer",
-      //           component: returningCustomer,
-      //         },
-      //       ]
-      //     },
-      //     {
-      //       path: ":id",
-      //       name: "customerDetail",
-      //       component: customerDetails,
-      //       props: true,
-      //     }
-      //   ]
-      // },
-      // {
-      //   path: "/seller",
-      //   component: Sellers,
-      //   children: [
-      //     {
-      //       path: "",
-      //       component: mainSellers,
-      //       children: [
-      //         {
-      //           path: "",
-      //           name: "all",
-      //           component: allSeller,
-      //         },
-      //         {
-      //           path: "new",
-      //           name: "new",
-      //           component: newSeller,
-      //         },
-      //         {
-      //           path: "returning",
-      //           name: "returning",
-      //           component: returningSeller,
-      //         },
-      //       ]
-      //     },
-      //     {
-      //       path: ":id",
-      //       name: "seller",
-      //       component: sellersCard,
-      //       props: true,
-      //     },
-      //   ]
-      // },
       {
         path: "/settings",
         component: Settings,

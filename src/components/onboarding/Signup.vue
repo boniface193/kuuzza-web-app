@@ -178,9 +178,10 @@
 
       <div class="d-flex align-center mt-5">
         <v-checkbox v-model="acceptTerms" class="mr-1"></v-checkbox>
-        <p class="mb-0" style="">
-          By clicking continue, you are agreeing to our
-          <router-link style="text-decoration:none" :to="{name: 'PrivacyPolicy'}" class="primary--text"> terms of service and privacy policy</router-link>
+        <p class="mb-0 text-left" style="">
+          I agree to Kuuzza
+          <a style="text-decoration:none" href="https://kuuzza.com/customer/terms-conditions" target="_blank" class="primary--text">Terms of Service </a> and 
+          <a style="text-decoration:none" href="https://kuuzza.com/privacy-policy" target="_blank" class="primary--text"> Privacy Policy</a>
         </p>
       </div>
 
@@ -267,7 +268,7 @@ export default {
         //verifies password satisfies the requirement
         (v) => !!v || "Password is required",
         (v) =>
-          /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(v) ||
+          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(v) ||
           "Password must contain a minimum of 8 character, at least one uppercase, one lowercase, one number",
       ],
       confirm_passwordRules: [

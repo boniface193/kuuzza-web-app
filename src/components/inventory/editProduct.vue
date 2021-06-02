@@ -436,12 +436,12 @@ export default {
     getProductDetails() {
       let productDetails = {};
       productDetails.name = this.productDetails.name;
-      productDetails.category = this.productDetails.category;
+      productDetails.category_id = this.productDetails.category;
       productDetails.sku = this.productDetails.sku;
       productDetails.quantity = this.productDetails.quantity;
       productDetails.min_order_quantity = this.productDetails.min_order_quantity;
       productDetails.price = this.productDetails.price;
-      productDetails.description = this.productDescription;
+      productDetails.description = this.productDetails.description;
       productDetails.image = this.imageUrl;
       productDetails.ref = this.$route.params.id;
 
