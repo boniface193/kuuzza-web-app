@@ -434,7 +434,7 @@ export default {
     getProductDetails() {
       let productDetails = {};
       productDetails.name = this.productName;
-      productDetails.category = this.category;
+      productDetails.category_id = this.category;
       productDetails.sku = this.skuNumber;
       productDetails.quantity = this.quantity;
       productDetails.min_order_quantity = this.minQuantity;

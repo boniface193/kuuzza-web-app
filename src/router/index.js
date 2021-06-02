@@ -48,20 +48,6 @@ import EditBankDetails from '@/components/withdrawalPages/EditBankDetails.vue';
 import Leaderboard from "@/components/leaderboard/Leaderboard.vue";
 // seller pages
 import bestSeller from "@/components/seller/BestSeller.vue";
-// import Sellers from "@/views/authPages/Seller.vue";
-// import allSeller from "@/components/dashboard/allSeller.vue";
-// import newSeller from "@/components/dashboard/newSeller.vue";
-// import returningSeller from "@/components/dashboard/returningSeller.vue";
-// import sellersCard from "@/components/dashboard/sellersCard.vue";
-// import mainSellers from "@/components/dashboard/mainSellers.vue";
-// orders pages
-// customer pages
-// import customers from "@/views/authPages/Customers.vue";
-// import mainCustomer from "@/components/dashboard/customerMain.vue";
-// import allCustomer from "@/components/dashboard/allCustomer.vue";
-// import newCustomer from "@/components/dashboard/newCustomer.vue";
-// import returningCustomer from "@/components/dashboard/returningCustomer.vue";
-// import customerDetails from "@/components/dashboard/customerDetails.vue";
 // balance pages
 import Balance from "@/views/authPages/Balance.vue";
 import Revenue from "@/components/balancePages/Revenue.vue";
