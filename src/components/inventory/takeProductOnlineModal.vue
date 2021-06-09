@@ -217,7 +217,7 @@ export default {
     },
     // get updated products details
     getProducts() {
-      this.$store.getters["inventory/searchProduct"] === true
+      this.$store.getters["inventory/searchProduct"] == false
         ? this.$store.dispatch("inventory/getfilteredProducts")
         : this.$store.dispatch("inventory/searchProducts");
     },
