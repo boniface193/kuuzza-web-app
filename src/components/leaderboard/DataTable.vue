@@ -408,7 +408,7 @@ export default {
   }
 }
 .pagination {
-  max-width: 300px;
+  max-width: 500px;
 }
 .select-item {
   width: 80px;

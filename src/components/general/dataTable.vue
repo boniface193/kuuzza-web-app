@@ -61,7 +61,7 @@
             <!-- columns -->
             <td
               v-for="(header, index2) in headers"
-              :key="index2"
+              :key="`${index2}${item[`${itemKey}`]}`"
               :style="{ 'min-width': header.width, 'max-width': header.width }"
             >
               <span class="with-checkbox">
@@ -166,7 +166,7 @@
         </div>
         <div
           v-for="(item, index3) in sortedItems"
-          :key="index3"
+          :key="`${index3}${item[`${itemKey}`]}`"
           :class="{
             selectedRow: selected.includes(item[`${itemKey}`]),
             statusRow:
@@ -381,6 +381,7 @@ export default {
     setItemPerPage(params) {
       this.$emit("itemPerPage", params);
     },
+    // select all rows
     selectRow() {
       this.selected = [];
       if (this.selectAll) {
@@ -393,6 +394,7 @@ export default {
     // clear the items
     clearRow() {
       this.selected = [];
+      this.$emit("selectedRow", this.selected);
     },
     emitSelectedRow() {
       this.$emit("selectedRow", this.selected);
@@ -552,7 +554,7 @@ export default {
   }
 }
 .pagination {
-  max-width: 300px;
+  max-width: 500px;
 }
 .select-item {
   width: 80px;
