@@ -4,7 +4,7 @@ import store from "@/store";
 let requestQueue = [];
 
 const notificationHttpClient = axios.create({
-    baseURL: "https://nova-ids.herokuapp.com"
+    baseURL: "https://notification-staging.kuuzza.com",
 })
 
 const notificationRequest = (config) => {
