@@ -83,7 +83,7 @@
               v-for="(item, index) in category"
               :key="index"
               v-model="categories"
-              :value="item.name"
+              :value="item.id"
               :label="item.name"
               class="my-0 py-0"
             ></v-checkbox>
