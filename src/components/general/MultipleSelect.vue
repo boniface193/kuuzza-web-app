@@ -14,12 +14,15 @@
       <!-- select -->
       <div class="select" @click="toggleDropdown">
         <div class="select-placeholder d-flex justify-space-between">
-          <div class="selected-item-container" v-if="selectedItem.length > 0">
-            <span class="" v-for="(item, index) in selectedItem" :key="index">{{
-              item
-            }}</span>
+          <div class="selected-item-container" v-if="categoryNames.length > 0">
+            <span
+              class=""
+              v-for="(categoryName, index) in categoryNames"
+              :key="index"
+              >{{ categoryName }}</span
+            >
           </div>
-          <span v-show="selectedItem.length == 0">{{ item }}</span>
+          <span v-show="categoryNames.length == 0">{{ item }}</span>
           <span><v-icon class="primary--text">mdi-chevron-down</v-icon></span>
         </div>
       </div>
@@ -28,19 +31,18 @@
         class="select-dropdown"
         :class="{ 'select-dropdown--active': selectDropdown }"
       >
-        
         <p
           class="py-2 mb-0 dropdown-item"
           v-for="(item, index) in items"
           :key="index"
         >
-        <v-checkbox
-          :value="`${item.id}`"
-          v-model="selectedItem"
-          @click="setSelectedItem(item)"
-          :label="`${item.name}`"
-          class="mr-2"
-        ></v-checkbox>
+          <v-checkbox
+            :value="`${item.id}`"
+            v-model="selectedItem"
+            @click="setSelectedItem()"
+            :label="`${item.name}`"
+            class="mr-2"
+          ></v-checkbox>
         </p>
       </div>
     </div>
@@ -73,6 +75,7 @@ export default {
       selectDropdown: false,
       selectedItem: [],
       selectedDropDownValue: null,
+      categoryNames: [],
     };
   },
   methods: {
@@ -84,6 +87,13 @@ export default {
       this.dropdown = false;
     },
     setSelectedItem() {
+      this.categoryNames = []
+      this.selectedItem.forEach((item) => {
+        let category = this.items.find((x) => x.id == item).name;
+        this.categoryNames.push(category);
+        this.categoryNames = new Set(this.categoryNames);
+        this.categoryNames = Array.from(this.categoryNames);
+      });
       this.$emit("selectedItem", this.selectedItem);
     },
   },
