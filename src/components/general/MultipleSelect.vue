@@ -35,7 +35,7 @@
           :key="index"
         >
         <v-checkbox
-          :value="`${item.name}`"
+          :value="`${item.id}`"
           v-model="selectedItem"
           @click="setSelectedItem(item)"
           :label="`${item.name}`"
