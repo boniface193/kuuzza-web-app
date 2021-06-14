@@ -515,7 +515,7 @@ export default {
       ],
       rcNumberRules: [
         (v) => !!v || "This field is required",
-        (v) => v.length === 9 || "RC Number should be 9 digits",
+        (v) => v.length >= 5 && v.length <= 9 || "RC Number format is invalid",
       ],
       daysRules: [
         (v) => !!v || "Required",
