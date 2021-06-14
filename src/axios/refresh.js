@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 const refreshHttpClient = axios.create({
-    baseURL: "https://identity-staging.kuuzza.com" 
+    baseURL: "https://identity.kuuzza.com"
 })
 
 export default refreshHttpClient;

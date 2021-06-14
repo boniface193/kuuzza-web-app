@@ -4,7 +4,7 @@ import store from "@/store";
 //let requestQueue = [];
 
 const mediaServiceHttpClient = axios.create({
-    baseURL: "https://media-staging.kuuzza.com",
+    baseURL: "https://media.kuuzza.com",
 })
 
 const mediaServiceRequest = (config) => {
