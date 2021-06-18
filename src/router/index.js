@@ -193,7 +193,7 @@ const allowEditBankAccount = (to, from, next) => {
 // allow a user to add products 
 const allowAddProducts = (to, from, next) => {
   if (store.getters["settings/getUserProfile"].name != "") {
-    if (store.getters["settings/verifiedStore"]) {
+    if (store.getters["settings/verifiedStore"] && store.getters["settings/storeApprovalStatus"]) {
       next();
       return
     } else {
@@ -205,7 +205,7 @@ const allowAddProducts = (to, from, next) => {
     }
   } else {
     store.dispatch("onboarding/getUserProfile").then(response => {
-      if (response.data.data.store.setup_is_complete) {
+      if (response.data.data.store.setup_is_complete && response.data.data.store.approved) {
         next();
         return
       } else {

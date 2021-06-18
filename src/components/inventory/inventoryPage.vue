@@ -35,7 +35,13 @@
         </div>
 
         <div
-          class="d-flex align-center flex-wrap tool-container justify-space-between"
+          class="
+            d-flex
+            align-center
+            flex-wrap
+            tool-container
+            justify-space-between
+          "
         >
           <!-- search products-->
           <div class="search-container mr-md-2">
@@ -43,7 +49,14 @@
           </div>
 
           <div
-            class="secondary-display d-flex align-center flex-wrap justify-space-between mb-0 mb-sm-2"
+            class="
+              secondary-display
+              d-flex
+              align-center
+              flex-wrap
+              justify-space-between
+              mb-0 mb-sm-2
+            "
           >
             <div class="d-flex align-center">
               <!-- filter products-->
@@ -62,10 +75,12 @@
             <router-link
               :to="{ name: 'addProduct' }"
               class="add-btn-secondary px-5"
-              :disabled="!verifiedStore"
-              :event="verifiedStore ? 'click' : ''"
+              :disabled="!verifiedStore || !storeApprovalStatus"
+              :event="verifiedStore && storeApprovalStatus ? 'click' : ''"
             >
-              <span class="btn" :class="{ disabled: !verifiedStore }"
+              <span
+                class="btn"
+                :class="{ disabled: !verifiedStore || !storeApprovalStatus }"
                 >Add New Product</span
               >
             </router-link>
@@ -74,10 +89,14 @@
             <router-link
               :to="{ name: 'addProduct' }"
               class="add-btn-primary"
-              :disabled="!verifiedStore"
-              :event="verifiedStore ? 'click' : ''"
+              :disabled="!verifiedStore || !storeApprovalStatus"
+              :event="verifiedStore && storeApprovalStatus ? 'click' : ''"
             >
-              <v-btn class="primary px-4" :disabled="!verifiedStore" depressed>
+              <v-btn
+                class="primary px-4"
+                :disabled="!verifiedStore || !storeApprovalStatus"
+                depressed
+              >
                 Add New Product</v-btn
               >
             </router-link>
@@ -88,11 +107,20 @@
 
     <div>
       <!-- allow user to see table if verified -->
-      <ProductsTable ref="productsTable" v-show="verifiedStore === true" class="pb-5"/>
+      <ProductsTable
+        ref="productsTable"
+        v-show="verifiedStore && storeApprovalStatus"
+        class="pb-5"
+      />
 
       <!-- show the user this form if the store is not verified yet -->
       <RequiredInformationPage
         v-show="verifiedStore === false || verifiedPhoneNumber === false"
+      />
+
+      <!-- show the user this page if the kyc has been don but not approved -->
+      <RequiredInformationPageStatus
+        v-show="verifiedStore && verifiedPhoneNumber && !storeApprovalStatus"
       />
     </div>
 
@@ -126,6 +154,7 @@ import calendar from "@/components/dashboard/calender.vue";
 import RequiredInformationPage from "@/components/inventory/RequiredInformationPage.vue";
 import failedImage from "@/assets/img/failed-img.svg";
 import importIcon from "@/components/icons/importIcon.vue";
+import RequiredInformationPageStatus from "@/components/inventory/RequiredInformationPageStatus.vue";
 import moment from "moment";
 import { mapGetters } from "vuex";
 export default {
@@ -140,6 +169,7 @@ export default {
     calendar,
     ProductsTable,
     RequiredInformationPage,
+    RequiredInformationPageStatus,
   },
   data: function () {
     return {
@@ -160,6 +190,7 @@ export default {
       searchProduct: "inventory/searchProduct",
       verifiedStore: "settings/verifiedStore",
       verifiedPhoneNumber: "settings/verifiedPhoneNumber",
+      storeApprovalStatus: "settings/storeApprovalStatus",
     }),
   },
   methods: {

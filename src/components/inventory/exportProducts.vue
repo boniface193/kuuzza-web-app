@@ -41,12 +41,13 @@ export default {
   computed: {
     ...mapGetters({
       verifiedStore: "settings/verifiedStore",
+      storeApprovalStatus: "settings/storeApprovalStatus",
     }),
   },
   methods: {
     // export products
     exportProducts() {
-      if (this.verifiedStore === true) {
+      if (this.verifiedStore && this.storeApprovalStatus) {
         if (
           this.$store.state.inventory.dateRange.startDate !== "" &&
           this.$store.state.inventory.dateRange.endDate !== ""

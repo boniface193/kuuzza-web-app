@@ -48,12 +48,13 @@ export default {
     }),
     ...mapGetters({
       verifiedStore: "settings/verifiedStore",
+      storeApprovalStatus: "settings/storeApprovalStatus",
     }),
   },
   methods: {
     // set search value
     setSearchValue(params) {
-      if (this.verifiedStore === true) {
+      if (this.verifiedStore && this.storeApprovalStatus) {
         this.$store.commit("inventory/setSearchValue", params);
         this.$store.commit("inventory/setSearchProduct", true);
         this.$store.commit("inventory/setPage", 1);

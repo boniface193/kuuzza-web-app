@@ -64,6 +64,7 @@ export default {
     ...mapGetters({
       verifiedStore: "settings/verifiedStore",
       productCategories: "inventory/productCategories",
+      storeApprovalStatus: "settings/storeApprovalStatus",
     }),
   },
   methods: {
@@ -85,7 +86,7 @@ export default {
     },
     // filterTable
     filterTable(params) {
-      if (this.verifiedStore === true) {
+      if (this.verifiedStore && this.storeApprovalStatus) {
         // commit values for filter
         this.$store.commit("inventory/setFilter", {
           minPrice: params.minPrice,
@@ -105,7 +106,7 @@ export default {
     },
     // reset filter
     resetFilter() {
-      if (this.verifiedStore === true) {
+      if (this.verifiedStore && this.storeApprovalStatus) {
         // commit values for filter
         this.$store.commit("inventory/setFilter", {
           minPrice: 0,
