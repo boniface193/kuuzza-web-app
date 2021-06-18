@@ -30,6 +30,7 @@ const getters = {
     getUserProfile: state => state.profile,
     verifiedStore: state => state.profile.store.setup_is_complete,
     verifiedPhoneNumber: state => state.profile.store.phone_number_verified,
+    storeApprovalStatus: state => state.profile.store.approved,
     loader: state => state.loader,
     teamMembers: state => state.teamMembers,
     pageDetails: state => state.pageDetails
