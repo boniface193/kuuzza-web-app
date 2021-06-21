@@ -107,7 +107,7 @@
 
     <div>
       <!-- allow user to see table if verified -->
-      <ProductsTable ref="productsTable" v-show="verifiedStore === true" class="pb-5"/>
+      <ProductsTable ref="productsTable" v-show="verifiedStore && storeApprovalStatus" class="pb-5"/>
 
       <!-- show the user this form if the store is not verified yet -->
       <RequiredInformationPage
