@@ -107,7 +107,7 @@ export default {
     });
 
     this.getAllRevenue.series.forEach((i) => {
-      console.log(i);
+      return i;
     });
   },
 };
