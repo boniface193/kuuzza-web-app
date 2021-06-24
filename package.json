@@ -1,5 +1,5 @@
 {
-  "name": "vendor_app",
+  "name": "kuuzza",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -20,7 +20,6 @@
     "vue-apexcharts": "^1.6.0",
     "vue-chartkick": "^0.6.1",
     "vue-clickaway": "^2.2.2",
-    "vue-facebook-pixel": "^1.2.1",
     "vue-meta": "^2.4.0",
     "vue-moment": "^4.1.0",
     "vue-router": "^3.2.0",
