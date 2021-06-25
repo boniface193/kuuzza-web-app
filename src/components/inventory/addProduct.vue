@@ -190,6 +190,22 @@
             <div v-if="imageError === true" class="inputError error--text">
               An image is required
             </div>
+            <imageUploader
+              v-for="n in increaseImageField"
+              :key="n.id"
+              width="100%"
+              height="57px"
+              caretColor="#5064cc"
+              :multiple="false"
+              class="mt-3"
+            />
+            <v-btn
+              dark
+              color="warning"
+              class="elevation-0 float-right mt-3"
+              @click="incrementToTen"
+              >Additional Image</v-btn
+            >
           </div>
 
           <!-- button container -->
@@ -259,6 +275,7 @@ export default {
   },
   data: function () {
     return {
+      increaseImageField: 0,
       loader: false,
       failedRequest: false,
       dialog: false,
@@ -306,6 +323,16 @@ export default {
     }),
   },
   methods: {
+    // increment extra images
+    incrementToTen() {
+      if (this.increaseImageField == 5) {
+        this.dialog = true;
+        this.statusImage = failedImage;
+        this.dialogMessage = "you have exeeded 5 fields";
+      } else {
+        this.increaseImageField++;
+      }
+    },
     // next form
     nextForm(formNum) {
       this.$refs[`form${formNum}`].validate();
