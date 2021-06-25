@@ -4,7 +4,7 @@ import store from "@/store";
 let requestQueue = [];
 
 const gamificationHttpClient = axios.create({
-    baseURL: "https://gamification.kuuzza.com",
+    baseURL: "https://gamification-staging.kuuzza.com",
 })
 
 const gamificationRequest = (config) => {
