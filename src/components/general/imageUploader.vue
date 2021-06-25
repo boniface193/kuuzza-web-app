@@ -269,7 +269,7 @@ export default {
     upload() {
       if (this.imageNames !== null) {
         const formData = new FormData();
-        if (this.imageNames[0].size < 2242880) {
+         if (this.imageNames[0].size < 2242880) {
           formData.set("image", this.imageNames[0]);
           this.uploadImage(formData);
           this.imageError = false;
