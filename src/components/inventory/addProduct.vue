@@ -190,15 +190,23 @@
             <div v-if="imageError === true" class="inputError error--text">
               An image is required
             </div>
-            <imageUploader
-              v-for="n in increaseImageField"
-              :key="n.id"
-              width="100%"
-              height="57px"
-              caretColor="#5064cc"
-              :multiple="false"
-              class="mt-3"
-            />
+            <div class="" v-for="(n, index) in increaseImageField" :key="n.id">
+              <v-icon
+                @click="deleteImgFile(index)"
+                class="float-right my-3"
+                color="error"
+                style="cursor: pointer"
+                >mdi-trash-can-outline</v-icon
+              >
+              <imageUploader
+                width="100%"
+                height="57px"
+                caretColor="#5064cc"
+                :multiple="false"
+                class="mt-3 mr-8"
+                @images="setOtherImageUrl"
+              />
+            </div>
             <v-btn
               dark
               color="warning"
@@ -275,7 +283,7 @@ export default {
   },
   data: function () {
     return {
-      increaseImageField: 0,
+      increaseImageField: [],
       loader: false,
       failedRequest: false,
       dialog: false,
@@ -292,6 +300,7 @@ export default {
       totalPrice: 0,
       productDescription: "",
       imageUrl: null,
+      additionalImages: [],
       loading: false,
       variantDetails: {
         variants: [],
@@ -325,13 +334,30 @@ export default {
   methods: {
     // increment extra images
     incrementToTen() {
-      if (this.increaseImageField == 5) {
+      if (this.increaseImageField.length == 5) {
         this.dialog = true;
         this.statusImage = failedImage;
         this.dialogMessage = "you have exeeded 5 fields";
       } else {
-        this.increaseImageField++;
+        this.increaseImageField.push(`<v-icon
+                @click="deleteImgFile(index)"
+                class="float-right my-3"
+                color="error"
+                style="cursor: pointer"
+                >mdi-trash-can-outline</v-icon
+              >
+              <imageUploader
+                width="100%"
+                height="57px"
+                caretColor="#5064cc"
+                :multiple="false"
+                class="mt-3 mr-8"
+              />`);
       }
+    },
+    // delete image field
+    deleteImgFile(params) {
+      this.increaseImageField.pop(params);
     },
     // next form
     nextForm(formNum) {
@@ -409,7 +435,7 @@ export default {
         this.imageError = false;
       } else {
         this.imageError = true;
-        this.$refs.imageUploader.setError();
+        // this.$refs.imageUploader.setError();
       }
     },
     // set image url
@@ -417,6 +443,9 @@ export default {
       this.imageUrl = params.imageUrl;
       this.verifyImages();
       this.setProgress();
+    },
+    setOtherImageUrl(params) {
+      this.additionalImages.push(params.imageUrl);
     },
     // set progress
     setProgress() {
@@ -468,7 +497,7 @@ export default {
       productDetails.price = this.price;
       productDetails.description = this.productDescription;
       productDetails.image = this.imageUrl;
-
+      productDetails.other_images = this.additionalImages;
       if (this.variantDetails.variantStatus === true) {
         productDetails.variants = [];
         this.variantDetails.variants.forEach((item) => {
