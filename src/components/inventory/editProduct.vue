@@ -137,6 +137,30 @@
             <div v-if="imageError === true" class="inputError error--text">
               An image is required
             </div>
+            <div class="" v-for="(n, index) in increaseImageField" :key="n.id">
+              <v-icon
+                @click="deleteImgFile(index)"
+                class="float-right my-3"
+                color="error"
+                style="cursor: pointer"
+                >mdi-trash-can-outline</v-icon
+              >
+              <imageUploader
+                width="100%"
+                height="57px"
+                caretColor="#5064cc"
+                :multiple="false"
+                class="mt-3 mr-8"
+                @images="setOtherImageUrl"
+              />
+            </div>
+            <v-btn
+              dark
+              color="warning"
+              class="elevation-0 float-right mt-3"
+              @click="incrementToTen"
+              >Additional Image</v-btn
+            >
           </div>
 
           <!-- product description -->
@@ -221,6 +245,8 @@ export default {
   },
   data: function () {
     return {
+      increaseImageField: [],
+      additionalImages: [],
       productDetails: {
         category: "",
         quantity: 0,
@@ -299,6 +325,33 @@ export default {
     },
   },
   methods: {
+     // increment extra images
+    incrementToTen() {
+      if (this.increaseImageField.length == 5) {
+        this.dialog = true;
+        this.statusImage = failedImage;
+        this.dialogMessage = "you have exeeded 5 fields";
+      } else {
+        this.increaseImageField.push(`<v-icon
+                @click="deleteImgFile(index)"
+                class="float-right my-3"
+                color="error"
+                style="cursor: pointer"
+                >mdi-trash-can-outline</v-icon
+              >
+              <imageUploader
+                width="100%"
+                height="57px"
+                caretColor="#5064cc"
+                :multiple="false"
+                class="mt-3 mr-8"
+              />`);
+      }
+    },
+    // delete image field
+    deleteImgFile(params) {
+      this.increaseImageField.pop(params);
+    },
     setCategory(params) {
       this.productDetails.category = params;
       this.edited = true;
@@ -357,6 +410,9 @@ export default {
       this.imageUrl = params.imageUrl;
       this.edited = true;
       this.verifyImages();
+    },
+    setOtherImageUrl(params) {
+      this.additionalImages.push(params.imageUrl);
     },
     // setVariant
     setVariant(params) {
@@ -443,6 +499,7 @@ export default {
       productDetails.price = this.productDetails.price;
       productDetails.description = this.productDetails.description;
       productDetails.image = this.imageUrl;
+      productDetails.other_images = this.additionalImages;
       productDetails.ref = this.$route.params.id;
 
       if (this.variantDetails.variantStatus === true) {
