@@ -127,35 +127,71 @@
           <!-- image uploader -->
           <div class="mb-9 input-field">
             <p class="mb-1">Upload Product Image</p>
-            <imageUploader
-              width="100%"
-              height="57px"
-              caretColor="#029B97"
-              :multiple="false"
-              @images="setImageUrl"
-            />
+            <div class="">
+              <img
+                class="mx-3 float-right"
+                :src="imageUrl == null ? productDetails.image : imageUrl"
+                width="120px"
+              />
+              <imageUploader
+                width="70%"
+                height="57px"
+                caretColor="#029B97"
+                :multiple="false"
+                @images="setImageUrl"
+              />
+            </div>
             <div v-if="imageError === true" class="inputError error--text">
               An image is required
             </div>
-            <div class="" v-for="(n, index) in increaseImageField" :key="n.id">
+            <div
+              class=""
+              v-for="item in productDetails.other_images"
+              :key="item"
+            >
+                <imageUploader
+                  width="350px"
+                  height="57px"
+                  caretColor="#5064cc"
+                  :multiple="false"
+                  class="mt-3 float-left"
+                  @images="setOtherImageUrl"
+                />
+              <img class="ma-3" :src="item" width="100px" />
               <v-icon
                 @click="deleteImgFile(index)"
+                class="mb-10"
+                color="error"
+                style="cursor: pointer"
+                >mdi-trash-can-outline</v-icon
+              >
+            </div>
+
+            <div class="" v-for="(n, index) in increaseImageField" :key="n.id">
+              <v-icon
+                @click="deleteOtherImgFile(index)"
                 class="float-right my-3"
                 color="error"
                 style="cursor: pointer"
                 >mdi-trash-can-outline</v-icon
               >
               <imageUploader
+                :model="
+                  showEditOtherImage == null
+                    ? 'Select image'
+                    : showEditOtherImage
+                "
                 width="100%"
                 height="57px"
                 caretColor="#5064cc"
                 :multiple="false"
                 class="mt-3 mr-8"
-                @images="setOtherImageUrl"
+                @images="setAdditionalImageUrl"
               />
             </div>
             <v-btn
               dark
+              :disabled="disabled"
               color="warning"
               class="elevation-0 float-right mt-3"
               @click="incrementToTen"
@@ -245,6 +281,9 @@ export default {
   },
   data: function () {
     return {
+      disabled: false,
+      showEditImage: null,
+      showEditOtherImage: null,
       increaseImageField: [],
       additionalImages: [],
       productDetails: {
@@ -325,12 +364,17 @@ export default {
     },
   },
   methods: {
-     // increment extra images
+    // increment extra images
     incrementToTen() {
-      if (this.increaseImageField.length == 5) {
+      if (
+        this.increaseImageField.length +
+          this.productDetails.other_images.length ==
+        5
+      ) {
         this.dialog = true;
         this.statusImage = failedImage;
         this.dialogMessage = "you have exeeded 5 fields";
+        this.disabled = true;
       } else {
         this.increaseImageField.push(`<v-icon
                 @click="deleteImgFile(index)"
@@ -350,6 +394,10 @@ export default {
     },
     // delete image field
     deleteImgFile(params) {
+      this.productDetails.other_images.pop(params);
+    },
+    // delete additional image field
+    deleteOtherImgFile(params) {
       this.increaseImageField.pop(params);
     },
     setCategory(params) {
@@ -412,6 +460,11 @@ export default {
       this.verifyImages();
     },
     setOtherImageUrl(params) {
+      this.additionalImages.push(params.imageUrl);
+      this.showEditImage = params.imageUrl;
+    },
+    setAdditionalImageUrl(params) {
+      this.showEditOtherImage = params.imageUrl;
       this.additionalImages.push(params.imageUrl);
     },
     // setVariant
@@ -495,7 +548,8 @@ export default {
       productDetails.category_id = this.productDetails.category_id;
       productDetails.sku = this.productDetails.sku;
       productDetails.quantity = this.productDetails.quantity;
-      productDetails.min_order_quantity = this.productDetails.min_order_quantity;
+      productDetails.min_order_quantity =
+        this.productDetails.min_order_quantity;
       productDetails.price = this.productDetails.price;
       productDetails.description = this.productDetails.description;
       productDetails.image = this.imageUrl;

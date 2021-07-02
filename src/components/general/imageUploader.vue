@@ -21,7 +21,7 @@
         <span
           class="selected-color"
           style="height: 25px; overflow: hidden; word-break: break-all"
-          >{{ imageName }}</span
+          >{{ imageName}}</span
         >
         <span
           ><v-icon :color="caretColor" class="caret"
@@ -198,7 +198,7 @@ import store from "@/store";
 export default {
   name: "imageUploader",
   components: { Modal, progressBar },
-  props: ["width", "height", "caretColor", "multiple"],
+  props: ["width", "height", "caretColor", "multiple", "model"],
   data: function () {
     return {
       imageName: "Select image",

@@ -208,6 +208,7 @@
               />
             </div>
             <v-btn
+            :disabled="disabled"
               dark
               color="warning"
               class="elevation-0 float-right mt-3"
@@ -283,6 +284,7 @@ export default {
   },
   data: function () {
     return {
+      disabled: false,
       increaseImageField: [],
       loader: false,
       failedRequest: false,
@@ -338,6 +340,7 @@ export default {
         this.dialog = true;
         this.statusImage = failedImage;
         this.dialogMessage = "you have exeeded 5 fields";
+        this.disabled = true;
       } else {
         this.increaseImageField.push(`<v-icon
                 @click="deleteImgFile(index)"
