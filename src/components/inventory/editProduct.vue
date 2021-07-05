@@ -362,6 +362,8 @@ export default {
       .then((response) => {
         this.productDetails = response.data.data;
         this.imageUrl = response.data.image;
+        this.additionalImages = response.data.other_images
+        console.log("hello", this.imageUrl)
         this.initialProductDetails = response.data.data;
         // get product categories if not available
         if (this.$store.getters["inventory/productCategories"].length == 0) {
@@ -496,10 +498,6 @@ export default {
     setOtherImageUrl(params) {
       this.additionalImages.push(params.imageUrl);
       this.showEditImage = null;
-      // this.additionalImages.forEach(item => {
-      // this.showEditImage = item
-      // console.log(this.additionalImages);
-      //       })
     },
     setAdditionalImageUrl(params) {
       this.showEditOtherImage = params.imageUrl;
