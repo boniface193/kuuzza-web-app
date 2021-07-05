@@ -15,7 +15,7 @@
           ref="form"
         >
           <v-row>
-            <v-col sm="6">
+            <v-col sm="6" cols="">
               <!-- product name -->
               <div class="mb-3 input-field">
                 <p class="mb-1">Product Name</p>
@@ -102,7 +102,7 @@
                   v-for="(item, index) in productDetails.other_images"
                   :key="item"
                 >
-                  <v-col sm="9">
+                  <v-col sm="9" cols="9">
                     <imageUploader
                       width=""
                       height="57px"
@@ -112,7 +112,7 @@
                       @images="setOtherImageUrl"
                     />
                   </v-col>
-                  <v-col sm="2" class="text-center">
+                  <v-col sm="2" cols="2" class="text-center">
                     <img
                       class=""
                       :src="showEditImage == null ? item : showEditImage"
@@ -120,7 +120,7 @@
                     />
                   </v-col>
 
-                  <v-col sm="1" class="text-center">
+                  <v-col sm="1" cols="1" class="text-center">
                     <v-icon
                       @click="deleteImgFile(index)"
                       class=""
@@ -137,7 +137,7 @@
                   :key="n.id"
                 >
                   <v-row>
-                    <v-col sm="10">
+                    <v-col sm="10" cols="10">
                       <imageUploader
                         :model="
                           showEditOtherImage == null
@@ -152,7 +152,7 @@
                         @images="setAdditionalImageUrl"
                       />
                     </v-col>
-                    <v-col sm="2">
+                    <v-col sm="2" cols="2">
                       <v-icon
                         @click="deleteOtherImgFile(index)"
                         class="mt-6"
@@ -172,7 +172,7 @@
                 >
               </div>
             </v-col>
-            <v-col sm="6">
+            <v-col sm="6" cols="">
               <!-- select category  -->
               <div class="mb-9 input-field">
                 <p class="mb-1">Category</p>
@@ -363,7 +363,6 @@ export default {
         this.productDetails = response.data.data;
         this.imageUrl = response.data.image;
         this.additionalImages = response.data.other_images
-        console.log("hello", this.imageUrl)
         this.initialProductDetails = response.data.data;
         // get product categories if not available
         if (this.$store.getters["inventory/productCategories"].length == 0) {
