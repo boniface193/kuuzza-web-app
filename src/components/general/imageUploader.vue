@@ -198,7 +198,7 @@ import store from "@/store";
 export default {
   name: "imageUploader",
   components: { Modal, progressBar },
-  props: ["width", "height", "caretColor", "multiple", "model"],
+  props: ["width", "height", "caretColor", "multiple",],
   data: function () {
     return {
       imageName: "Select image",

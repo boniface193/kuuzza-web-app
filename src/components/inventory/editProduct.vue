@@ -14,203 +14,238 @@
           class="d-flex justify-space-between flex-wrap py-2 px-3"
           ref="form"
         >
-          <!-- product name -->
-          <div class="mb-3 input-field">
-            <p class="mb-1">Product Name</p>
-            <v-text-field
-              class="input mt-0"
-              v-model="productDetails.name"
-              type="name"
-              @keyup="edited = true"
-              :rules="inputRules"
-              color="primary"
-              placeholder="Infinix Hot 100"
-              required
-              outlined
-            >
-            </v-text-field>
-          </div>
+          <v-row>
+            <v-col sm="6">
+              <!-- product name -->
+              <div class="mb-3 input-field">
+                <p class="mb-1">Product Name</p>
+                <v-text-field
+                  class="input mt-0"
+                  v-model="productDetails.name"
+                  type="name"
+                  @keyup="edited = true"
+                  :rules="inputRules"
+                  color="primary"
+                  placeholder="Infinix Hot 100"
+                  required
+                  outlined
+                >
+                </v-text-field>
 
-          <!-- select category  -->
-          <div class="mb-9 input-field">
-            <p class="mb-1">Category</p>
-            <CategorySelector
-              width="100%"
-              height="57px"
-              caretColor="#029B97"
-              placeholder="Select Category"
-              :searchBar="true"
-              :items="productCategories"
-              :item="productCategory.category"
-              :inputStatus="categoryError"
-              @selectedItem="setCategory"
-            />
-            <div v-if="categoryError === true" class="inputError error--text">
-              Category is required
-            </div>
-          </div>
+                <!-- SKU number -->
+                <div class="mb-3 input-field remove-appearance">
+                  <p class="mb-1">SKU Number</p>
+                  <v-text-field
+                    class="input mt-0"
+                    v-model="productDetails.sku"
+                    :rules="inputRules"
+                    @keyup="edited = true"
+                    color="primary"
+                    placeholder="Enter SKU Number"
+                    required
+                    outlined
+                  >
+                  </v-text-field>
+                </div>
+              </div>
 
-          <!-- SKU number -->
-          <div class="mb-3 input-field remove-appearance">
-            <p class="mb-1">SKU Number</p>
-            <v-text-field
-              class="input mt-0"
-              v-model="productDetails.sku"
-              :rules="inputRules"
-              @keyup="edited = true"
-              color="primary"
-              placeholder="Enter SKU Number"
-              required
-              outlined
-            >
-            </v-text-field>
-          </div>
-
-          <!-- quantity -->
-          <div class="mb-9 input-field">
-            <p class="mb-1">Quantity</p>
-            <customNumberInput
-              width="120px"
-              height="57px"
-              caretColor="#029B97"
-              :quantity="productDetails.quantity || 0"
-              @quantity="setQuantity"
-              :inputStatus="quantityError"
-            />
-            <div v-if="quantityError === true" class="inputError error--text">
-              Quantity cannot be less or equal to 0
-            </div>
-          </div>
-
-          <!-- minimum quantity -->
-          <div class="mb-9 input-field">
-            <p class="mb-1">
-              Minimum Order Quantity
-              <span class="primary--text"
-                >(minimum quantity a customer can order for this product)</span
-              >
-            </p>
-            <customNumberInput
-              width="120px"
-              height="57px"
-              caretColor="#029B97"
-              :minimumNumber="1"
-              :quantity="productDetails.min_order_quantity || 0"
-              @quantity="setMinQuantity"
-            />
-            <div
-              v-if="minQuantityError === true"
-              class="inputError error--text"
-            >
-              Minimum order quantity cannot be greater than quantity
-            </div>
-          </div>
-
-          <!-- unit price -->
-          <div class="mb-3 input-field">
-            <p class="mb-1">Unit Price (N)</p>
-            <v-text-field
-              class="input mt-0"
-              :rules="inputRules"
-              v-model="productDetails.price"
-              @keyup="edited = true"
-              type="number"
-              min="1"
-              color="primary"
-              placeholder="Enter Amount"
-              required
-              outlined
-            >
-            </v-text-field>
-          </div>
-
-          <!-- image uploader -->
-          <div class="mb-9 input-field">
-            <p class="mb-1">Upload Product Image</p>
-            <div class="">
-              <img
-                class="mx-3 float-right"
-                :src="imageUrl == null ? productDetails.image : imageUrl"
-                width="120px"
-              />
-              <imageUploader
-                width="70%"
-                height="57px"
-                caretColor="#029B97"
-                :multiple="false"
-                @images="setImageUrl"
-              />
-            </div>
-            <div v-if="imageError === true" class="inputError error--text">
-              An image is required
-            </div>
-            <div
-              class=""
-              v-for="item in productDetails.other_images"
-              :key="item"
-            >
-                <imageUploader
-                  width="350px"
+              <!-- minimum quantity -->
+              <div class="mb-9 input-field">
+                <p class="mb-1">
+                  Minimum Order Quantity
+                  <span class="primary--text"
+                    >(minimum quantity a customer can order for this
+                    product)</span
+                  >
+                </p>
+                <customNumberInput
+                  width="120px"
                   height="57px"
-                  caretColor="#5064cc"
-                  :multiple="false"
-                  class="mt-3 float-left"
-                  @images="setOtherImageUrl"
+                  caretColor="#029B97"
+                  :minimumNumber="1"
+                  :quantity="productDetails.min_order_quantity || 0"
+                  @quantity="setMinQuantity"
                 />
-              <img class="ma-3" :src="item" width="100px" />
-              <v-icon
-                @click="deleteImgFile(index)"
-                class="mb-10"
-                color="error"
-                style="cursor: pointer"
-                >mdi-trash-can-outline</v-icon
-              >
-            </div>
+                <div
+                  v-if="minQuantityError === true"
+                  class="inputError error--text"
+                >
+                  Minimum order quantity cannot be greater than quantity
+                </div>
+              </div>
 
-            <div class="" v-for="(n, index) in increaseImageField" :key="n.id">
-              <v-icon
-                @click="deleteOtherImgFile(index)"
-                class="float-right my-3"
-                color="error"
-                style="cursor: pointer"
-                >mdi-trash-can-outline</v-icon
-              >
-              <imageUploader
-                :model="
-                  showEditOtherImage == null
-                    ? 'Select image'
-                    : showEditOtherImage
-                "
-                width="100%"
-                height="57px"
-                caretColor="#5064cc"
-                :multiple="false"
-                class="mt-3 mr-8"
-                @images="setAdditionalImageUrl"
-              />
-            </div>
-            <v-btn
-              dark
-              :disabled="disabled"
-              color="warning"
-              class="elevation-0 float-right mt-3"
-              @click="incrementToTen"
-              >Additional Image</v-btn
-            >
-          </div>
+              <!-- image uploader -->
+              <div class="mb-9 input-field">
+                <p class="mb-1">Upload Product Image</p>
+                <v-row>
+                  <v-col class="pr-0" sm="9">
+                    <imageUploader
+                      width=""
+                      height="57px"
+                      caretColor="#029B97"
+                      :multiple="false"
+                      @images="setImageUrl"
+                    />
+                  </v-col>
+                  <v-col sm="3">
+                    <img
+                      class=""
+                      :src="imageUrl == null ? productDetails.image : imageUrl"
+                      width="120px"
+                  /></v-col>
+                </v-row>
+                <div v-if="imageError === true" class="inputError error--text">
+                  An image is required
+                </div>
+                <v-row
+                  class="justify-space-around"
+                  v-for="(item, index) in productDetails.other_images"
+                  :key="item"
+                >
+                  <v-col sm="9">
+                    <imageUploader
+                      width=""
+                      height="57px"
+                      caretColor="#5064cc"
+                      :multiple="false"
+                      class=""
+                      @images="setOtherImageUrl"
+                    />
+                  </v-col>
+                  <v-col sm="2" class="text-center">
+                    <img
+                      class=""
+                      :src="showEditImage == null ? item : showEditImage"
+                      width="100px"
+                    />
+                  </v-col>
 
-          <!-- product description -->
-          <div class="mb-3 input-field">
-            <p class="mb-1">Product Description</p>
-            <v-textarea
-              outlined
-              name="input-7-4"
-              :rules="inputRules"
-              @keyup="edited = true"
-              v-model="productDetails.description"
-              placeholder="Enter brief description about product"
-            ></v-textarea>
-          </div>
+                  <v-col sm="1" class="text-center">
+                    <v-icon
+                      @click="deleteImgFile(index)"
+                      class=""
+                      color="error"
+                      style="cursor: pointer"
+                      >mdi-trash-can-outline</v-icon
+                    >
+                  </v-col>
+                </v-row>
+
+                <div
+                  class=""
+                  v-for="(n, index) in increaseImageField"
+                  :key="n.id"
+                >
+                  <v-row>
+                    <v-col sm="10">
+                      <imageUploader
+                        :model="
+                          showEditOtherImage == null
+                            ? 'Select image'
+                            : showEditOtherImage
+                        "
+                        width="100%"
+                        height="57px"
+                        caretColor="#5064cc"
+                        :multiple="false"
+                        class="mt-3"
+                        @images="setAdditionalImageUrl"
+                      />
+                    </v-col>
+                    <v-col sm="2">
+                      <v-icon
+                        @click="deleteOtherImgFile(index)"
+                        class="mt-6"
+                        color="error"
+                        style="cursor: pointer"
+                        >mdi-trash-can-outline</v-icon
+                      >
+                    </v-col>
+                  </v-row>
+                </div>
+                <v-btn
+                  dark
+                  color="warning"
+                  class="elevation-0 mt-3"
+                  @click="incrementToTen"
+                  >Additional Image</v-btn
+                >
+              </div>
+            </v-col>
+            <v-col sm="6">
+              <!-- select category  -->
+              <div class="mb-9 input-field">
+                <p class="mb-1">Category</p>
+                <CategorySelector
+                  width="100%"
+                  height="57px"
+                  caretColor="#029B97"
+                  placeholder="Select Category"
+                  :searchBar="true"
+                  :items="productCategories"
+                  :item="productCategory.category"
+                  :inputStatus="categoryError"
+                  @selectedItem="setCategory"
+                />
+                <div
+                  v-if="categoryError === true"
+                  class="inputError error--text"
+                >
+                  Category is required
+                </div>
+              </div>
+
+              <!-- quantity -->
+              <div class="mb-9 input-field">
+                <p class="mb-1">Quantity</p>
+                <customNumberInput
+                  width="120px"
+                  height="57px"
+                  caretColor="#029B97"
+                  :quantity="productDetails.quantity || 0"
+                  @quantity="setQuantity"
+                  :inputStatus="quantityError"
+                />
+                <div
+                  v-if="quantityError === true"
+                  class="inputError error--text"
+                >
+                  Quantity cannot be less or equal to 0
+                </div>
+              </div>
+
+              <!-- unit price -->
+              <div class="mb-3 input-field">
+                <p class="mb-1">Unit Price (N)</p>
+                <v-text-field
+                  class="input mt-0"
+                  :rules="inputRules"
+                  v-model="productDetails.price"
+                  @keyup="edited = true"
+                  type="number"
+                  min="1"
+                  color="primary"
+                  placeholder="Enter Amount"
+                  required
+                  outlined
+                >
+                </v-text-field>
+              </div>
+
+              <!-- product description -->
+              <div class="mb-3 input-field">
+                <p class="mb-1">Product Description</p>
+                <v-textarea
+                  outlined
+                  name="input-7-4"
+                  :rules="inputRules"
+                  @keyup="edited = true"
+                  v-model="productDetails.description"
+                  placeholder="Enter brief description about product"
+                ></v-textarea>
+              </div>
+            </v-col>
+          </v-row>
 
           <!-- variant container -->
           <div class="mb-9" style="width: 100%">
@@ -281,7 +316,6 @@ export default {
   },
   data: function () {
     return {
-      disabled: false,
       showEditImage: null,
       showEditOtherImage: null,
       increaseImageField: [],
@@ -384,11 +418,11 @@ export default {
                 >mdi-trash-can-outline</v-icon
               >
               <imageUploader
-                width="100%"
+                width="70%"
                 height="57px"
                 caretColor="#5064cc"
                 :multiple="false"
-                class="mt-3 mr-8"
+                class="mt-3"
               />`);
       }
     },
@@ -461,7 +495,11 @@ export default {
     },
     setOtherImageUrl(params) {
       this.additionalImages.push(params.imageUrl);
-      this.showEditImage = params.imageUrl;
+      this.showEditImage = null;
+      // this.additionalImages.forEach(item => {
+      // this.showEditImage = item
+      // console.log(this.additionalImages);
+      //       })
     },
     setAdditionalImageUrl(params) {
       this.showEditOtherImage = params.imageUrl;
@@ -573,7 +611,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .input-field {
-  width: 49%;
+  width: 100%;
 }
 .close-btn {
   cursor: pointer;
