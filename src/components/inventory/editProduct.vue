@@ -115,8 +115,8 @@
                   <v-col sm="2" cols="2" class="text-center">
                     <img
                       class=""
-                      :src="showEditImage == null ? item : showEditImage"
                       width="100px"
+                      :src="showEditImage == null ? item : showEditImage"
                     />
                   </v-col>
 
@@ -320,6 +320,7 @@ export default {
       showEditOtherImage: null,
       increaseImageField: [],
       additionalImages: [],
+      getAdditionalImages: [],
       productDetails: {
         category: "",
         quantity: 0,
@@ -362,7 +363,7 @@ export default {
       .then((response) => {
         this.productDetails = response.data.data;
         this.imageUrl = response.data.image;
-        this.additionalImages = response.data.other_images
+        this.getAdditionalImages = response.data.data.other_images;
         this.initialProductDetails = response.data.data;
         // get product categories if not available
         if (this.$store.getters["inventory/productCategories"].length == 0) {
@@ -411,29 +412,25 @@ export default {
         this.dialogMessage = "you have exeeded 5 fields";
         this.disabled = true;
       } else {
-        this.increaseImageField.push(`<v-icon
-                @click="deleteImgFile(index)"
-                class="float-right my-3"
-                color="error"
-                style="cursor: pointer"
-                >mdi-trash-can-outline</v-icon
-              >
-              <imageUploader
-                width="70%"
-                height="57px"
-                caretColor="#5064cc"
-                :multiple="false"
-                class="mt-3"
-              />`);
+        this.increaseImageField.push(``);
       }
     },
     // delete image field
     deleteImgFile(params) {
-      this.productDetails.other_images.pop(params);
+      let deletedItem = this.productDetails.other_images.splice(
+        params,
+        params === params
+      );
+      if (deletedItem) {
+        this.getAdditionalImages.forEach(e => {
+        this.additionalImages.push(e);
+        });
+        this.edited = true;
+      } 
     },
     // delete additional image field
     deleteOtherImgFile(params) {
-      this.increaseImageField.pop(params);
+      this.increaseImageField.splice(params, params === params);
     },
     setCategory(params) {
       this.productDetails.category = params;
@@ -497,10 +494,15 @@ export default {
     setOtherImageUrl(params) {
       this.additionalImages.push(params.imageUrl);
       this.showEditImage = null;
+      this.edited = true;
     },
     setAdditionalImageUrl(params) {
+      this.getAdditionalImages.forEach(e => {
+        this.additionalImages.push(e);
+        });
       this.showEditOtherImage = params.imageUrl;
       this.additionalImages.push(params.imageUrl);
+      this.edited = true;
     },
     // setVariant
     setVariant(params) {
