@@ -423,6 +423,8 @@ export default {
     // delete additional image field
     deleteOtherImgFile(params) {
       this.increaseImageField.splice(params, params === params);
+      this.additionalImages.splice(params, params === params)
+      this.edited = true;
     },
     setCategory(params) {
       this.productDetails.category = params;
