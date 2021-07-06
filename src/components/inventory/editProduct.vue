@@ -423,7 +423,7 @@ export default {
     // delete additional image field
     deleteOtherImgFile(params) {
       this.increaseImageField.splice(params, params === params);
-      this.additionalImages.splice(params, params === params)
+      this.additionalImages.splice(params, params === params);
       this.edited = true;
     },
     setCategory(params) {
@@ -598,6 +598,9 @@ export default {
     // close Modal
     closeModal() {
       this.dialog = false;
+      if (this.dialogMessage == "The given data was invalid.") {
+        window.location.reload();
+      }
     },
   },
 };
