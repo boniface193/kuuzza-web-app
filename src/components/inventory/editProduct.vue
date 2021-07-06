@@ -417,16 +417,8 @@ export default {
     },
     // delete image field
     deleteImgFile(params) {
-      let deletedItem = this.productDetails.other_images.splice(
-        params,
-        params === params
-      );
-      if (deletedItem) {
-        this.getAdditionalImages.forEach(e => {
-        this.additionalImages.push(e);
-        });
-        this.edited = true;
-      } 
+      this.productDetails.other_images.splice(params, params === params);
+      this.edited = true;
     },
     // delete additional image field
     deleteOtherImgFile(params) {
@@ -497,11 +489,8 @@ export default {
       this.edited = true;
     },
     setAdditionalImageUrl(params) {
-      this.getAdditionalImages.forEach(e => {
-        this.additionalImages.push(e);
-        });
-      this.showEditOtherImage = params.imageUrl;
       this.additionalImages.push(params.imageUrl);
+      this.showEditOtherImage = params.imageUrl;
       this.edited = true;
     },
     // setVariant
@@ -591,6 +580,9 @@ export default {
       productDetails.description = this.productDetails.description;
       productDetails.image = this.imageUrl;
       productDetails.other_images = this.additionalImages;
+      this.getAdditionalImages.forEach((e) => {
+        this.additionalImages.push(e);
+      });
       productDetails.ref = this.$route.params.id;
 
       if (this.variantDetails.variantStatus === true) {
