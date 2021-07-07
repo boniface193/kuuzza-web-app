@@ -183,7 +183,7 @@
             <imageUploader
               width="100%"
               height="57px"
-              caretColor="#5064cc"
+              caretColor="#029B97"
               :multiple="false"
               @images="setImageUrl"
             />
@@ -201,7 +201,7 @@
               <imageUploader
                 width="100%"
                 height="57px"
-                caretColor="#5064cc"
+                caretColor="#029B97"
                 :multiple="false"
                 class="mt-3 mr-8"
                 @images="setOtherImageUrl"
