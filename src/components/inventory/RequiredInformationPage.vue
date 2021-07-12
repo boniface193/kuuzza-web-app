@@ -338,7 +338,7 @@
             </v-btn>
             <v-btn
               class="primary px-8"
-              :disabled="submitLoader || agreetwilo"
+              :disabled="submitLoader || !agreetwilo"
               :loading="submitLoader"
               @click="goNextForm(4)"
             >
