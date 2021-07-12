@@ -234,7 +234,10 @@
               </p>
             </div>
             <div class="d-flex align-center mb-5">
-              <v-checkbox v-model="agreeToInccurShippingFee" class="mr-1"></v-checkbox>
+              <v-checkbox
+                v-model="agreeToInccurShippingFee"
+                class="mr-1"
+              ></v-checkbox>
               <p class="mb-0" style="">
                 I agree to Kuuzza
                 <a
@@ -243,7 +246,7 @@
                   target="_blank"
                   class="primary--text"
                 >
-                 Return, Refund and Shipping Policy</a
+                  Return, Refund and Shipping Policy</a
                 >
               </p>
             </div>
@@ -316,6 +319,13 @@
             <!-- do not remove -->
             <v-text-field style="display: none"></v-text-field>
           </div>
+          <div class="d-flex align-center mb-5">
+            <v-checkbox v-model="agreetwilo" class="mr-1"></v-checkbox>
+            <p class="mb-0" style="">
+              By continuing you will receive a one-time verification code to
+              your phone number by SMS. Message and data rates may apply.
+            </p>
+          </div>
 
           <!-- btn container -->
           <div class="btn-container d-flex justify-space-between">
@@ -328,7 +338,7 @@
             </v-btn>
             <v-btn
               class="primary px-8"
-              :disabled="submitLoader"
+              :disabled="submitLoader || agreetwilo"
               :loading="submitLoader"
               @click="goNextForm(4)"
             >
@@ -490,6 +500,7 @@ export default {
       lat: "",
       lng: "",
       agreeToInccurShippingFee: false,
+      agreetwilo: false,
       phoneNumber: "",
       accountErrorStatus: false,
       categoriesErrorStatus: false,
@@ -515,7 +526,8 @@ export default {
       ],
       rcNumberRules: [
         (v) => !!v || "This field is required",
-        (v) => v.length >= 5 && v.length <= 9 || "RC Number format is invalid",
+        (v) =>
+          (v.length >= 5 && v.length <= 9) || "RC Number format is invalid",
       ],
       daysRules: [
         (v) => !!v || "Required",
@@ -714,8 +726,10 @@ export default {
           : "+234" + this.phoneNumber;
       storeDetails.refund_policy.return_allowed = this.allowReturnProducts;
       if (this.allowReturnProducts == "true") {
-        storeDetails.refund_policy.return_precondition = this.productQualification;
-        storeDetails.refund_policy.product_replacable_on_return = this.allowReplaceProducts;
+        storeDetails.refund_policy.return_precondition =
+          this.productQualification;
+        storeDetails.refund_policy.product_replacable_on_return =
+          this.allowReplaceProducts;
         storeDetails.refund_policy.return_window = this.maxDays;
       }
       if (this.accountType === "individual") {
