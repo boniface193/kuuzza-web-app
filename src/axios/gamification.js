@@ -3,9 +3,17 @@ import store from "@/store";
 
 let requestQueue = [];
 
+// set base url if environment is staging
+if (process.env.VUE_APP_ENV == "staging") {
+    gamificationBaseUrl = "https://gamification-staging.kuuzza.com";
+}
+// set base url if environment is prodution
+if (process.env.VUE_APP_ENV == "production") {
+    gamificationBaseUrl = "https://gamification.kuuzza.com";
+}
 const gamificationHttpClient = axios.create({
-    baseURL: "https://gamification.kuuzza.com",
-})
+    baseURL: gamificationBaseUrl,
+});
 
 const gamificationRequest = (config) => {
     if (store.state.onboarding.accessToken !== null) {

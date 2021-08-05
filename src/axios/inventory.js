@@ -3,10 +3,21 @@ import store from "@/store";
 
 let requestQueue = [];
 
-const inventoryHttpClient = axios.create({
-    baseURL: "https://inventory.kuuzza.com" 
-});
+// base url for development environment
+let inventoryBaseUrl = "https://inventory-develop.kuuzza.com";
 
+// set base url if environment is staging
+if (process.env.VUE_APP_ENV == "staging") {
+    inventoryBaseUrl = "https://inventory-staging.kuuzza.com";
+}
+// set base url if environment is prodution
+if (process.env.VUE_APP_ENV == "production") {
+    inventoryBaseUrl = "https://inventory.kuuzza.com";
+}
+
+const inventoryHttpClient = axios.create({
+    baseURL: inventoryBaseUrl,
+});
 const inventoryRequest = (config) => {
     if (store.state.onboarding.accessToken !== null) {
         if (!store.state.onboarding.refreshingToken) {
