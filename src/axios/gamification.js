@@ -3,6 +3,9 @@ import store from "@/store";
 
 let requestQueue = [];
 
+// base url for development environment
+let gamificationBaseUrl = "https://gamification-develop.kuuzza.com";
+
 // set base url if environment is staging
 if (process.env.VUE_APP_ENV == "staging") {
     gamificationBaseUrl = "https://gamification-staging.kuuzza.com";
