@@ -1,10 +1,20 @@
 import axios from "axios";
 import store from "@/store";
 
+// base url for development environment
+let onboardingBaseUrl = "https://identity-develop.kuuzza.com";
 
+// set base url if environment is staging
+if (process.env.VUE_APP_ENV == "staging") {
+    onboardingBaseUrl = "https://identity-staging.kuuzza.com";
+}
+// set base url if environment is prodution
+if (process.env.VUE_APP_ENV == "production") {
+    onboardingBaseUrl = "https://identity.kuuzza.com";
+}
 const onboardingHttpClient = axios.create({
-    baseURL: "https://identity.kuuzza.com"
-})
+    baseURL: onboardingBaseUrl,
+});
 
 const onboardingRequest = (config) => {
     if (store.state.onboarding.accessToken !== null) {

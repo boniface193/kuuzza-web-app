@@ -427,7 +427,7 @@ export default {
       this.edited = true;
     },
     setCategory(params) {
-      this.productDetails.category = params;
+      this.productDetails.category_id = params;
       this.edited = true;
       this.verifyCategory();
     },

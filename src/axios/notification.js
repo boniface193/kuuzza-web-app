@@ -3,10 +3,20 @@ import store from "@/store";
 
 let requestQueue = [];
 
-const notificationHttpClient = axios.create({
-    baseURL: "https://notification.kuuzza.com",
+// base url for development environment
+let notificationBaseUrl = "https://notification-develop.kuuzza.com";
 
-})
+// set base url if environment is staging
+if (process.env.VUE_APP_ENV == "staging") {
+    notificationBaseUrl = "https://notification-staging.kuuzza.com";
+}
+// set base url if environment is prodution
+if (process.env.VUE_APP_ENV == "production") {
+    notificationBaseUrl = "https://notification.kuuzza.com";
+}
+const notificationHttpClient = axios.create({
+    baseURL: notificationBaseUrl,
+});
 
 const notificationRequest = (config) => {
     if (store.state.onboarding.accessToken !== null) {

@@ -3,9 +3,20 @@ import store from "@/store";
 
 let requestQueue = [];
 
+// base url for development environment
+let onboardingBaseUrl = "https://order-develop.kuuzza.com";
+
+// set base url if environment is staging
+if (process.env.VUE_APP_ENV == "staging") {
+    onboardingBaseUrl = "https://order-staging.kuuzza.com";
+}
+// set base url if environment is prodution
+if (process.env.VUE_APP_ENV == "production") {
+    onboardingBaseUrl = "https://order.kuuzza.com";
+}
 const orderHttpClient = axios.create({
-    baseURL: "https://order.kuuzza.com",
-})
+    baseURL: onboardingBaseUrl,
+});
 
 const orderRequest = (config) => {
     if (store.state.onboarding.accessToken !== null) {
