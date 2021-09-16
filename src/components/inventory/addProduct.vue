@@ -190,9 +190,9 @@
             <div v-if="imageError === true" class="inputError error--text">
               An image is required
             </div>
-            <div class="" v-for="(n, index) in increaseImageField" :key="n.id">
+            <div class="" v-for="(n, index) in otherImagesUrl" :key="index">
               <v-icon
-                @click="deleteImgFile(index)"
+                @click="removeImageFromOtherImages(index)"
                 class="float-right my-3"
                 color="error"
                 style="cursor: pointer"
@@ -204,15 +204,15 @@
                 caretColor="#029B97"
                 :multiple="false"
                 class="mt-3 mr-8"
-                @images="setOtherImageUrl"
+                @images="setOtherImageUrl($event, index)"
               />
             </div>
             <v-btn
-            :disabled="disabled"
+              :disabled="otherImagesUrl.length >= 5"
               dark
               color="warning"
               class="elevation-0 float-right mt-3"
-              @click="incrementToTen"
+              @click="increaseOtherImages()"
               >Additional Image</v-btn
             >
           </div>
@@ -284,8 +284,7 @@ export default {
   },
   data: function () {
     return {
-      disabled: false,
-      increaseImageField: [],
+      otherImagesUrl: [],
       loader: false,
       failedRequest: false,
       dialog: false,
@@ -302,7 +301,6 @@ export default {
       totalPrice: 0,
       productDescription: "",
       imageUrl: null,
-      additionalImages: [],
       loading: false,
       variantDetails: {
         variants: [],
@@ -334,34 +332,6 @@ export default {
     }),
   },
   methods: {
-    // increment extra images
-    incrementToTen() {
-      if (this.increaseImageField.length == 5) {
-        this.dialog = true;
-        this.statusImage = failedImage;
-        this.dialogMessage = "you have exeeded 5 fields";
-        this.disabled = true;
-      } else {
-        this.increaseImageField.push(`<v-icon
-                @click="deleteImgFile(index)"
-                class="float-right my-3"
-                color="error"
-                style="cursor: pointer"
-                >mdi-trash-can-outline</v-icon
-              >
-              <imageUploader
-                width="100%"
-                height="57px"
-                caretColor="#5064cc"
-                :multiple="false"
-                class="mt-3 mr-8"
-              />`);
-      }
-    },
-    // delete image field
-    deleteImgFile(params) {
-      this.increaseImageField.pop(params);
-    },
     // next form
     nextForm(formNum) {
       this.$refs[`form${formNum}`].validate();
@@ -447,8 +417,15 @@ export default {
       this.verifyImages();
       this.setProgress();
     },
-    setOtherImageUrl(params) {
-      this.additionalImages.push(params.imageUrl);
+    setOtherImageUrl(params, index) {
+      this.otherImagesUrl[index] = params.imageUrl;
+    },
+    increaseOtherImages() {
+      this.otherImagesUrl.push("");
+    },
+    // delete image field
+    removeImageFromOtherImages(index) {
+      this.otherImagesUrl.splice(index, 1);
     },
     // set progress
     setProgress() {
@@ -500,7 +477,7 @@ export default {
       productDetails.price = this.price;
       productDetails.description = this.productDescription;
       productDetails.image = this.imageUrl;
-      productDetails.other_images = this.additionalImages;
+      productDetails.other_images = this.otherImagesUrl;
       if (this.variantDetails.variantStatus === true) {
         productDetails.variants = [];
         this.variantDetails.variants.forEach((item) => {
