@@ -1,3 +1,4 @@
+/* eslint-disable no-self-assign */
 <template>
   <div class="pb-16">
     <div>
@@ -97,64 +98,30 @@
                 <div v-if="imageError === true" class="inputError error--text">
                   An image is required
                 </div>
-                <v-row
-                  class="justify-space-around"
-                  v-for="(item, index) in productDetails.other_images"
-                  :key="item"
-                >
-                  <v-col sm="9" cols="9">
-                    <imageUploader
-                      width=""
-                      height="57px"
-                      caretColor="#5064cc"
-                      :multiple="false"
-                      class=""
-                      @images="setOtherImageUrl"
-                    />
-                  </v-col>
-                  <v-col sm="2" cols="2" class="text-center">
-                    <img
-                      class=""
-                      width="100px"
-                      :src="showEditImage == null ? item : showEditImage"
-                    />
-                  </v-col>
-
-                  <v-col sm="1" cols="1" class="text-center">
-                    <v-icon
-                      @click="deleteImgFile(index)"
-                      class=""
-                      color="error"
-                      style="cursor: pointer"
-                      >mdi-trash-can-outline</v-icon
-                    >
-                  </v-col>
-                </v-row>
 
                 <div
                   class=""
-                  v-for="(n, index) in increaseImageField"
-                  :key="n.id"
+                  v-for="(image, index) in productDetails.other_images"
+                  :key="index"
                 >
                   <v-row>
-                    <v-col sm="10" cols="10">
+                    <v-col sm="9" cols="9">
                       <imageUploader
-                        :model="
-                          showEditOtherImage == null
-                            ? 'Select image'
-                            : showEditOtherImage
-                        "
+                        :model="image"
                         width="100%"
                         height="57px"
                         caretColor="#5064cc"
                         :multiple="false"
                         class="mt-3"
-                        @images="setAdditionalImageUrl"
+                        @images="setOtherImageUrl($event, index)"
                       />
                     </v-col>
-                    <v-col sm="2" cols="2">
+                    <v-col sm="2" cols="2" class="text-center">
+                      <img width="100px" :src="productDetails.other_images[index]" />
+                    </v-col>
+                    <v-col sm="1" cols="21">
                       <v-icon
-                        @click="deleteOtherImgFile(index)"
+                        @click="removeImageFromOtherImages(index)"
                         class="mt-6"
                         color="error"
                         style="cursor: pointer"
@@ -165,9 +132,10 @@
                 </div>
                 <v-btn
                   dark
+                  :disabled="this.productDetails.other_images.length >= 5"
                   color="warning"
                   class="elevation-0 mt-3"
-                  @click="incrementToTen"
+                  @click="increaseOtherImages()"
                   >Additional Image</v-btn
                 >
               </div>
@@ -316,16 +284,13 @@ export default {
   },
   data: function () {
     return {
-      showEditImage: null,
-      showEditOtherImage: null,
-      increaseImageField: [],
-      additionalImages: [],
-      getAdditionalImages: [],
+      otherImagesUrl: [],
       productDetails: {
         category: "",
         quantity: 0,
         min_order_quantity: 0,
         variants: null,
+        other_images: [],
       },
       variantDetails: {
         variants: [],
@@ -363,7 +328,6 @@ export default {
       .then((response) => {
         this.productDetails = response.data.data;
         this.imageUrl = response.data.image;
-        this.getAdditionalImages = response.data.data.other_images;
         this.initialProductDetails = response.data.data;
         // get product categories if not available
         if (this.$store.getters["inventory/productCategories"].length == 0) {
@@ -387,6 +351,8 @@ export default {
         variants: this.productDetails.variants,
         variantStatus: this.productDetails.variants == null ? false : true,
       };
+      // eslint-disable-next-line no-self-assign
+      this.productDetails.other_images = this.productDetails.other_images
     },
   },
   computed: {
@@ -400,32 +366,6 @@ export default {
     },
   },
   methods: {
-    // increment extra images
-    incrementToTen() {
-      if (
-        this.increaseImageField.length +
-          this.productDetails.other_images.length ==
-        5
-      ) {
-        this.dialog = true;
-        this.statusImage = failedImage;
-        this.dialogMessage = "you have exeeded 5 fields";
-        this.disabled = true;
-      } else {
-        this.increaseImageField.push(``);
-      }
-    },
-    // delete image field
-    deleteImgFile(params) {
-      this.productDetails.other_images.splice(params, params === params);
-      this.edited = true;
-    },
-    // delete additional image field
-    deleteOtherImgFile(params) {
-      this.increaseImageField.splice(params, params === params);
-      this.additionalImages.splice(params, params === params);
-      this.edited = true;
-    },
     setCategory(params) {
       this.productDetails.category_id = params;
       this.edited = true;
@@ -485,14 +425,16 @@ export default {
       this.edited = true;
       this.verifyImages();
     },
-    setOtherImageUrl(params) {
-      this.additionalImages.push(params.imageUrl);
-      this.showEditImage = null;
+    setOtherImageUrl(params, index) {
+      this.productDetails.other_images[index] = params.imageUrl;
       this.edited = true;
     },
-    setAdditionalImageUrl(params) {
-      this.additionalImages.push(params.imageUrl);
-      this.showEditOtherImage = params.imageUrl;
+    increaseOtherImages() {
+      this.productDetails.other_images.push("");
+    },
+    // delete image field
+    removeImageFromOtherImages(index) {
+      this.productDetails.other_images.splice(index, 1);
       this.edited = true;
     },
     // setVariant
@@ -581,10 +523,7 @@ export default {
       productDetails.price = this.productDetails.price;
       productDetails.description = this.productDetails.description;
       productDetails.image = this.imageUrl;
-      productDetails.other_images = this.additionalImages;
-      this.getAdditionalImages.forEach((e) => {
-        this.additionalImages.push(e);
-      });
+      productDetails.other_images = this.productDetails.other_images;
       productDetails.ref = this.$route.params.id;
 
       if (this.variantDetails.variantStatus === true) {
