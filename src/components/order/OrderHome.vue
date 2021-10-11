@@ -48,12 +48,7 @@
       <div class="mb-5">
         <img src="@/assets/img/Empty-orders.svg" alt="" />
       </div>
-      <div v-show="emptyOrder">
-        <h2>You have no orders yet</h2>
-        <p>When you do, you will have a list here.</p>
-      </div>
-
-      <h2 v-show="!emptyOrder">No Orders were found!</h2>
+        <h2>No orders available</h2>
     </div>
 
     <!-- loader -->
@@ -120,9 +115,8 @@ export default {
         },
         {
           text: "Unit Price",
-          value: "store_price",
+          value: "store_total_price_label",
           width: "160px",
-          money: true,
         },
         {
           text: "Quantity",
@@ -131,7 +125,7 @@ export default {
         },
         {
           text: "Total (₦)",
-          value: "store_total_price",
+          value: "store_total_price_label",
           width: "200px",
         },
         { text: "Seller", value: "seller_name", width: "200px" },
@@ -157,7 +151,6 @@ export default {
       pageDetails: (state) => state.orders.pageDetails,
       tableLoader: (state) => state.orders.tableLoader,
       searchOrder: (state) => state.orders.searchOrder,
-      emptyOrder: (state) => state.orders.emptyOrder,
     }),
   },
   methods: {
