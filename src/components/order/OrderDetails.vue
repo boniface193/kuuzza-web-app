@@ -158,7 +158,7 @@
           <h3 class="mb-3">
             Delivery Status:
             <span class="secondary--text">{{
-              orderDetails.delivery_status_label
+              inViewProduct.delivery_status
             }}</span>
           </h3>
 

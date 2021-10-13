@@ -64,7 +64,6 @@ const actions = {
         return new Promise((resolve, reject) => {
             orderHttpClient.get("/orders",)
                 .then(response => {
-                    console.log(response.data.data)
                     context.commit("setOrders", response.data.data);
                     context.commit("setPageDetails", response.data.meta);
                     resolve(response.data.data)
@@ -98,7 +97,6 @@ const actions = {
                 })
         })
     },
-
     getOrdersDetail(context, data) {
         return new Promise((resolve, reject) => {
             orderHttpClient.get(`/orders/${data.id}`).then(response => {
@@ -128,7 +126,6 @@ const actions = {
                 })
         })
     },
-
     exportOrders() {
         return new Promise((resolve, reject) => {
             orderHttpClient.post(`/orders/export`, {
