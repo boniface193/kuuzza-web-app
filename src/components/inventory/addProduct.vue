@@ -177,19 +177,68 @@
             ></v-textarea>
           </div>
 
+          <div class="input-field">
+            <p class="mb-1">Transport Method</p>
+
+            <v-select
+              :items="carriage"
+              item-text="text"
+              label="Select Carriage"
+              outlined
+              class="pa-0"
+              :rules="inputRules"
+              @change="selectedCarriage"
+            >
+              <template v-slot:selection="{ item }">
+                <span class="mr-4">{{ item.text }}</span>
+                <v-icon>{{ item.icon }}</v-icon>
+              </template>
+
+              <template v-slot:item="{ item }">
+                <span class="mr-4">{{ item.text }}</span>
+                <v-icon>{{ item.icon }}</v-icon>
+              </template>
+            </v-select>
+          </div>
+
           <!-- image uploader -->
           <div class="mb-9 input-field">
             <p class="mb-1">Upload Product Image</p>
             <imageUploader
               width="100%"
               height="57px"
-              caretColor="#5064cc"
+              caretColor="#029B97"
               :multiple="false"
               @images="setImageUrl"
             />
             <div v-if="imageError === true" class="inputError error--text">
               An image is required
             </div>
+            <div class="" v-for="(n, index) in otherImagesUrl" :key="index">
+              <v-icon
+                @click="removeImageFromOtherImages(index)"
+                class="float-right my-3"
+                color="error"
+                style="cursor: pointer"
+                >mdi-trash-can-outline</v-icon
+              >
+              <imageUploader
+                width="100%"
+                height="57px"
+                caretColor="#029B97"
+                :multiple="false"
+                class="mt-3 mr-8"
+                @images="setOtherImageUrl($event, index)"
+              />
+            </div>
+            <v-btn
+              :disabled="otherImagesUrl.length >= 5"
+              dark
+              color="warning"
+              class="elevation-0 float-right mt-3"
+              @click="increaseOtherImages()"
+              >Additional Image</v-btn
+            >
           </div>
 
           <!-- button container -->
@@ -259,6 +308,15 @@ export default {
   },
   data: function () {
     return {
+      carriage: [
+        { icon: "mdi-bicycle-basket", text: "BIKE" },
+        { icon: "mdi-car", text: "CAR" },
+        { icon: "mdi-truck", text: "TRUCK" },
+      ],
+      selectedTransportMethod: "",
+      disabled: false,
+      increaseImageField: [],
+      otherImagesUrl: [],
       loader: false,
       failedRequest: false,
       dialog: false,
@@ -306,6 +364,10 @@ export default {
     }),
   },
   methods: {
+    selectedCarriage(params) {
+      this.selectedTransportMethod = params
+      console.log(this.selectedTransportMethod)
+    },
     // next form
     nextForm(formNum) {
       this.$refs[`form${formNum}`].validate();
@@ -382,7 +444,7 @@ export default {
         this.imageError = false;
       } else {
         this.imageError = true;
-        this.$refs.imageUploader.setError();
+        // this.$refs.imageUploader.setError();
       }
     },
     // set image url
@@ -390,6 +452,16 @@ export default {
       this.imageUrl = params.imageUrl;
       this.verifyImages();
       this.setProgress();
+    },
+    setOtherImageUrl(params, index) {
+      this.otherImagesUrl[index] = params.imageUrl;
+    },
+    increaseOtherImages() {
+      this.otherImagesUrl.push("");
+    },
+    // delete image field
+    removeImageFromOtherImages(index) {
+      this.otherImagesUrl.splice(index, 1);
     },
     // set progress
     setProgress() {
@@ -441,7 +513,8 @@ export default {
       productDetails.price = this.price;
       productDetails.description = this.productDescription;
       productDetails.image = this.imageUrl;
-
+      productDetails.vehicle_type = this.selectedTransportMethod;
+      productDetails.other_images = this.otherImagesUrl;
       if (this.variantDetails.variantStatus === true) {
         productDetails.variants = [];
         this.variantDetails.variants.forEach((item) => {

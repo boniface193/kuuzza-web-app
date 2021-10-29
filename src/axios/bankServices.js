@@ -3,9 +3,20 @@ import store from "@/store";
 
 let requestQueue = [];
 
+// base url for development environment
+let paymentBaseUrl = "https://nova-payment.herokuapp.com";
+
+// set base url if environment is staging
+if (process.env.VUE_APP_ENV == "staging") {
+    paymentBaseUrl = "https://payment-staging.kuuzza.com";
+}
+// set base url if environment is prodution
+if (process.env.VUE_APP_ENV == "production") {
+    paymentBaseUrl = "https://payment.kuuzza.com";
+}
 const bankServiceHttpClient = axios.create({
-    baseURL: "https://nova-payment.herokuapp.com",
-})
+    baseURL: paymentBaseUrl,
+});
 
 const bankServiceRequest = (config) => {
     if (store.state.onboarding.accessToken !== null) {

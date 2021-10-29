@@ -26,7 +26,6 @@ const setItemPerPage = (itemPerPage, per_page, from_page) => {
 const state = {
     tableLoader: false,
     orders: [],
-    orderDetails: {},
     searchOrder: false,
     searchValue: "",
     page: 1,
@@ -47,7 +46,6 @@ const state = {
     },
     allowDateFilter: false,
     selectedReferences: [],
-    emptyOrder: false,
     doNothing: null,
 };
 //returns the state properties
@@ -68,11 +66,6 @@ const actions = {
                 .then(response => {
                     context.commit("setOrders", response.data.data);
                     context.commit("setPageDetails", response.data.meta);
-                    if (response.data.data.length === 0) {
-                        context.commit("setEmptyOrder", true);
-                    } else {
-                        context.commit("setEmptyOrder", false);
-                    }
                     resolve(response.data.data)
                 })
                 .catch(error => {
@@ -104,15 +97,13 @@ const actions = {
                 })
         })
     },
-
     getOrdersDetail(context, data) {
         return new Promise((resolve, reject) => {
             orderHttpClient.get(`/orders/${data.id}`).then(response => {
-                context.commit('setDetails', response.data.data)
-                resolve(response.data.data);
+                resolve(response);
             })
                 .catch(error => {
-                    context.commit("doNothing");
+                    context.commit("setDoNothing", null);
                     reject(error);
                 })
         })
@@ -135,7 +126,6 @@ const actions = {
                 })
         })
     },
-
     exportOrders() {
         return new Promise((resolve, reject) => {
             orderHttpClient.post(`/orders/export`, {
@@ -158,9 +148,6 @@ const mutations = {
     setEmptyOrder: (state, status) => (state.emptyOrder = status),
     setOrders(state, data) {
         state.orders = data
-    },
-    setDetails(state, data) {
-        state.orderDetails = data
     },
     setFilter(state, filter) {
         state.filter = filter
@@ -186,6 +173,7 @@ const mutations = {
     setPage(state, page) {
         state.page = page
     },
+    setDoNothing: (state, status) => (state.doNothing = status)
 };
 
 export default {

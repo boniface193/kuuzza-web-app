@@ -3,10 +3,21 @@ import store from "@/store";
 
 //let requestQueue = [];
 
-const mediaServiceHttpClient = axios.create({
-    baseURL: "https://nova-image.herokuapp.com",
-})
+// base url for development environment
+let mediaBaseUrl = "https://nova-image.herokuapp.com";
 
+// set base url if environment is staging
+if (process.env.VUE_APP_ENV == "staging") {
+    mediaBaseUrl = "https://media-staging.kuuzza.com";
+}
+// set base url if environment is prodution
+if (process.env.VUE_APP_ENV == "production") {
+    mediaBaseUrl = "https://media.kuuzza.com";
+}
+
+const mediaServiceHttpClient = axios.create({
+    baseURL: mediaBaseUrl,
+});
 const mediaServiceRequest = (config) => {
     if (store.state.onboarding.accessToken !== null) {
         if (!store.state.onboarding.refreshingToken) {

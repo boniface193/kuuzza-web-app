@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
   <script
-    src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyB8v0WcWHPh-f0vbNqd221kd-ImL1KCVhM"></script>
+    src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAaH_ZGVLiYIScDuvS7Irrpv4pAQfiyz1M"></script>
 </head>
 
 <body>
@@ -27,6 +27,23 @@
   <!-- Start of HubSpot Embed Code -->
   <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/19564607.js"></script>
   <!-- End of HubSpot Embed Code -->
+  <!-- facebook pixel -->
+  <script>
+    !function (f, b, e, v, n, t, s) {
+      if (f.fbq) return; n = f.fbq = function () {
+        n.callMethod ?
+        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+      }; if (!f._fbq) f._fbq = n;
+      n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0;
+      t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
+    }(window,
+      document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+
+    fbq.disablePushState = true; //not recommended, but can be done
+
+    fbq('init', '186443746693630');
+    fbq('track', 'PageView');
+  </script>
 </body>
 
 </html>

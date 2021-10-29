@@ -48,12 +48,7 @@
       <div class="mb-5">
         <img src="@/assets/img/Empty-orders.svg" alt="" />
       </div>
-      <div v-show="emptyOrder">
-        <h2>You have no orders yet</h2>
-        <p>When you do, you will have a list here.</p>
-      </div>
-
-      <h2 v-show="!emptyOrder">No Orders were found!</h2>
+        <h2>No orders available</h2>
     </div>
 
     <!-- loader -->
@@ -105,41 +100,40 @@ export default {
       dialogMessage: "",
       statusImage: null,
       tableHeaders: [
-        {
-          text: "Product Name",
-          sortable: true,
-          value: "product_name",
-          width: "300px",
-        },
+        // {
+        //   text: "Product Name",
+        //   sortable: true,
+        //   value: "product_name",
+        //   width: "300px",
+        // },
         {
           text: "Order Number",
           value: "id",
-          width: "200px",
+          width: "300px",
           href: true,
           routeName: "OrderDetails",
         },
-        {
-          text: "Unit Price",
-          value: "store_price",
-          width: "160px",
-          money: true,
-        },
-        {
-          text: "Quantity",
-          value: "total_items",
-          width: "150px",
-        },
-        {
-          text: "Total (₦)",
-          value: "store_total_price",
-          width: "200px",
-        },
-        { text: "Seller", value: "seller_name", width: "200px" },
-        { text: "Payment", value: "payment_status_label", width: "120px" },
+        // {
+        //   text: "Unit Price",
+        //   value: "store_total_price_label",
+        //   width: "160px",
+        // },
+        // {
+        //   text: "Quantity",
+        //   value: "total_items",
+        //   width: "150px",
+        // },
+        // {
+        //   text: "Total (₦)",
+        //   value: "store_total_price_label",
+        //   width: "200px",
+        // },
+        { text: "Seller", value: "seller_name", width: "300px" },
+        { text: "Payment", value: "payment_status_label", width: "200px" },
         {
           text: "Delivery",
           value: "delivery_status_label",
-          width: "150px",
+          width: "200px",
         },
         { text: "Time", value: "created_at", width: "200px" },
       ],
@@ -157,7 +151,6 @@ export default {
       pageDetails: (state) => state.orders.pageDetails,
       tableLoader: (state) => state.orders.tableLoader,
       searchOrder: (state) => state.orders.searchOrder,
-      emptyOrder: (state) => state.orders.emptyOrder,
     }),
   },
   methods: {

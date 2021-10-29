@@ -3,9 +3,20 @@ import store from "@/store";
 
 let requestQueue = [];
 
+// base url for development environment
+let notificationBaseUrl = "https://nova-ids.herokuapp.com";
+
+// set base url if environment is staging
+if (process.env.VUE_APP_ENV == "staging") {
+    notificationBaseUrl = "https://notification-staging.kuuzza.com";
+}
+// set base url if environment is prodution
+if (process.env.VUE_APP_ENV == "production") {
+    notificationBaseUrl = "https://notification.kuuzza.com";
+}
 const notificationHttpClient = axios.create({
-    baseURL: "https://nova-ids.herokuapp.com"
-})
+    baseURL: notificationBaseUrl,
+});
 
 const notificationRequest = (config) => {
     if (store.state.onboarding.accessToken !== null) {

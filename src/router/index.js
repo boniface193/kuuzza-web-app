@@ -28,7 +28,7 @@ import ImportProduct from "@/components/inventory/ImportProduct.vue";
 // order pages
 import Orders from "@/views/authPages/Orders.vue";
 import OrderHome from "@/components/order/OrderHome.vue";
-import orderDetails from "@/components/order/orderDetails";
+import orderDetails from "@/components/order/OrderDetails.vue";
 // settings pages
 import Settings from "../views/authPages/Settings.vue";
 import userDetails from "@/components/settings/userDetails.vue";
@@ -66,17 +66,17 @@ const getProfile = (to, from, next) => {
         next()
         return
       } else {
-        store.commit("onboarding/removeClientID");
-        store.commit("onboarding/removeRefreshToken");
-        store.commit("onboarding/setAccessToken", null)
-        store.commit("reset");
-        router.push({ name: "SuspensionPage" })
+        // store.commit("onboarding/removeClientID");
+        // store.commit("onboarding/removeRefreshToken");
+        // store.commit("onboarding/setAccessToken", null)
+        // store.commit("reset");
+        router.push({ name: "SuspensionPage" });
       }
     } else {
-      store.commit("onboarding/removeClientID");
-      store.commit("onboarding/removeRefreshToken");
-      store.commit("onboarding/setAccessToken", null)
-      store.commit("reset");
+      // store.commit("onboarding/removeClientID");
+      // store.commit("onboarding/removeRefreshToken");
+      // store.commit("onboarding/setAccessToken", null)
+      // store.commit("reset");
       router.push({
         name: 'EmailVerification', params: {
           email: profile.email,
@@ -133,7 +133,7 @@ const ifAuthenticated = (to, from, next) => {
   } else {
     store.commit("onboarding/removeClientID");
     store.commit("onboarding/removeRefreshToken");
-    store.commit("onboarding/setAccessToken", null)
+    store.commit("onboarding/setAccessToken", null);
     store.commit("reset");
     next({ name: 'Signin' });
   }
@@ -169,9 +169,10 @@ const ifAccessPasswordRecoveryPage = (to, from, next) => {
 const AlreadyLogin = (to, from, next) => {
   if (to.name === 'signupTeamMember') {
     next();
+    return;
   } else {
     // check if client ID exists in localstorage
-    if (localStorage.getItem("clientID") && localStorage.getItem("refreshToken")) {
+    if (localStorage.getItem("clientID") && localStorage.getItem("refreshToken") && to.name !== "EmailVerification") {
       next({ name: 'dashboard' })
     } else {
       next();
