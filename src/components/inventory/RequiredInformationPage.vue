@@ -242,7 +242,7 @@
                 I agree to Kuuzza
                 <a
                   style="text-decoration: none"
-                  href="https://kuuzza.com/return-refund-policy"
+                  href="https://staging-landing.kuuzza.com/return-refund-policy"
                   target="_blank"
                   class="primary--text"
                 >

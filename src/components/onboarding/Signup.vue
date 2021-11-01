@@ -180,8 +180,8 @@
         <v-checkbox v-model="acceptTerms" class="mr-1"></v-checkbox>
         <p class="mb-0" style="">
           I agree to Kuuzza
-          <a style="text-decoration:none" href="https://kuuzza.com/vendor/terms-conditions" target="_blank" class="primary--text"> Terms of service </a> and 
-          <a style="text-decoration:none" href="https://kuuzza.com/privacy-policy" target="_blank" class="primary--text"> privacy policy</a>
+          <a style="text-decoration:none" href="https://staging-landing.kuuzza.com/vendor/terms-conditions" target="_blank" class="primary--text"> Terms of service </a> and 
+          <a style="text-decoration:none" href="https://staging-landing.kuuzza.com/privacy-policy" target="_blank" class="primary--text"> privacy policy</a>
         </p>
       </div>
 
