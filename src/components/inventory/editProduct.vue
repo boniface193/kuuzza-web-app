@@ -117,14 +117,10 @@
                       />
                     </v-col>
                     <v-col sm="2" cols="2" class="text-center">
-<<<<<<< HEAD
-                      <img width="100px" :src="productDetails.other_images[index]" />
-=======
                       <img
                         width="100px"
                         :src="productDetails.other_images[index]"
                       />
->>>>>>> 09c61cdf391a708afe5a657f348e94c3a9143bbe
                     </v-col>
                     <v-col sm="1" cols="21">
                       <v-icon
@@ -219,8 +215,6 @@
                   placeholder="Enter brief description about product"
                 ></v-textarea>
               </div>
-<<<<<<< HEAD
-=======
 
               <div class="input-field">
                 <p class="mb-1">Transport Method</p>
@@ -245,7 +239,6 @@
                   </template>
                 </v-select>
               </div>
->>>>>>> 09c61cdf391a708afe5a657f348e94c3a9143bbe
             </v-col>
           </v-row>
 
@@ -318,8 +311,6 @@ export default {
   },
   data: function () {
     return {
-<<<<<<< HEAD
-=======
       carriage: [
         { icon: "mdi-bicycle-basket", text: "Bike" },
         { icon: "mdi-car", text: "Car" },
@@ -331,7 +322,6 @@ export default {
       increaseImageField: [],
       additionalImages: [],
       getAdditionalImages: [],
->>>>>>> 09c61cdf391a708afe5a657f348e94c3a9143bbe
       otherImagesUrl: [],
       productDetails: {
         category: "",
@@ -400,11 +390,7 @@ export default {
         variantStatus: this.productDetails.variants == null ? false : true,
       };
       // eslint-disable-next-line no-self-assign
-<<<<<<< HEAD
-      this.productDetails.other_images = this.productDetails.other_images
-=======
       this.productDetails.other_images = this.productDetails.other_images;
->>>>>>> 09c61cdf391a708afe5a657f348e94c3a9143bbe
     },
   },
   computed: {
@@ -579,10 +565,7 @@ export default {
       productDetails.price = this.productDetails.price;
       productDetails.description = this.productDetails.description;
       productDetails.image = this.imageUrl;
-<<<<<<< HEAD
-=======
       productDetails.vehicle_type = this.selectedTransportMethod;
->>>>>>> 09c61cdf391a708afe5a657f348e94c3a9143bbe
       productDetails.other_images = this.productDetails.other_images;
       productDetails.ref = this.$route.params.id;
 

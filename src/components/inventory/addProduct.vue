@@ -308,8 +308,6 @@ export default {
   },
   data: function () {
     return {
-<<<<<<< HEAD
-=======
       carriage: [
         { icon: "mdi-bicycle-basket", text: "BIKE" },
         { icon: "mdi-car", text: "CAR" },
@@ -318,7 +316,6 @@ export default {
       selectedTransportMethod: "",
       disabled: false,
       increaseImageField: [],
->>>>>>> 09c61cdf391a708afe5a657f348e94c3a9143bbe
       otherImagesUrl: [],
       loader: false,
       failedRequest: false,
@@ -516,10 +513,7 @@ export default {
       productDetails.price = this.price;
       productDetails.description = this.productDescription;
       productDetails.image = this.imageUrl;
-<<<<<<< HEAD
-=======
       productDetails.vehicle_type = this.selectedTransportMethod;
->>>>>>> 09c61cdf391a708afe5a657f348e94c3a9143bbe
       productDetails.other_images = this.otherImagesUrl;
       if (this.variantDetails.variantStatus === true) {
         productDetails.variants = [];
