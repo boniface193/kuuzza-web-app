@@ -366,7 +366,6 @@ export default {
   methods: {
     selectedCarriage(params) {
       this.selectedTransportMethod = params
-      console.log(this.selectedTransportMethod)
     },
     // next form
     nextForm(formNum) {
