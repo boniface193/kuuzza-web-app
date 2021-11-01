@@ -177,6 +177,30 @@
             ></v-textarea>
           </div>
 
+          <div class="input-field">
+            <p class="mb-1">Transport Method</p>
+
+            <v-select
+              :items="carriage"
+              item-text="text"
+              label="Select Carriage"
+              outlined
+              class="pa-0"
+              :rules="inputRules"
+              @change="selectedCarriage"
+            >
+              <template v-slot:selection="{ item }">
+                <span class="mr-4">{{ item.text }}</span>
+                <v-icon>{{ item.icon }}</v-icon>
+              </template>
+
+              <template v-slot:item="{ item }">
+                <span class="mr-4">{{ item.text }}</span>
+                <v-icon>{{ item.icon }}</v-icon>
+              </template>
+            </v-select>
+          </div>
+
           <!-- image uploader -->
           <div class="mb-9 input-field">
             <p class="mb-1">Upload Product Image</p>
@@ -284,6 +308,17 @@ export default {
   },
   data: function () {
     return {
+<<<<<<< HEAD
+=======
+      carriage: [
+        { icon: "mdi-bicycle-basket", text: "BIKE" },
+        { icon: "mdi-car", text: "CAR" },
+        { icon: "mdi-truck", text: "TRUCK" },
+      ],
+      selectedTransportMethod: "",
+      disabled: false,
+      increaseImageField: [],
+>>>>>>> 09c61cdf391a708afe5a657f348e94c3a9143bbe
       otherImagesUrl: [],
       loader: false,
       failedRequest: false,
@@ -332,6 +367,10 @@ export default {
     }),
   },
   methods: {
+    selectedCarriage(params) {
+      this.selectedTransportMethod = params
+      console.log(this.selectedTransportMethod)
+    },
     // next form
     nextForm(formNum) {
       this.$refs[`form${formNum}`].validate();
@@ -477,6 +516,10 @@ export default {
       productDetails.price = this.price;
       productDetails.description = this.productDescription;
       productDetails.image = this.imageUrl;
+<<<<<<< HEAD
+=======
+      productDetails.vehicle_type = this.selectedTransportMethod;
+>>>>>>> 09c61cdf391a708afe5a657f348e94c3a9143bbe
       productDetails.other_images = this.otherImagesUrl;
       if (this.variantDetails.variantStatus === true) {
         productDetails.variants = [];

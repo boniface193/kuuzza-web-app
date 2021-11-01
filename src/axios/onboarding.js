@@ -2,7 +2,7 @@ import axios from "axios";
 import store from "@/store";
 
 // base url for development environment
-let onboardingBaseUrl = "https://identity-develop.kuuzza.com";
+let onboardingBaseUrl = "https://nova-ids.herokuapp.com";
 
 // set base url if environment is staging
 if (process.env.VUE_APP_ENV == "staging") {
