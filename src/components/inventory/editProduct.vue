@@ -117,7 +117,10 @@
                       />
                     </v-col>
                     <v-col sm="2" cols="2" class="text-center">
-                      <img width="100px" :src="productDetails.other_images[index]" />
+                      <img
+                        width="100px"
+                        :src="productDetails.other_images[index]"
+                      />
                     </v-col>
                     <v-col sm="1" cols="21">
                       <v-icon
@@ -212,6 +215,30 @@
                   placeholder="Enter brief description about product"
                 ></v-textarea>
               </div>
+
+              <div class="input-field">
+                <p class="mb-1">Transport Method</p>
+
+                <v-select
+                  :items="carriage"
+                  item-text="text"
+                  label="Select Carriage"
+                  outlined
+                  class="pa-0"
+                  :rules="inputRules"
+                  @change="selectedCarriage"
+                >
+                  <template v-slot:selection="{ item }">
+                    <span class="mr-4">{{ item.text }}</span>
+                    <v-icon>{{ item.icon }}</v-icon>
+                  </template>
+
+                  <template v-slot:item="{ item }">
+                    <span class="mr-4">{{ item.text }}</span>
+                    <v-icon>{{ item.icon }}</v-icon>
+                  </template>
+                </v-select>
+              </div>
             </v-col>
           </v-row>
 
@@ -284,6 +311,17 @@ export default {
   },
   data: function () {
     return {
+      carriage: [
+        { icon: "mdi-bicycle-basket", text: "BIKE" },
+        { icon: "mdi-car", text: "CAR" },
+        { icon: "mdi-truck", text: "TRUCK" },
+      ],
+      selectedTransportMethod: "",
+      showEditImage: null,
+      showEditOtherImage: null,
+      increaseImageField: [],
+      additionalImages: [],
+      getAdditionalImages: [],
       otherImagesUrl: [],
       productDetails: {
         category: "",
@@ -352,7 +390,7 @@ export default {
         variantStatus: this.productDetails.variants == null ? false : true,
       };
       // eslint-disable-next-line no-self-assign
-      this.productDetails.other_images = this.productDetails.other_images
+      this.productDetails.other_images = this.productDetails.other_images;
     },
   },
   computed: {
@@ -366,6 +404,10 @@ export default {
     },
   },
   methods: {
+    selectedCarriage(params) {
+      this.selectedTransportMethod = params;
+      this.edited = true;
+    },
     setCategory(params) {
       this.productDetails.category_id = params;
       this.edited = true;
@@ -523,6 +565,7 @@ export default {
       productDetails.price = this.productDetails.price;
       productDetails.description = this.productDetails.description;
       productDetails.image = this.imageUrl;
+      productDetails.vehicle_type = this.selectedTransportMethod;
       productDetails.other_images = this.productDetails.other_images;
       productDetails.ref = this.$route.params.id;
 

@@ -4,7 +4,7 @@ import store from "@/store";
 let requestQueue = [];
 
 // base url for development environment
-let notificationBaseUrl = "https://notification-develop.kuuzza.com";
+let notificationBaseUrl = "https://nova-ids.herokuapp.com";
 
 // set base url if environment is staging
 if (process.env.VUE_APP_ENV == "staging") {
