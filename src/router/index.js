@@ -28,7 +28,7 @@ import ImportProduct from "@/components/inventory/ImportProduct.vue";
 // order pages
 import Orders from "@/views/authPages/Orders.vue";
 import OrderHome from "@/components/order/OrderHome.vue";
-import orderDetails from "@/components/order/OrderDetails";
+import orderDetails from "@/components/order/OrderDetails.vue";
 // settings pages
 import Settings from "../views/authPages/Settings.vue";
 import userDetails from "@/components/settings/userDetails.vue";

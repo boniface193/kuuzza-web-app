@@ -1,146 +1,414 @@
 <template>
-  <v-row class="mb-5">
-    <v-col class="">
-      <div style="width: 170px">
-        <!-- back to Inventory -->
-        <router-link :to="{ name: 'Orders' }" class="no-decoration">
-          <h3 class="d-flex align-center return-btn my-3">
-            <v-icon color="#2B2B2B">mdi-chevron-left</v-icon>Orders
+  <div class="order-details" id="order-details">
+    <div style="width: 170px" class="mb-3">
+      <!-- back to orders -->
+      <router-link :to="{ name: 'Orders' }" style="text-decoration: none">
+        <h3 class="d-flex align-center secondary--text my-3">
+          <v-icon color="#2B2B2B">mdi-chevron-left</v-icon>Orders
+        </h3>
+      </router-link>
+    </div>
+
+    <div v-show="!pageLoader">
+      <div class="d-flex mb-3">
+        <p class="mb-0">
+          Order ID: <span class="primary--text">{{ orderDetails.id }}</span>
+        </p>
+        <p class="ml-2 secondary--text mb-0">
+          {{ orderDetails.items.length }}
+          {{ orderDetails.items.length > 1 ? "items" : "item" }}
+        </p>
+      </div>
+      <div class="order-details__content">
+        <div class="order-details__content__image-view">
+          <div class="order-details__content__image-view__multiple">
+            <div class="items-container" ref="items_container">
+              <div
+                class="order-details__content__image-view__multiple__item"
+                v-for="(item, index) in orderDetails.items"
+                :class="{ active: activeImageIndex == index }"
+                :key="index"
+                @click="setinViewProduct(index)"
+              >
+                <img :src="item.product_image_url" alt="" />
+              </div>
+            </div>
+            <div
+              class="
+                order-details__content__image-view__multiple__up-btn
+                scroll-btn
+              "
+              @click="scrollUp()"
+            >
+              <v-icon class="primary--text" style="font-size: 20px"
+                >mdi-arrow-up</v-icon
+              >
+            </div>
+            <div
+              class="
+                order-details__content__image-view__multiple__down-btn
+                scroll-btn
+              "
+              @click="scrollDown()"
+            >
+              <v-icon class="primary--text" style="font-size: 20px"
+                >mdi-arrow-down</v-icon
+              >
+            </div>
+          </div>
+          <!-- this view shows only on mobile -->
+          <div class="order-details__content__image-view__multiple--mobile">
+            <div class="items-container" ref="items_container__mobile">
+              <div
+                class="
+                  order-details__content__image-view__multiple--mobile__item
+                "
+                :class="{ active: activeImageIndex == index }"
+                v-for="(item, index) in orderDetails.items"
+                @click="setinViewProduct(index)"
+                :key="index"
+              >
+                <img :src="item.product_image_url" alt="" />
+              </div>
+            </div>
+            <div
+              class="
+                order-details__content__image-view__multiple--mobile__left-btn
+                scroll-btn
+              "
+              @click="scrollLeft()"
+            >
+              <v-icon class="primary--text" style="font-size: 20px"
+                >mdi-arrow-left</v-icon
+              >
+            </div>
+            <div
+              class="
+                order-details__content__image-view__multiple--mobile__right-btn
+                scroll-btn
+              "
+              @click="scrollRight()"
+            >
+              <v-icon class="primary--text" style="font-size: 20px"
+                >mdi-arrow-right</v-icon
+              >
+            </div>
+          </div>
+
+          <div class="order-details__content__image-view__single">
+            <img :src="inViewProduct.product_image_url" alt="" />
+          </div>
+        </div>
+        <!-- product details section -->
+        <div class="order-details__content__text-view">
+          <!-- product name -->
+          <h2 class="mb-3">
+            {{ inViewProduct.product_name }}
+            <router-link
+              :to="{ name: 'productDetails', params: { id: `${inViewProduct.product_id}` } }"
+              style="text-decoration: none"
+              class="primary--text"
+              >({{ inViewProduct.product_id }} )</router-link
+            >
+          </h2>
+          <!-- product sku -->
+          <h3 class="mb-2">SKU: {{ inViewProduct.product_sku }}</h3>
+          <!-- store price -->
+          <h3 class="mb-2">
+            Store price:
+            <span class="primary--text"
+              >&#8358;{{ inViewProduct.product_store_price }}</span
+            >
           </h3>
-        </router-link>
-      </div>
+          <!-- order quantity -->
+          <h3 class="mb-2">Order quantity: {{ inViewProduct.quantity }}</h3>
 
-      <div
-        v-show="orderDetailsDelay"
-        style="position: absolute; margin: 15% 50%; text-align: center"
-      >
-        <!-- this image time loader is calculated by the loader to triger the load time -->
-        <v-progress-circular
-          color="primary"
-          class=""
-          indeterminate
-        ></v-progress-circular>
-      </div>
-      <!-- loader ends here -->
-      <v-row>
-        <v-col cols="12" md="6" sm="6" style="padding-top:0px !important">
-          <div class="pl-2 pt-0" v-show="!orderDetailsDelay">
-            <!-- Order number -->
-            <h2>
-              Order: <span class="primary--text">{{ orderDetails.id }}</span>
-            </h2>
+          <!-- <h3>Description</h3>
+          <p class="secondary--text small-font-size">
+            {{ inViewProduct.product.description }}
+          </p> -->
 
-            <!-- product name -->
-            <p class="mt-2 mb-3">
-              <span class="item-title">Product Name: </span
-              ><span class="secondary--text">{{
-                orderDetails.product_name
-              }}</span>
-            </p>
-            <!-- product SKU -->
-            <p class="mt-2 mb-3">
-              <span class="item-title">SKU: </span
-              ><span class="secondary--text">{{
-                orderDetails.product_sku
-              }}</span>
-            </p>
-            <!-- payment status -->
-            <p class="mt-2 mb-3">
-              <span class="item-title">Payment Status: </span
-              ><span class="secondary--text">{{
-                orderDetails.payment_status_label
-              }}</span>
-            </p>
-            <!-- Delivery status -->
-            <p class="mt-2 mb-3">
-              <span class="item-title">Delivery Status: </span
-              ><span class="secondary--text">{{
-                orderDetails.delivery_status_label
-              }}</span>
-            </p>
-
-            <!-- Seller Details -->
-            <!-- <p class="mt-8 mb-3">
-              <span class="item-title">Seller Name: </span>
-            </p>
-            <p class="secondary--text">
-              {{ orderDetails.seller_name }}
-            </p> -->
-
-            <!-- Customer Details -->
-            <!-- <p class="mt-8 mb-3">
-              <span class="item-title">Customer Details: </span>
-            </p>
-            <p class="secondary--text">
-              {{ customer.name }}<br />{{ customer.email }}<br />{{
-                customer.phone
-              }}<br />
-            </p> -->
-
-            <!-- Product Variant -->
-            <p class="mt-8 mb-3" v-show="orderDetails.variants.length !== 0">
-              <span class="item-title">Variant: </span>
-            </p>
-            <p class="secondary--text mb-1" v-for="(variant, index) in orderDetails.variants" :key="index">
+          <div
+            v-if="
+              inViewProduct.variants.length > 0 &&
+              inViewProduct.variants.length != null
+            "
+          >
+            <h3>Variants</h3>
+            <p
+              class="secondary--text small-font-size mb-1"
+              v-for="(variant, index) in inViewProduct.variants"
+              :key="index"
+            >
               {{ variant.name }}: {{ variant.value }}
             </p>
-
-            <hr class="secondary--text" style="width: 300px" />
-
-            <!-- Delivery address -->
-            <p class="mt-8 mb-3">
-              <span class="item-title">Delivery Address: </span>
-            </p>
-            <p class="secondary--text">
-              {{ deliveryLocation.address }}
-            </p>
           </div>
-        </v-col>
 
-        <v-col cols="12" md="6" sm="6" class="d-none d-sm-block">
-          <div v-show="!orderDetailsDelay" class="white">
-            <img :src="orderDetails.product_image_url" style="width: 100%" />
-          </div>
-        </v-col>
-      </v-row>
-    </v-col>
-  </v-row>
+          <hr class="secondary--text my-3" />
+
+          <!-- payment status -->
+          <h3 class="mb-3">
+            Payment Status:
+            <span class="secondary--text">{{
+              orderDetails.payment_status_label
+            }}</span>
+          </h3>
+
+          <!-- Delivery status -->
+          <h3 class="mb-3">
+            Delivery Status:
+            <span class="secondary--text">{{
+              inViewProduct.delivery_status
+            }}</span>
+          </h3>
+
+          <!-- Delivery address -->
+          <h3>Delivery Address</h3>
+          <p class="secondary--text">
+            {{ orderDetails.delivery_location.address }}
+          </p>
+
+          <h3>Shipping and returns</h3>
+          <p v-if="inViewProduct.return_window > 0" class="secondary--text">
+            Returns are allowed within {{ inViewProduct.return_window }}
+            {{ inViewProduct.return_window > 1 ? "days" : "day" }}
+          </p>
+          <p v-else class="secondary--text">
+            Returns are not allowed for this product
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- loader -->
+    <div class="text-center pt-10 pb-5" v-show="pageLoader == true">
+      <v-progress-circular indeterminate color="primary"></v-progress-circular>
+    </div>
+  </div>
 </template>
 <script>
 export default {
-  name: "orderDetails",
-  data() {
+  name: "CheckoutDetails",
+  data: function () {
     return {
-      orderDetails: {},
-      customer: {},
-      deliveryLocation: {},
-      orderDetailsDelay: true,
+      pageLoader: false,
+      initialScrollViewDown: 0,
+      initialScrollViewUp: 0,
+      inViewProduct: { variants: [] },
+      activeImageIndex: 0,
+      orderDetails: {
+        items: [{ variants: [] }],
+        delivery_location: {},
+      },
     };
   },
-  async created() {
-    await this.$store
+  created() {
+    this.pageLoader = true;
+    this.$store
       .dispatch("orders/getOrdersDetail", { id: this.$route.params.id })
-      .then((e) => {
-        this.orderDetailsDelay = false;
-        this.orderDetails = e;
-        this.customer = e.customer;
-        this.deliveryLocation = e.delivery_location;
-      });
+      .then((response) => {
+        this.orderDetails = response.data.data;
+        this.setinViewProduct(0);
+        this.pageLoader = false;
+      })
+      .catch(() => (this.pageLoader = false));
+  },
+  methods: {
+    setinViewProduct(index) {
+      this.inViewProduct = this.orderDetails.items[index];
+      this.activeImageIndex = index;
+    },
+    scrollDown() {
+      this.$refs.items_container.scrollBy(0, 150);
+    },
+    scrollUp() {
+      this.$refs.items_container.scrollBy(0, -150);
+    },
+    scrollRight() {
+      this.$refs.items_container__mobile.scrollBy(150, 0);
+    },
+    scrollLeft() {
+      this.$refs.items_container__mobile.scrollBy(-150, 0);
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
-.no-decoration {
-  text-decoration: none;
-}
-.return-btn {
-  cursor: pointer;
-  color: #2b2b2b;
-  .v-icon {
-    margin-right: 15px;
+.order-details {
+  &__content {
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 150px;
+    &__image-view {
+      width: 50%;
+      padding-right: 25px;
+      position: sticky;
+      top: 110px;
+      height: 350px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      &__multiple {
+        &--mobile {
+          display: none;
+        }
+        width: 23%;
+        overflow: auto;
+        position: relative;
+        overflow: initial;
+        height: 100%;
+        .items-container {
+          overflow: auto;
+          max-height: 100%;
+          scroll-behavior: smooth;
+          background: white;
+          &::-webkit-scrollbar {
+            display: none;
+          }
+        }
+        &__item {
+          height: 100px;
+          width: 100%;
+          margin-bottom: 10px;
+          border: 1px solid rgba(43, 43, 43, 0.1);
+          cursor: pointer;
+          &.active {
+            border: 2px solid var(--v-primary-base);
+          }
+          img {
+            height: 100%;
+            width: 100%;
+          }
+        }
+        .scroll-btn {
+          width: 30px;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--v-primary-base);
+          background: white;
+          box-shadow: 0px 0.632653px 2.53061px rgba(0, 0, 0, 0.25);
+          border-radius: 50%;
+          z-index: 2;
+          position: absolute;
+          cursor: pointer;
+          left: 0;
+          right: 0;
+          margin: auto;
+        }
+        &__up-btn {
+          top: -15px;
+        }
+        &__down-btn {
+          bottom: -15px;
+        }
+      }
+      &__single {
+        width: 73%;
+        height: 100%;
+        background: white;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+    &__text-view {
+      width: 50%;
+      padding-left: 25px;
+    }
   }
 }
-.item-title {
-  font-weight: bold;
+.small-font-size {
+  font-size: 14px;
+}
+@media (max-width: 959px) {
+  .order-details {
+    &__content {
+      &__image-view {
+        width: 100%;
+        position: relative;
+        height: auto;
+        top: auto;
+        padding-right: 0px;
+      }
+      &__text-view {
+        width: 100%;
+        margin-top: 30px;
+        padding-left: 0px;
+      }
+    }
+  }
+}
+@media (max-width: 550px) {
+  .order-details {
+    &__content {
+      &__image-view {
+        &__multiple {
+          display: none;
+          &--mobile {
+            display: flex;
+            width: 100%;
+            height: 100px;
+            overflow: auto;
+            position: relative;
+            overflow: initial;
+            .items-container {
+              overflow: auto;
+              max-width: 100%;
+              scroll-behavior: smooth;
+              display: flex;
+              background: white;
+              &::-webkit-scrollbar {
+                display: none;
+              }
+            }
+            &__item {
+              height: 100px;
+              min-width: 100px;
+              margin-right: 10px;
+              border: 1px solid rgba(43, 43, 43, 0.1);
+              cursor: pointer;
+              .active {
+                border: 2px solid var(--v-primary-base);
+              }
+              img {
+                height: 100%;
+                width: 100%;
+              }
+            }
+            .scroll-btn {
+              width: 30px;
+              height: 30px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: var(--v-primary-base);
+              background: white;
+              box-shadow: 0px 0.632653px 2.53061px rgba(0, 0, 0, 0.25);
+              border-radius: 50%;
+              z-index: 2;
+              position: absolute;
+              cursor: pointer;
+              top: 0;
+              bottom: 0;
+              margin: auto;
+            }
+            &__left-btn {
+              left: -15px;
+            }
+            &__right-btn {
+              right: -15px;
+            }
+          }
+        }
+        &__single {
+          width: 100%;
+          height: 350px;
+        }
+      }
+    }
+  }
 }
 </style>
