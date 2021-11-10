@@ -4,7 +4,7 @@ import store from "@/store";
 //let requestQueue = [];
 
 // base url for development environment
-let mediaBaseUrl = "https://media-develop.kuuzza.com";
+let mediaBaseUrl = "https://nova-image.herokuapp.com";
 
 // set base url if environment is staging
 if (process.env.VUE_APP_ENV == "staging") {

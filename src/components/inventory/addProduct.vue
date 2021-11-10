@@ -177,6 +177,30 @@
             ></v-textarea>
           </div>
 
+          <div class="input-field">
+            <p class="mb-1">Transport Method</p>
+
+            <v-select
+              :items="carriage"
+              item-text="text"
+              label="Select Carriage"
+              outlined
+              class="pa-0"
+              :rules="inputRules"
+              @change="selectedCarriage"
+            >
+              <template v-slot:selection="{ item }">
+                <span class="mr-4">{{ item.text }}</span>
+                <v-icon>{{ item.icon }}</v-icon>
+              </template>
+
+              <template v-slot:item="{ item }">
+                <span class="mr-4">{{ item.text }}</span>
+                <v-icon>{{ item.icon }}</v-icon>
+              </template>
+            </v-select>
+          </div>
+
           <!-- image uploader -->
           <div class="mb-9 input-field">
             <p class="mb-1">Upload Product Image</p>
@@ -284,6 +308,14 @@ export default {
   },
   data: function () {
     return {
+      carriage: [
+        { icon: "mdi-bicycle-basket", text: "BIKE" },
+        { icon: "mdi-car", text: "CAR" },
+        { icon: "mdi-truck", text: "TRUCK" },
+      ],
+      selectedTransportMethod: "",
+      disabled: false,
+      increaseImageField: [],
       otherImagesUrl: [],
       loader: false,
       failedRequest: false,
@@ -332,6 +364,9 @@ export default {
     }),
   },
   methods: {
+    selectedCarriage(params) {
+      this.selectedTransportMethod = params
+    },
     // next form
     nextForm(formNum) {
       this.$refs[`form${formNum}`].validate();
@@ -477,6 +512,7 @@ export default {
       productDetails.price = this.price;
       productDetails.description = this.productDescription;
       productDetails.image = this.imageUrl;
+      productDetails.vehicle_type = this.selectedTransportMethod;
       productDetails.other_images = this.otherImagesUrl;
       if (this.variantDetails.variantStatus === true) {
         productDetails.variants = [];
