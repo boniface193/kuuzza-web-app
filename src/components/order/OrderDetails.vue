@@ -111,7 +111,8 @@
               >({{ inViewProduct.product_id }} )</router-link
             >
           </h2>
-          <!-- product sku -->          <h3 class="mb-2">SKU: {{ inViewProduct.product_sku }}</h3>
+          <!-- product sku -->          
+          <h3 class="mb-2">SKU: {{ inViewProduct.product_sku }}</h3>
           <!-- store price -->
           <h3 class="mb-2">
             Store price:
