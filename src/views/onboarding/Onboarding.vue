@@ -27,7 +27,7 @@
             class="mt-5 mb-0"
             v-show="
               ((present_form == 'form1' || present_form == 'form2') &&
-                this.$route.name == 'Signup') ||
+                this.$route.name == 'Signup' || 'fmcgSignup') ||
               this.$route.name == 'signupTeamMember'
             "
           >
@@ -37,7 +37,7 @@
           <!-- display this introductory message if the condition is meet -->
           <h1
             class="mt-5 mb-0"
-            v-show="present_form == 'form3' && this.$route.name == 'Signup'"
+            v-show="present_form == 'form3' && (this.$route.name == 'Signup' || 'fmcgSignup') "
           >
             Create your password!
           </h1>
@@ -76,7 +76,7 @@
             class="mt-5 mb-0 text-caption"
             v-show="
               (present_form == 'form1' || present_form == 'form2') &&
-              (this.$route.name == 'Signin' || this.$route.name == 'Signup')
+              (this.$route.name == 'Signin' || (this.$route.name == 'Signup' || 'fmcgSignup'))
             "
           >
             Do you want to amplify your performance and grow sales? <br />
@@ -100,7 +100,7 @@
             <p
               v-show="
                 ((present_form == 'form1' || present_form == 'form2') &&
-                  this.$route.name == 'Signup') ||
+                  (this.$route.name == 'Signup' || 'fmcgSignup')) ||
                 this.$route.name == 'Signin' ||
                 this.$route.name == 'ForgotPassword' ||
                 this.$route.name == 'RecoverPassword'
@@ -114,7 +114,7 @@
             <!-- display message if condition is true -->
             <p
               v-show="
-                (present_form == 'form3' && this.$route.name == 'Signup') ||
+                (present_form == 'form3' && (this.$route.name == 'Signup' || 'fmcgSignup')) ||
                 this.$route.name == 'EmailVerification' ||
                 this.$route.name == 'ForgotPasswordVerification' ||
                 this.$route.name == 'signupTeamMember'
