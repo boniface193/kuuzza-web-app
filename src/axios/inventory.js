@@ -4,7 +4,7 @@ import store from "@/store";
 let requestQueue = [];
 
 // base url for development environment
-let inventoryBaseUrl = "https://inventory-develop.kuuzza.com";
+let inventoryBaseUrl = "https://nova-inventory.herokuapp.com";
 
 // set base url if environment is staging
 if (process.env.VUE_APP_ENV == "staging") {

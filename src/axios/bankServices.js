@@ -4,7 +4,7 @@ import store from "@/store";
 let requestQueue = [];
 
 // base url for development environment
-let paymentBaseUrl = "https://payment-develop.kuuzza.com";
+let paymentBaseUrl = "https://nova-payment.herokuapp.com";
 
 // set base url if environment is staging
 if (process.env.VUE_APP_ENV == "staging") {
