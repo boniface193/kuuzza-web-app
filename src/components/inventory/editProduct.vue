@@ -222,7 +222,7 @@
                 <v-select
                   :items="carriage"
                   item-text="text"
-                  label="Select Carriage"
+                  :label="productDetails.vehicle_type"
                   outlined
                   class="pa-0"
                   :rules="inputRules"
@@ -312,9 +312,9 @@ export default {
   data: function () {
     return {
       carriage: [
-        { icon: "mdi-bicycle-basket", text: "Bike" },
-        { icon: "mdi-car", text: "Car" },
-        { icon: "mdi-truck", text: "Truck" },
+        { icon: "mdi-bicycle-basket", text: "BIKE" },
+        { icon: "mdi-car", text: "CAR" },
+        { icon: "mdi-truck", text: "TRUCK" },
       ],
       selectedTransportMethod: "",
       showEditImage: null,
@@ -406,7 +406,7 @@ export default {
   methods: {
     selectedCarriage(params) {
       this.selectedTransportMethod = params;
-      console.log(this.selectedTransportMethod);
+      this.edited = true;
     },
     setCategory(params) {
       this.productDetails.category_id = params;

@@ -33,12 +33,10 @@ const actions = {
 
     getSellerFilter(context) {
         let dateRange = ((state.dateRange.startDate || state.dateRange.endDate !== '') ? `created_between=${state.dateRange.startDate},${state.dateRange.endDate}` : "");
-console.log(dateRange)
         return new Promise((resolve, reject) => {
             orderHttpClient.get(`/metrics/best-selling?${dateRange}`).then((res) => {
                 context.commit("setBestSelling", res.data)
                 context.commit("setPageDetails", res.data.meta);
-                console.log(res.data)
                 resolve(res.data)
             }).catch((error) => {
                 reject(error.response)
