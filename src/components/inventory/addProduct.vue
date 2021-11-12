@@ -539,8 +539,8 @@ export default {
           productDetails.variants.push(item);
         });
       }
-      if (this.userInfo.userInfo.is_fmcg === true) {
-        productDetails.profit = this.profit
+      if (this.userInfo.is_fmcg == true) {
+        productDetails.profit = this.agencySellerProfit
       }
       return productDetails;
     },
