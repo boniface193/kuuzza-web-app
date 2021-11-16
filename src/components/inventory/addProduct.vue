@@ -540,7 +540,7 @@ export default {
         });
       }
       if (this.userInfo.is_fmcg == true) {
-        productDetails.profit = this.agencySellerProfit
+        productDetails.profit = this.agencySellerProfit;
       }
       return productDetails;
     },
