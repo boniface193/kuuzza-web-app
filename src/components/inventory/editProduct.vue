@@ -238,7 +238,7 @@
                 <v-select
                   :items="carriage"
                   item-text="text"
-                  :label="productDetails.vehicle_type"
+                  :value="productDetails.vehicle_type"
                   outlined
                   class="pa-0"
                   :rules="inputRules"
