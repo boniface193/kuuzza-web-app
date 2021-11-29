@@ -8,7 +8,7 @@ import Chart from 'chart.js';
 import VueApexCharts from 'vue-apexcharts';
 import VueMeta from 'vue-meta';
 import VueAnalytics from 'vue-analytics';
- 
+
 
 Vue.use(VueMeta)
 Vue.use(VueApexCharts)

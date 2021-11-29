@@ -203,6 +203,22 @@
                 </v-text-field>
               </div>
 
+              <!-- profit -->
+          <div class="mb-3 input-field" v-if="userInfo.is_fmcg">
+            <p class="mb-1">Agency/seller Profit (&#8358;)</p>
+            <v-text-field
+              class="input mt-0"
+              v-model="productDetails.profit"
+              :rules="profitRules"
+              type="number"
+              color="primary"
+              placeholder="Enter profit"
+              required
+              outlined
+            >
+            </v-text-field>
+          </div>
+
               <!-- product description -->
               <div class="mb-3 input-field">
                 <p class="mb-1">Product Description</p>
@@ -344,6 +360,10 @@ export default {
       pageLoader: false,
       loading: false,
       edited: false,
+      quantityError: false,
+      categoryError: false,
+      imageError: false,
+      minQuantityError: false,
       inputRules: [(v) => !!v || "This field is required"],
       priceRules: [
         (v) => !!v || "This field is required",
@@ -351,10 +371,12 @@ export default {
           parseInt(v, 10) <= parseInt(this.price, 10) ||
           "Commission can not be greater than price",
       ],
-      quantityError: false,
-      categoryError: false,
-      imageError: false,
-      minQuantityError: false,
+      profitRules: [
+        (v) => !!v || "This field is required",
+        (v) =>
+          parseInt(v, 10) <= parseInt(this.productDetails.price, 10) ||
+          "profit should not be greater than product price",
+      ],
     };
   },
   created() {
@@ -396,6 +418,7 @@ export default {
   computed: {
     ...mapGetters({
       productCategories: "inventory/productCategories",
+      userInfo: "settings/getUserProfile",
     }),
     productCategory() {
       return {
@@ -568,12 +591,14 @@ export default {
       productDetails.vehicle_type = this.selectedTransportMethod;
       productDetails.other_images = this.productDetails.other_images;
       productDetails.ref = this.$route.params.id;
-
       if (this.variantDetails.variantStatus === true) {
         productDetails.variants = [];
         this.variantDetails.variants.forEach((item) => {
           productDetails.variants.push(item);
         });
+      }
+      if (this.userInfo.is_fmcg == true) {
+        productDetails.profit = this.productDetails.profit;
       }
       return productDetails;
     },

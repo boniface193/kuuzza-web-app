@@ -141,7 +141,7 @@ const ifAuthenticated = (to, from, next) => {
 
 // verify if access has been given to a user to view email verification page
 const ifAccessEmailVerifcationPage = (to, from, next) => {
-  if (from.name === "Signup" || from.name === "Signin" || from.name === "dashboard") {
+  if (from.name === "Signup" || from.name === "fmcgSignup" || from.name === "Signin" || from.name === "dashboard") {
     next()
     return
   }
@@ -416,6 +416,11 @@ const routes = [
       {
         path: "",
         name: "Signup",
+        component: Signup,
+      },
+      {
+        path: "/fmcg/signup",
+        name: "fmcgSignup",
         component: Signup,
       },
       {

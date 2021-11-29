@@ -125,7 +125,14 @@
 
       <!-- button conatainer -->
       <div
-        class="pa-0 mt-5 d-flex justify-space-between align-center btn-container"
+        class="
+          pa-0
+          mt-5
+          d-flex
+          justify-space-between
+          align-center
+          btn-container
+        "
       >
         <v-btn
           class="primary--text light-background mb-5 mb-0 px-1 py-2"
@@ -180,14 +187,36 @@
         <v-checkbox v-model="acceptTerms" class="mr-1"></v-checkbox>
         <p class="mb-0" style="">
           I agree to Kuuzza
-          <a style="text-decoration:none" href="https://kuuzza.com/vendor/terms-conditions" target="_blank" class="primary--text"> Terms of service </a> and 
-          <a style="text-decoration:none" href="https://kuuzza.com/privacy-policy" target="_blank" class="primary--text"> privacy policy</a>
+          <a
+            style="text-decoration: none"
+            :href="`${websiteBaseURL}/vendor/terms-conditions`"
+            target="_blank"
+            class="primary--text"
+          >
+            Terms of service
+          </a>
+          and
+          <a
+            style="text-decoration: none"
+            :href="`${websiteBaseURL}/privacy-policy`"
+            target="_blank"
+            class="primary--text"
+          >
+            privacy policy</a
+          >
         </p>
       </div>
 
       <!-- button container -->
       <div
-        class="pa-0 mt-5 d-flex justify-space-between align-center btn-container"
+        class="
+          pa-0
+          mt-5
+          d-flex
+          justify-space-between
+          align-center
+          btn-container
+        "
       >
         <!-- goto prev form btn -->
         <v-btn
@@ -215,6 +244,7 @@ export default {
   name: "Signup",
   data: function () {
     return {
+      websiteBaseURL: process.env.VUE_APP_WEBSITE_BASE_URL,
       loading: false,
       loading2: false,
       errorMessage: "",
@@ -366,27 +396,33 @@ export default {
         `form${form_num - 1}`
       );
     },
+    getUserDetails() {
+      let userDetails = { company_location: {} };
+      userDetails.first_name = this.first_name;
+      userDetails.last_name = this.last_name;
+      userDetails.email = this.email;
+      userDetails.phone_number =
+        this.phone_number.substring(0, 1) == "0"
+          ? "+234" + this.phone_number.substring(1)
+          : "+234" + this.phone_number;
+      userDetails.company_name = this.company_name;
+      userDetails.company_location.address = this.company_address;
+      userDetails.company_location.lat = this.lat;
+      userDetails.company_location.lng = this.lng;
+      (userDetails.password = this.create_password),
+        (userDetails.password_confirmation = this.confirm_password);
+
+      if (this.$route.name == "fmcgSignup") {
+        userDetails.is_fmcg = true;
+      }
+
+      return userDetails;
+    },
     //submit form and create an account
     submit() {
       this.loading = true;
       this.$store
-        .dispatch("onboarding/register", {
-          first_name: this.first_name,
-          last_name: this.last_name,
-          email: this.email,
-          phone_number:
-            this.phone_number.substring(0, 1) == "0"
-              ? "+234" + this.phone_number.substring(1)
-              : "+234" + this.phone_number,
-          company_name: this.company_name,
-          company_location: {
-            address: this.company_address,
-            lat: this.lat,
-            lng: this.lng,
-          },
-          password: this.create_password,
-          password_confirmation: this.confirm_password,
-        })
+        .dispatch("onboarding/register", this.getUserDetails())
         .then((response) => {
           this.loading = false;
           if (response.data.message === "Registeration successful.") {
