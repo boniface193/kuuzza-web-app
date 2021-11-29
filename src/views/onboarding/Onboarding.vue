@@ -27,8 +27,8 @@
             class="mt-5 mb-0"
             v-show="
               ((present_form == 'form1' || present_form == 'form2') &&
-                this.$route.name == 'Signup' || 'fmcgSignup') ||
-              this.$route.name == 'signupTeamMember'
+                (this.$route.name == 'Signup' || this.$route.name == 'fmcgSignup' || this.$route.name == 'signupTeamMember'))
+              
             "
           >
             Welcome!
