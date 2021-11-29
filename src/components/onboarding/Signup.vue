@@ -189,7 +189,7 @@
           I agree to Kuuzza
           <a
             style="text-decoration: none"
-            href="https://develop-landing.kuuzza.com/vendor/terms-conditions"
+            :href="`${websiteBaseURL}/vendor/terms-conditions`"
             target="_blank"
             class="primary--text"
           >
@@ -198,7 +198,7 @@
           and
           <a
             style="text-decoration: none"
-            href="https://develop-landing.kuuzza.com/privacy-policy"
+            :href="`${websiteBaseURL}/privacy-policy`"
             target="_blank"
             class="primary--text"
           >
@@ -244,6 +244,7 @@ export default {
   name: "Signup",
   data: function () {
     return {
+      websiteBaseURL: process.env.VUE_APP_WEBSITE_BASE_URL,
       loading: false,
       loading2: false,
       errorMessage: "",

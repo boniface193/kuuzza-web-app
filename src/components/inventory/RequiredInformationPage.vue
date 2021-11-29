@@ -242,7 +242,7 @@
                 I agree to Kuuzza
                 <a
                   style="text-decoration: none"
-                  href="https://develop-landing.kuuzza.com/return-refund-policy"
+                  :href="`${websiteBaseURL}/return-refund-policy`"
                   target="_blank"
                   class="primary--text"
                 >
@@ -467,6 +467,7 @@ export default {
   },
   data: function () {
     return {
+      websiteBaseURL: process.env.VUE_APP_WEBSITE_BASE_URL,
       resendOtpSuccess: false,
       resendOTPLoader: false,
       otpLoader: false,
