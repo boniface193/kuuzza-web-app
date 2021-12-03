@@ -326,7 +326,6 @@ export default {
         fields: ["geometry", "name", "formatted_address", "address_components"],
       }
     );
-
     this.autocomplete.addListener("place_changed", this.onPlaceChanged);
   },
   methods: {
@@ -414,14 +413,12 @@ export default {
       userDetails.company_location.address = this.company_address;
       userDetails.company_location.lat = this.lat;
       userDetails.company_location.lng = this.lng;
-      userDetails.company_location.state = this.state,
-      (userDetails.password = this.create_password),
-        (userDetails.password_confirmation = this.confirm_password);
-
+      userDetails.company_location.state = this.state;
+      userDetails.password = this.create_password;
+      userDetails.password_confirmation = this.confirm_password;
       if (this.$route.name == "fmcgSignup") {
         userDetails.is_fmcg = true;
       }
-
       return userDetails;
     },
     //submit form and create an account

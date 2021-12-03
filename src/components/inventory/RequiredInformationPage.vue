@@ -558,10 +558,8 @@ export default {
     }
 
     if (
-      this.$store.getters["settings/getUserProfile"].store
-        .phone_number_verified == false &&
-      this.$store.getters["settings/getUserProfile"].store.setup_is_complete !==
-        false
+      this.$store.getters["settings/getUserProfile"].store.phone_number_verified == false &&
+      this.$store.getters["settings/getUserProfile"].store.setup_is_complete !== false
     ) {
       this.otp.length > 0 ? this.$refs.otpInput1.clearInput() : "";
       this.dialog = true;
