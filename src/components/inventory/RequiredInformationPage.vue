@@ -273,7 +273,10 @@
         <!-- Pick up location -->
         <v-form v-show="presentForm === 'form3'" ref="form3">
           <div class="mb-3">
-            <p class="mb-1 question">Select your Pick up Location</p>
+            <p class="mb-1 question">
+              Select your Pick up Location
+              <span class="primary--text">(Pick up locations are lagos, Abuja, Rivers, Oyo, ondo and kwara only)</span>
+            </p>
             <v-text-field
               class=""
               v-model="pickUpLocation"
@@ -500,6 +503,16 @@ export default {
       validAddress: false,
       lat: "",
       lng: "",
+      state: null,
+      stateKey: null,
+      allowedLocation: {
+        LAGOS: "Lagos",
+        ABUJA: "Federal Capital Territory",
+        RIVERS: "Rivers",
+        OYO: "Oyo",
+        KWARA: "Kwara",
+        ONDO: "Ondo"
+      },
       agreeToInccurShippingFee: false,
       agreetwilo: false,
       phoneNumber: "",
@@ -516,7 +529,7 @@ export default {
       addressRules: [
         //verifies pick up address satisfies the requirement
         (v) => !!v || "Pick up location is required",
-        () => this.validAddress || "Select a valid Address",
+        () => this.validAddress || "please select a valid pick up location",
       ],
       phoneRules: [
         //verifies phone number satisfies the requirement
@@ -565,7 +578,7 @@ export default {
           new window.google.maps.LatLng(6.5244, 3.3792)
         ),
         componentRestrictions: { country: ["NG"] },
-        fields: ["geometry", "name", "formatted_address"],
+        fields: ["geometry", "name", "formatted_address", "address_components"],
       }
     );
 
@@ -623,6 +636,20 @@ export default {
         this.pickUpLocation = place.name + " " + place.formatted_address;
         this.lat = place.geometry.location.lat();
         this.lng = place.geometry.location.lng();
+        this.state = this.search(
+          "administrative_area_level_1",
+          place.address_components
+        ).long_name;
+        this.checkLocation();
+      }
+    },
+    checkLocation() {
+      this.validAddress = false
+      for (let key in this.allowedLocation){
+        if(this.allowedLocation[key] === this.state){
+          this.validAddress = true;
+          this.stateKey = key;
+        }
       }
     },
     // goto next form

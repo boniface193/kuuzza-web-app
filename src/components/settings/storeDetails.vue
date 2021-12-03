@@ -242,6 +242,16 @@ export default {
       timer: 60,
       lat: "",
       lng: "",
+      state: null,
+      stateKey: null,
+      allowedLocation: {
+        LAGOS: "Lagos",
+        ABUJA: "Federal Capital Territory",
+        RIVERS: "Rivers",
+        OYO: "Oyo",
+        KWARA: "Kwara",
+        ONDO: "Ondo"
+      },
       inputRules: [(v) => !!v || "This field is required"],
       phoneRules: [
         //verifies phone number satisfies the requirement
@@ -260,10 +270,9 @@ export default {
           new window.google.maps.LatLng(6.5244, 3.3792)
         ),
         componentRestrictions: { country: ["NG"] },
-        fields: ["geometry", "name", "formatted_address"],
+        fields: ["geometry", "name", "formatted_address", "address_components"]
       }
     );
-
     this.autocomplete.addListener("place_changed", this.onPlaceChanged);
   },
   computed: {
@@ -300,6 +309,20 @@ export default {
           place.name + " " + place.formatted_address;
         this.lat = place.geometry.location.lat();
         this.lng = place.geometry.location.lng();
+        this.state = this.search(
+          "administrative_area_level_1",
+          place.address_components
+        ).long_name;
+        this.checkLocation();
+      }
+    },
+    checkLocation() {
+      this.validAddress = false
+      for (let key in this.allowedLocation){
+        if(this.allowedLocation[key] === this.state){
+          this.validAddress = true;
+          this.stateKey = key;
+        }
       }
     },
     // submits the edited information
