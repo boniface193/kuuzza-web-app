@@ -48,7 +48,7 @@
       <div class="mb-5">
         <img src="@/assets/img/Empty-orders.svg" alt="" />
       </div>
-        <h2>No orders available</h2>
+      <h2>No orders available</h2>
     </div>
 
     <!-- loader -->
