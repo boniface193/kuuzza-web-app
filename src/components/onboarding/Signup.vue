@@ -345,6 +345,22 @@ export default {
           "administrative_area_level_1",
           place.address_components
         ).long_name;
+        this.state = this.formatState(this.state);
+      }
+    },
+     search(nameKey, myArray) {
+      for (let i = 0; i < myArray.length; i++) {
+        if (myArray[i].types[0] === nameKey) {
+          return myArray[i];
+        }
+      }
+    },
+    formatState(state){
+      if(state == "Federal Capital Territory"){
+        return "ABUJA";
+      }else{
+        let capitalState = state.toUpperCase();
+        return capitalState.replace(/ +/g, "_");
       }
     },
     // validate form and goto to next form

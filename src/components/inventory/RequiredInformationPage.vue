@@ -275,7 +275,10 @@
           <div class="mb-3">
             <p class="mb-1 question">
               Select your Pick up Location
-              <span class="primary--text">(Pick up locations are lagos, Abuja, Rivers, Oyo, ondo and kwara only)</span>
+              <span class="primary--text"
+                >(Pick up locations are lagos, Abuja, Rivers, Oyo, ondo and
+                kwara only)</span
+              >
             </p>
             <v-text-field
               class=""
@@ -511,7 +514,7 @@ export default {
         RIVERS: "Rivers",
         OYO: "Oyo",
         KWARA: "Kwara",
-        ONDO: "Ondo"
+        ONDO: "Ondo",
       },
       agreeToInccurShippingFee: false,
       agreetwilo: false,
@@ -558,8 +561,10 @@ export default {
     }
 
     if (
-      this.$store.getters["settings/getUserProfile"].store.phone_number_verified == false &&
-      this.$store.getters["settings/getUserProfile"].store.setup_is_complete !== false
+      this.$store.getters["settings/getUserProfile"].store
+        .phone_number_verified == false &&
+      this.$store.getters["settings/getUserProfile"].store.setup_is_complete !==
+        false
     ) {
       this.otp.length > 0 ? this.$refs.otpInput1.clearInput() : "";
       this.dialog = true;
@@ -642,11 +647,18 @@ export default {
       }
     },
     checkLocation() {
-      this.validAddress = false
-      for (let key in this.allowedLocation){
-        if(this.allowedLocation[key] === this.state){
+      this.validAddress = false;
+      for (let key in this.allowedLocation) {
+        if (this.allowedLocation[key] === this.state) {
           this.validAddress = true;
           this.stateKey = key;
+        }
+      }
+    },
+    search(nameKey, myArray) {
+      for (let i = 0; i < myArray.length; i++) {
+        if (myArray[i].types[0] === nameKey) {
+          return myArray[i];
         }
       }
     },
@@ -746,6 +758,7 @@ export default {
       storeDetails.location.address = this.pickUpLocation;
       storeDetails.location.lat = this.lat;
       storeDetails.location.lng = this.lng;
+      storeDetails.location.state = this.stateKey;
       storeDetails.phone_number =
         this.phoneNumber.substring(0, 1) == "0"
           ? "+234" + this.phoneNumber.substring(1)
