@@ -43,11 +43,12 @@
         <p class="mb-1 secondary--text">Store Location</p>
         <v-text-field
           class="input mt-0"
-          :rules="inputRules"
+          :rules="addressRules"
           type="text"
           color="primary"
+          ref="autocomplete"
           id="autocomplete"
-          v-model="computedInfo.currentStoreLocation"
+          v-model="address"
           :disabled="editStoreLocation == false"
           required
         >
@@ -240,8 +241,19 @@ export default {
       phoneNumLoader: false,
       showOTPTimer: true,
       timer: 60,
+      address: "",
       lat: "",
       lng: "",
+      state: null,
+      stateKey: null,
+      allowedLocation: {
+        LAGOS: "Lagos",
+        ABUJA: "Federal Capital Territory",
+        RIVERS: "Rivers",
+        OYO: "Oyo",
+        KWARA: "Kwara",
+        ONDO: "Ondo"
+      },
       inputRules: [(v) => !!v || "This field is required"],
       phoneRules: [
         //verifies phone number satisfies the requirement
@@ -249,6 +261,11 @@ export default {
         (v) => v.substring(0, 1) != 0 || "Phone number cannot begin with 0",
         (v) => v.length > 9 || "Number should be 10 digits",
         (v) => v.length < 11 || "Maximum of 10 digits is allowed",
+      ],
+      addressRules: [
+        //verifies pick up address satisfies the requirement
+        (v) => !!v || "Address is required",
+        () => this.validAddress || "please select a valid pick up location",
       ],
     };
   },
@@ -260,11 +277,13 @@ export default {
           new window.google.maps.LatLng(6.5244, 3.3792)
         ),
         componentRestrictions: { country: ["NG"] },
-        fields: ["geometry", "name", "formatted_address"],
+        fields: ["geometry", "name", "formatted_address", "address_components"]
       }
     );
-
     this.autocomplete.addListener("place_changed", this.onPlaceChanged);
+  },
+  created(){
+    this.address = this.$store.getters["settings/getUserProfile"].store.location.address;
   },
   computed: {
     computedInfo() {
@@ -274,7 +293,7 @@ export default {
       let storeLocation = userProfile.store.location.address;
       let storeNum = userProfile.store.phone_number.substring(4);
       let currentStoreName = userProfile.store.name;
-      let currentStoreLocation = userProfile.store.location.address;
+      //let currentStoreLocation = userProfile.store.location.address;
       let currentStoreNum = userProfile.store.phone_number.substring(4);
 
       return {
@@ -282,7 +301,7 @@ export default {
         storeLocation: storeLocation,
         storeNum: storeNum,
         currentStoreName: currentStoreName,
-        currentStoreLocation: currentStoreLocation,
+       // currentStoreLocation: currentStoreLocation,
         currentStoreNum: currentStoreNum,
       };
     },
@@ -292,14 +311,33 @@ export default {
       let place = this.autocomplete.getPlace();
       if (!place.geometry) {
         // User did not select a prediction; reset the input field
-        //this.validAddress = false;
+        this.validAddress = false;
       } else {
         //Display details about the valid place
-        //this.validAddress = true;
-        this.computedInfo.currentStoreLocation =
-          place.name + " " + place.formatted_address;
+        this.address = place.name + " " + place.formatted_address;
         this.lat = place.geometry.location.lat();
         this.lng = place.geometry.location.lng();
+        this.state = this.search(
+          "administrative_area_level_1",
+          place.address_components
+        ).long_name;
+        this.checkLocation();
+      }
+    },
+    checkLocation() {
+      this.validAddress = false
+      for (let key in this.allowedLocation){
+        if(this.allowedLocation[key] == this.state){
+          this.validAddress = true;
+          this.stateKey = key;
+        }
+      }
+    },
+    search(nameKey, myArray) {
+      for (let i = 0; i < myArray.length; i++) {
+        if (myArray[i].types[0] === nameKey) {
+          return myArray[i];
+        }
       }
     },
     // submits the edited information
@@ -337,19 +375,20 @@ export default {
       // check if the edited input field is the store location
       if (
         input_field === "storeLocation" &&
-        this.computedInfo.currentStoreLocation != ""
+        this.address != "" && this.validAddress
       ) {
         if (
-          this.computedInfo.currentStoreLocation !==
+          this.address !==
           this.computedInfo.storeLocation
         ) {
           this.locationLoader = true;
           this.$store
             .dispatch("settings/editStore", {
               location: {
-                address: this.computedInfo.currentStoreLocation,
+                address: this.address,
                 lat: this.lat,
                 lng: this.lng,
+                state: this.stateKey
               },
             })
             .then(() => {
@@ -455,7 +494,7 @@ export default {
             this.dialog2 = false;
             this.dialog = true;
             this.dialogMessage =
-              "Phone number was changed and verified successfully!";
+              "Phone number changed and verified successfully!";
             this.$store.dispatch("settings/getUserProfile");
           })
           .catch((error) => {
