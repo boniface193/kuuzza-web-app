@@ -252,7 +252,8 @@ export default {
         RIVERS: "Rivers",
         OYO: "Oyo",
         KWARA: "Kwara",
-        ONDO: "Ondo"
+        ONDO: "Ondo",
+        OGUN: "Ogun"
       },
       inputRules: [(v) => !!v || "This field is required"],
       phoneRules: [
