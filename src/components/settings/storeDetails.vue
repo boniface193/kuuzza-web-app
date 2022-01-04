@@ -253,7 +253,7 @@ export default {
         OYO: "Oyo",
         KWARA: "Kwara",
         ONDO: "Ondo",
-        OGUN: "Ogun"
+        OGUN: "Ogun State",
       },
       inputRules: [(v) => !!v || "This field is required"],
       phoneRules: [
@@ -266,7 +266,9 @@ export default {
       addressRules: [
         //verifies pick up address satisfies the requirement
         (v) => !!v || "Address is required",
-        () => this.validAddress || "please select a valid pick up location",
+        () =>
+          this.validAddress ||
+          "Valid pick up locations are Lagos, Abuja, Rivers, Oyo, Ondo, Ogun and Kwara only",
       ],
     };
   },
@@ -278,13 +280,14 @@ export default {
           new window.google.maps.LatLng(6.5244, 3.3792)
         ),
         componentRestrictions: { country: ["NG"] },
-        fields: ["geometry", "name", "formatted_address", "address_components"]
+        fields: ["geometry", "name", "formatted_address", "address_components"],
       }
     );
     this.autocomplete.addListener("place_changed", this.onPlaceChanged);
   },
-  created(){
-    this.address = this.$store.getters["settings/getUserProfile"].store.location.address;
+  created() {
+    this.address =
+      this.$store.getters["settings/getUserProfile"].store.location.address;
   },
   computed: {
     computedInfo() {
@@ -302,7 +305,7 @@ export default {
         storeLocation: storeLocation,
         storeNum: storeNum,
         currentStoreName: currentStoreName,
-       // currentStoreLocation: currentStoreLocation,
+        // currentStoreLocation: currentStoreLocation,
         currentStoreNum: currentStoreNum,
       };
     },
@@ -326,9 +329,9 @@ export default {
       }
     },
     checkLocation() {
-      this.validAddress = false
-      for (let key in this.allowedLocation){
-        if(this.allowedLocation[key] == this.state){
+      this.validAddress = false;
+      for (let key in this.allowedLocation) {
+        if (this.allowedLocation[key] == this.state) {
           this.validAddress = true;
           this.stateKey = key;
         }
@@ -376,12 +379,10 @@ export default {
       // check if the edited input field is the store location
       if (
         input_field === "storeLocation" &&
-        this.address != "" && this.validAddress
+        this.address != "" &&
+        this.validAddress
       ) {
-        if (
-          this.address !==
-          this.computedInfo.storeLocation
-        ) {
+        if (this.address !== this.computedInfo.storeLocation) {
           this.locationLoader = true;
           this.$store
             .dispatch("settings/editStore", {
@@ -389,7 +390,7 @@ export default {
                 address: this.address,
                 lat: this.lat,
                 lng: this.lng,
-                state: this.stateKey
+                state: this.stateKey,
               },
             })
             .then(() => {

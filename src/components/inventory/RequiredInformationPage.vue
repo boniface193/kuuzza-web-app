@@ -276,8 +276,8 @@
             <p class="mb-1 question">
               Select your Pick up Location
               <span class="primary--text"
-                >(Pick up locations are lagos, Abuja, Rivers, Oyo, ondo and
-                kwara only)</span
+                >(Pick up locations are Lagos, Abuja, Rivers, Oyo, Ondo Ogun and
+                Kwara only)</span
               >
             </p>
             <v-text-field
@@ -515,6 +515,7 @@ export default {
         OYO: "Oyo",
         KWARA: "Kwara",
         ONDO: "Ondo",
+        OGUN: "Ogun State",
       },
       agreeToInccurShippingFee: false,
       agreetwilo: false,
@@ -532,7 +533,9 @@ export default {
       addressRules: [
         //verifies pick up address satisfies the requirement
         (v) => !!v || "Pick up location is required",
-        () => this.validAddress || "please select a valid pick up location",
+        () =>
+          this.validAddress ||
+          "Valid pick up locations are Lagos, Abuja, Rivers, Oyo, Ondo, Ogun and Kwara only",
       ],
       phoneRules: [
         //verifies phone number satisfies the requirement
