@@ -249,11 +249,11 @@ export default {
       allowedLocation: {
         LAGOS: "Lagos",
         ABUJA: "Federal Capital Territory",
-        RIVERS: "Rivers",
-        OYO: "Oyo",
-        KWARA: "Kwara",
-        ONDO: "Ondo",
-        OGUN: "Ogun State",
+        //RIVERS: "Rivers",
+        //OYO: "Oyo",
+        //KWARA: "Kwara",
+        //ONDO: "Ondo",
+        //OGUN: "Ogun State",
       },
       inputRules: [(v) => !!v || "This field is required"],
       phoneRules: [
