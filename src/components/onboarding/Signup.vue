@@ -257,6 +257,7 @@ export default {
       company_address: "",
       lat: "",
       lng: "",
+      state: null,
       validAddress: false,
       autocomplete: "",
       create_password: "",
@@ -322,10 +323,9 @@ export default {
           new window.google.maps.LatLng(6.5244, 3.3792)
         ),
         componentRestrictions: { country: ["NG"] },
-        fields: ["geometry", "name", "formatted_address"],
+        fields: ["geometry", "name", "formatted_address", "address_components"],
       }
     );
-
     this.autocomplete.addListener("place_changed", this.onPlaceChanged);
   },
   methods: {
@@ -341,6 +341,26 @@ export default {
         this.company_address = place.name + " " + place.formatted_address;
         this.lat = place.geometry.location.lat();
         this.lng = place.geometry.location.lng();
+        this.state = this.search(
+          "administrative_area_level_1",
+          place.address_components
+        ).long_name;
+        this.state = this.formatState(this.state);
+      }
+    },
+     search(nameKey, myArray) {
+      for (let i = 0; i < myArray.length; i++) {
+        if (myArray[i].types[0] === nameKey) {
+          return myArray[i];
+        }
+      }
+    },
+    formatState(state){
+      if(state == "Federal Capital Territory"){
+        return "ABUJA";
+      }else{
+        let capitalState = state.toUpperCase();
+        return capitalState.replace(/ +/g, "_");
       }
     },
     // validate form and goto to next form
