@@ -80,6 +80,13 @@
             </v-list-item-content>
           </v-list-item>
 
+          <v-btn
+            class="white primary--text elevation-0 my-3"
+            block
+            :to="{ path: '/open-selling' }"
+            >Open Selling</v-btn
+          >
+
           <v-list-item-group mandatory>
             <v-list-item
               class="rounded-0"

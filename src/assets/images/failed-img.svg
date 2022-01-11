@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="205.887" height="188.668" viewBox="0 0 205.887 188.668">
+  <g id="Unsuccessful" transform="translate(-734 -313)">
+    <g id="Group_12591" data-name="Group 12591" transform="translate(748.974 327.974)">
+      <g id="Group_12590" data-name="Group 12590" transform="translate(0 0)">
+        <g id="Ellipse_1265" data-name="Ellipse 1265" transform="translate(0 0)" fill="#fff" stroke="#646464" stroke-width="5" opacity="0.125">
+          <ellipse cx="87.595" cy="86.847" rx="87.595" ry="86.847" stroke="none"/>
+          <ellipse cx="87.595" cy="86.847" rx="85.095" ry="84.347" fill="none"/>
+        </g>
+      </g>
+      <circle id="Ellipse_1266" data-name="Ellipse 1266" cx="43.423" cy="43.423" r="43.423" transform="translate(44.47 43.423)" fill="red"/>
+      <path id="Path_25430" data-name="Path 25430" d="M70.028,74.753l7.818-9.007L91.478,79.622l14.849-13.876,7.06,9.007L100.241,87.412l11.928,11.2-7.547,9.737L91.478,95.2,77.845,108.347,70.028,98.61l12.443-11.2Z" transform="translate(-3.558)" fill="#fff"/>
+    </g>
+    <g id="Group_12592" data-name="Group 12592" transform="translate(734 313)">
+      <rect id="Rectangle_2580" data-name="Rectangle 2580" width="8.005" height="56.033" rx="4.002" transform="matrix(0.719, -0.695, 0.695, 0.719, 33.413, 33.464)" fill="#646464" opacity="0.132"/>
+      <rect id="Rectangle_2582" data-name="Rectangle 2582" width="2.668" height="56.033" rx="1.334" transform="matrix(0.719, -0.695, 0.695, 0.719, 16.069, 33.464)" fill="#646464" opacity="0.132"/>
+      <rect id="Rectangle_2586" data-name="Rectangle 2586" width="2.668" height="40.024" rx="1.334" transform="matrix(0.719, -0.695, 0.695, 0.719, 173.496, 137.525)" fill="#646464" opacity="0.132"/>
+      <rect id="Rectangle_2588" data-name="Rectangle 2588" width="2.668" height="40.024" rx="1.334" transform="matrix(0.719, -0.695, 0.695, 0.719, 176.164, 156.203)" fill="#646464" opacity="0.132"/>
+      <rect id="Rectangle_2587" data-name="Rectangle 2587" width="5.337" height="20.012" rx="2.668" transform="matrix(0.719, -0.695, 0.695, 0.719, 185.503, 136.191)" fill="#646464" opacity="0.132"/>
+      <rect id="Rectangle_2585" data-name="Rectangle 2585" width="2.668" height="56.033" rx="1.334" transform="matrix(0.719, -0.695, 0.695, 0.719, 9.399, 78.824)" fill="#646464" opacity="0.132"/>
+      <rect id="Rectangle_2584" data-name="Rectangle 2584" width="2.668" height="56.033" rx="1.334" transform="matrix(0.719, -0.695, 0.695, 0.719, 37.415, 12.118)" fill="#646464" opacity="0.132"/>
+      <rect id="Rectangle_2581" data-name="Rectangle 2581" width="8.005" height="56.033" rx="4.002" transform="matrix(0.719, -0.695, 0.695, 0.719, 22.74, 78.824)" fill="#646464" opacity="0.132"/>
+      <ellipse id="Ellipse_1267" data-name="Ellipse 1267" cx="10.48" cy="10.482" rx="10.48" ry="10.482" transform="translate(0 115.297)" fill="#52f1ec"/>
+      <ellipse id="Ellipse_1271" data-name="Ellipse 1271" cx="5.24" cy="5.241" rx="5.24" ry="5.241" transform="translate(85.349 40.429)" fill="#52f1ec"/>
+      <ellipse id="Ellipse_1270" data-name="Ellipse 1270" cx="4.49" cy="4.492" rx="4.49" ry="4.492" transform="translate(14.974 10.482)" fill="#5064cc" opacity="0.497"/>
+      <circle id="Ellipse_1269" data-name="Ellipse 1269" cx="5.241" cy="5.241" r="5.241" transform="translate(161.114 0)" fill="#5064cc" opacity="0.781"/>
+      <g id="Ellipse_1272" data-name="Ellipse 1272" transform="translate(80.857 0)" fill="none" stroke="#ebebeb" stroke-width="1" stroke-dasharray="3">
+        <ellipse cx="20.963" cy="20.214" rx="20.963" ry="20.214" stroke="none"/>
+        <ellipse cx="20.963" cy="20.214" rx="20.463" ry="19.714" fill="none"/>
+      </g>
+      <g id="Ellipse_1273" data-name="Ellipse 1273" transform="translate(149.736 118.291)" fill="none" stroke="#ebebeb" stroke-width="1" stroke-dasharray="3">
+        <ellipse cx="27.701" cy="28.45" rx="27.701" ry="28.45" stroke="none"/>
+        <ellipse cx="27.701" cy="28.45" rx="27.201" ry="27.95" fill="none"/>
+      </g>
+      <circle id="Ellipse_1268" data-name="Ellipse 1268" cx="11.979" cy="11.979" r="11.979" transform="translate(142.249 164.709)" fill="#5064cc"/>
+    </g>
+  </g>
+</svg>
