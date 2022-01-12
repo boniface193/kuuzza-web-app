@@ -33,7 +33,7 @@ import { mapState } from "vuex";
 export default {
   components: {
     Layout,
-    Modal,
+    Modal
   },
   data: function () {
     return {
@@ -62,12 +62,6 @@ export default {
   opacity: 1;
   height: 100%;
   zoom: 80%;
-}
-.nova-logo {
-  width: 120px;
-  img {
-    width: 100%;
-  }
 }
 .status-img {
   width: 140px;

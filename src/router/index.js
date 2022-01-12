@@ -54,6 +54,9 @@ import Revenue from "@/components/balancePages/Revenue.vue";
 import Settlements from "@/components/balancePages/Settlements.vue";
 import AwaitingSettlements from "@/components/balancePages/AwaitingSettlements.vue";
 import PaymentHistory from "@/components/balancePages/PaymentHistory.vue";
+//open selling 
+import OpenSellingLayout from "@/layouts/OpenSellingLayout.vue";
+import OpenSellingPage from "@/components/openSelling/OpenSellingPage.vue";
 
 Vue.use(VueRouter);
 
@@ -406,6 +409,18 @@ const routes = [
           }
         ]
       },
+      //opening selling
+      {
+        path: "/open-selling",
+        component: OpenSellingLayout,
+        children: [
+            {
+                path: "",
+                name: "OpenSellingPage",
+                component: OpenSellingPage
+            }
+        ]
+    },
     ]
   },
 

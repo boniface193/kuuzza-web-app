@@ -268,7 +268,7 @@ export default {
         (v) => !!v || "Address is required",
         () =>
           this.validAddress ||
-          "Valid pick up locations are Lagos, Abuja, Rivers, Oyo, Ondo, Ogun and Kwara only",
+          "Valid pick up locations are Lagos and Abuja",
       ],
     };
   },
