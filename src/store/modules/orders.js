@@ -107,6 +107,17 @@ const actions = {
                 })
         })
     },
+    // open selling
+    createOpenSelling(context, data) {
+        return new Promise((resolve, reject) => {
+            orderHttpClient.post('/open-order', data).then(response => {
+                resolve(response)
+            }).catch(error => {
+                context.commit("doNothing")
+                reject(error)
+            })
+        })
+    },
     searchOrders(context) {
         document.body.scrollTop = 0; // For Safari
         document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera

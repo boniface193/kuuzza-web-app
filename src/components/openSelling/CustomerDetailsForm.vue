@@ -334,7 +334,7 @@ export default {
         payment_link: `${process.env.VUE_APP_SELLER_BASE_URL}/open-selling-checkout-details`,
         vehicle_type: this.selectedTransportMethod,
         pickup_phone: "+234" + this.pickUpNumber,
-        pickup_name: this.$store.getters["settings/profile"].name
+        pickup_name: this.$store.getters["settings/getUserProfile"].name
       };
       this.$emit("customerDetails", customerDetails);
     },
