@@ -27,8 +27,11 @@ import productDetails from "@/components/inventory/productDetails.vue";
 import ImportProduct from "@/components/inventory/ImportProduct.vue";
 // order pages
 import Orders from "@/views/authPages/Orders.vue";
-import OrderHome from "@/components/order/OrderHome.vue";
-import orderDetails from "@/components/order/OrderDetails.vue";
+import OrderLayout from "@/layouts/OrderLayout.vue";
+import OrderDetails from "@/components/order/OrderDetails.vue";
+import OpensellingOrderDetails from "@/components/openSelling/OpensellingOrderDetails.vue";
+import InventoryOrders from "@/components/order/InventoryOrders.vue";
+import OpensellingOrders from "@/components/openSelling/OpensellingOrders.vue";
 // settings pages
 import Settings from "../views/authPages/Settings.vue";
 import userDetails from "@/components/settings/userDetails.vue";
@@ -302,13 +305,30 @@ const routes = [
         children: [
           {
             path: "",
-            name: "Orders",
-            component: OrderHome,
+            component: OrderLayout,
+            children: [
+              {
+                path: "",
+                name: "Orders",
+                component: InventoryOrders,
+              },
+              {
+                path: "open-selling",
+                name: "OpensellingOrders",
+                component: OpensellingOrders,
+              },
+            ]
           },
           {
             path: ":id",
             name: "OrderDetails",
-            component: orderDetails,
+            component: OrderDetails,
+            props: true,
+          },
+          {
+            path: "open-selling/:id",
+            name: "OpensellingOrderDetails",
+            component: OpensellingOrderDetails,
             props: true,
           }
         ]
@@ -414,13 +434,13 @@ const routes = [
         path: "/open-selling",
         component: OpenSellingLayout,
         children: [
-            {
-                path: "",
-                name: "OpenSellingPage",
-                component: OpenSellingPage
-            }
+          {
+            path: "",
+            name: "OpenSellingPage",
+            component: OpenSellingPage
+          }
         ]
-    },
+      },
     ]
   },
 

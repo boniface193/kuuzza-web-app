@@ -1,26 +1,5 @@
 import bankServicesHttpClient from "@/axios/bankServices.js";
-
-// set the number of item you want to show on table
-const setItemPerPage = (itemPerPage, per_page, from_page) => {
-    let page = null;
-    if (itemPerPage > per_page) {
-        let range = Math.round(
-            (from_page - 1) / per_page
-        );
-        if (range < 0.5) {
-            page = range + 1;
-            return page;
-        } else {
-            page = range;
-            return page;
-        }
-    } else {
-        page = Math.round(
-            (from_page - 1) / itemPerPage + 1
-        );
-        return page
-    }
-}
+import { setItemPerPage } from "@/helpers/general.js";
 
 //holds the state properties
 const state = {
@@ -76,6 +55,7 @@ const actions = {
                         newData.amount = item.amount;
                         newData.order_id = item.order_id;
                         newData.product_name = item.meta.product_name;
+                        newData.order_type = item.order_type;
                         if (data.status === "pending") {
                             newData.due_date = (item.due_date == null) ? "pending" : item.due_date;
                         } else {

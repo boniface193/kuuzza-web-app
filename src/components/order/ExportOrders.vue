@@ -41,14 +41,20 @@ export default {
     // export orders
     exportOrders() {
       if (
-        this.$store.state.orders.dateRange.startDate !== "" &&
-        this.$store.state.orders.dateRange.endDate !== ""
+        (this.$store.state.orders.dateRange.startDate !== "" &&
+          this.$store.state.orders.dateRange.endDate !== "") ||
+        (this.$store.state.openOrders.dateRange.startDate !== "" &&
+          this.$store.state.openOrders.dateRange.endDate !== "")
       ) {
         this.dialog = true;
         this.statusImage = successImage;
         this.dialogMessage = "Exporting orders...";
+        let orderType =
+          this.$route.name === "Orders"
+            ? "orders/exportOrders"
+            : "openOrders/exportOrders";
         this.$store
-          .dispatch("orders/exportOrders")
+          .dispatch(orderType)
           .then(() => {
             this.dialog = true;
             this.statusImage = successImage;
@@ -57,7 +63,7 @@ export default {
           })
           .catch((error) => {
             this.statusImage = failedImage;
-            if (error.status == 422 || error.status == 400) {
+            if (error.status == 400) {
               this.dialog = true;
               this.dialogMessage = error.data.message;
             }

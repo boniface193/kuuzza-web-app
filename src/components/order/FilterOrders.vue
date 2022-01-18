@@ -62,19 +62,27 @@ export default {
     ...mapState({
       tableLoader: (state) => state.inventory.tableLoader,
     }),
+    getOrderType() {
+      return {
+        orderType: this.$route.name === "Orders" ? "orders" : "openOrders",
+      };
+    },
   },
   methods: {
     // get products
     getOrders() {
-      this.$store.commit("orders/setSearchOrder", false);
+      this.$store.commit(
+        `${this.getOrderType.orderType}/setSearchOrders`,
+        false
+      );
       this.$store.commit("orders/setTableLoader", true);
       this.$store
-        .dispatch("orders/getFilteredOrders")
+        .dispatch(`${this.getOrderType.orderType}/getFilteredOrders`)
         .then(() => this.$store.commit("orders/setTableLoader", false))
         .catch((error) => {
           this.$store.commit("orders/setTableLoader", false);
           this.statusImage = failedImage;
-          if (error.status == 422 || error.status == 400) {
+          if (error.status == 400) {
             this.dialog = true;
             this.dialogMessage = error.data.message;
           }
@@ -83,14 +91,14 @@ export default {
     // filterTable
     filterTable(params) {
       // commit values for filter
-      this.$store.commit("orders/setFilter", {
+      this.$store.commit(`${this.getOrderType.orderType}/setFilter`, {
         minPrice: params.minPrice,
         maxPrice: params.maxPrice,
         selectedOptions: params.selectedOptions,
       });
 
       // set page back to page 1
-      this.$store.commit("orders/setPage", 1);
+      this.$store.commit(`${this.getOrderType.orderType}/setPage`, 1);
 
       // get products
       this.getOrders();
@@ -98,7 +106,7 @@ export default {
     // reset filter
     resetFilter() {
       // commit values for filter
-      this.$store.commit("orders/setFilter", {
+      this.$store.commit(`${this.getOrderType.orderType}/setFilter`, {
         minPrice: 0,
         maxPrice: 0,
         minQuantity: 0,
@@ -107,7 +115,7 @@ export default {
       });
 
       // set page back to page 1
-      this.$store.commit("orders/setPage", 1);
+      this.$store.commit(`${this.getOrderType.orderType}/setPage`, 1);
 
       // get products
       this.getOrders();
