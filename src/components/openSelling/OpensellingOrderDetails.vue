@@ -25,6 +25,11 @@
         <!-- loader ends here -->
 
         <v-row v-else>
+           <v-col cols="12" md="6" sm="6" class="d-none d-sm-block">
+            <div class="white">
+              <img :src="orderDetails.product_image_url" style="width: 100%" />
+            </div>
+          </v-col>
           <v-col cols="12" md="6" sm="6" style="padding-top: 0px !important">
             <div class="pl-2 pt-0">
               <h3 class="mt-8 mb-3">
@@ -43,6 +48,12 @@
                 ><span class="secondary--text">{{
                   orderDetails.product_name
                 }}</span>
+              </p>
+              <p class="mt-2 mb-3">
+                <span class="item-title">Product price: </span
+                ><span class="secondary--text"
+                  >&#8358;{{ orderDetails.product_price_label }}</span
+                >
               </p>
               <!-- payment status -->
               <p class="mt-2 mb-3">
@@ -75,12 +86,13 @@
                   {{ orderDetails.pickup_phone }}</span
                 >
               </p>
-              <p class="mt-2 mb-5">
-                <span class="item-title">Product price: </span
-                ><span class="secondary--text"
-                  >&#8358;{{ orderDetails.product_price_label }}</span
-                >
+              <p class="mt-2 mb-3">
+                <span class="item-title">Pickup address: </span
+                ><span class="secondary--text">{{
+                  orderDetails.pickup_location.address
+                }}</span>
               </p>
+              
 
               <hr class="secondary--text" />
 
@@ -90,15 +102,15 @@
               </h3>
               <p class="mt-2 mb-3">
                 <span class="item-title">Name: </span
-                ><span class="secondary--text"> {{ customer.name }}</span>
+                ><span class="secondary--text"> {{ orderDetails.customer.name }}</span>
               </p>
               <p class="mt-2 mb-3">
                 <span class="item-title">Email: </span
-                ><span class="primary--text"> {{ customer.email }}</span>
+                ><span class="primary--text"> {{ orderDetails.customer.email }}</span>
               </p>
               <p class="mt-2 mb-3">
                 <span class="item-title">Phone number: </span
-                ><span class="secondary--text"> {{ customer.phone }}</span>
+                ><span class="secondary--text"> {{ orderDetails.customer.phone }}</span>
               </p>
               <p class="mt-2 mb-3">
                 <span class="item-title">Total amount paid : </span
@@ -122,13 +134,7 @@
               <p class="mt-2 mb-3">
                 <span class="item-title">Delivery address: </span
                 ><span class="secondary--text">{{
-                  deliveryLocation.address
-                }}</span>
-              </p>
-              <p class="mt-2 mb-3">
-                <span class="item-title">Pickup address: </span
-                ><span class="secondary--text">{{
-                  orderDetails.pickup_location.address
+                  orderDetails.delivery_location.address
                 }}</span>
               </p>
               <p class="mt-2 mb-3">
@@ -149,12 +155,6 @@
                   orderDetails.delivery_method
                 }}</span>
               </p>
-            </div>
-          </v-col>
-
-          <v-col cols="12" md="6" sm="6" class="d-none d-sm-block">
-            <div class="white">
-              <img :src="orderDetails.product_image_url" style="width: 100%" />
             </div>
           </v-col>
         </v-row>
@@ -190,8 +190,8 @@ export default {
       retryLoader: false,
       orderDetails: {
         pickup_location: {},
+        customer: {},
       },
-      customer: {},
       deliveryLocation: {},
       loading: true,
       dialogMessage: "",
@@ -204,8 +204,9 @@ export default {
       .dispatch("openOrders/getOrdersDetail", { id: this.$route.params.id })
       .then((response) => {
         this.loading = false;
-        this.orderDetails = response;
-        this.customer = response.customer;
+        console.log(response.data.data)
+        this.orderDetails = response.data.data;
+        this.customer = response.data.data.customer;
         this.deliveryLocation = response.delivery_location;
       })
       .catch((error) => {

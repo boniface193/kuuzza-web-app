@@ -86,7 +86,7 @@ export default {
           value: "order_type",
           width: "200px",
         },
-        { text: "Due Date", value: "due_date", width: "200px" },
+        { text: "Due Date", value: "due_date", width: "200px" }
       ],
     };
   },
