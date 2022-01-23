@@ -23,8 +23,8 @@
 import { mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters({ userInfor: "settings/getUserProfile" }),
-  },
+    ...mapGetters({ userInfor: "settings/getUserProfile" })
+  }
 };
 </script>
 

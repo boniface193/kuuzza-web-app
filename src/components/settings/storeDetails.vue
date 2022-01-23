@@ -249,11 +249,11 @@ export default {
       allowedLocation: {
         LAGOS: "Lagos",
         ABUJA: "Federal Capital Territory",
-        //RIVERS: "Rivers",
-        //OYO: "Oyo",
+        RIVERS: "Rivers",
+        OYO: "Oyo",
         //KWARA: "Kwara",
         //ONDO: "Ondo",
-        //OGUN: "Ogun State",
+        OGUN: "Ogun State",
       },
       inputRules: [(v) => !!v || "This field is required"],
       phoneRules: [
@@ -268,7 +268,7 @@ export default {
         (v) => !!v || "Address is required",
         () =>
           this.validAddress ||
-          "Valid pick up locations are Lagos, Abuja, Rivers, Oyo, Ondo, Ogun and Kwara only",
+          "Valid pick up locations are Lagos, Oyo, Rivers, Ogun and Abuja",
       ],
     };
   },

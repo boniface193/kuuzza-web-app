@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import onboarding from "./modules/onboarding";
 import inventory from "./modules/inventory";
 import orders from "./modules/orders";
+import openOrders from "./modules/openOrders";
 import sellers from "./modules/sellers";
 import customer from "./modules/customer";
 import settings from "./modules/settings";
@@ -22,6 +23,7 @@ const initialState = {
   onboarding: onboarding.state,
   inventory: inventory.state,
   orders: orders.state,
+  openOrders: openOrders.state,
   sellers: sellers.state,
   customer: customer.state,
   settings: settings.state,
@@ -48,6 +50,7 @@ export default new Vuex.Store({
     onboarding: onboarding,
     inventory: inventory,
     orders: orders,
+    openOrders: openOrders,
     sellers: sellers,
     customer: customer,
     settings: settings,

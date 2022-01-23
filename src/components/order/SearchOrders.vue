@@ -46,22 +46,28 @@ export default {
     ...mapState({
       searchValue: (state) => state.orders.searchValue,
     }),
+    getOrderType() {
+      return {
+        orderType:
+          this.$route.name === "Orders" ? "orders" : "openOrders",
+      };
+    },
   },
   methods: {
     // set search value
     setSearchValue(params) {
-        this.$store.commit("orders/setSearchValue", params);
-        this.$store.commit("orders/setSearchOrder", true);
-        this.$store.commit("orders/setPage", 1);
-        this.searchOrders();
+      this.$store.commit(`${this.getOrderType.orderType}/setSearchValue`, params);
+      this.$store.commit(`${this.getOrderType.orderType}/setSearchOrder`, true);
+      this.$store.commit(`${this.getOrderType.orderType}/setPage`, 1);
+      this.searchOrders();
     },
     // search orders
     searchOrders() {
       if (this.searchValue !== "") {
-        this.$store.commit("orders/setSearchOrder", true);
+        this.$store.commit(`${this.getOrderType.orderType}/setSearchOrder`, true);
         this.getOrders();
       } else {
-        this.$store.commit("orders/setSearchOrder", false);
+        this.$store.commit(`${this.getOrderType.orderType}/setSearchOrder`, false);
         this.getOrders();
       }
     },
@@ -69,12 +75,12 @@ export default {
     getOrders() {
       this.$store.commit("orders/setTableLoader", true);
       this.$store
-        .dispatch("orders/searchOrders")
+        .dispatch(`${this.getOrderType.orderType}/searchOrders`)
         .then(() => this.$store.commit("orders/setTableLoader", false))
         .catch((error) => {
           this.$store.commit("orders/setTableLoader", false);
           this.statusImage = failedImage;
-          if (error.status == 422 || error.status == 400) {
+          if (error.status == 400) {
             this.dialog = true;
             this.dialogMessage = error.data.message;
           }

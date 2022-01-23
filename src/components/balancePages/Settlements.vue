@@ -51,7 +51,7 @@
   </div>
 </template>
 <script>
-import DataTable from "@/components/general/DataTable.vue";
+import DataTable from "@/components/balancePages/DataTable.vue";
 import failedImage from "@/assets/img/failed-img.svg";
 import Modal from "@/components/general/Modal.vue";
 import { mapGetters, mapState } from "vuex";
@@ -78,10 +78,16 @@ export default {
           value: "order_id",
           width: "300px",
           href: true,
-          routeName: "OrderDetails",
+          routeNameOrder: "OrderDetails",
+          routeNameOpenOrder: "OpensellingOrderDetails",
         },
         { text: "Amount", value: "amount", width: "250px", money: true },
-        { text: "Settlement Date", value: "date_settled", width: "250px" },
+        {
+          text: "Order type",
+          value: "order_type",
+          width: "200px",
+        },
+        { text: "Settlement Date", value: "date_settled", width: "200px" },
       ],
     };
   },

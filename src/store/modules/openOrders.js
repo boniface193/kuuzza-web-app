@@ -1,9 +1,23 @@
 import orderHttpClient from "@/axios/order.js";
 import { setItemPerPage } from "@/helpers/general.js";
 
+const restructureOrders = (orders) => {
+    let newOrders = []
+    orders.forEach(order => {
+        let newOrder = {};
+        newOrder.id = order.id;
+        newOrder.customer_name = order.customer.name;
+        newOrder.total_product_price_label = order.total_product_price_label;
+        newOrder.created_at = order.created_at;
+        newOrder.delivery_status_label = order.delivery_status_label;
+        newOrder.payment_status_label = order.payment_status_label;
+        newOrders.push(newOrder);
+    });
+    return newOrders;
+}
+
 //holds the state properties
 const state = {
-    tableLoader: false,
     orders: [],
     searchOrder: false,
     searchValue: "",
@@ -29,24 +43,30 @@ const state = {
 };
 //returns the state properties
 const getters = {
-    orders(state) {
-        return state.orders
-    },
-    orderDetail(state) {
-        return state.orderDetails
-    }
+    orders: state => state.orders,
 };
 
 //take actions 
 const actions = {
-    //get orders for normal inventory
+    // create open selling order
+    createOpenSelling(context, data) {
+        return new Promise((resolve, reject) => {
+            orderHttpClient.post("/open-order", data).then(response => {
+                resolve(response)
+            }).catch(error => {
+                context.commit("doNothing")
+                reject(error)
+            })
+        })
+    },
+    //get orders for open selling
     getOrders(context) {
         return new Promise((resolve, reject) => {
-            orderHttpClient.get("/orders",)
+            orderHttpClient.get("/open-order")
                 .then(response => {
-                    context.commit("setOrders", response.data.data);
+                    context.commit("setOrders", restructureOrders(response.data.data));
                     context.commit("setPageDetails", response.data.meta);
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch(error => {
                     reject(error)
@@ -66,9 +86,9 @@ const actions = {
         let delivered = ((state.filter.selectedOptions.includes('delivered')) ? "delivered" : "");
         let notDelivered = ((state.filter.selectedOptions.includes('not delivered')) ? "not_delivered" : "");
         return new Promise((resolve, reject) => {
-            orderHttpClient.get(`/orders?${perPage}&${page}&${dateRange}&${priceRange}&${paid}&${unpaid}&${delivered}&${notDelivered}`,
+            orderHttpClient.get(`/open-order?${perPage}&${page}&${dateRange}&${priceRange}&${paid}&${unpaid}&${delivered}&${notDelivered}`,
             ).then(response => {
-                context.commit("setOrders", response.data.data);
+                context.commit("setOrders", restructureOrders(response.data.data));
                 context.commit("setPageDetails", response.data.meta);
                 resolve(response);
             })
@@ -80,7 +100,7 @@ const actions = {
     // get inventory order details
     getOrdersDetail(context, data) {
         return new Promise((resolve, reject) => {
-            orderHttpClient.get(`/orders/${data.id}`).then(response => {
+            orderHttpClient.get(`/open-order/${data.id}`).then(response => {
                 resolve(response);
             })
                 .catch(error => {
@@ -97,7 +117,7 @@ const actions = {
         let perPage = ((state.itemPerPage) ? `per_page=${state.itemPerPage}` : "");
         let route = (state.searchValue !== "") ? `/search?q=${state.searchValue}&${page}&${perPage}` : ""
         return new Promise((resolve, reject) => {
-            orderHttpClient.get(`/orders${route}`).then(response => {
+            orderHttpClient.get(`/open-order${route}`).then(response => {
                 context.commit("setOrders", response.data.data);
                 context.commit("setPageDetails", response.data.meta);
                 resolve(response);
@@ -110,7 +130,7 @@ const actions = {
     // export inventory orders
     exportOrders() {
         return new Promise((resolve, reject) => {
-            orderHttpClient.post(`/orders/export`, {
+            orderHttpClient.post(`/open-order/export`, {
                 start_date: state.dateRange.startDate,
                 end_date: state.dateRange.endDate
             }).then(response => {
@@ -120,29 +140,16 @@ const actions = {
                     reject(error);
                 })
         })
-    },
-    // open selling
-    createOpenSelling(context, data) {
-        return new Promise((resolve, reject) => {
-            orderHttpClient.post('/open-order', data).then(response => {
-                resolve(response)
-            }).catch(error => {
-                context.commit("doNothing")
-                reject(error)
-            })
-        })
     }
 
 };
 
 //updates the different state properties
 const mutations = {
-    setTableLoader: (state, status) => (state.tableLoader = status),
-    setEmptyOrder: (state, status) => (state.emptyOrder = status),
     setOrders: (state, data) => (state.orders = data),
-    setFilter: (state, filter) => (state.filter = filter),
-    setDateRange: (state, dateRange) => (state.dateRange = dateRange),
-    setAllowDateFilter: (state, status) => (state.allowDateFilter = status),
+    setOrdersFilter: (state, filter) => (state.filter = filter),
+    setOrdersDateRange: (state, dateRange) => (state.dateRange = dateRange),
+    setOpensellingAllowDateFilter: (state, status) => (state.allowDateFilter = status),
     setSearchValue: (state, value) => (state.searchValue = value),
     setSearchOrder: (state, status) => (state.searchOrder = status),
     setPageDetails: (state, data) => (state.pageDetails = data),
