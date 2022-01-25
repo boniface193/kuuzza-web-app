@@ -198,11 +198,11 @@ export default {
       allowedLocation: {
         LAGOS: "Lagos",
         ABUJA: "Federal Capital Territory",
-        //RIVERS: "Rivers",
-        //OYO: "Oyo",
-        //KWARA: "Kwara",
-        //OGUN: "Ogun State",
-        //ONDO: "Ondo",
+        RIVERS: "Rivers",
+        OYO: "Oyo",
+        KWARA: "Kwara",
+        OGUN: "Ogun State",
+        ONDO: "Ondo"
       },
       deliveryAddressAutocomplete: "",
       pickupAutocomplete: "",
