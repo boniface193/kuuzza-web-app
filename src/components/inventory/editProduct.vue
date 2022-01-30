@@ -238,7 +238,7 @@
                 <v-select
                   :items="carriage"
                   item-text="text"
-                  :value="productDetails.vehicle_type"
+                  :label="productDetails.vehicle_type"
                   outlined
                   class="pa-0"
                   :rules="inputRules"
@@ -588,10 +588,7 @@ export default {
       productDetails.price = this.productDetails.price;
       productDetails.description = this.productDetails.description;
       productDetails.image = this.imageUrl;
-      productDetails.vehicle_type =
-        this.selectedTransportMethod == ""
-          ? this.productDetails.vehicle_type
-          : this.selectedTransportMethod;
+      productDetails.vehicle_type = this.selectedTransportMethod;
       productDetails.other_images = this.productDetails.other_images;
       productDetails.ref = this.$route.params.id;
       if (this.variantDetails.variantStatus === true) {

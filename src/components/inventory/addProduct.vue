@@ -384,7 +384,7 @@ export default {
   },
   methods: {
     selectedCarriage(params) {
-      this.selectedTransportMethod = params;
+      this.selectedTransportMethod = params
     },
     // next form
     nextForm(formNum) {

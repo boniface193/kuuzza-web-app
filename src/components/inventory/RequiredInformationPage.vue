@@ -276,7 +276,8 @@
             <p class="mb-1 question">
               Select your Pick up Location
               <span class="primary--text"
-                >(Pick up locations are Lagos and Abuja only)</span
+                >(Pick up locations are Lagos, Oyo, Ogun, Rivers, kwara, Ondo
+                and Abuja only)</span
               >
             </p>
             <v-text-field
@@ -291,6 +292,27 @@
               outlined
               @keyup.enter="goNextForm(3)"
             ></v-text-field>
+            <h4 v-show="experienceCenters.length > 0">
+              <span class="primary--text">NB:</span>You are expected to drop all
+              orders at any of the listed experience center below, this is due
+              to the state your pick up location is resided.
+            </h4>
+            <p
+              v-for="(experienceCenter, index) in experienceCenters"
+              :key="index"
+            >
+              {{ index + 1 }}) {{ experienceCenter }}
+            </p>
+            <div
+              class="d-flex align-center mb-5"
+              v-if="experienceCenters.length > 0"
+            >
+              <v-checkbox v-model="agreeToPickup" class="mr-1"></v-checkbox>
+              <p class="mb-0">
+                By clicking on next, you agree to drop your product at an
+                experience center whenever there's an order from your store.
+              </p>
+            </div>
             <!-- do not remove -->
             <v-text-field style="display: none"></v-text-field>
           </div>
@@ -302,7 +324,13 @@
             >
               Back
             </v-btn>
-            <v-btn class="primary px-8" @click="goNextForm(3)"> Next </v-btn>
+            <v-btn
+              class="primary px-8"
+              @click="goNextForm(3)"
+              :disabled="!agreeToPickup"
+            >
+              Next
+            </v-btn>
           </div>
         </v-form>
         <!-- phone number verification  -->
@@ -460,6 +488,7 @@ import Modal from "@/components/general/Modal.vue";
 import OtpInput from "@/components/general/verifyInput";
 import failedImage from "@/assets/img/failed-img.svg";
 import successImage from "@/assets/img/success-img.svg";
+import { listOfExperienceCenters } from "@/helpers/general.js";
 import { mapGetters } from "vuex";
 export default {
   name: "RequiredInformationPage",
@@ -495,6 +524,7 @@ export default {
       rcNumber: "",
       idNumber: "",
       IDtype: null,
+      agreeToPickup: false,
       businessCategories: [],
       productQualification: "",
       allowReturnProducts: null,
@@ -507,14 +537,15 @@ export default {
       lng: "",
       state: null,
       stateKey: null,
+      experienceCenters: [],
       allowedLocation: {
         LAGOS: "Lagos",
         ABUJA: "Federal Capital Territory",
-        //RIVERS: "Rivers",
-        //OYO: "Oyo",
-        //KWARA: "Kwara",
-        //ONDO: "Ondo",
-        //OGUN: "Ogun State",
+        RIVERS: "Rivers",
+        OYO: "Oyo",
+        KWARA: "Kwara",
+        ONDO: "Ondo",
+        OGUN: "Ogun State",
       },
       agreeToInccurShippingFee: false,
       agreetwilo: false,
@@ -532,9 +563,7 @@ export default {
       addressRules: [
         //verifies pick up address satisfies the requirement
         (v) => !!v || "Pick up location is required",
-        () =>
-          this.validAddress ||
-          "Valid pick up locations are Lagos and Abuja only",
+        () => this.validAddress || "please select a valid pick up location",
       ],
       phoneRules: [
         //verifies phone number satisfies the requirement
@@ -650,10 +679,18 @@ export default {
     },
     checkLocation() {
       this.validAddress = false;
+      this.experienceCenters = [];
+      this.agreeToPickup = true
       for (let key in this.allowedLocation) {
         if (this.allowedLocation[key] === this.state) {
           this.validAddress = true;
           this.stateKey = key;
+          this.experienceCenters = listOfExperienceCenters(this.stateKey);
+          if(this.experienceCenters.length > 0){
+            this.agreeToPickup = false;
+          }else{
+            this.agreeToPickup = true;
+          }
         }
       }
     },

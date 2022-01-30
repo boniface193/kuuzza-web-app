@@ -4,7 +4,7 @@ import store from "@/store";
 let requestQueue = [];
 
 // base url for development environment
-let onboardingBaseUrl = "https://order-dev.bmgames.net" //"https://nova-order.herokuapp.com";
+let onboardingBaseUrl = "https://nova-order.herokuapp.com";
 
 // set base url if environment is staging
 if (process.env.VUE_APP_ENV == "staging") {
