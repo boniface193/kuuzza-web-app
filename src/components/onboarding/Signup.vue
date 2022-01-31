@@ -240,6 +240,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
+import { search } from "@/helpers/general.js";
 export default {
   name: "Signup",
   data: function () {
@@ -341,24 +342,17 @@ export default {
         this.company_address = place.name + " " + place.formatted_address;
         this.lat = place.geometry.location.lat();
         this.lng = place.geometry.location.lng();
-        this.state = this.search(
+        this.state = search(
           "administrative_area_level_1",
           place.address_components
         ).long_name;
         this.state = this.formatState(this.state);
       }
     },
-     search(nameKey, myArray) {
-      for (let i = 0; i < myArray.length; i++) {
-        if (myArray[i].types[0] === nameKey) {
-          return myArray[i];
-        }
-      }
-    },
-    formatState(state){
-      if(state == "Federal Capital Territory"){
+    formatState(state) {
+      if (state == "Federal Capital Territory") {
         return "ABUJA";
-      }else{
+      } else {
         let capitalState = state.toUpperCase();
         return capitalState.replace(/ +/g, "_");
       }
@@ -429,6 +423,7 @@ export default {
       userDetails.company_location.address = this.company_address;
       userDetails.company_location.lat = this.lat;
       userDetails.company_location.lng = this.lng;
+      userDetails.company_location.state = this.state;
       (userDetails.password = this.create_password),
         (userDetails.password_confirmation = this.confirm_password);
 
