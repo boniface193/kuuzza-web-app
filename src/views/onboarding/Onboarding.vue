@@ -1,7 +1,7 @@
 <template>
   <div class="custom-container">
     <!-- this is the loader visible to the user -->
-    <div v-if="isLoading">
+    <div v-if="isLoading" class="text-center" style="padding-top: 20em;">
       <!-- this image time loader is calculated by the loader to triger the load time -->
       <v-img
         src="@/assets/img/Image2.svg"
@@ -14,7 +14,7 @@
     <!-- loader ends here -->
     <v-main v-else>
       <v-row class="justify-center">
-        <v-col class="pt-15 col-8 col-md-8 ">
+        <v-col class="pt-md-15 pt-10 col-10 col-sm-9 col-md-8 ">
           <!-- app logo -->
           <router-link to="/" class="">
             <div class="kuuzza-logo">
@@ -83,7 +83,7 @@
         </v-col>
 
         <!-- banner -->
-        <v-col class="col-4 d-none d-md-block pa-0">
+        <v-col class="col-md-4 d-none d-md-block pa-0">
           <v-img
             src="@/assets/img/sidePhoto.svg" height="100%"
           ></v-img>
@@ -116,7 +116,6 @@
                 (present_form == 'form3' &&
                   (this.$route.name == 'Signup' || 'fmcgSignup')) ||
                 this.$route.name == 'EmailVerification' ||
-                this.$route.name == 'ForgotPasswordVerification' ||
                 this.$route.name == 'signupTeamMember'
               "
             >
@@ -127,7 +126,6 @@
                 (present_form == 'form3' &&
                   (this.$route.name == 'Signup' || 'fmcgSignup')) ||
                 this.$route.name == 'EmailVerification' ||
-                this.$route.name == 'ForgotPasswordVerification' ||
                 this.$route.name == 'signupTeamMember'
               " class="show-text__imgText">Tap into our decentralised sales force and watch your business scale!</span>
           </div>

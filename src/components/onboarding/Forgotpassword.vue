@@ -1,17 +1,18 @@
 <template>
   <div>
-    <p v-show="error" class="error--text mt-3 mb-0">
+    <p v-show="error" class="error--text mt-3">
       <span v-html="errorMessage"></span>
     </p>
     <!-- form section-->
-    <v-form class="d-flex flex-wrap" ref="form">
+    <v-form class="flex-wrap" ref="form">
       <!-- Email Adrress-->
+      <label for="" class="onboarding-input">Email Address</label>
       <v-text-field
-        class="onboarding-input mr-5 mt-5"
+        class="onboarding-input"
         v-model="email"
         :rules="emailRules"
         type="email"
-        label="Email"
+        outlined
         color="primary"
         required
         @keyup.enter="validate_email()"
@@ -19,12 +20,13 @@
       <v-text-field style="display: none"></v-text-field>
 
       <!-- button container -->
-      <div class="pa-0 mt-5" style="width: 100%">
+      <div>
         <v-btn
-          class="primary px-8 mb-5"
+          class="primary"
           @click="validate_email"
           :loading="loading"
           :disabled="loading"
+          width="150px"
           >Reset Password</v-btn
         >
       </div>

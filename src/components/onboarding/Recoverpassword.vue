@@ -4,13 +4,14 @@
       {{ errorMessage }}
     </p>
     <!-- form section -->
-    <v-form class="d-flex flex-wrap" ref="form">
+    <v-form class="flex-wrap" ref="form">
       <!-- Create password -->
+      <label for="" class="onboarding-input">Create Password</label>
       <v-text-field
-        class="onboarding-input mr-5 mt-5"
+        class="onboarding-input"
         v-model="create_password"
         :rules="create_passwordRules"
-        label="Create Password"
+        outlined
         :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
         @click:append="() => (showPassword = !showPassword)"
         :type="showPassword ? 'password' : 'text'"
@@ -20,11 +21,12 @@
       ></v-text-field>
 
       <!-- Confirm password-->
+      <label for="" class="onboarding-input">Confirm Password</label>
       <v-text-field
-        class="onboarding-input mr-5 mt-5"
+        class="onboarding-input"
         v-model="confirm_password"
         :rules="confirm_passwordRules"
-        label="Confirm Password"
+        outlined
         :append-icon="showConfirmPassword ? 'mdi-eye-off' : 'mdi-eye'"
         @click:append="() => (showConfirmPassword = !showConfirmPassword)"
         :type="showConfirmPassword ? 'password' : 'text'"
@@ -35,9 +37,9 @@
       ></v-text-field>
 
       <!-- button container -->
-      <div class="pa-0 mt-5" style="width: 100%">
+      <div>
         <v-btn
-          class="primary px-8 mb-5"
+          class="primary"
           @click="validate_password"
           :loading="loading"
           :disabled="loading"

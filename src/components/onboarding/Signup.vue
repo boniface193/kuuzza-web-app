@@ -18,8 +18,8 @@
         Step 1: Personal information
       </p>
       <div class="d-flex">
-      <!-- First Name -->
-        <div class="mr-4 ">
+        <!-- First Name -->
+        <div class="mr-4">
           <label for="" class="name-input">First Name</label>
           <v-text-field
             class="name-input"
@@ -33,25 +33,25 @@
           ></v-text-field>
         </div>
 
-      <div>
-       <!-- Last Name -->
-      <label for="" class="name-input">Last Name</label>
-      <v-text-field
-        class="name-input"
-        v-model="last_name"
-        :rules="last_nameRules"
-        type="name"
-        outlined
-        color="primary"
-        required
-        @keyup.enter="$refs.input3.focus"
-        ref="input2"
-      ></v-text-field>
+        <div>
+          <!-- Last Name -->
+          <label for="" class="name-input">Last Name</label>
+          <v-text-field
+            class="name-input"
+            v-model="last_name"
+            :rules="last_nameRules"
+            type="name"
+            outlined
+            color="primary"
+            required
+            @keyup.enter="$refs.input3.focus"
+            ref="input2"
+          ></v-text-field>
+        </div>
       </div>
-      </div>    
 
       <!-- Email Adrress-->
-       <label for="" class="onboarding-input">Email Address</label>
+      <label for="" class="onboarding-input">Email Address</label>
       <v-text-field
         class="onboarding-input"
         v-model="email"
@@ -66,13 +66,13 @@
 
       <!-- Phone Number -->
       <label for="" class="onboarding-input">Phone Number</label>
-      <div class="onboarding-input phone-field">
+      <div class=" phone-field">
         <span class="primary--text phone-format px-3">+234</span>
         <v-text-field
           v-model="phone_number"
           :rules="phoneRules"
           color="primary"
-          class="pt-1"
+          class="pt-1 onboarding-input"
           outlined
           type="tel"
           required
@@ -109,7 +109,6 @@
         'd-block': present_form == 'form2',
       }"
     >
-
       <p class="forgot-pwd font-weight-bold mb-8">
         Step 2: Company information
       </p>
@@ -143,17 +142,8 @@
       ></v-text-field>
 
       <!-- button conatainer -->
-      <div
-        class="
-          d-flex
-          justify-space-between
-          btn-container
-        "
-      >
-        <v-btn
-          class="primary--text light-background"
-          @click="previousForm(2)"
-        >
+      <div class="d-flex justify-space-between btn-container">
+        <v-btn class="primary--text light-background " @click="previousForm(2)">
           Back</v-btn
         >
         <v-btn class="primary" @click="validateForm(2)">Next</v-btn>
@@ -169,9 +159,7 @@
         'd-block': present_form == 'form3',
       }"
     >
-    <p class="forgot-pwd font-weight-bold mb-8">
-        Step 3: Create password
-      </p>
+      <p class="forgot-pwd font-weight-bold mb-8">Step 3: Create password</p>
       <!-- Create password -->
       <label for="" class="onboarding-input">Create Password</label>
       <v-text-field
@@ -229,12 +217,7 @@
       </div>
 
       <!-- button container -->
-      <div
-        class="
-          d-flex
-          btn-container
-        "
-      >
+      <div class="d-flex justify-space-between btn-container">
         <!-- goto prev form btn -->
         <v-btn
           class="primary--text light-background"
@@ -245,10 +228,10 @@
         >
         <!-- goto next form btn -->
         <v-btn
-          class="primary justify-sm-end"
+          class="primary"
           @click="validateForm(3)"
           :loading="loading"
-          :disabled="loading || !acceptTerms"
+          :disabled="loading || !acceptTerms || !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(create_password) || confirm_password !== create_password"
           width="200px"
           >Complete Sign Up</v-btn
         >
@@ -490,8 +473,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .btn-container {
-  width: 50% !important;
-  justify-content: 40px;
+  width: 476px !important;
 }
 .phone-field {
   position: relative;
@@ -503,12 +485,12 @@ export default {
 }
 @media (max-width: 1100px) {
   .btn-container {
-    width: 50% !important;
+    width: 476px !important;
   }
 }
 @media (max-width: 550px) {
   .btn-container {
-    width: 50% !important;
+    width: 100% !important;
   }
 }
 </style>
