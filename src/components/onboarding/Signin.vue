@@ -1,31 +1,32 @@
 <template>
   <div>
-    <p v-show="error" class="error--text mt-3 mb-0">
+    <p v-show="error" class="error--text mt-3">
       <span v-html="errorMessage"></span>
     </p>
     <!-- form section-->
-    <v-form class="d-flex flex-wrap" ref="form">
+    <v-form class="flex-wrap" ref="form">
       <!-- Email Adrress-->
+      <label for="" class="onboarding-input">Email</label>
       <v-text-field
-        class="onboarding-input mr-5 mt-5"
+        class="onboarding-input"
+        outlined
         v-model="email"
         :rules="emailRules"
-        type="email"
-        label="Email"
         color="primary"
         required
         @keyup.enter="$refs.input2.focus"
       ></v-text-field>
 
       <!-- Password -->
+      <label for="" class="onboarding-input">Password</label>
       <v-text-field
-        class="onboarding-input mr-5 mt-5"
+        class="onboarding-input"
+        outlined
         v-model="password"
         :rules="passwordRules"
         :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
         @click:append="() => (showPassword = !showPassword)"
         :type="showPassword ? 'password' : 'text'"
-        label="Password"
         color="primary"
         required
         ref="input2"
@@ -33,31 +34,30 @@
       ></v-text-field>
 
       <!-- button container -->
-      <div class="pa-0 mt-5" style="width: 100%">
+      <div>
         <v-btn
-          class="primary px-8 mb-5 text-center"
+          class="primary text-center"
           @click="validate_form"
           :loading="loading"
           :disabled="loading"
           >Sign In</v-btn
         >
 
-        <!-- forgot password link-->
-        <p style="font-size: 14px">
-          or
-          <router-link
-            to="/forgot-password"
-            class="error--text"
-            style="text-decoration: none"
-            >Forgot password?</router-link
-          >
-        </p>
-
         <!-- create account link -->
-        <p>
+        <p class="dont-have-acct">
           Don't have an account?
           <router-link to="/signup" style="text-decoration: none"
             >Create Account</router-link
+          >
+        </p>
+
+                <!-- forgot password link-->
+        <p>
+          <router-link
+            to="/forgot-password"
+            class="forgot-pwd"
+            style="text-decoration: none"
+            >Forgot password?</router-link
           >
         </p>
       </div>

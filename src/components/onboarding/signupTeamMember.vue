@@ -8,64 +8,74 @@
     <v-form
       class="flex-wrap"
       ref="form1"
-      :class="{
-        'd-none': present_form != 'form1',
-        'd-flex': present_form == 'form1',
-      }"
     >
+    
       <!-- Email Adrress-->
+      <label for="" class="onboarding-input">Email Address</label>
       <v-text-field
-        class="onboarding-input mr-5 mt-5"
+        class="onboarding-input"
         v-model="$route.params.email"
         :rules="emailRules"
         type="email"
-        label="Email"
+        outlined
         color="primary"
         required
         disabled
       ></v-text-field>
 
+<div class="d-flex">
       <!-- First Name -->
+      <div class="mr-4 ">
+          <label for="" class="name-input">First Name</label>
       <v-text-field
-        class="name-input mr-5 mt-5"
+        class="name-input"
         v-model="first_name"
         :rules="first_nameRules"
         type="name"
-        label="First Name"
+        outlined
         color="primary"
         required
         @keyup.enter="$refs.input2.focus"
       ></v-text-field>
+      </div>
 
-      <!-- Last Name -->
+     <div>
+       <!-- Last Name -->
+      <label for="" class="name-input">Last Name</label>
       <v-text-field
         class="name-input mr-5 mt-5"
         v-model="last_name"
         :rules="last_nameRules"
         type="name"
-        label="Last Name"
+        outlined
         color="primary"
         required
         @keyup.enter="$refs.input4.focus"
         ref="input2"
       ></v-text-field>
+      </div>
+</div>
 
-      <!-- Phone Number -->
-      <v-text-field
-        class="onboarding-input mr-5 mt-5"
-        v-model="phone_number"
-        :rules="phoneRules"
-        label="Phone Number"
-        color="primary"
-        type="tel"
-        required
-        ref="input4"
-        @keyup.enter="validateForm(1)"
-      ></v-text-field>
+ <!-- Phone Number -->
+      <label for="" class="onboarding-input">Phone Number</label>
+      <div class="onboarding-input phone-field">
+        <span class="primary--text phone-format px-3">+234</span>
+        <v-text-field
+          v-model="phone_number"
+          :rules="phoneRules"
+          color="primary"
+          class="pt-1"
+          outlined
+          type="tel"
+          required
+          ref="input4"
+          @keyup.enter="validateForm(1)"
+        ></v-text-field>
+      </div>
 
       <!-- button container -->
-      <div class="pa-0 mt-5" style="width: 100%">
-        <v-btn class="primary px-8 mb-5" @click="validateForm(1)"
+      <div class="pa-0 ">
+        <v-btn class="primary" @click="validateForm(1)"
           >Next</v-btn
         >
       </div>
@@ -75,17 +85,14 @@
     <v-form
       class="flex-wrap"
       ref="form2"
-      :class="{
-        'd-none': present_form != 'form2',
-        'd-flex': present_form == 'form2',
-      }"
     >
       <!-- Create password -->
+      <label for="" class="onboarding-input">Create Password</label>
       <v-text-field
-        class="onboarding-input mr-5 mt-5"
+        class="onboarding-input"
         v-model="create_password"
         :rules="create_passwordRules"
-        label="Create Password"
+        outlined
         type="password"
         color="primary"
         @keyup.enter="$refs.input10.focus"
@@ -94,11 +101,12 @@
       ></v-text-field>
 
       <!-- Confirm password-->
+      <label for="" class="onboarding-input">Confirm Password</label>
       <v-text-field
-        class="onboarding-input mr-5 mt-5"
+        class="onboarding-input"
         v-model="confirm_password"
         :rules="confirm_passwordRules"
-        label="Confirm Password"
+        outlined
         type="password"
         color="primary"
         required
@@ -111,7 +119,7 @@
         class="pa-0 mt-5 d-flex justify-space-between align-center btn-container"
       >
         <v-btn
-          class="primary--text mb-5 mb-0 px-1 py-2"
+          class="primary--text"
           style="background: #5064cc26"
           :disabled="loading"
           @click="previousForm(1)"
@@ -119,7 +127,7 @@
           Back</v-btn
         >
         <v-btn
-          class="primary px-8 mb-5"
+          class="primary"
           @click="validateForm(2)"
           :loading="loading"
           :disabled="loading"
@@ -143,7 +151,7 @@
         <p class="my-3">You have successfully accepted your invite.</p>
 
         <v-btn
-          class="primary mx-auto px-8"
+          class="primary mx-auto"
           :loading="loading2"
           :disabled="loading2"
           v-if="dashboardBtn"

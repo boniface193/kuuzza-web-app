@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- error placeholder -->
-    <p v-show="error" class="error--text mt-3 mb-0">
+    <p v-show="error" class="error--text mt-3">
       <span v-html="errorMessage"></span>
     </p>
 
@@ -11,41 +11,53 @@
       ref="form1"
       :class="{
         'd-none': present_form != 'form1',
-        'd-flex': present_form == 'form1',
+        'd-block': present_form == 'form1',
       }"
     >
+      <p class="forgot-pwd font-weight-bold mb-8">
+        Step 1: Personal information
+      </p>
+      <div class="d-flex">
       <!-- First Name -->
-      <v-text-field
-        class="name-input mr-5 mt-5"
-        v-model="first_name"
-        :rules="first_nameRules"
-        type="name"
-        label="First Name"
-        color="primary"
-        required
-        @keyup.enter="$refs.input2.focus"
-      ></v-text-field>
+        <div class="mr-4 ">
+          <label for="" class="name-input">First Name</label>
+          <v-text-field
+            class="name-input"
+            v-model="first_name"
+            :rules="first_nameRules"
+            outlined
+            type="name"
+            color="primary"
+            required
+            @keyup.enter="$refs.input2.focus"
+          ></v-text-field>
+        </div>
 
-      <!-- Last Name -->
+      <div>
+       <!-- Last Name -->
+      <label for="" class="name-input">Last Name</label>
       <v-text-field
-        class="name-input mr-5 mt-5"
+        class="name-input"
         v-model="last_name"
         :rules="last_nameRules"
         type="name"
-        label="Last Name"
+        outlined
         color="primary"
         required
         @keyup.enter="$refs.input3.focus"
         ref="input2"
       ></v-text-field>
+      </div>
+      </div>    
 
       <!-- Email Adrress-->
+       <label for="" class="onboarding-input">Email Address</label>
       <v-text-field
-        class="onboarding-input mr-5 mt-5"
+        class="onboarding-input"
         v-model="email"
         :rules="emailRules"
         type="email"
-        label="Email"
+        outlined
         color="primary"
         required
         @keyup.enter="$refs.input4.focus"
@@ -53,14 +65,15 @@
       ></v-text-field>
 
       <!-- Phone Number -->
-      <div class="onboarding-input phone-field mr-5 mt-5">
-        <span class="primary--text phone-format">+234</span>
+      <label for="" class="onboarding-input">Phone Number</label>
+      <div class="onboarding-input phone-field">
+        <span class="primary--text phone-format px-3">+234</span>
         <v-text-field
-          class=""
           v-model="phone_number"
           :rules="phoneRules"
-          label="Phone Number"
           color="primary"
+          class="pt-1"
+          outlined
           type="tel"
           required
           ref="input4"
@@ -69,9 +82,9 @@
       </div>
 
       <!-- button container -->
-      <div class="pa-0 mt-5" style="width: 100%">
+      <div class="pa-0">
         <v-btn
-          class="primary px-8 mb-5"
+          class="primary"
           @click="validateForm(1)"
           :loading="loading2"
           :disabled="loading2"
@@ -93,16 +106,21 @@
       ref="form2"
       :class="{
         'd-none': present_form != 'form2',
-        'd-flex': present_form == 'form2',
+        'd-block': present_form == 'form2',
       }"
     >
+
+      <p class="forgot-pwd font-weight-bold mb-8">
+        Step 2: Company information
+      </p>
       <!-- company name -->
+      <label for="" class="onboarding-input">Company Name</label>
       <v-text-field
-        class="onboarding-input mr-5 mt-5"
+        class="onboarding-input"
         v-model="company_name"
         :rules="company_nameRules"
         type="address"
-        label="Company Name"
+        outlined
         color="primary"
         @keyup.enter="$refs.autocomplete.focus"
         ref="input5"
@@ -110,12 +128,13 @@
       ></v-text-field>
 
       <!-- company address -->
+      <label for="" class="onboarding-input">Company Address</label>
       <v-text-field
-        class="onboarding-input mr-5 mt-5"
+        class="onboarding-input"
         v-model="company_address"
         :rules="address_nameRules"
         type="text"
-        label="Company Address"
+        outlined
         color="primary"
         required
         ref="autocomplete"
@@ -126,21 +145,18 @@
       <!-- button conatainer -->
       <div
         class="
-          pa-0
-          mt-5
           d-flex
           justify-space-between
-          align-center
           btn-container
         "
       >
         <v-btn
-          class="primary--text light-background mb-5 mb-0 px-1 py-2"
+          class="primary--text light-background"
           @click="previousForm(2)"
         >
           Back</v-btn
         >
-        <v-btn class="primary px-8 mb-5" @click="validateForm(2)">Next</v-btn>
+        <v-btn class="primary" @click="validateForm(2)">Next</v-btn>
       </div>
     </v-form>
 
@@ -150,15 +166,19 @@
       ref="form3"
       :class="{
         'd-none': present_form != 'form3',
-        'd-flex': present_form == 'form3',
+        'd-block': present_form == 'form3',
       }"
     >
+    <p class="forgot-pwd font-weight-bold mb-8">
+        Step 3: Create password
+      </p>
       <!-- Create password -->
+      <label for="" class="onboarding-input">Create Password</label>
       <v-text-field
-        class="onboarding-input mr-5 mt-5"
+        class="onboarding-input"
         v-model="create_password"
         :rules="create_passwordRules"
-        label="Create Password"
+        outlined
         :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
         @click:append="() => (showPassword = !showPassword)"
         :type="showPassword ? 'password' : 'text'"
@@ -169,11 +189,12 @@
       ></v-text-field>
 
       <!-- Confirm password-->
+      <label for="" class="onboarding-input">Confirm Password</label>
       <v-text-field
-        class="onboarding-input mr-5 mt-5"
+        class="onboarding-input"
         v-model="confirm_password"
         :rules="confirm_passwordRules"
-        label="Confirm Password"
+        outlined
         :append-icon="showConfirmPassword ? 'mdi-eye-off' : 'mdi-eye'"
         @click:append="() => (showConfirmPassword = !showConfirmPassword)"
         :type="showConfirmPassword ? 'password' : 'text'"
@@ -183,9 +204,9 @@
         @keyup.enter="validateForm(3)"
       ></v-text-field>
 
-      <div class="d-flex align-center mt-5">
+      <div class="d-flex align-center">
         <v-checkbox v-model="acceptTerms" class="mr-1"></v-checkbox>
-        <p class="mb-0" style="">
+        <p class="" style="">
           I agree to Kuuzza
           <a
             style="text-decoration: none"
@@ -210,17 +231,13 @@
       <!-- button container -->
       <div
         class="
-          pa-0
-          mt-5
           d-flex
-          justify-space-between
-          align-center
           btn-container
         "
       >
         <!-- goto prev form btn -->
         <v-btn
-          class="primary--text light-background mb-5 mb-0 px-1 py-2"
+          class="primary--text light-background"
           :disabled="loading"
           @click="previousForm(3)"
         >
@@ -228,10 +245,11 @@
         >
         <!-- goto next form btn -->
         <v-btn
-          class="primary px-8 mb-5"
+          class="primary justify-sm-end"
           @click="validateForm(3)"
           :loading="loading"
           :disabled="loading || !acceptTerms"
+          width="200px"
           >Complete Sign Up</v-btn
         >
       </div>
@@ -472,7 +490,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .btn-container {
-  width: 60%;
+  width: 50% !important;
+  justify-content: 40px;
 }
 .phone-field {
   position: relative;
@@ -484,12 +503,12 @@ export default {
 }
 @media (max-width: 1100px) {
   .btn-container {
-    width: 80%;
+    width: 50% !important;
   }
 }
 @media (max-width: 550px) {
   .btn-container {
-    width: 100%;
+    width: 50% !important;
   }
 }
 </style>
