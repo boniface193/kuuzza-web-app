@@ -175,6 +175,7 @@ export default {
   props: ["loading"],
   data: function () {
     return {
+      VUE_APP_SELLER_BASE_URL: "",
       carriage: [
         { icon: "mdi-bicycle-basket", text: "BIKE" },
         { icon: "mdi-car", text: "CAR" },
@@ -202,7 +203,7 @@ export default {
         OYO: "Oyo",
         KWARA: "Kwara",
         OGUN: "Ogun State",
-        ONDO: "Ondo"
+        ONDO: "Ondo",
       },
       deliveryAddressAutocomplete: "",
       pickupAutocomplete: "",
@@ -236,6 +237,7 @@ export default {
     };
   },
   mounted() {
+    this.getPaymentBaseUrl();
     let region = {
       bounds: new window.google.maps.LatLngBounds(
         new window.google.maps.LatLng(6.5244, 3.3792)
@@ -260,6 +262,13 @@ export default {
     });
   },
   methods: {
+    getPaymentBaseUrl() {
+      if (process.env.VUE_APP_ENV == "production") {
+        this.VUE_APP_SELLER_BASE_URL = "https://seller.kuuzza.com";
+      } else {
+        this.VUE_APP_SELLER_BASE_URL = "http://staging-seller.kuuzza.com";
+      }
+    },
     // update address and validate
     onPlaceChanged(addressType) {
       let place =
@@ -323,7 +332,7 @@ export default {
           address: this.customerAddress,
           state: this.deliveryState,
           lng: this.deliveryLng,
-          lat: this.deliveryLat
+          lat: this.deliveryLat,
         },
         pickup_location: {
           address: this.pickupAddress,
@@ -331,10 +340,10 @@ export default {
           lng: this.pickupLng,
           lat: this.pickupLat,
         },
-        payment_link: `${process.env.VUE_APP_SELLER_BASE_URL}/open-selling-checkout-details`,
+        payment_link: `${this.VUE_APP_SELLER_BASE_URL}/open-selling-checkout-details`,
         vehicle_type: this.selectedTransportMethod,
         pickup_phone: "+234" + this.pickUpNumber,
-        pickup_name: this.$store.getters["settings/getUserProfile"].name
+        pickup_name: this.$store.getters["settings/getUserProfile"].name,
       };
       this.$emit("customerDetails", customerDetails);
     },

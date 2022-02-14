@@ -26,13 +26,18 @@
           <h1
             class="mb-0"
             v-show="
-              (present_form == 'form1' || present_form == 'form3' || present_form == 'form2') && 
-              (this.$route.name == 'Signup' ||
-                this.$route.name == 'fmcgSignup' ||
-                this.$route.name == 'signupTeamMember')
-            "
+              ((present_form == 'form1' || present_form == 'form2') &&
+                (this.$route.name == 'Signup' || this.$route.name == 'fmcgSignup' || this.$route.name == 'signupTeamMember'))"
           >
             Welcome!
+          </h1>
+
+          <!-- display this introductory message if the condition is meet -->
+          <h1
+            class="mt-5 mb-0"
+            v-show="present_form == 'form3' && (this.$route.name == 'Signup' || 'fmcgSignup') "
+          >
+            Create your password!
           </h1>
 
           <!-- display this introductory message if the condition is meet -->
@@ -69,9 +74,7 @@
             class="mb-0"
             v-show="
               (present_form == 'form1' || present_form == 'form2') &&
-              (this.$route.name == 'Signin' ||
-                this.$route.name == 'Signup' ||
-                'fmcgSignup')
+              (this.$route.name == 'Signin' || (this.$route.name == 'Signup' || 'fmcgSignup'))
             "
           >
             Tap into our decentralised sales force and watch your business
@@ -113,8 +116,7 @@
             <!-- display message if condition is true -->
             <p
               v-show="
-                (present_form == 'form3' &&
-                  (this.$route.name == 'Signup' || 'fmcgSignup')) ||
+                (present_form == 'form3' && (this.$route.name == 'Signup' || 'fmcgSignup')) ||
                 this.$route.name == 'EmailVerification' ||
                 this.$route.name == 'signupTeamMember'
               "

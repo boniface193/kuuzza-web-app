@@ -3,7 +3,6 @@ import VueRouter from "vue-router";
 import store from "@/store";
 // public pages
 import index from "@/views/index.vue";
-import check from "@/views/onboarding/check.vue";
 import pageNotFound from "@/components/pageNotFound.vue";
 // onboarding pages
 import Signup from "@/components/onboarding/Signup.vue";
@@ -443,12 +442,6 @@ const routes = [
         ]
       },
     ]
-  },
-
-  {
-    path: '/check',
-    name: 'check',
-    component: check
   },
 
   {  // onboarding routes
