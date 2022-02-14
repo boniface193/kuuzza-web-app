@@ -5,9 +5,7 @@
     </p>
     <!-- form section-->
     <v-form class="flex-wrap" ref="form">
-      
       <!-- Email Adrress-->
-
       <label for="" class="onboarding-input">Email Address</label>
       <v-text-field
         class="onboarding-input"

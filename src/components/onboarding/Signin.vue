@@ -51,7 +51,7 @@
           >
         </p>
 
-                <!-- forgot password link-->
+        <!-- forgot password link-->
         <p>
           <router-link
             to="/forgot-password"

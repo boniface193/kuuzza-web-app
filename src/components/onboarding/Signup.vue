@@ -66,7 +66,7 @@
 
       <!-- Phone Number -->
       <label for="" class="onboarding-input">Phone Number</label>
-      <div class=" phone-field">
+      <div class="phone-field">
         <span class="primary--text phone-format px-3">+234</span>
         <v-text-field
           v-model="phone_number"
@@ -143,7 +143,7 @@
 
       <!-- button conatainer -->
       <div class="d-flex justify-space-between btn-container">
-        <v-btn class="primary--text light-background " @click="previousForm(2)">
+        <v-btn class="primary--text light-background" @click="previousForm(2)">
           Back</v-btn
         >
         <v-btn class="primary" @click="validateForm(2)">Next</v-btn>
@@ -231,7 +231,12 @@
           class="primary"
           @click="validateForm(3)"
           :loading="loading"
-          :disabled="loading || !acceptTerms || !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(create_password) || confirm_password !== create_password"
+          :disabled="
+            loading ||
+            !acceptTerms ||
+            !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(create_password) ||
+            confirm_password !== create_password
+          "
           width="200px"
           >Complete Sign Up</v-btn
         >
