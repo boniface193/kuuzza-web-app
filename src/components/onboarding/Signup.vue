@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- error placeholder -->
-    <p v-show="error" class="error--text mt-3 mb-0">
+    <p v-show="error" class="error--text mt-3">
       <span v-html="errorMessage"></span>
     </p>
 
@@ -11,41 +11,53 @@
       ref="form1"
       :class="{
         'd-none': present_form != 'form1',
-        'd-flex': present_form == 'form1',
+        'd-block': present_form == 'form1',
       }"
     >
-      <!-- First Name -->
-      <v-text-field
-        class="name-input mr-5 mt-5"
-        v-model="first_name"
-        :rules="first_nameRules"
-        type="name"
-        label="First Name"
-        color="primary"
-        required
-        @keyup.enter="$refs.input2.focus"
-      ></v-text-field>
+      <p class="forgot-pwd font-weight-bold mb-8">
+        Step 1: Personal information
+      </p>
+      <div class="d-flex">
+        <!-- First Name -->
+        <div class="mr-4">
+          <label for="" class="name-input">First Name</label>
+          <v-text-field
+            class="name-input"
+            v-model="first_name"
+            :rules="first_nameRules"
+            outlined
+            type="name"
+            color="primary"
+            required
+            @keyup.enter="$refs.input2.focus"
+          ></v-text-field>
+        </div>
 
-      <!-- Last Name -->
-      <v-text-field
-        class="name-input mr-5 mt-5"
-        v-model="last_name"
-        :rules="last_nameRules"
-        type="name"
-        label="Last Name"
-        color="primary"
-        required
-        @keyup.enter="$refs.input3.focus"
-        ref="input2"
-      ></v-text-field>
+        <div>
+          <!-- Last Name -->
+          <label for="" class="name-input">Last Name</label>
+          <v-text-field
+            class="name-input"
+            v-model="last_name"
+            :rules="last_nameRules"
+            type="name"
+            outlined
+            color="primary"
+            required
+            @keyup.enter="$refs.input3.focus"
+            ref="input2"
+          ></v-text-field>
+        </div>
+      </div>
 
       <!-- Email Adrress-->
+      <label for="" class="onboarding-input">Email Address</label>
       <v-text-field
-        class="onboarding-input mr-5 mt-5"
+        class="onboarding-input"
         v-model="email"
         :rules="emailRules"
         type="email"
-        label="Email"
+        outlined
         color="primary"
         required
         @keyup.enter="$refs.input4.focus"
@@ -53,14 +65,15 @@
       ></v-text-field>
 
       <!-- Phone Number -->
-      <div class="onboarding-input phone-field mr-5 mt-5">
-        <span class="primary--text phone-format">+234</span>
+      <label for="" class="onboarding-input">Phone Number</label>
+      <div class="phone-field">
+        <span class="primary--text phone-format px-3">+234</span>
         <v-text-field
-          class=""
           v-model="phone_number"
           :rules="phoneRules"
-          label="Phone Number"
           color="primary"
+          class="pt-1 onboarding-input"
+          outlined
           type="tel"
           required
           ref="input4"
@@ -69,9 +82,9 @@
       </div>
 
       <!-- button container -->
-      <div class="pa-0 mt-5" style="width: 100%">
+      <div class="pa-0">
         <v-btn
-          class="primary px-8 mb-5"
+          class="primary"
           @click="validateForm(1)"
           :loading="loading2"
           :disabled="loading2"
@@ -93,16 +106,20 @@
       ref="form2"
       :class="{
         'd-none': present_form != 'form2',
-        'd-flex': present_form == 'form2',
+        'd-block': present_form == 'form2',
       }"
     >
+      <p class="forgot-pwd font-weight-bold mb-8">
+        Step 2: Company information
+      </p>
       <!-- company name -->
+      <label for="" class="onboarding-input">Company Name</label>
       <v-text-field
-        class="onboarding-input mr-5 mt-5"
+        class="onboarding-input"
         v-model="company_name"
         :rules="company_nameRules"
         type="address"
-        label="Company Name"
+        outlined
         color="primary"
         @keyup.enter="$refs.autocomplete.focus"
         ref="input5"
@@ -110,12 +127,13 @@
       ></v-text-field>
 
       <!-- company address -->
+      <label for="" class="onboarding-input">Company Address</label>
       <v-text-field
-        class="onboarding-input mr-5 mt-5"
+        class="onboarding-input"
         v-model="company_address"
         :rules="address_nameRules"
         type="text"
-        label="Company Address"
+        outlined
         color="primary"
         required
         ref="autocomplete"
@@ -124,23 +142,11 @@
       ></v-text-field>
 
       <!-- button conatainer -->
-      <div
-        class="
-          pa-0
-          mt-5
-          d-flex
-          justify-space-between
-          align-center
-          btn-container
-        "
-      >
-        <v-btn
-          class="primary--text light-background mb-5 mb-0 px-1 py-2"
-          @click="previousForm(2)"
-        >
+      <div class="d-flex justify-space-between btn-container">
+        <v-btn class="primary--text light-background" @click="previousForm(2)">
           Back</v-btn
         >
-        <v-btn class="primary px-8 mb-5" @click="validateForm(2)">Next</v-btn>
+        <v-btn class="primary" @click="validateForm(2)">Next</v-btn>
       </div>
     </v-form>
 
@@ -150,15 +156,17 @@
       ref="form3"
       :class="{
         'd-none': present_form != 'form3',
-        'd-flex': present_form == 'form3',
+        'd-block': present_form == 'form3',
       }"
     >
+      <p class="forgot-pwd font-weight-bold mb-8">Step 3: Create password</p>
       <!-- Create password -->
+      <label for="" class="onboarding-input">Create Password</label>
       <v-text-field
-        class="onboarding-input mr-5 mt-5"
+        class="onboarding-input"
         v-model="create_password"
         :rules="create_passwordRules"
-        label="Create Password"
+        outlined
         :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
         @click:append="() => (showPassword = !showPassword)"
         :type="showPassword ? 'password' : 'text'"
@@ -169,11 +177,12 @@
       ></v-text-field>
 
       <!-- Confirm password-->
+      <label for="" class="onboarding-input">Confirm Password</label>
       <v-text-field
-        class="onboarding-input mr-5 mt-5"
+        class="onboarding-input"
         v-model="confirm_password"
         :rules="confirm_passwordRules"
-        label="Confirm Password"
+        outlined
         :append-icon="showConfirmPassword ? 'mdi-eye-off' : 'mdi-eye'"
         @click:append="() => (showConfirmPassword = !showConfirmPassword)"
         :type="showConfirmPassword ? 'password' : 'text'"
@@ -183,9 +192,9 @@
         @keyup.enter="validateForm(3)"
       ></v-text-field>
 
-      <div class="d-flex align-center mt-5">
+      <div class="d-flex align-center">
         <v-checkbox v-model="acceptTerms" class="mr-1"></v-checkbox>
-        <p class="mb-0" style="">
+        <p class="" style="">
           I agree to Kuuzza
           <a
             style="text-decoration: none"
@@ -207,20 +216,22 @@
         </p>
       </div>
 
+      <!-- This is in the component you want to have the reCAPTCHA -->
+      <InvisibleRecaptcha
+        ref="invisibleRecaptcha1"
+        :sitekey="sitekey"
+        :elementId="'invisibleRecaptcha1'"
+        :badgePosition="'left'"
+        :showBadgeMobile="false"
+        :showBadgeDesktop="true"
+        @recaptchaCallback="recaptchaCallback"
+      ></InvisibleRecaptcha>
+
       <!-- button container -->
-      <div
-        class="
-          pa-0
-          mt-5
-          d-flex
-          justify-space-between
-          align-center
-          btn-container
-        "
-      >
+      <div class="d-flex justify-space-between btn-container">
         <!-- goto prev form btn -->
         <v-btn
-          class="primary--text light-background mb-5 mb-0 px-1 py-2"
+          class="primary--text light-background"
           :disabled="loading"
           @click="previousForm(3)"
         >
@@ -228,10 +239,16 @@
         >
         <!-- goto next form btn -->
         <v-btn
-          class="primary px-8 mb-5"
+          class="primary"
           @click="validateForm(3)"
           :loading="loading"
-          :disabled="loading || !acceptTerms"
+          :disabled="
+            loading ||
+            !acceptTerms ||
+            !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(create_password) ||
+            confirm_password !== create_password
+          "
+          width="200px"
           >Complete Sign Up</v-btn
         >
       </div>
@@ -241,11 +258,15 @@
 <script>
 import { mapState } from "vuex";
 import { search } from "@/helpers/general.js";
+import InvisibleRecaptcha from "@/components/secondary/InvisibleRecaptcha.vue";
 export default {
   name: "Signup",
+  components: { InvisibleRecaptcha },
   data: function () {
     return {
       websiteBaseURL: process.env.VUE_APP_WEBSITE_BASE_URL,
+      sitekey: `${process.env.VUE_APP_GOOGLE_RECAPTCHA_SITE_MAP}`,
+      recaptchaToken: null,
       loading: false,
       loading2: false,
       errorMessage: "",
@@ -363,7 +384,7 @@ export default {
       if (this.$refs[`form${form_num}`].validate()) {
         if (form_num == 3) {
           if (this.acceptTerms) {
-            this.submit();
+            this.$refs.invisibleRecaptcha1.execute();
           }
         } else if (form_num == 1) {
           this.loading2 = true;
@@ -415,6 +436,7 @@ export default {
       userDetails.first_name = this.first_name;
       userDetails.last_name = this.last_name;
       userDetails.email = this.email;
+      userDetails.recaptcha = this.recaptchaToken;
       userDetails.phone_number =
         this.phone_number.substring(0, 1) == "0"
           ? "+234" + this.phone_number.substring(1)
@@ -467,12 +489,19 @@ export default {
           }
         });
     },
+    recaptchaCallback(token) {
+      this.recaptchaToken = token;
+      this.submit();
+    },
+    resetCaptcha() {
+      this.$refs.invisibleRecaptcha1.reset();
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
 .btn-container {
-  width: 60%;
+  width: 476px !important;
 }
 .phone-field {
   position: relative;
@@ -484,12 +513,12 @@ export default {
 }
 @media (max-width: 1100px) {
   .btn-container {
-    width: 80%;
+    width: 476px !important;
   }
 }
 @media (max-width: 550px) {
   .btn-container {
-    width: 100%;
+    width: 100% !important;
   }
 }
 </style>

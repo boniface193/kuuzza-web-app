@@ -1,16 +1,17 @@
 <template>
   <div>
-    <p class="mt-5 mb-0 error--text" v-show="error">
+    <p class="mt-5 error--text" v-show="error">
       {{ errorMessage }}
     </p>
     <!-- form section -->
     <v-form class="d-flex flex-wrap" ref="form">
       <!-- Create password -->
+      <label for="" class="onboarding-input">Create Password</label>
       <v-text-field
-        class="onboarding-input mr-5 mt-5"
+        class="onboarding-input"
         v-model="create_password"
         :rules="create_passwordRules"
-        label="Create Password"
+        outlined
         :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
         @click:append="() => (showPassword = !showPassword)"
         :type="showPassword ? 'password' : 'text'"
@@ -20,11 +21,12 @@
       ></v-text-field>
 
       <!-- Confirm password-->
+      <label for="" class="onboarding-input">Confirm Password</label>
       <v-text-field
-        class="onboarding-input mr-5 mt-5"
+        class="onboarding-input"
         v-model="confirm_password"
         :rules="confirm_passwordRules"
-        label="Confirm Password"
+        outlined
         :append-icon="showConfirmPassword ? 'mdi-eye-off' : 'mdi-eye'"
         @click:append="() => (showConfirmPassword = !showConfirmPassword)"
         :type="showConfirmPassword ? 'password' : 'text'"
@@ -34,10 +36,21 @@
         @keyup.enter="validate_password()"
       ></v-text-field>
 
+      <!-- This is in the component you want to have the reCAPTCHA -->
+      <InvisibleRecaptcha
+        ref="invisibleRecaptcha1"
+        :sitekey="sitekey"
+        :elementId="'invisibleRecaptcha1'"
+        :badgePosition="'left'"
+        :showBadgeMobile="false"
+        :showBadgeDesktop="true"
+        @recaptchaCallback="recaptchaCallback"
+      ></InvisibleRecaptcha>
+
       <!-- button container -->
-      <div class="pa-0 mt-5" style="width: 100%">
+      <div>
         <v-btn
-          class="primary px-8 mb-5"
+          class="primary"
           @click="validate_password"
           :loading="loading"
           :disabled="loading"
@@ -65,7 +78,7 @@
         </div>
 
         <div class="mb-7 mt-5 mx-auto status-img">
-          <v-img src="@/assets/img/success-img.svg"></v-img>
+          <v-img src="@/assets/images/success-img.svg"></v-img>
         </div>
 
         <h4>{{ dialogMessage }}</h4>
@@ -74,12 +87,15 @@
   </div>
 </template>
 <script>
-import Modal from "@/components/general/Modal.vue";
+import Modal from "@/components/secondary/Modal.vue";
+import InvisibleRecaptcha from "@/components/secondary/InvisibleRecaptcha.vue";
 export default {
   name: "Recoverpassword",
-  components: { Modal },
+  components: { Modal, InvisibleRecaptcha },
   data: function () {
     return {
+      sitekey: `${process.env.VUE_APP_GOOGLE_RECAPTCHA_SITE_MAP}`,
+      recaptchaToken: null,
       dialog: false,
       dialogMessage: "",
       error: false,
@@ -107,7 +123,7 @@ export default {
     validate_password() {
       this.$refs.form.validate();
       if (this.$refs.form.validate()) {
-        this.recoverPassword();
+        this.$refs.invisibleRecaptcha1.execute();
       }
     },
     //submit password
@@ -120,6 +136,7 @@ export default {
           password_confirmation: this.confirm_password,
           otp: this.$route.params.otp,
           type: "vendor",
+          recaptcha: this.recaptchaToken,
         })
         .then((response) => {
           this.loading = false;
@@ -149,6 +166,13 @@ export default {
             this.errorMessage = "No internet connection!";
           }
         });
+    },
+    recaptchaCallback(token) {
+      this.recaptchaToken = token;
+      this.recoverPassword();
+    },
+    resetCaptcha() {
+      this.$refs.invisibleRecaptcha1.reset();
     },
   },
 };
