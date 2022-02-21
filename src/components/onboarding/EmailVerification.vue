@@ -49,7 +49,7 @@
           </a>
         </p>
         <v-btn
-          class="primary px-8 mb-5"
+          class="primary"
           @click="SubmitCode()"
           :loading="loading"
           :disabled="loading"

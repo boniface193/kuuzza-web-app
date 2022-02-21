@@ -1,0 +1,151 @@
+.custom-container{
+  padding: 0px 0px 0px 88px;
+
+   .kuuzza-logo {
+    margin-bottom: 36.9px;
+    img {
+      width: 100px;
+      height: 32.1px;
+    }
+  }
+
+  h1 {
+    font-family: Product Sans;
+    font-style: normal;
+    font-weight: bold;
+    line-height: 32px;
+    color: #2B2B2B;
+  }
+
+  
+  p {
+    margin-top: 11px;
+    font-family: Product Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 17px;
+    line-height: 24px;
+    color: rgba(43, 43, 43, 0.6);
+  }
+
+  .top-space{
+    margin-top: 32px;
+  }
+
+    label.onboarding-input {
+    font-family: Product Sans;
+    font-size: 17px;
+  }
+
+  .onboarding-input {
+    margin-top: 8px;
+    width: 476px !important;
+  }
+
+  .v-btn {
+    text-transform: capitalize;
+    width: 127px;
+    height: 48px;
+    margin-top: 40px;
+    background: #029B97;
+    border-radius: 4px !important;
+    box-shadow: none;
+  }
+
+  .dont-have-acct{
+    font-family: Product Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 17px;
+    line-height: 18px !important;
+    color: rgba(43, 43, 43, 0.6);
+    margin: 16px 0;
+  }
+
+  .forgot-pwd{
+    font-family: Product Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 17px;
+    line-height: 18px;
+    color: #029B97;
+  }
+
+  .show-text{
+    position: absolute;
+    left: 70.47%;
+    right: 2.81%;
+    top: 29.58%;
+    bottom: 59.86%;
+    width: 339px;
+    P {
+      font-family: Product Sans;
+      font-style: normal;
+      font-weight: medium;
+      font-size: 28px !important;
+      line-height: 38px;
+      color: #FFFFFF !important;
+    }
+    &__imgText{
+    margin-top: 11px;
+    font-family: Product Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+    color: #FFFFFF;
+    }
+  }
+
+  label.name-input {
+    font-family: Product Sans;
+    font-size: 17px;
+  }
+  
+  .name-input {
+    margin-top: 8px;
+    width: 232px;
+    border-radius: 5px;
+  }
+}
+
+@media (max-width: 959px) {
+  .custom-container{
+    padding: 0px 0px 0px 0px !important;
+  }
+}
+
+@media (max-width: 1242px) {
+  .show-text {
+    width: 250px !important;
+  }
+}
+@media (max-width: 550px) {
+.custom-container
+
+  h1 {
+    font-family: Product Sans;
+    font-style: normal;
+    font-weight: bold;
+    line-height: 32px;
+    color: #2B2B2B;
+    font-size: 25px;
+  }
+  .onboarding-input {
+    margin-top: 8px;
+    width: 100% !important;
+  }
+
+ .name-input {
+    margin-top: 8px;
+    width: 100% !important;
+  }
+
+  .kuuzza-logo {
+    margin-bottom: 24.32%;
+    img {
+      width: 83.57px;
+      height: 27px;
+    }
+  }
+}

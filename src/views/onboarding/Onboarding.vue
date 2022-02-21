@@ -1,7 +1,7 @@
 <template>
-  <div style="margin: auto; max-width: 1500px">
+  <div class="custom-container">
     <!-- this is the loader visible to the user -->
-    <div v-if="isLoading">
+    <div v-if="isLoading" class="text-center" style="padding-top: 20em;">
       <!-- this image time loader is calculated by the loader to triger the load time -->
       <v-img
         src="@/assets/img/Image2.svg"
@@ -13,18 +13,18 @@
     </div>
     <!-- loader ends here -->
     <v-main v-else>
-      <v-row class="onboarding-container">
-        <v-col class="pl-7 pr-7 pt-15 pl-sm-15 pr-sm-0 pb-5 col-12 col-md-6">
+      <v-row class="justify-center">
+        <v-col class="pt-md-15 pt-10 col-10 col-sm-9 col-md-8 ">
           <!-- app logo -->
-          <router-link to="/" class="d-flex dark--text">
-            <div class="kuuzza-logo d-flex align-center">
+          <router-link to="/" class="">
+            <div class="kuuzza-logo">
               <img src="@/assets/img/primary-logo.png" alt="" />
             </div>
           </router-link>
 
           <!-- display this introductory message if the condition is meet -->
           <h1
-            class="mt-5 mb-0"
+            class="mb-0"
             v-show="
               ((present_form == 'form1' || present_form == 'form2') &&
                 (this.$route.name == 'Signup' || this.$route.name == 'fmcgSignup' || this.$route.name == 'signupTeamMember'))"
@@ -71,29 +71,26 @@
 
           <!-- display this message if the condition is meet -->
           <p
-            class="mt-5 mb-0 text-caption"
+            class="mb-0"
             v-show="
               (present_form == 'form1' || present_form == 'form2') &&
               (this.$route.name == 'Signin' || (this.$route.name == 'Signup' || 'fmcgSignup'))
             "
           >
-            Do you want to amplify your performance and grow sales? <br />
             Tap into our decentralised sales force and watch your business
             scale!
           </p>
 
           <!-- route view for pages (signup, signin, recoverpassowrd)-->
-          <router-view />
+          <router-view class="top-space"/>
         </v-col>
 
         <!-- banner -->
-        <v-col class="col-6 banner d-none d-md-block">
+        <v-col class="col-md-4 d-none d-md-block pa-0">
           <v-img
-            src="@/assets/img/Image2.svg"
-            width="100%;"
-            height="100%"
+            src="@/assets/img/sidePhoto.svg" height="100%"
           ></v-img>
-          <div class="mask d-flex align-center pl-10">
+          <div class="show-text">
             <!-- display message if condition is true -->
             <p
               v-show="
@@ -103,25 +100,36 @@
                 this.$route.name == 'ForgotPassword' ||
                 this.$route.name == 'RecoverPassword'
               "
-              class="white--text text-center"
             >
               Maximise Inventory, Boost <br />
               Sales!
             </p>
+
+            <span v-show="
+                ((present_form == 'form1' || present_form == 'form2') &&
+                  (this.$route.name == 'Signup' || 'fmcgSignup')) ||
+                this.$route.name == 'Signin' ||
+                this.$route.name == 'ForgotPassword' ||
+                this.$route.name == 'RecoverPassword'
+              " class="show-text__imgText">Tap into our decentralised sales force and watch your business scale!</span>
 
             <!-- display message if condition is true -->
             <p
               v-show="
                 (present_form == 'form3' && (this.$route.name == 'Signup' || 'fmcgSignup')) ||
                 this.$route.name == 'EmailVerification' ||
-                this.$route.name == 'ForgotPasswordVerification' ||
                 this.$route.name == 'signupTeamMember'
               "
-              class="white--text text-center"
             >
               Maximise Inventory, Boost <br />
               Sales!
             </p>
+            <span v-show="
+                (present_form == 'form3' &&
+                  (this.$route.name == 'Signup' || 'fmcgSignup')) ||
+                this.$route.name == 'EmailVerification' ||
+                this.$route.name == 'signupTeamMember'
+              " class="show-text__imgText">Tap into our decentralised sales force and watch your business scale!</span>
           </div>
         </v-col>
       </v-row>
@@ -154,80 +162,5 @@ export default {
 </script>
 
 <style lang="scss">
-.onboarding-container {
-  flex-wrap: nowrap !important;
-  overflow: hidden i !important;
-  .kuuzza-logo {
-    width: 160px;
-    img {
-      width: 100%;
-    }
-  }
-  .onboarding-input {
-    width: 60% !important;
-    flex: none !important;
-  }
-  .name-input {
-    width: 45% !important;
-    flex: none !important;
-  }
-  .app-logo {
-    font-size: 40px;
-    font-weight: bold;
-    color: #000000;
-    align-items: baseline;
-    text-decoration: none;
-    width: 120px;
-  }
-  .banner {
-    position: relative;
-    overflow: hidden;
-    border-bottom-left-radius: 70px !important;
-    transform: rotate(45deg);
-    margin-left: 13%;
-    height: 750px;
-    .v-image {
-      transform: rotate(-45deg);
-    }
-  }
-  .mask {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background-attachment: fixed;
-    background: transparent linear-gradient(253deg, #52f1ec80 0%, #297976 100%);
-    p {
-      font-size: 35px;
-      transform: rotate(-45deg);
-      margin-top: 50%;
-    }
-  }
-  .v-btn {
-    text-transform: capitalize;
-  }
-}
-@media (max-width: 1100px) {
-  .onboarding-container {
-    .name-input,
-    .onboarding-input {
-      width: 80% !important;
-    }
-  }
-}
-@media (max-width: 550px) {
-  .onboarding-container {
-    .kuuzza-logo {
-      width: 130px;
-    }
-    .onboarding-input,
-    .name-input {
-      width: 100% !important;
-    }
-  }
-}
+@import './Onboarding';
 </style>

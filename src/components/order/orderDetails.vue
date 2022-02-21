@@ -105,7 +105,10 @@
           <h2 class="mb-3">
             {{ inViewProduct.product_name }}
             <router-link
-              :to="{ name: 'productDetails', params: { id: `${inViewProduct.product_id}` } }"
+              :to="{
+                name: 'productDetails',
+                params: { id: `${inViewProduct.product_id}` },
+              }"
               style="text-decoration: none"
               class="primary--text"
               >({{ inViewProduct.product_id }} )</router-link
